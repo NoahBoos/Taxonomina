@@ -1,0 +1,48 @@
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript build output
+dist/
+out-tsc/
+*.tsbuildinfo
+
+# Electron Forge / Electron Packager / Electron Builder output
+out/
+release/
+*.asar
+*.app
+*.exe
+*.dmg
+*.msi
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Mac system files
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.lock

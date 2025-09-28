@@ -1,0 +1,46 @@
+{
+  "name": "taxonomina",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "build": "tsc && postcss src/styles.css -o dist/styles.css",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoahBoos/Taxonomina.git"
+  },
+  "author": "Noah Boos AKA Rift",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoahBoos/Taxonomina/issues"
+  },
+  "homepage": "https://github.com/NoahBoos/Taxonomina#readme",
+  "description": "",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.9.0",
+    "@electron-forge/maker-deb": "^7.9.0",
+    "@electron-forge/maker-rpm": "^7.9.0",
+    "@electron-forge/maker-squirrel": "^7.9.0",
+    "@electron-forge/maker-zip": "^7.9.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.9.0",
+    "@electron-forge/plugin-fuses": "^7.9.0",
+    "@electron/fuses": "^1.8.0",
+    "@types/electron": "^1.4.38",
+    "@types/node": "^24.5.2",
+    "electron": "^38.1.2",
+    "postcss-cli": "^11.0.1",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "better-sqlite3": "^12.4.1",
+    "electron-squirrel-startup": "^1.0.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.13"
+  }
+}
