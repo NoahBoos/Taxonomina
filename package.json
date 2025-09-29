@@ -7,7 +7,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "build": "tsc && postcss src/styles.css -o dist/styles.css",
+    "build": "tsc && node build.js && postcss src/styles.css -o dist/styles.css",
     "watch": "tsc --watch"
   },
   "repository": {
