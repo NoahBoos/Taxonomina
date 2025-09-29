@@ -9,18 +9,18 @@ export class Dictionary {
         this.description = description;
     }
 
-    public GetId() {
+    public GetId(): number {
         return this.id;
     }
 
-    public GetName() {
+    public GetName(): string {
         return this.name;
     }
     public SetName(name: string) {
         this.name = name;
     }
 
-    public GetDescription() {
+    public GetDescription(): string {
         return this.description;
     }
     public SetDescription(description: string) {
