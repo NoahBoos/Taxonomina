@@ -1,6 +1,7 @@
 import * as path from "node:path";
 
 import {app, BrowserWindow} from "electron";
+import {Database} from "./database/Database";
 
 const CreateIndexWindow = () => {
     const window = new BrowserWindow({
@@ -12,6 +13,8 @@ const CreateIndexWindow = () => {
             // devTools: false
         }
     });
+
+    Database.InitializeDatabase()
 
     window.loadFile(path.join(__dirname, "index", "index.html"));
 }
