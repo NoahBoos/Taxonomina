@@ -52,7 +52,7 @@ export class Database {
                 is_conlang BOOLEAN NOT NULL,
                 name_native VARCHAR NOT NULL,
                 name_local VARCHAR NOT NULL,
-                direction BLOB NOT NULL
+                direction TEXT NOT NULL
             );
             
             CREATE TABLE IF NOT EXISTS definitions (
