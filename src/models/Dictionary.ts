@@ -26,4 +26,12 @@ export class Dictionary {
     public SetDescription(description: string) {
         this.description = description;
     }
+
+    public GetQueryObject(): { id: number, name: string, description: string } {
+        return {
+            "id": this.id,
+            "name": this.name,
+            "description": this.description
+        };
+    }
 }
