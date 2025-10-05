@@ -1,5 +1,5 @@
 import {Entry} from "../models/Entry";
-import {Database} from "../database/Database";
+import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
 
 export class EntryRepository {

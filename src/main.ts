@@ -9,14 +9,14 @@ const CreateIndexWindow = () => {
         height: 600,
         frame: true,
         webPreferences: {
-            preload: path.join(__dirname, "index", "preload.js"),
+            preload: path.join(__dirname, "views", "pages", "index", "preload.js"),
             // devTools: false
         }
     });
 
     Database.InitializeDatabase()
 
-    window.loadFile(path.join(__dirname, "index", "index.html"));
+    window.loadFile(path.join(__dirname, "views", "pages", "index", "index.html"));
 }
 
 app.whenReady().then(() => {
