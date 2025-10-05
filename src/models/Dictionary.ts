@@ -27,7 +27,7 @@ export class Dictionary {
         this.description = description;
     }
 
-    public GetQueryObject(): { id: number, name: string, description: string } {
+    public GetQueryObject(): { id: number; name: string; description: string } {
         return {
             "id": this.id,
             "name": this.name,

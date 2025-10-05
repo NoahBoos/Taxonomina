@@ -17,4 +17,11 @@ export class GrammaticalCategory {
     public SetName(name: string) {
         this.name = name;
     }
+
+    public GetQueryObject() {
+        return {
+            id: this.id,
+            name: this.name,
+        }
+    }
 }

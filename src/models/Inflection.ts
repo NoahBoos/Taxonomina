@@ -23,4 +23,12 @@ export class Inflection {
     public SetInflection(inflection: string) {
         this.inflection = inflection;
     }
+
+    public GetQueryObject() {
+        return {
+            id: this.id,
+            entry_id: this.entry_id,
+            inflection: this.inflection,
+        }
+    }
 }

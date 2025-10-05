@@ -17,4 +17,11 @@ export class Definition {
     public SetDefinition(definition: string) {
         this.definition = definition;
     }
+
+    public GetQueryObject(): { id: number; definition: string } {
+        return {
+            id: this.id,
+            definition: this.definition
+        }
+    }
 }
