@@ -17,6 +17,25 @@ async function Renderer() {
 
     const dictionaryCreationForm: Element | undefined = await ParseHTMLFromString("forms/dictionary");
     leftLeaf.appendChild(dictionaryCreationForm!);
+
+    const button = dictionaryCreationForm!.querySelector<HTMLButtonElement>("#submit");
+    button?.addEventListener("click", async (event: Event) => {
+        event.preventDefault();
+        console.log("[Renderer] - Button clicked!");
+        let dictionaryToCreate: { name: string; description: string } = {
+            name: "My cool dictionary",
+            description: "The description of my cool dictionary.",
+        };
+        if (dictionaryCreationForm!.querySelector<HTMLInputElement>("#name")!.value != "") {
+            dictionaryToCreate.name = dictionaryCreationForm!.querySelector<HTMLInputElement>("#name")!.value;
+        }
+        if (dictionaryCreationForm!.querySelector<HTMLInputElement>("#description")!.value != "") {
+            dictionaryToCreate.description = dictionaryCreationForm!.querySelector<HTMLInputElement>("#description")!.value;
+        }
+        const success: boolean = await window.txnmAPI.repositories.dictionary.Create(dictionaryToCreate);
+        if (success) console.log("[Renderer] - The dictionary has been successfully created.")
+        else console.log("[Renderer] - The dictionary creation has been aborted.");
+    });
 }
 
 console.log("[Renderer] - Loaded");
