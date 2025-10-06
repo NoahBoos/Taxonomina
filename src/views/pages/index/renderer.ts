@@ -9,3 +9,13 @@ async function ParseHTMLFromString(path: string): Promise<Element | undefined> {
         return undefined;
     }
 }
+
+async function Renderer() {
+    const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
+    const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
+
+    const dictionaryCreationForm: Element | undefined = await ParseHTMLFromString("forms/dictionary");
+    leftLeaf.appendChild(dictionaryCreationForm!);
+}
+
+Renderer();
