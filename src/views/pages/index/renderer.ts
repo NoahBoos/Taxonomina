@@ -1,6 +1,6 @@
 async function ParseHTMLFromString(path: string): Promise<Element | undefined> {
     try {
-        const content: string | undefined = await window.txnmTemplates.LoadTemplate(path);
+        const content: string | undefined = await window.txnmAPI.LoadTemplate(path);
         const parser = new DOMParser();
         const html: Document = parser.parseFromString(content!, "text/html");
         return html.body.firstElementChild ?? undefined;

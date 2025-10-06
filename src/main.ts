@@ -1,7 +1,8 @@
 import * as path from "node:path";
 
-import {app, BrowserWindow} from "electron";
+import {app, BrowserWindow, ipcMain} from "electron";
 import {Database} from "./database/Database";
+import {LoadTemplate} from "./utils/LoadTemplate";
 
 const CreateIndexWindow = () => {
     const window = new BrowserWindow({
@@ -27,4 +28,8 @@ app.whenReady().then(() => {
             CreateIndexWindow();
         }
     })
+})
+
+ipcMain.handle("txnmAPI:loadTemplate", (event, path: string) => {
+    return LoadTemplate(path);
 })
