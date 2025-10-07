@@ -15,7 +15,10 @@ async function Renderer() {
     const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
     const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
 
-    CreateAndHandleDictionaryForm(main);
+    const languageDrawerButton: HTMLElement = document.getElementById("language-drawer-button")!;
+    languageDrawerButton.addEventListener("click", (event: Event) => {
+        CreateAndHandleLanguageDrawer(leftLeaf, rightLeaf);
+    })
 }
 
 console.log("[Renderer] - Loaded");
@@ -36,4 +39,16 @@ async function CreateAndHandleDictionaryForm(parent: HTMLElement) {
         dictionaryToCreate.description = inputDescriptionValue;
         await window.txnmAPI.repositories.dictionary.Create(dictionaryToCreate);
     });
+}
+
+async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: HTMLElement) {
+    const languageDrawer: Element | undefined = await ParseHTMLFromString("drawers/language");
+    if (languageDrawer) {
+        leftLeaf.replaceChildren(languageDrawer);
+
+        const languageFormButton: HTMLButtonElement = languageDrawer!.querySelector<HTMLButtonElement>("#language-form-button")!;
+        languageFormButton?.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+        })
+    }
 }
