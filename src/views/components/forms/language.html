@@ -1,0 +1,32 @@
+<form>
+    <div class="form-group">
+        <label for="name_native">Nom natif</label>
+        <input type="text" id="name_native" placeholder="Entrez le nom de la langue dans cette dernière.">
+    </div>
+    <div class="form-group">
+        <label for="name_local">Nom local</label>
+        <input type="text" id="name_local" placeholder="Entrez le nom de la langue dans votre langue.">
+    </div>
+    <div class="form-group">
+        <input type="checkbox" id="is_conlang">
+        <label for="is_conlang">Est-ce que cette langue est une langue construite ?</label>
+    </div>
+    <div class="form-group">
+        <label for="iso_639_1">ISO 639-1</label>
+        <input type="text" id="iso_639_1" placeholder="Entrez le code ISO 639-1 de la langue.">
+    </div>
+    <div class="form-group">
+        <label for="iso_639_3">ISO 639-3</label>
+        <input type="text" id="iso_639_3" placeholder="Entrez le code ISO 639-3 de la langue.">
+    </div>
+    <div class="form-group">
+        <label for="direction">Sens de lecture de la langue</label>
+        <select id="direction">
+            <option value="ltr">Gauche à droite</option>
+            <option value="rtl">Droite à gauche</option>
+<!--            <option value="ttb">Haut en bas</option>-->
+<!--            <option value="btt">Bas en haut</option>-->
+        </select>
+    </div>
+    <button type="submit" id="submit">Add language</button>
+</form>
