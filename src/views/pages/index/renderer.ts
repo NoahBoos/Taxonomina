@@ -12,11 +12,10 @@ async function ParseHTMLFromString(path: string): Promise<Element | undefined> {
 
 async function Renderer() {
     console.log("[Renderer] - Renderer() called.");
-    const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
-    const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
+    const main: HTMLElement = document.getElementById("main-container")!;
 
     const dictionaryCreationForm: Element | undefined = await ParseHTMLFromString("forms/dictionary");
-    leftLeaf.appendChild(dictionaryCreationForm!);
+    main.appendChild(dictionaryCreationForm!);
 
     const button = dictionaryCreationForm!.querySelector<HTMLButtonElement>("#submit");
     button?.addEventListener("click", async (event: Event) => {
