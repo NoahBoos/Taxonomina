@@ -7,6 +7,9 @@ declare global {
             repositories: {
                 dictionary: {
                     Create: (data: { name: string; description: string }) => Promise<boolean>
+                },
+                language: {
+                    Create: (data: { iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string }) => Promise<boolean>
                 }
             }
         }
