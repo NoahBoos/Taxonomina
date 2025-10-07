@@ -12,7 +12,8 @@ async function ParseHTMLFromString(path: string): Promise<Element | undefined> {
 
 async function Renderer() {
     console.log("[Renderer] - Renderer() called.");
-    const main: HTMLElement = document.getElementById("main-container")!;
+    const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
+    const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
 
     CreateAndHandleDictionaryForm(main);
 }
