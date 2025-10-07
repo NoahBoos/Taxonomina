@@ -63,12 +63,12 @@ export class Language {
         this.direction = direction;
     }
 
-    public GetQueryObject(): { id: number; iso_639_1: string; iso_639_3: string; is_conlang: boolean; name_native: string; name_local: string; direction: string } {
+    public GetQueryObject(): { id: number; iso_639_1: string; iso_639_3: string; is_conlang: number; name_native: string; name_local: string; direction: string } {
         return {
             id: this.id,
             iso_639_1: this.iso_639_1,
             iso_639_3: this.iso_639_3,
-            is_conlang: this.is_conlang,
+            is_conlang: this.is_conlang ? 1 : 0,
             name_native: this.name_native,
             name_local: this.name_local,
             direction: this.direction,
