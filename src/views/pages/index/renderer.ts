@@ -57,7 +57,7 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
 
         const languageThumbnail: string | undefined = await window.txnmAPI.LoadTemplate("thumbnails/language");
         const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
-        const languages = languagesRaw.map(
+        const languages: Language[] = languagesRaw.map(
             (data: any) => new Language(
                 data.id, data.iso_639_1, data.iso_639_3, data.is_conlang, data.name_native, data.name_local, data.direction
             )
