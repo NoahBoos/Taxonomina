@@ -27,22 +27,22 @@ async function Renderer() {
 console.log("[Renderer] - Loaded");
 Renderer();
 
-async function CreateAndHandleDictionaryForm(parent: HTMLElement) {
-    const dictionaryCreationForm: Element | undefined = await ParseHTMLFromString("forms/dictionary");
-    parent.appendChild(dictionaryCreationForm!);
-
-    const button: HTMLButtonElement = dictionaryCreationForm!.querySelector<HTMLButtonElement>("#submit")!;
-    button?.addEventListener("click", async (event: Event) => {
-        event.preventDefault();
-        let dictionaryToCreate: { name: string; description: string } = {name: "", description: ""};
-        const inputNameValue: string = dictionaryCreationForm!.querySelector<HTMLInputElement>("#name")!.value ?? "";
-        const inputDescriptionValue: string = dictionaryCreationForm!.querySelector<HTMLInputElement>("#description")!.value ?? "";
-        if (inputNameValue == "") return;
-        dictionaryToCreate.name = inputNameValue;
-        dictionaryToCreate.description = inputDescriptionValue;
-        await window.txnmAPI.repositories.dictionary.Create(dictionaryToCreate);
-    });
-}
+// async function CreateAndHandleDictionaryForm(parent: HTMLElement) {
+//     const dictionaryCreationForm: NodeListOf<ChildNode> | undefined = await ParseHTMLFromString("forms/dictionary");
+//     parent.appendChild(dictionaryCreationForm!);
+//
+//     const button: HTMLButtonElement = dictionaryCreationForm!.querySelector<HTMLButtonElement>("#submit")!;
+//     button?.addEventListener("click", async (event: Event) => {
+//         event.preventDefault();
+//         let dictionaryToCreate: { name: string; description: string } = {name: "", description: ""};
+//         const inputNameValue: string = dictionaryCreationForm!.querySelector<HTMLInputElement>("#name")!.value ?? "";
+//         const inputDescriptionValue: string = dictionaryCreationForm!.querySelector<HTMLInputElement>("#description")!.value ?? "";
+//         if (inputNameValue == "") return;
+//         dictionaryToCreate.name = inputNameValue;
+//         dictionaryToCreate.description = inputDescriptionValue;
+//         await window.txnmAPI.repositories.dictionary.Create(dictionaryToCreate);
+//     });
+// }
 
 async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: HTMLElement) {
     const languageDrawer: Element | undefined = await ParseHTMLFromString("drawers/language");
