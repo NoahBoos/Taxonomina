@@ -1,3 +1,6 @@
+import {Language} from "../../../database/models/Language";
+import {json} from "node:stream/consumers";
+
 async function ParseHTMLFromString(path: string): Promise<Element | undefined> {
     try {
         const content: string | undefined = await window.txnmAPI.LoadTemplate(path);
@@ -51,6 +54,9 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
             event.preventDefault();
             await CreateAndHandleLanguageForm(rightLeaf);
         })
+
+        const languages: Language[] = await window.txnmAPI.repositories.language.ReadAll();
+        console.log("[Renderer] - " + JSON.stringify(languages));
     }
 }
 
