@@ -66,7 +66,7 @@ async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement) {
         rightLeaf.replaceChildren(languageCreationForm);
 
         const button: HTMLButtonElement = rightLeaf.querySelector<HTMLButtonElement>("#submit")!;
-        button?.addEventListener("click", async (event: Event) => {
+        button?.addEventListener("click", async (event: Event): Promise<void> => {
             event.preventDefault();
             let languageToCreate: { iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string } = {
                 iso_639_1: "", iso_639_3: "", is_conlang: false, name_native: "", name_local: "", direction: "ltr"
