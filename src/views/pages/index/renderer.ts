@@ -55,7 +55,27 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
             await CreateAndHandleLanguageForm(rightLeaf);
         })
 
-        const languages: Language[] = await window.txnmAPI.repositories.language.ReadAll();
+        const languageThumbnail: string | undefined = await window.txnmAPI.LoadTemplate("thumbnails/language");
+        const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
+        const languages = languagesRaw.map(
+            (data: any) => new Language(
+                data.id, data.iso_639_1, data.iso_639_3, data.is_conlang, data.name_native, data.name_local, data.direction
+            )
+        );
+        languages.forEach((language: Language) => {
+            let thumbnail: string = languageThumbnail!;
+            thumbnail = thumbnail.replace("{{name_native}}", language.GetNameNative());
+            thumbnail = thumbnail.replace("{{name_local}}", language.GetNameLocal());
+            try {
+                const content: string | undefined = thumbnail;
+                const parser = new DOMParser();
+                const html: Document = parser.parseFromString(content!, "text/html");
+                return leftLeaf.querySelector("#language-container")!.append(html.body.firstElementChild!);
+            } catch (error) {
+                console.error("An error happened trying to parse HTML from the provided template. \n", error);
+                return undefined;
+            }
+        })
         console.log("[Renderer] - " + JSON.stringify(languages));
     }
 }
