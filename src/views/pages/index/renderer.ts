@@ -43,7 +43,32 @@ Renderer();
 //     });
 // }
 
-async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: HTMLElement) {
+/**
+ * Initializes and manages the Language Drawer UI section.
+ *
+ * This drawer provides an interface for language management, including:
+ * - a working search bar for filtering languages by ISO codes or names,
+ * - a button to open the language creation form,
+ * - and a dynamically generated list of existing languages.
+ *
+ * Each displayed language item acts as a button that opens its edition form on click.
+ *
+ * **Functional flow:**
+ * 1. Fetches and parses the drawer HTML template.
+ * 2. If parsed successfully, the drawer is injected into main's left container (`leftLeaf`).
+ * 3. Loads existing languages from `window.txnmAPI.repositories.language`.
+ * 4. Initializes the search bar to filter the displayed languages in real-time.
+ * 5. Adds an event listener on the creation button to load the creation form into main's right container (`rightLeaf`).
+ * 6. Renders the initial and full list of languages using `DisplayLanguageThumbnails()`.
+ *
+ * **Parameters:**
+ * @param {HTMLElement} leftLeaf - The DOM container for the drawer UI (left panel).
+ * @param {HTMLElement} rightLeaf - The DOM container for the language form or details (right panel).
+ *
+ * **Returns:**
+ * @returns {Promise<void>} Resolves when the drawer UI and event handlers are fully initialized.
+ */
+async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: HTMLElement): Promise<void> {
     const languageDrawer: Element | undefined = await ParseHTMLFromString("drawers/language");
     if (languageDrawer) {
         leftLeaf.replaceChildren(languageDrawer);
