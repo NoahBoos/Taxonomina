@@ -70,7 +70,12 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
                 const content: string | undefined = thumbnail;
                 const parser = new DOMParser();
                 const html: Document = parser.parseFromString(content!, "text/html");
-                return leftLeaf.querySelector("#language-container")!.append(html.body.firstElementChild!);
+                const thumbnailElement: Element = html.body.firstElementChild!;
+                const thumbnailElementButton: HTMLButtonElement = thumbnailElement.querySelector<HTMLButtonElement>("button")!;
+                thumbnailElementButton!.addEventListener("click", async (event: Event) => {
+                    await CreateAndHandleLanguageForm(rightLeaf, language);
+                })
+                return leftLeaf.querySelector("#language-container")!.append(thumbnailElement);
             } catch (error) {
                 console.error("An error happened trying to parse HTML from the provided template. \n", error);
                 return undefined;
