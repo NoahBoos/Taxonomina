@@ -12,7 +12,8 @@ declare global {
                 },
                 language: {
                     ReadAll: () => Promise<Language[]>,
-                    Create: (data: { iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string }) => Promise<boolean>
+                    Create: (data: { iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string }) => Promise<boolean>,
+                    Update: (rawLanguage: Language) => Promise<boolean>,
                 }
             }
         }
