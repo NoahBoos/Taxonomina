@@ -104,30 +104,61 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
     }
 }
 
-async function DisplayLanguageThumbnails(leftLeaf: HTMLElement, rightLeaf: HTMLElement, languages: Language[]) {
+/**
+ * Renders and manages the list of language thumbnails within the Language Drawer UI.
+ *
+ * Each language is represented as a thumbnail element built from a predefined HTML template.
+ * These thumbnails act as clickable buttons, each opening the corresponding language edition form
+ * in the main's right container (`rightLeaf`).
+ *
+ * **Functional flow:**
+ * 1. Selects and clears the language container inside the left panel (`leftLeaf`).
+ * 2. Loads the base HTML thumbnail template via `window.txnmAPI.LoadTemplate("thumbnails/language")`.
+ * 3. Iterates through the provided `languages` array.
+ * 4. For each language:
+ *    - Replaces template placeholders (`{{id}}`, `{{name_native}}`, `{{name_local}}`) with actual data.
+ *    - Parses the resulting HTML string into a DOM element.
+ *    - Attaches a click event listener that opens the corresponding edition form through `CreateAndHandleLanguageForm()`.
+ *    - Appends the thumbnail to the language container.
+ * 5. Logs any parsing or rendering error without interrupting the iteration.
+ *
+ * **Parameters:**
+ * @param {HTMLElement} leftLeaf - The DOM container holding the language list (left panel).
+ * @param {HTMLElement} rightLeaf - The DOM container for displaying the selected language form (right panel).
+ * @param {Language[]} languages - The array of language instances to be displayed as thumbnails.
+ *
+ * **Returns:**
+ * @returns {Promise<void>} Resolves when all language thumbnails have been rendered and event handlers attached.
+ */
+async function DisplayLanguageThumbnails(leftLeaf: HTMLElement, rightLeaf: HTMLElement, languages: Language[]): Promise<void> {
     const languageContainer: HTMLElement = leftLeaf.querySelector("#language-container")!;
     languageContainer.replaceChildren();
+
     const languageThumbnail: string | undefined = await window.txnmAPI.LoadTemplate("thumbnails/language");
+
     languages.forEach((language: Language) => {
-    let thumbnail: string = languageThumbnail!;
-    thumbnail = thumbnail.replace("{{id}}", String(language.GetId()));
-    thumbnail = thumbnail.replace("{{name_native}}", language.GetNameNative());
-    thumbnail = thumbnail.replace("{{name_local}}", language.GetNameLocal());
-    try {
-        const content: string | undefined = thumbnail;
-        const parser = new DOMParser();
-        const html: Document = parser.parseFromString(content!, "text/html");
-        const thumbnailElement: Element = html.body.firstElementChild!;
-        const thumbnailElementButton: HTMLButtonElement = thumbnailElement.querySelector<HTMLButtonElement>("button")!;
-        thumbnailElementButton!.addEventListener("click", async (event: Event) => {
-            await CreateAndHandleLanguageForm(rightLeaf, language);
-        })
-        return languageContainer.append(thumbnailElement);
-    } catch (error) {
-        console.error("An error happened trying to parse HTML from the provided template. \n", error);
-        return undefined;
-    }
-})
+        let thumbnail: string = languageThumbnail!;
+        thumbnail = thumbnail.replace("{{id}}", String(language.GetId()));
+        thumbnail = thumbnail.replace("{{name_native}}", language.GetNameNative());
+        thumbnail = thumbnail.replace("{{name_local}}", language.GetNameLocal());
+
+        try {
+            const content: string | undefined = thumbnail;
+            const parser = new DOMParser();
+            const html: Document = parser.parseFromString(content!, "text/html");
+            const thumbnailElement: Element = html.body.firstElementChild!;
+            const thumbnailElementButton: HTMLButtonElement = thumbnailElement.querySelector<HTMLButtonElement>("button")!;
+
+            thumbnailElementButton!.addEventListener("click", async (event: Event) => {
+                await CreateAndHandleLanguageForm(rightLeaf, language);
+            })
+
+            return languageContainer.append(thumbnailElement);
+        } catch (error) {
+            console.error("An error happened trying to parse HTML from the provided template. \n", error);
+            return undefined;
+        }
+    })
 }
 
 async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: Language) {
