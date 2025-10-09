@@ -54,35 +54,41 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
             await CreateAndHandleLanguageForm(rightLeaf);
         })
 
-        const languageThumbnail: string | undefined = await window.txnmAPI.LoadTemplate("thumbnails/language");
         const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
         const languages: Language[] = languagesRaw.map(
             (data: any) => new Language(
                 data.id, data.iso_639_1, data.iso_639_3, data.is_conlang, data.name_native, data.name_local, data.direction
             )
         );
-        languages.forEach((language: Language) => {
-            let thumbnail: string = languageThumbnail!;
-            thumbnail = thumbnail.replace("{{id}}", String(language.GetId()));
-            thumbnail = thumbnail.replace("{{name_native}}", language.GetNameNative());
-            thumbnail = thumbnail.replace("{{name_local}}", language.GetNameLocal());
-            try {
-                const content: string | undefined = thumbnail;
-                const parser = new DOMParser();
-                const html: Document = parser.parseFromString(content!, "text/html");
-                const thumbnailElement: Element = html.body.firstElementChild!;
-                const thumbnailElementButton: HTMLButtonElement = thumbnailElement.querySelector<HTMLButtonElement>("button")!;
-                thumbnailElementButton!.addEventListener("click", async (event: Event) => {
-                    await CreateAndHandleLanguageForm(rightLeaf, language);
-                })
-                return leftLeaf.querySelector("#language-container")!.append(thumbnailElement);
-            } catch (error) {
-                console.error("An error happened trying to parse HTML from the provided template. \n", error);
-                return undefined;
-            }
-        })
+        await DisplayLanguageThumbnails(leftLeaf, rightLeaf, languages);
         console.log("[Renderer] - " + JSON.stringify(languages));
     }
+}
+
+async function DisplayLanguageThumbnails(leftLeaf: HTMLElement, rightLeaf: HTMLElement, languages: Language[]) {
+    const languageContainer: HTMLElement = leftLeaf.querySelector("#language-container")!;
+    languageContainer.replaceChildren();
+    const languageThumbnail: string | undefined = await window.txnmAPI.LoadTemplate("thumbnails/language");
+    languages.forEach((language: Language) => {
+    let thumbnail: string = languageThumbnail!;
+    thumbnail = thumbnail.replace("{{id}}", String(language.GetId()));
+    thumbnail = thumbnail.replace("{{name_native}}", language.GetNameNative());
+    thumbnail = thumbnail.replace("{{name_local}}", language.GetNameLocal());
+    try {
+        const content: string | undefined = thumbnail;
+        const parser = new DOMParser();
+        const html: Document = parser.parseFromString(content!, "text/html");
+        const thumbnailElement: Element = html.body.firstElementChild!;
+        const thumbnailElementButton: HTMLButtonElement = thumbnailElement.querySelector<HTMLButtonElement>("button")!;
+        thumbnailElementButton!.addEventListener("click", async (event: Event) => {
+            await CreateAndHandleLanguageForm(rightLeaf, language);
+        })
+        return languageContainer.append(thumbnailElement);
+    } catch (error) {
+        console.error("An error happened trying to parse HTML from the provided template. \n", error);
+        return undefined;
+    }
+})
 }
 
 async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: Language) {
