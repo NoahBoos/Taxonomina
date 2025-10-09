@@ -63,6 +63,7 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
         );
         languages.forEach((language: Language) => {
             let thumbnail: string = languageThumbnail!;
+            thumbnail = thumbnail.replace("{{id}}", String(language.GetId()));
             thumbnail = thumbnail.replace("{{name_native}}", language.GetNameNative());
             thumbnail = thumbnail.replace("{{name_local}}", language.GetNameLocal());
             try {
@@ -79,10 +80,18 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
     }
 }
 
-async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement) {
+async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: Language) {
     const languageCreationForm: Element | undefined = await ParseHTMLFromString("forms/language");
     if (languageCreationForm) {
         rightLeaf.replaceChildren(languageCreationForm);
+
+        const inputISO6391: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#iso_639_1")!;
+        const inputISO6393: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#iso_639_3")!;
+        const inputIsConlang: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#is_conlang")!;
+        const inputNameNative: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#name_native")!;
+        const inputNameLocal: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#name_local")!;
+        const inputDirection: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#direction")!;
+        const inputId: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#id")!;
 
         const button: HTMLButtonElement = rightLeaf.querySelector<HTMLButtonElement>("#submit")!;
         button?.addEventListener("click", async (event: Event): Promise<void> => {
@@ -90,19 +99,13 @@ async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement) {
             let languageToCreate: { iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string } = {
                 iso_639_1: "", iso_639_3: "", is_conlang: false, name_native: "", name_local: "", direction: "ltr"
             }
-            const inputISO6391: string = rightLeaf.querySelector<HTMLInputElement>("#iso_639_1")!.value ?? "";
-            const inputISO6393: string = rightLeaf.querySelector<HTMLInputElement>("#iso_639_3")!.value ?? "";
-            const inputIsConlang: boolean = rightLeaf.querySelector<HTMLInputElement>("#is_conlang")!.checked ?? false;
-            const inputNameNative: string = rightLeaf.querySelector<HTMLInputElement>("#name_native")!.value ?? "";
-            const inputNameLocal: string = rightLeaf.querySelector<HTMLInputElement>("#name_local")!.value ?? "";
-            const inputDirection: string = rightLeaf.querySelector<HTMLInputElement>("#direction")!.value ?? "";
-            if (inputNameNative == "" || inputNameLocal == "") return;
-            languageToCreate.iso_639_1 = inputISO6391;
-            languageToCreate.iso_639_3 = inputISO6393;
-            languageToCreate.is_conlang = inputIsConlang;
-            languageToCreate.name_native = inputNameNative;
-            languageToCreate.name_local = inputNameLocal;
-            languageToCreate.direction = inputDirection;
+            if (inputNameNative.value == "" || inputNameLocal.value == "") return;
+            languageToCreate.iso_639_1 = inputISO6391.value ?? "";
+            languageToCreate.iso_639_3 = inputISO6393.value ?? "";
+            languageToCreate.is_conlang = inputIsConlang.checked ?? false;
+            languageToCreate.name_native = inputNameNative.value ?? "";
+            languageToCreate.name_local = inputNameLocal.value ?? "";
+            languageToCreate.direction = inputDirection.value ?? "";
             const success: boolean = await window.txnmAPI.repositories.language.Create(languageToCreate);
             if (success) {
                 const inputs: NodeListOf<HTMLInputElement> = rightLeaf.querySelectorAll<HTMLInputElement>("input")!;
