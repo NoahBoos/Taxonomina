@@ -74,4 +74,16 @@ export class Language {
             direction: this.direction,
         }
     }
+
+    public static Hydrate(raw: any): Language {
+        return new Language(
+            raw.id,
+            raw.iso_639_1,
+            raw.iso_639_3,
+            raw.is_conlang,
+            raw.name_native,
+            raw.name_local,
+            raw.direction
+        );
+    }
 }
