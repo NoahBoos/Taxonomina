@@ -48,6 +48,19 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
     if (languageDrawer) {
         leftLeaf.replaceChildren(languageDrawer);
 
+        const languageSearchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#language-searchbar")!;
+        languageSearchbar.addEventListener("input", async (event: Event) => {
+            const query: string = languageSearchbar.value.toLowerCase();
+            const filteredLanguages: Language[] = languages.filter((language: Language) => {
+                return language.GetIso639_1().toLowerCase().includes(query)
+                    || language.GetIso639_3().toLowerCase().includes(query)
+                    || language.GetNameNative().toLowerCase().includes(query)
+                    || language.GetNameLocal().toLowerCase().includes(query);
+            });
+            console.log(filteredLanguages);
+            await DisplayLanguageThumbnails(leftLeaf, rightLeaf, filteredLanguages);
+        })
+
         const languageFormButton: HTMLButtonElement = leftLeaf!.querySelector<HTMLButtonElement>("#language-form-button")!;
         languageFormButton?.addEventListener("click", async (event: Event) => {
             event.preventDefault();
