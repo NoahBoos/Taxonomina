@@ -48,6 +48,13 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
     if (languageDrawer) {
         leftLeaf.replaceChildren(languageDrawer);
 
+        const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
+        const languages: Language[] = languagesRaw.map(
+            (data: any) => new Language(
+                data.id, data.iso_639_1, data.iso_639_3, data.is_conlang, data.name_native, data.name_local, data.direction
+            )
+        );
+
         const languageSearchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#language-searchbar")!;
         languageSearchbar.addEventListener("input", async (event: Event) => {
             const query: string = languageSearchbar.value.toLowerCase();
@@ -67,12 +74,6 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
             await CreateAndHandleLanguageForm(rightLeaf);
         })
 
-        const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
-        const languages: Language[] = languagesRaw.map(
-            (data: any) => new Language(
-                data.id, data.iso_639_1, data.iso_639_3, data.is_conlang, data.name_native, data.name_local, data.direction
-            )
-        );
         await DisplayLanguageThumbnails(leftLeaf, rightLeaf, languages);
         console.log("[Renderer] - " + JSON.stringify(languages));
     }
