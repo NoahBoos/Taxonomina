@@ -188,24 +188,23 @@ async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: La
         button?.addEventListener("click", async (event: Event): Promise<void> => {
             event.preventDefault();
 
-            let languageToCreate: { id: number, iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string } = {
-                id: 0, iso_639_1: "", iso_639_3: "", is_conlang: false, name_native: "", name_local: "", direction: "ltr"
-            }
-
             if (inputNameNative.value == "" || inputNameLocal.value == "") return;
-            languageToCreate.id = parseInt(inputId.value) ?? 0;
-            languageToCreate.iso_639_1 = inputISO6391.value ?? "";
-            languageToCreate.iso_639_3 = inputISO6393.value ?? "";
-            languageToCreate.is_conlang = inputIsConlang.checked ?? false;
-            languageToCreate.name_native = inputNameNative.value ?? "";
-            languageToCreate.name_local = inputNameLocal.value ?? "";
-            languageToCreate.direction = inputDirection.value ?? "";
+
+            let language: Language = new Language(
+                parseInt(inputId.value) ?? 0,
+                inputISO6391.value ?? "",
+                inputISO6393.value ?? "",
+                inputIsConlang.checked ?? false,
+                inputNameNative.value ?? "",
+                inputNameLocal.value ?? "",
+                inputDirection.value ?? "ltr",
+            );
 
             let success: boolean
-            if (!language) {
-                success = await window.txnmAPI.repositories.language.Create(languageToCreate);
+            if (language.GetId() == 0) {
+                success = await window.txnmAPI.repositories.language.Create(language);
             } else {
-                success = await window.txnmAPI.repositories.language.Update(languageToCreate as unknown as Language);
+                success = await window.txnmAPI.repositories.language.Update(language);
             }
 
             if (success) {

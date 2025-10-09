@@ -45,8 +45,9 @@ ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {
    return LanguageRepository.ReadAll();
 });
 
-ipcMain.handle("txnmAPI:repositories:language:create", (event, data: { iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string }) => {
-    return LanguageRepository.Create(new Language(0, data.iso_639_1, data.iso_639_3, data.is_conlang, data.name_native, data.name_local, data.direction));
+ipcMain.handle("txnmAPI:repositories:language:create", (event, rawLanguage: Language) => {
+    const language: Language = Language.Hydrate(rawLanguage);
+    return LanguageRepository.Create(language);
 });
 
 ipcMain.handle("txnmAPI:repositories:language:update", (event, rawLanguage: Language) => {
