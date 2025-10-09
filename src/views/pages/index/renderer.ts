@@ -92,6 +92,15 @@ async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: La
         const inputNameLocal: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#name_local")!;
         const inputDirection: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#direction")!;
         const inputId: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#id")!;
+        if (language) {
+            inputISO6391.value = language.GetIso639_1();
+            inputISO6393.value = language.GetIso639_3();
+            inputIsConlang.checked = language.GetIsConlang();
+            inputNameNative.value = language.GetNameNative();
+            inputNameLocal.value = language.GetNameLocal();
+            inputDirection.value = language.GetDirection();
+            inputId.value = String(language.GetId());
+        }
 
         const button: HTMLButtonElement = rightLeaf.querySelector<HTMLButtonElement>("#submit")!;
         button?.addEventListener("click", async (event: Event): Promise<void> => {
