@@ -173,6 +173,7 @@ async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: La
         const inputNameLocal: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#name_local")!;
         const inputDirection: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#direction")!;
         const inputId: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#id")!;
+
         if (language) {
             inputISO6391.value = language.GetIso639_1();
             inputISO6393.value = language.GetIso639_3();
@@ -186,28 +187,29 @@ async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: La
         const button: HTMLButtonElement = rightLeaf.querySelector<HTMLButtonElement>("#submit")!;
         button?.addEventListener("click", async (event: Event): Promise<void> => {
             event.preventDefault();
-            let languageToCreate: { iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string } = {
-                iso_639_1: "", iso_639_3: "", is_conlang: false, name_native: "", name_local: "", direction: "ltr"
+
+            let languageToCreate: { id: number, iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string } = {
+                id: 0, iso_639_1: "", iso_639_3: "", is_conlang: false, name_native: "", name_local: "", direction: "ltr"
             }
+
             if (inputNameNative.value == "" || inputNameLocal.value == "") return;
+            languageToCreate.id = parseInt(inputId.value) ?? 0;
             languageToCreate.iso_639_1 = inputISO6391.value ?? "";
             languageToCreate.iso_639_3 = inputISO6393.value ?? "";
             languageToCreate.is_conlang = inputIsConlang.checked ?? false;
             languageToCreate.name_native = inputNameNative.value ?? "";
             languageToCreate.name_local = inputNameLocal.value ?? "";
             languageToCreate.direction = inputDirection.value ?? "";
-            const success: boolean = await window.txnmAPI.repositories.language.Create(languageToCreate);
+
+            let success: boolean
+            if (!language) {
+                success = await window.txnmAPI.repositories.language.Create(languageToCreate);
+            } else {
+                success = await window.txnmAPI.repositories.language.Update(languageToCreate as unknown as Language);
+            }
+
             if (success) {
-                const inputs: NodeListOf<HTMLInputElement> = rightLeaf.querySelectorAll<HTMLInputElement>("input")!;
-                inputs.forEach((input: HTMLInputElement) => {
-                    if (input.type === "checkbox") {
-                        input.checked = false;
-                    } else if (input.type === "text") {
-                        input.value = "";
-                    } else if (input.id === "direction") {
-                        input.value = "ltr";
-                    }
-                })
+                await CreateAndHandleLanguageForm(rightLeaf, language ? language : undefined);
             }
         })
     }
