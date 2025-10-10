@@ -202,11 +202,14 @@ async function CreateAndHandleLanguageForm(language?: Language) {
                 await CreateAndHandleLanguageDrawer();
                 const searchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
                 searchbar.value = query;
-                const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
-                const filteredLanguages: Language[] = languagesRaw.map(Language.Hydrate).filter((language: Language) => {
-                    return [language.GetIso639_1(), language.GetIso639_3(), language.GetNameNative(), language.GetNameLocal()]
-                        .some(value => value.toLowerCase().includes(query.toLowerCase()));
-                });
+                const filteredLanguages: Language[] = await window.txnmAPI.repositories.language.ReadAll().then(
+                    (languagesRaw: Language[]): Language[] => {
+                        return languagesRaw.map(Language.Hydrate).filter((language: Language) => {
+                            return [language.GetIso639_1(), language.GetIso639_3(), language.GetNameNative(), language.GetNameLocal()]
+                                .some(value => value.toLowerCase().includes(query.toLowerCase()));
+                        })
+                    }
+                );
                 await DisplayLanguageThumbnails(filteredLanguages);
                 await CreateAndHandleLanguageForm(language ? language : undefined);
             }
