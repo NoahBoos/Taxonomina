@@ -69,11 +69,10 @@ async function CreateAndHandleLanguageDrawer(): Promise<void> {
         leftLeaf.replaceChildren(languageDrawer);
 
         const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
-        const languages: Language[] = languagesRaw.map(
-            (data: any) => new Language(
-                data.id, data.iso_639_1, data.iso_639_3, data.is_conlang, data.name_native, data.name_local, data.direction
-            )
-        );
+        let languages: Language[] = [];
+        languagesRaw.forEach((language: Language) => {
+           languages.push(Language.Hydrate(language));
+        })
 
         const languageSearchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
         languageSearchbar.addEventListener("input", async (event: Event) => {
