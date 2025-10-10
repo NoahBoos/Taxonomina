@@ -75,7 +75,7 @@ async function CreateAndHandleLanguageDrawer(): Promise<void> {
             )
         );
 
-        const languageSearchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#language-searchbar")!;
+        const languageSearchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
         languageSearchbar.addEventListener("input", async (event: Event) => {
             const query: string = languageSearchbar.value.toLowerCase();
             const filteredLanguages: Language[] = languages.filter((language: Language) => {
