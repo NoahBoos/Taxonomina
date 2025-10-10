@@ -203,7 +203,16 @@ async function CreateAndHandleLanguageForm(language?: Language) {
             }
 
             if (success) {
-                // TODO - Contextual reloading of the drawer (Must retrieve the query and requery it automatically).
+                const query: string = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!.value;
+                await CreateAndHandleLanguageDrawer();
+                const searchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
+                searchbar.value = query;
+                const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
+                const filteredLanguages: Language[] = languagesRaw.map(Language.Hydrate).filter((language: Language) => {
+                    return [language.GetIso639_1(), language.GetIso639_3(), language.GetNameNative(), language.GetNameLocal()]
+                        .some(value => value.toLowerCase().includes(query.toLowerCase()));
+                });
+                await DisplayLanguageThumbnails(filteredLanguages);
                 await CreateAndHandleLanguageForm(language ? language : undefined);
             }
         })
