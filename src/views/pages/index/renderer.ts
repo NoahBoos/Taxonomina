@@ -14,12 +14,10 @@ async function ParseHTMLFromString(path: string): Promise<Element | undefined> {
 
 async function Renderer() {
     console.log("[Renderer] - Renderer() called.");
-    const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
-    const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
 
     const languageDrawerButton: HTMLElement = document.getElementById("language-drawer-button")!;
     languageDrawerButton.addEventListener("click", (event: Event) => {
-        CreateAndHandleLanguageDrawer(leftLeaf, rightLeaf);
+        CreateAndHandleLanguageDrawer();
     })
 }
 
@@ -61,14 +59,11 @@ Renderer();
  * 5. Adds an event listener on the creation button to load the creation form into main's right container (`rightLeaf`).
  * 6. Renders the initial and full list of languages using `DisplayLanguageThumbnails()`.
  *
- * **Parameters:**
- * @param {HTMLElement} leftLeaf - The DOM container for the drawer UI (left panel).
- * @param {HTMLElement} rightLeaf - The DOM container for the language form or details (right panel).
- *
  * **Returns:**
  * @returns {Promise<void>} Resolves when the drawer UI and event handlers are fully initialized.
  */
-async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: HTMLElement): Promise<void> {
+async function CreateAndHandleLanguageDrawer(): Promise<void> {
+    const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
     const languageDrawer: Element | undefined = await ParseHTMLFromString("drawers/language");
     if (languageDrawer) {
         leftLeaf.replaceChildren(languageDrawer);
@@ -90,16 +85,16 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
                     || language.GetNameLocal().toLowerCase().includes(query);
             });
             console.log(filteredLanguages);
-            await DisplayLanguageThumbnails(leftLeaf, rightLeaf, filteredLanguages);
+            await DisplayLanguageThumbnails(filteredLanguages);
         })
 
         const createFormButton: HTMLButtonElement = leftLeaf!.querySelector<HTMLButtonElement>("#create-form-button")!;
         createFormButton?.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            await CreateAndHandleLanguageForm(rightLeaf);
+            await CreateAndHandleLanguageForm();
         })
 
-        await DisplayLanguageThumbnails(leftLeaf, rightLeaf, languages);
+        await DisplayLanguageThumbnails(languages);
         console.log("[Renderer] - " + JSON.stringify(languages));
     }
 }
@@ -123,14 +118,13 @@ async function CreateAndHandleLanguageDrawer(leftLeaf: HTMLElement, rightLeaf: H
  * 5. Logs any parsing or rendering error without interrupting the iteration.
  *
  * **Parameters:**
- * @param {HTMLElement} leftLeaf - The DOM container holding the language list (left panel).
- * @param {HTMLElement} rightLeaf - The DOM container for displaying the selected language form (right panel).
  * @param {Language[]} languages - The array of language instances to be displayed as thumbnails.
  *
  * **Returns:**
  * @returns {Promise<void>} Resolves when all language thumbnails have been rendered and event handlers attached.
  */
-async function DisplayLanguageThumbnails(leftLeaf: HTMLElement, rightLeaf: HTMLElement, languages: Language[]): Promise<void> {
+async function DisplayLanguageThumbnails(languages: Language[]): Promise<void> {
+    const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
     const languageContainer: HTMLElement = leftLeaf.querySelector("#language-container")!;
     languageContainer.replaceChildren();
 
@@ -150,7 +144,7 @@ async function DisplayLanguageThumbnails(leftLeaf: HTMLElement, rightLeaf: HTMLE
             const thumbnailElementButton: HTMLButtonElement = thumbnailElement.querySelector<HTMLButtonElement>("button")!;
 
             thumbnailElementButton!.addEventListener("click", async (event: Event) => {
-                await CreateAndHandleLanguageForm(rightLeaf, language);
+                await CreateAndHandleLanguageForm(language);
             })
 
             return languageContainer.append(thumbnailElement);
@@ -161,7 +155,9 @@ async function DisplayLanguageThumbnails(leftLeaf: HTMLElement, rightLeaf: HTMLE
     })
 }
 
-async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: Language) {
+async function CreateAndHandleLanguageForm(language?: Language) {
+    const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
+    const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
     const languageCreationForm: Element | undefined = await ParseHTMLFromString("forms/language");
     if (languageCreationForm) {
         rightLeaf.replaceChildren(languageCreationForm);
@@ -209,7 +205,7 @@ async function CreateAndHandleLanguageForm(rightLeaf: HTMLElement, language?: La
 
             if (success) {
                 // TODO - Contextual reloading of the drawer (Must retrieve the query and requery it automatically).
-                await CreateAndHandleLanguageForm(rightLeaf, language ? language : undefined);
+                await CreateAndHandleLanguageForm(language ? language : undefined);
             }
         })
     }
