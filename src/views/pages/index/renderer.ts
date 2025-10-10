@@ -105,27 +105,32 @@ async function CreateAndHandleLanguageDrawer(): Promise<void> {
 /**
  * Renders and manages the list of language thumbnails within the Language Drawer UI.
  *
- * Each language is represented as a thumbnail element built from a predefined HTML template.
- * These thumbnails act as clickable buttons, each opening the corresponding language edition form
- * in the main's right container (`rightLeaf`).
+ * Each language is displayed as an interactive thumbnail generated from a predefined HTML template.
+ * These thumbnails act as clickable buttons that open the corresponding language edition form
+ * within the main interface’s right container (`#right-leaf`).
  *
- * **Functional flow:**
- * 1. Selects and clears the language container inside the left panel (`leftLeaf`).
- * 2. Loads the base HTML thumbnail template via `window.txnmAPI.LoadTemplate("thumbnails/language")`.
- * 3. Iterates through the provided `languages` array.
- * 4. For each language:
- *    - Replaces template placeholders (`{{id}}`, `{{name_native}}`, `{{name_local}}`) with actual data.
+ * **Overview:**
+ * This function rebuilds the language list dynamically each time it is invoked,
+ * ensuring the displayed content always reflects the current state of available languages.
+ *
+ * **Functional Flow:**
+ * 1. Selects and clears the language container inside the left panel (`#left-leaf`).
+ * 2. Loads the base thumbnail template from `window.txnmAPI.LoadTemplate("thumbnails/language")`.
+ * 3. Iterates over each provided `Language` instance.
+ * 4. For every language:
+ *    - Replaces template placeholders (`{{id}}`, `{{name_native}}`, `{{name_local}}`) with actual language data.
  *    - Parses the resulting HTML string into a DOM element.
- *    - Attaches a click event listener that opens the corresponding edition form through `CreateAndHandleLanguageForm()`.
- *    - Appends the thumbnail to the language container.
- * 5. Logs any parsing or rendering error without interrupting the iteration.
+ *    - Attaches a click event listener to the element’s button, triggering `CreateAndHandleLanguageForm(language)`.
+ *    - Appends the finalized thumbnail element to the language container.
+ * 5. Logs parsing or rendering errors to the console without halting execution.
  *
  * **Parameters:**
- * @param {Language[]} languages - The array of language instances to be displayed as thumbnails.
+ * @param {Language[]} languages - An array of `Language` instances to be rendered as thumbnails.
  *
  * **Returns:**
- * @returns {Promise<void>} Resolves when all language thumbnails have been rendered and event handlers attached.
+ * @returns {Promise<void>} Resolves when all language thumbnails have been successfully rendered and event listeners registered.
  */
+
 async function DisplayLanguageThumbnails(languages: Language[]): Promise<void> {
     const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
     const languageContainer: HTMLElement = leftLeaf.querySelector("#language-container")!;
