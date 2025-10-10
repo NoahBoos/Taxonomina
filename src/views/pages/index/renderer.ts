@@ -88,7 +88,7 @@ async function CreateAndHandleLanguageDrawer(): Promise<void> {
             await DisplayLanguageThumbnails(filteredLanguages);
         })
 
-        const createFormButton: HTMLButtonElement = leftLeaf!.querySelector<HTMLButtonElement>("#create-form-button")!;
+        const createFormButton: HTMLButtonElement = leftLeaf!.querySelector<HTMLButtonElement>("#create-button")!;
         createFormButton?.addEventListener("click", async (event: Event) => {
             event.preventDefault();
             await CreateAndHandleLanguageForm();
