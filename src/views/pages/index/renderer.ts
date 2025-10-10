@@ -163,7 +163,39 @@ async function DisplayLanguageThumbnails(languages: Language[]): Promise<void> {
     })
 }
 
-async function CreateAndHandleLanguageForm(language?: Language) {
+/**
+ * Initializes and manages the **Language Form** UI within the main interface.
+ *
+ * This asynchronous function renders the language creation or edition form inside the right container (`#right-leaf`),
+ * binds input fields and event handlers, and handles form submission logic to create or update a `Language` record.
+ *
+ * **Overview:**
+ * The Language Form can operate in two modes:
+ * - **Creation Mode:** When no `language` argument is provided, the form is rendered empty for new language entry.
+ * - **Edition Mode:** When a `Language` instance is provided, form fields are pre-filled for editing the existing record.
+ *
+ * **Functional Flow:**
+ * 1. Fetches and parses the language form HTML template (`forms/language`).
+ * 2. Injects the parsed template into the right container (`#right-leaf`), replacing existing content.
+ * 3. Selects all input fields (ISO codes, native/local names, direction, etc.).
+ * 4. If a `language` instance is passed, populates the input fields with its data.
+ * 5. Attaches an event listener to the **Submit** button that:
+ *    - Validates required inputs (`name_native`, `name_local`).
+ *    - Constructs a new `Language` instance from the form data.
+ *    - Sends the instance to the repository API:
+ *        - `Create()` if the language is new (`id == 0`).
+ *        - `Update()` if it already exists.
+ *    - On success, refreshes the Language Drawer (`CreateAndHandleLanguageDrawer()`),
+ *      reapplies the active search filter, re-renders the filtered list of languages,
+ *      and reopens the form for continued editing.
+ *
+ * **Parameters:**
+ * @param {Language} [language] - Optional `Language` instance to pre-fill the form for edition mode.
+ *
+ * **Returns:**
+ * @returns {Promise<void>} Resolves once the form has been rendered, initialized, and submission handlers attached.
+ */
+async function CreateAndHandleLanguageForm(language?: Language): Promise<void> {
     const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
     const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
     const languageCreationForm: Element | undefined = await ParseHTMLFromString("forms/language");
