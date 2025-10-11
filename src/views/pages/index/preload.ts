@@ -1,6 +1,6 @@
 import {contextBridge, ipcRenderer} from "electron";
 import {Language} from "../../../database/models/Language";
-import {TaxonominaSettings} from "../../../utils/main/SettingManager";
+import {TaxonominaSettings} from "../../../interfaces/I_TaxonominaSettings";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),

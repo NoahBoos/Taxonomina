@@ -1,5 +1,6 @@
 import {Language} from "./database/models/Language";
 import {TaxonominaSettings} from "./utils/main/SettingManager";
+import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
 
 export {};
 

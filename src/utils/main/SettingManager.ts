@@ -2,10 +2,7 @@ import {readFile, writeFile} from "node:fs/promises";
 import {app} from "electron";
 import { join } from "node:path";
 import {settings} from "../../main";
-
-export interface TaxonominaSettings {
-    isDatabaseInitialized: boolean;
-}
+import {TaxonominaSettings} from "../../interfaces/I_TaxonominaSettings";
 
 export class SettingManager {
     private static DEFAULT_SETTINGS: TaxonominaSettings = {

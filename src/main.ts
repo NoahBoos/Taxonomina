@@ -7,7 +7,8 @@ import { Dictionary } from "./database/models/Dictionary";
 import {LanguageRepository} from "./database/repositories/LanguageRepository";
 import {Language} from "./database/models/Language";
 import {LoadTemplateAsString} from "./utils/main/TemplateManager";
-import {SettingManager, TaxonominaSettings} from "./utils/main/SettingManager";
+import {SettingManager} from "./utils/main/SettingManager";
+import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
 
 export let settings: TaxonominaSettings;
 async function InitializeSetting() {
