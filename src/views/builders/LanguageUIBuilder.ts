@@ -112,6 +112,7 @@ export class LanguageUIBuilder {
 
                 thumbnailElementButton!.addEventListener("click", async (event: Event) => {
                     await LanguageUIBuilder.CreateAndHandleLanguageForm(language);
+                    await LanguageUIBuilder.CreateAndHandleDeleteButton(language);
                 })
 
                 return languageContainer.append(thumbnailElement);
@@ -219,6 +220,36 @@ export class LanguageUIBuilder {
                     await LanguageUIBuilder.CreateAndHandleLanguageForm(language ? language : undefined);
                 }
             })
+        }
+    }
+
+    public static async CreateAndHandleDeleteButton(language: Language): Promise<void> {
+        const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
+        const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
+        let deleteButtonString: string | undefined = await TemplateManager.LoadTemplateAsString("buttons/delete");
+        deleteButtonString = deleteButtonString!.replace("{id}", String(language.GetId()));
+        const deleteButton: Element | undefined = await TemplateManager.ParseHTMLFromString(deleteButtonString);
+        if (deleteButton) {
+            deleteButton.addEventListener("click", async (event: Event): Promise<void> => {
+                const success: boolean = await window.txnmAPI.repositories.language.Delete(language);
+                if (success) {
+                    const query: string = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!.value;
+                    await LanguageUIBuilder.CreateAndHandleLanguageDrawer();
+                    const searchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
+                    searchbar.value = query;
+                    const filteredLanguages: Language[] = await window.txnmAPI.repositories.language.ReadAll().then(
+                        (languagesRaw: Language[]): Language[] => {
+                            return languagesRaw.map(Language.Hydrate).filter((language: Language) => {
+                                return [language.GetIso639_1(), language.GetIso639_3(), language.GetNameNative(), language.GetNameLocal()]
+                                    .some(value => value.toLowerCase().includes(query.toLowerCase()));
+                            })
+                        }
+                    );
+                    await LanguageUIBuilder.DisplayLanguageThumbnails(filteredLanguages);
+                    rightLeaf.replaceChildren();
+                }
+            })
+            rightLeaf.appendChild(deleteButton);
         }
     }
 }
