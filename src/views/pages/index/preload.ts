@@ -1,6 +1,7 @@
 import {contextBridge, ipcRenderer} from "electron";
 import {Language} from "../../../database/models/Language";
 import {TaxonominaSettings} from "../../../interfaces/I_TaxonominaSettings";
+import {Dictionary} from "../../../database/models/Dictionary";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -12,6 +13,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
     },
     repositories: {
         dictionary: {
+            ReadAll: (): Promise<Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAll"),
             ReadOne: (dictionaryId: number) => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readOne", dictionaryId),
             Create: (data: { name: string; description: string }): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", data),
         },

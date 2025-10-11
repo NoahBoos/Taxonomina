@@ -16,6 +16,7 @@ declare global {
             }
             repositories: {
                 dictionary: {
+                    ReadAll: () => Promise<Dictionary[]>,
                     ReadOne: (dictionaryId) => Promise<Dictionary>,
                     Create: (data: { name: string; description: string }) => Promise<boolean>
                 },

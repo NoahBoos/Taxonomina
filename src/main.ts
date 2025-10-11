@@ -62,6 +62,10 @@ ipcMain.handle("txnmAPI:settings:update", (event, key: keyof TaxonominaSettings,
    return SettingManager.UpdateSetting(key, value);
 });
 
+ipcMain.handle("txnmAPI:repositories:dictionary:readAll", () => {
+   return DictionaryRepository.ReadAll();
+});
+
 ipcMain.handle("txnmAPI:repositories:dictionary:readOne", (event, dictionaryId: number) => {
     return DictionaryRepository.ReadOne(dictionaryId);
 });
