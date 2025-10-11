@@ -31,7 +31,7 @@ export class LanguageUIBuilder {
      * **Returns:**
      * @returns {Promise<void>} Resolves when the Language Drawer UI and all its event handlers are fully initialized.
      */
-    public static async CreateAndHandleLanguageDrawer(): Promise<void> {
+    public static async CreateAndHandleDrawer(): Promise<void> {
         const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
         const languageDrawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
         if (languageDrawer) {
@@ -205,7 +205,7 @@ export class LanguageUIBuilder {
 
                 if (success) {
                     const query: string = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!.value;
-                    await LanguageUIBuilder.CreateAndHandleLanguageDrawer();
+                    await LanguageUIBuilder.CreateAndHandleDrawer();
                     const searchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
                     searchbar.value = query;
                     const filteredLanguages: Language[] = await window.txnmAPI.repositories.language.ReadAll().then(
@@ -260,7 +260,7 @@ export class LanguageUIBuilder {
                 const success: boolean = await window.txnmAPI.repositories.language.Delete(language);
                 if (success) {
                     const query: string = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!.value;
-                    await LanguageUIBuilder.CreateAndHandleLanguageDrawer();
+                    await LanguageUIBuilder.CreateAndHandleDrawer();
                     const searchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
                     searchbar.value = query;
                     const filteredLanguages: Language[] = await window.txnmAPI.repositories.language.ReadAll().then(

@@ -5,7 +5,7 @@ async function Renderer() {
 
     const languageDrawerButton: HTMLElement = document.getElementById("language-drawer-button")!;
     languageDrawerButton.addEventListener("click", (event: Event) => {
-        LanguageUIBuilder.CreateAndHandleLanguageDrawer();
+        LanguageUIBuilder.CreateAndHandleDrawer();
     })
 }
 
