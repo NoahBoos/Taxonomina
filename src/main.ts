@@ -2,11 +2,11 @@ import * as path from "node:path";
 
 import {app, BrowserWindow, ipcMain} from "electron";
 import {Database} from "./database/Database";
-import {LoadTemplate} from "./utils/LoadTemplate";
 import {DictionaryRepository} from "./database/repositories/DictionaryRepository";
 import { Dictionary } from "./database/models/Dictionary";
 import {LanguageRepository} from "./database/repositories/LanguageRepository";
 import {Language} from "./database/models/Language";
+import {LoadTemplateAsString} from "./utils/main/TemplateManager";
 
 const CreateIndexWindow = () => {
     const window = new BrowserWindow({
@@ -33,8 +33,8 @@ app.whenReady().then(() => {
     })
 })
 
-ipcMain.handle("txnmAPI:loadTemplate", (event, path: string) => {
-    return LoadTemplate(path);
+ipcMain.handle("txnmAPI:loadTemplateAsString", (event, templatePath: string) => {
+    return LoadTemplateAsString(templatePath);
 })
 
 ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, data: { name: string; description: string }) => {

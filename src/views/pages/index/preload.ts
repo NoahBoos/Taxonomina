@@ -2,7 +2,7 @@ import {contextBridge, ipcRenderer} from "electron";
 import {Language} from "../../../database/models/Language";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
-    LoadTemplate: async (path: string) => ipcRenderer.invoke("txnmAPI:loadTemplate", path),
+    LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
     repositories: {
         dictionary: {
             Create: (data: { name: string; description: string }): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", data),
