@@ -54,7 +54,7 @@ export class LanguageUIBuilder {
             const createFormButton: HTMLButtonElement = leftLeaf!.querySelector<HTMLButtonElement>("#create-button")!;
             createFormButton?.addEventListener("click", async (event: Event) => {
                 event.preventDefault();
-                await LanguageUIBuilder.CreateAndHandleLanguageForm();
+                await LanguageUIBuilder.CreateAndHandleForm();
             })
 
             await LanguageUIBuilder.DisplayLanguageThumbnails(languages);
@@ -111,7 +111,7 @@ export class LanguageUIBuilder {
                 const thumbnailElementButton: HTMLButtonElement = thumbnailElement.querySelector<HTMLButtonElement>("button")!;
 
                 thumbnailElementButton!.addEventListener("click", async (event: Event) => {
-                    await LanguageUIBuilder.CreateAndHandleLanguageForm(language);
+                    await LanguageUIBuilder.CreateAndHandleForm(language);
                     await LanguageUIBuilder.CreateAndHandleDeleteButton(language);
                 })
 
@@ -155,7 +155,7 @@ export class LanguageUIBuilder {
      * **Returns:**
      * @returns {Promise<void>} Resolves once the form has been rendered, initialized, and submission handlers attached.
      */
-    public static async CreateAndHandleLanguageForm(language?: Language): Promise<void> {
+    public static async CreateAndHandleForm(language?: Language): Promise<void> {
         const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
         const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
         const languageCreationForm: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/language");
@@ -217,7 +217,7 @@ export class LanguageUIBuilder {
                         }
                     );
                     await LanguageUIBuilder.DisplayLanguageThumbnails(filteredLanguages);
-                    await LanguageUIBuilder.CreateAndHandleLanguageForm(language ? language : undefined);
+                    await LanguageUIBuilder.CreateAndHandleForm(language ? language : undefined);
                 }
             })
         }
