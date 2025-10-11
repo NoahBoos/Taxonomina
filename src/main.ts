@@ -54,3 +54,8 @@ ipcMain.handle("txnmAPI:repositories:language:update", (event, rawLanguage: Lang
     const language: Language = Language.Hydrate(rawLanguage);
     return LanguageRepository.Update(language);
 });
+
+ipcMain.handle("txnmAPI:repositories:language:delete", (event, rawLanguage: Language) => {
+    const language: Language = Language.Hydrate(rawLanguage);
+    return LanguageRepository.Delete(language);
+})

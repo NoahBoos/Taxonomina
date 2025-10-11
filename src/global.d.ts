@@ -14,6 +14,7 @@ declare global {
                     ReadAll: () => Promise<Language[]>,
                     Create: (rawLanguage: Language) => Promise<boolean>,
                     Update: (rawLanguage: Language) => Promise<boolean>,
+                    Delete: (rawLanguage: Language) => Promise<boolean>
                 }
             }
         }
