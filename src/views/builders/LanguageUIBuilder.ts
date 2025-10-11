@@ -223,6 +223,32 @@ export class LanguageUIBuilder {
         }
     }
 
+    /**
+     * Creates and manages the **Delete Button** for a specific `Language` in the interface.
+     *
+     * This asynchronous function generates a delete button for the given `Language`, injects it into the
+     * right container (`#right-leaf`), and attaches the click event listener that handles deletion and UI updates.
+     *
+     * **Functional Flow:**
+     * 1. Fetches and parses the delete button template (`buttons/delete`) as a string.
+     * 2. Replaces the `{id}` placeholder in the template with the language's ID.
+     * 3. Converts the template string into a DOM element and appends it to the right container (`#right-leaf`).
+     * 4. Attaches a click event listener that:
+     *    - Calls `window.txnmAPI.repositories.language.Delete(language)` to remove the language.
+     *    - If deletion succeeds:
+     *        - Saves the current search query from `#searchbar`.
+     *        - Refreshes the Language Drawer (`CreateAndHandleLanguageDrawer()`).
+     *        - Reapplies the previous search query.
+     *        - Filters all languages based on ISO codes, native name, or local name.
+     *        - Renders the filtered languages as thumbnails (`DisplayLanguageThumbnails()`).
+     *        - Clears the right container (`#right-leaf`) to remove the button.
+     *
+     * **Parameters:**
+     * @param {Language} language - The `Language` instance for which the delete button is created.
+     *
+     * **Returns:**
+     * @returns {Promise<void>} Resolves once the delete button has been created, the event listener attached, and the UI has been updated after a deletion event.
+     */
     public static async CreateAndHandleDeleteButton(language: Language): Promise<void> {
         const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
         const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
