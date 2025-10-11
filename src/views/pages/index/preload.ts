@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
     },
     repositories: {
         dictionary: {
+            ReadOne: (dictionaryId: number) => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readOne", dictionaryId),
             Create: (data: { name: string; description: string }): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", data),
         },
         language: {

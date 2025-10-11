@@ -1,5 +1,5 @@
 import {Language} from "./database/models/Language";
-import {TaxonominaSettings} from "./utils/main/SettingManager";
+import {Dictionary} from "./database/models/Dictionary";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
 
 export {};
@@ -16,6 +16,7 @@ declare global {
             }
             repositories: {
                 dictionary: {
+                    ReadOne: (dictionaryId) => Promise<Dictionary>,
                     Create: (data: { name: string; description: string }) => Promise<boolean>
                 },
                 language: {
