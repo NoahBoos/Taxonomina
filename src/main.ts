@@ -43,11 +43,15 @@ app.whenReady().then(() => {
 
 ipcMain.handle("txnmAPI:loadTemplateAsString", (event, templatePath: string) => {
     return LoadTemplateAsString(templatePath);
-})
+});
+
+ipcMain.handle("txnmAPI:settings:update", (event, key: keyof TaxonominaSettings, value: any) => {
+   return SettingManager.UpdateSetting(key, value);
+});
 
 ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, data: { name: string; description: string }) => {
     return DictionaryRepository.Create(new Dictionary(0, data.name, data.description));
-})
+});
 
 ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {
    return LanguageRepository.ReadAll();
@@ -66,4 +70,4 @@ ipcMain.handle("txnmAPI:repositories:language:update", (event, rawLanguage: Lang
 ipcMain.handle("txnmAPI:repositories:language:delete", (event, rawLanguage: Language) => {
     const language: Language = Language.Hydrate(rawLanguage);
     return LanguageRepository.Delete(language);
-})
+});

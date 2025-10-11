@@ -1,8 +1,12 @@
 import {contextBridge, ipcRenderer} from "electron";
 import {Language} from "../../../database/models/Language";
+import {TaxonominaSettings} from "../../../utils/main/SettingManager";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
+    settings: {
+      Update: (key: keyof TaxonominaSettings, value: any) => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
+    },
     repositories: {
         dictionary: {
             Create: (data: { name: string; description: string }): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", data),

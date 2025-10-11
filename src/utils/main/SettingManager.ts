@@ -1,6 +1,7 @@
 import {readFile, writeFile} from "node:fs/promises";
 import {app} from "electron";
 import { join } from "node:path";
+import {settings} from "../../main";
 
 export interface TaxonominaSettings {
     isDatabaseInitialized: boolean;
@@ -32,5 +33,9 @@ export class SettingManager {
             await SettingManager.SaveSetting(SettingManager.DEFAULT_SETTINGS);
             return SettingManager.DEFAULT_SETTINGS;
         }
+    }
+
+    public static UpdateSetting<K extends keyof TaxonominaSettings>(key: K, value: TaxonominaSettings[K]) {
+        settings[key] = value;
     }
 }
