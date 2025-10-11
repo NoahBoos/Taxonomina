@@ -7,6 +7,12 @@ import { Dictionary } from "./database/models/Dictionary";
 import {LanguageRepository} from "./database/repositories/LanguageRepository";
 import {Language} from "./database/models/Language";
 import {LoadTemplateAsString} from "./utils/main/TemplateManager";
+import {SettingManager, TaxonominaSettings} from "./utils/main/SettingManager";
+
+export let settings: TaxonominaSettings;
+async function InitializeSetting() {
+    settings = await SettingManager.LoadSettings();
+}
 
 const CreateIndexWindow = () => {
     const window = new BrowserWindow({
@@ -18,7 +24,9 @@ const CreateIndexWindow = () => {
             // devTools: false
         }
     });
-    Database.InitializeDatabase()
+    InitializeSetting().then(r => {
+        Database.InitializeDatabase();
+    })
     window.loadFile(path.join(__dirname, "views", "pages", "index", "index.html"));
     console.log("[Main] - Loaded");
 }
