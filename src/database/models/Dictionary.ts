@@ -34,4 +34,8 @@ export class Dictionary {
             "description": this.description
         };
     }
+
+    public static Hydrate(raw: any): Dictionary {
+        return new Dictionary(raw.id, raw.name, raw.description);
+    }
 }
