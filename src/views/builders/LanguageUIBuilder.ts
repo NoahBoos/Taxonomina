@@ -48,7 +48,7 @@ export class LanguageUIBuilder {
                         .some(value => value.toLowerCase().includes(query.toLowerCase()));
                 });
                 console.log(filteredLanguages);
-                await LanguageUIBuilder.DisplayLanguageThumbnails(filteredLanguages);
+                await LanguageUIBuilder.DisplayThumbnails(filteredLanguages);
             })
 
             const createFormButton: HTMLButtonElement = leftLeaf!.querySelector<HTMLButtonElement>("#create-button")!;
@@ -57,7 +57,7 @@ export class LanguageUIBuilder {
                 await LanguageUIBuilder.CreateAndHandleForm();
             })
 
-            await LanguageUIBuilder.DisplayLanguageThumbnails(languages);
+            await LanguageUIBuilder.DisplayThumbnails(languages);
             console.log("[Renderer] - " + JSON.stringify(languages));
         }
     }
@@ -90,7 +90,7 @@ export class LanguageUIBuilder {
      * **Returns:**
      * @returns {Promise<void>} Resolves when all language thumbnails have been successfully rendered and event listeners registered.
      */
-    public static async DisplayLanguageThumbnails(languages: Language[]): Promise<void> {
+    public static async DisplayThumbnails(languages: Language[]): Promise<void> {
         const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
         const languageContainer: HTMLElement = leftLeaf.querySelector("#language-container")!;
         languageContainer.replaceChildren();
@@ -216,7 +216,7 @@ export class LanguageUIBuilder {
                             })
                         }
                     );
-                    await LanguageUIBuilder.DisplayLanguageThumbnails(filteredLanguages);
+                    await LanguageUIBuilder.DisplayThumbnails(filteredLanguages);
                     await LanguageUIBuilder.CreateAndHandleForm(language ? language : undefined);
                 }
             })
@@ -271,7 +271,7 @@ export class LanguageUIBuilder {
                             })
                         }
                     );
-                    await LanguageUIBuilder.DisplayLanguageThumbnails(filteredLanguages);
+                    await LanguageUIBuilder.DisplayThumbnails(filteredLanguages);
                     rightLeaf.replaceChildren();
                 }
             })
