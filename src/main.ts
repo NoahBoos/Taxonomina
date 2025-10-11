@@ -46,6 +46,10 @@ ipcMain.handle("txnmAPI:loadTemplateAsString", (event, templatePath: string) => 
     return LoadTemplateAsString(templatePath);
 });
 
+ipcMain.handle("txnmAPI:settings:expose", () => {
+   return settings;
+});
+
 ipcMain.handle("txnmAPI:settings:save", () => {
     return SettingManager.SaveSetting(settings);
 });
