@@ -8,6 +8,8 @@ declare global {
         txnmAPI: {
             LoadTemplateAsString: (templatePath: string) => Promise<string | undefined>,
             settings: {
+                Save: () => Promise<void>,
+                Load: () => Promise<TaxonominaSettings>,
                 Update: (key: keyof TaxonominaSettings, value: any) => Promise<void>,
             }
             repositories: {

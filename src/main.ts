@@ -45,6 +45,14 @@ ipcMain.handle("txnmAPI:loadTemplateAsString", (event, templatePath: string) => 
     return LoadTemplateAsString(templatePath);
 });
 
+ipcMain.handle("txnmAPI:settings:save", () => {
+    return SettingManager.SaveSetting(settings);
+});
+
+ipcMain.handle("txnmAPI:settings:load", () => {
+   return SettingManager.LoadSettings();
+});
+
 ipcMain.handle("txnmAPI:settings:update", (event, key: keyof TaxonominaSettings, value: any) => {
    return SettingManager.UpdateSetting(key, value);
 });

@@ -5,7 +5,9 @@ import {TaxonominaSettings} from "../../../utils/main/SettingManager";
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
     settings: {
-      Update: (key: keyof TaxonominaSettings, value: any) => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
+        Save: () => ipcRenderer.invoke("txnmAPI:settings:save"),
+        Load: () => ipcRenderer.invoke("txnmAPI:settings:load"),
+        Update: (key: keyof TaxonominaSettings, value: any): Promise<any> => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
     },
     repositories: {
         dictionary: {
