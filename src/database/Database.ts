@@ -1,6 +1,8 @@
 import BetterSqlite3 from "better-sqlite3";
 import {app} from "electron";
 import { join } from "path";
+import {settings} from "../main";
+import {SettingManager} from "../utils/main/SettingManager";
 
 export class Database {
     private static instance: BetterSqlite3.Database;
@@ -16,6 +18,11 @@ export class Database {
                 const transaction = this.instance.transaction(() => {
                     this.CreateDatabaseTables();
                     this.CreateDatabaseIndexes();
+                    if (!settings.isDatabaseInitialized) {
+                        this.CreateDefaultTuples();
+                        settings.isDatabaseInitialized = true;
+                        SettingManager.SaveSetting(settings);
+                    }
                 });
 
                 transaction();
@@ -162,6 +169,19 @@ export class Database {
             CREATE INDEX IF NOT EXISTS idx_inflection_grammatical_number_number_id ON inflection_grammatical_number(grammatical_number_id);
             CREATE INDEX IF NOT EXISTS idx_inflection_grammatical_case_case_id ON inflection_grammatical_case(grammatical_case_id);
             CREATE INDEX IF NOT EXISTS idx_entry_inflection_inflection_id ON entry_inflection(inflection_id);
+        `);
+    }
+
+    private static CreateDefaultTuples() {
+        this.instance.exec(`
+            INSERT INTO dictionaries (name, description)
+            VALUES ('Mon dictionnaire', 'C''est mon superbe dictionnaire !');
+
+            INSERT INTO languages (iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
+            VALUES ('fr', 'fra', 'false', 'Français', 'Français', 'ltr');
+
+            INSERT INTO languages (iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
+            VALUES ('de', 'deu', 'false', 'Deutsch', 'Allemand', 'ltr');
         `);
     }
 }
