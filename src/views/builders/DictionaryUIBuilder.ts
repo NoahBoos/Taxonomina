@@ -81,6 +81,7 @@ export class DictionaryUIBuilder {
 
     public static async CreateAndHandleForm(dictionary?: Dictionary): Promise<void> {
         const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
+        rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/dictionary");
         if (!form) return;
 
