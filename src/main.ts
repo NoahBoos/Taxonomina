@@ -9,6 +9,7 @@ import {Language} from "./database/models/Language";
 import {LoadTemplateAsString} from "./utils/main/TemplateManager";
 import {SettingManager} from "./utils/main/SettingManager";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
+import Dict = NodeJS.Dict;
 
 export let settings: TaxonominaSettings;
 async function InitializeSetting() {
@@ -72,6 +73,11 @@ ipcMain.handle("txnmAPI:repositories:dictionary:readOne", (event, dictionaryId: 
 
 ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, data: { name: string; description: string }) => {
     return DictionaryRepository.Create(new Dictionary(0, data.name, data.description));
+});
+
+ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, rawDictionary: Dictionary) => {
+    const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
+    return DictionaryRepository.Update(dictionary);
 });
 
 ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {
