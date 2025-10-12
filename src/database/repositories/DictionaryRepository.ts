@@ -55,7 +55,7 @@ export class DictionaryRepository {
             FROM dictionaries
             WHERE id = @id
         `);
-        const result: RunResult = statement.run(dictionary.GetId());
+        const result: RunResult = statement.run(dictionary.GetQueryObject());
         return result.changes > 0;
     }
 }
