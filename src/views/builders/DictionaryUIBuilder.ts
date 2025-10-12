@@ -43,6 +43,8 @@ export class DictionaryUIBuilder {
                 switchButton.addEventListener("click", async () => {
                     await DictionaryService.SetCurrentDictionary(dictionary);
                     DictionaryUIBuilder.SetDictionaryInformation(dictionary);
+                    const currentDictionary: Dictionary = await DictionaryService.GetCurrentDictionary();
+                    const dictionaries: Dictionary[] = await DictionaryService.GetAllDictionariesButOne(currentDictionary);
                     await DictionaryUIBuilder.InitializeDropdown(dictionaries);
                 });
 
