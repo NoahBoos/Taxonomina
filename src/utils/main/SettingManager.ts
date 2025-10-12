@@ -33,7 +33,8 @@ export class SettingManager {
         }
     }
 
-    public static UpdateSetting<K extends keyof TaxonominaSettings>(key: K, value: TaxonominaSettings[K]) {
+    public static async UpdateSetting<K extends keyof TaxonominaSettings>(key: K, value: TaxonominaSettings[K]) {
         settings[key] = value;
+        await SettingManager.SaveSetting(settings);
     }
 }
