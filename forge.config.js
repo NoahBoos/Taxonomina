@@ -8,21 +8,24 @@ module.exports = {
   rebuildConfig: {},
   makers: [
     // Modèle du maker pour une build `.msi`, donc adaptée à Windows.
-    // {
-    //   name: '@electron-forge/maker-wix',
-    //   config: {
-    //     language: 1033,
-    //     name: "Taxonomina",
-    //     manufacturer: 'Noah Boos AKA Rift',
-    //     ui: {
-    //       chooseDirectory: true
-    //     },
-    //     shortcuts: {
-    //       desktop: true,
-    //       startMenu: true
-    //     }
-    //   }
-    // }
+    {
+      name: '@electron-forge/maker-wix',
+      config: {
+        language: 1033,
+        name: "Taxonomina",
+        description: "Taxonomina",
+        manufacturer: 'Noah Boos AKA Rift',
+        version: "1.0.0",
+        shortcutFolderName: "Taxonomina",
+        ui: {
+          chooseDirectory: true
+        },
+        shortcuts: {
+          desktop: true,
+          startMenu: true
+        }
+      }
+    }
   ],
   plugins: [
     {
