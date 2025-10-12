@@ -80,6 +80,11 @@ ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, rawDictionary: 
     return DictionaryRepository.Update(dictionary);
 });
 
+ipcMain.handle("txnmAPI:repositories:dictionary:delete", (event, rawDictionary: Dictionary) => {
+    const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
+    return DictionaryRepository.Delete(dictionary);
+});
+
 ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {
    return LanguageRepository.ReadAll();
 });
