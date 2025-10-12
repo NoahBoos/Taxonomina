@@ -9,7 +9,6 @@ import {Language} from "./database/models/Language";
 import {LoadTemplateAsString} from "./utils/main/TemplateManager";
 import {SettingManager} from "./utils/main/SettingManager";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
-import Dict = NodeJS.Dict;
 
 export let settings: TaxonominaSettings;
 async function InitializeSetting() {
@@ -51,16 +50,16 @@ ipcMain.handle("txnmAPI:settings:expose", () => {
    return settings;
 });
 
-ipcMain.handle("txnmAPI:settings:save", () => {
-    return SettingManager.SaveSetting(settings);
+ipcMain.handle("txnmAPI:settings:save", async () => {
+    return await SettingManager.SaveSetting(settings);
 });
 
-ipcMain.handle("txnmAPI:settings:load", () => {
-   return SettingManager.LoadSettings();
+ipcMain.handle("txnmAPI:settings:load", async () => {
+   return await SettingManager.LoadSettings();
 });
 
-ipcMain.handle("txnmAPI:settings:update", (event, key: keyof TaxonominaSettings, value: any) => {
-   return SettingManager.UpdateSetting(key, value);
+ipcMain.handle("txnmAPI:settings:update", async (event, key: keyof TaxonominaSettings, value: any) => {
+   return await SettingManager.UpdateSetting(key, value);
 });
 
 ipcMain.handle("txnmAPI:repositories:dictionary:readAll", () => {
