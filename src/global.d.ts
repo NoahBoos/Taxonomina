@@ -18,9 +18,9 @@ declare global {
                 dictionary: {
                     ReadAll: () => Promise<Dictionary[]>,
                     ReadOne: (dictionaryId) => Promise<Dictionary>,
-                    Create: (data: { name: string; description: string }) => Promise<boolean>
-                    Update: (rawLanguage: Language) => Promise<boolean>,
-                    Delete: (rawLanguage: Language) => Promise<boolean>,
+                    Create: (rawDictionary: Dictionary) => Promise<boolean>
+                    Update: (rawDictionary: Dictionary) => Promise<boolean>,
+                    Delete: (rawDictionary: Dictionary) => Promise<boolean>,
                 },
                 language: {
                     ReadAll: () => Promise<Language[]>,

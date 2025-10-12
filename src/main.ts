@@ -71,8 +71,9 @@ ipcMain.handle("txnmAPI:repositories:dictionary:readOne", (event, dictionaryId: 
     return DictionaryRepository.ReadOne(dictionaryId);
 });
 
-ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, data: { name: string; description: string }) => {
-    return DictionaryRepository.Create(new Dictionary(0, data.name, data.description));
+ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, rawDictionary: Dictionary) => {
+    const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
+    return DictionaryRepository.Create(dictionary);
 });
 
 ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, rawDictionary: Dictionary) => {
