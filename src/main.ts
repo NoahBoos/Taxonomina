@@ -66,6 +66,11 @@ ipcMain.handle("txnmAPI:repositories:dictionary:readAll", () => {
    return DictionaryRepository.ReadAll();
 });
 
+ipcMain.handle("txnmAPI:repositories:dictionary:readAllButOne", (event, rawDictionary: Dictionary) => {
+    const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
+    return DictionaryRepository.ReadAllButOne(dictionary);
+})
+
 ipcMain.handle("txnmAPI:repositories:dictionary:readOne", (event, dictionaryId: number) => {
     return DictionaryRepository.ReadOne(dictionaryId);
 });

@@ -11,6 +11,15 @@ export class DictionaryRepository {
         return statement.all() as Dictionary[];
     }
 
+    public static ReadAllButOne(dictionaryToIgnore: Dictionary): Dictionary[] {
+        const statement = Database.GetDatabase().prepare(`
+            SELECT *
+            FROM dictionaries
+            WHERE id != @id
+        `);
+        return statement.all(dictionaryToIgnore.GetQueryObject()) as Dictionary[];
+    }
+
     public static ReadOne(id: number): Dictionary | undefined {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
