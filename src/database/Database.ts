@@ -93,6 +93,17 @@ export class Database {
                     ON UPDATE CASCADE ON DELETE CASCADE
             );
             
+            CREATE TABLE IF NOT EXISTS entry_entry (
+                first_entry_id INTEGER NOT NULL,
+                second_entry_id INTEGER NOT NULL,
+                PRIMARY KEY(first_entry_id, second_entry_id),
+                CHECK (first_entry_id < second_entry_id),
+                FOREIGN KEY (first_entry_id) REFERENCES entries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (second_entry_id) REFERENCES entries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
+            );
+            
             CREATE TABLE IF NOT EXISTS inflections (
                 id INTEGER PRIMARY KEY,
                 entry_id INTEGER NOT NULL,
@@ -166,6 +177,7 @@ export class Database {
             CREATE INDEX IF NOT EXISTS idx_entries_grammatical_category_id ON entries(grammatical_category_id);
             CREATE INDEX IF NOT EXISTS idx_inflections_entry_id ON inflections(entry_id);
             CREATE INDEX IF NOT EXISTS idx_entry_definition_definition_id ON entry_definition(definition_id);
+            CREATE INDEX IF NOT EXISTS idx_entry_entry_second ON entry_entry (second_entry_id);
             CREATE INDEX IF NOT EXISTS idx_inflection_grammatical_genre_genre_id ON inflection_grammatical_genre(grammatical_genre_id);
             CREATE INDEX IF NOT EXISTS idx_inflection_grammatical_number_number_id ON inflection_grammatical_number(grammatical_number_id);
             CREATE INDEX IF NOT EXISTS idx_inflection_grammatical_case_case_id ON inflection_grammatical_case(grammatical_case_id);
