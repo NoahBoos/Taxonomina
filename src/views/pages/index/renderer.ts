@@ -1,5 +1,6 @@
 import {LanguageUIBuilder} from "../../builders/LanguageUIBuilder";
 import {DictionaryUIBuilder} from "../../builders/DictionaryUIBuilder";
+import {GrammaticalCategoryUIBuilder} from "../../builders/GrammaticalCategoryUIBuilder";
 
 async function Renderer() {
     console.log("[Renderer] - Renderer() called.");
@@ -9,6 +10,11 @@ async function Renderer() {
     const languageDrawerButton: HTMLElement = document.getElementById("language-drawer-button")!;
     languageDrawerButton.addEventListener("click", (event: Event) => {
         LanguageUIBuilder.CreateAndHandleDrawer();
+    })
+
+    const gramCatDrawerButton: HTMLButtonElement = document.getElementById("grammatical-category-drawer-button")! as HTMLButtonElement;
+    gramCatDrawerButton.addEventListener("click", (event: Event) => {
+        GrammaticalCategoryUIBuilder.Initialize();
     })
 }
 
