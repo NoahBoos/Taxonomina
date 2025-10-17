@@ -1,6 +1,7 @@
 import {Language} from "./database/models/Language";
 import {Dictionary} from "./database/models/Dictionary";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
+import {GrammaticalCategory} from "./database/models/GrammaticalCategory";
 
 export {};
 
@@ -23,6 +24,13 @@ declare global {
                     Update: (rawDictionary: Dictionary) => Promise<boolean>,
                     Delete: (rawDictionary: Dictionary) => Promise<boolean>,
                 },
+                grammaticalCategory: {
+                    ReadAll: () => Promise<GrammaticalCategory[]>,
+                    ReadOne: (grammaticalCategoryId) => Promise<GrammaticalCategory>,
+                    Create: (rawGrammaticalCategory: GrammaticalCategory) => Promise<boolean>,
+                    Update: (rawGrammaticalCategory: GrammaticalCategory) => Promise<boolean>,
+                    Delete: (rawGrammaticalCategory: GrammaticalCategory) => Promise<boolean>,
+                }
                 language: {
                     ReadAll: () => Promise<Language[]>,
                     Create: (rawLanguage: Language) => Promise<boolean>,

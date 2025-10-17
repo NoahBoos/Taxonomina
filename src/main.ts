@@ -9,6 +9,8 @@ import {Language} from "./database/models/Language";
 import {LoadTemplateAsString} from "./utils/main/TemplateManager";
 import {SettingManager} from "./utils/main/SettingManager";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
+import {GrammaticalCategory} from "./database/models/GrammaticalCategory";
+import {GrammaticalCategoryRepository} from "./database/repositories/GrammaticalCategoryRepository";
 
 export let settings: TaxonominaSettings;
 async function InitializeSetting() {
@@ -88,6 +90,29 @@ ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, rawDictionary: 
 ipcMain.handle("txnmAPI:repositories:dictionary:delete", (event, rawDictionary: Dictionary) => {
     const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
     return DictionaryRepository.Delete(dictionary);
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAll", (): GrammaticalCategory[] => {
+    return GrammaticalCategoryRepository.ReadAll();
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readOne", (event, grammaticalCategoryId: number) => {
+    return GrammaticalCategoryRepository.ReadOne(grammaticalCategoryId);
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:create", (event, rawGrammaticalCategory: GrammaticalCategory) => {
+    const grammaticalCategory: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGrammaticalCategory)
+    return GrammaticalCategoryRepository.Create(grammaticalCategory);
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:update", (event, rawGrammaticalCategory: GrammaticalCategory) => {
+    const grammaticalCategory: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGrammaticalCategory)
+    return GrammaticalCategoryRepository.Update(grammaticalCategory);
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:delete", (event, rawGrammaticalCategory: GrammaticalCategory) => {
+    const grammaticalCategory: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGrammaticalCategory)
+    return GrammaticalCategoryRepository.Delete(grammaticalCategory);
 });
 
 ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {
