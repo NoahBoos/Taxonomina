@@ -96,23 +96,23 @@ ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAll", (): Grammatic
     return GrammaticalCategoryRepository.ReadAll();
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readOne", (event, grammaticalCategoryId: number) => {
-    return GrammaticalCategoryRepository.ReadOne(grammaticalCategoryId);
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readOne", (event, gramCatId: number) => {
+    return GrammaticalCategoryRepository.ReadOne(gramCatId);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:create", (event, rawGrammaticalCategory: GrammaticalCategory) => {
-    const grammaticalCategory: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGrammaticalCategory)
-    return GrammaticalCategoryRepository.Create(grammaticalCategory);
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:create", (event, rawGramCat: GrammaticalCategory) => {
+    const gramCat: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGramCat)
+    return GrammaticalCategoryRepository.Create(gramCat);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:update", (event, rawGrammaticalCategory: GrammaticalCategory) => {
-    const grammaticalCategory: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGrammaticalCategory)
-    return GrammaticalCategoryRepository.Update(grammaticalCategory);
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:update", (event, rawGramCat: GrammaticalCategory) => {
+    const gramCat: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGramCat)
+    return GrammaticalCategoryRepository.Update(gramCat);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:delete", (event, rawGrammaticalCategory: GrammaticalCategory) => {
-    const grammaticalCategory: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGrammaticalCategory)
-    return GrammaticalCategoryRepository.Delete(grammaticalCategory);
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:delete", (event, rawGramCat: GrammaticalCategory) => {
+    const gramCat: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGramCat)
+    return GrammaticalCategoryRepository.Delete(gramCat);
 });
 
 ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {

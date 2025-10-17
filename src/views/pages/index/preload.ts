@@ -23,10 +23,10 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         },
         grammaticalCategory: {
             ReadAll: (): Promise<GrammaticalCategory[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readAll"),
-            ReadOne: (grammaticalCategoryId: number) => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readOne", grammaticalCategoryId),
-            Create: (grammaticalCategory: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:create", grammaticalCategory),
-            Update: (grammaticalCategory: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:update", grammaticalCategory),
-            Delete: (grammaticalCategory: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:delete", grammaticalCategory),
+            ReadOne: (gramCatId: number) => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readOne", gramCatId),
+            Create: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:create", rawGramCat),
+            Update: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:update", rawGramCat),
+            Delete: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:delete", rawGramCat),
         },
         language: {
             ReadAll: (): Promise<Language[]> => ipcRenderer.invoke("txnmAPI:repositories:language:readAll"),

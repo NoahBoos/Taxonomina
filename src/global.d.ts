@@ -27,9 +27,9 @@ declare global {
                 grammaticalCategory: {
                     ReadAll: () => Promise<GrammaticalCategory[]>,
                     ReadOne: (grammaticalCategoryId) => Promise<GrammaticalCategory>,
-                    Create: (rawGrammaticalCategory: GrammaticalCategory) => Promise<boolean>,
-                    Update: (rawGrammaticalCategory: GrammaticalCategory) => Promise<boolean>,
-                    Delete: (rawGrammaticalCategory: GrammaticalCategory) => Promise<boolean>,
+                    Create: (rawGramCat: GrammaticalCategory) => Promise<boolean>,
+                    Update: (rawGramCat: GrammaticalCategory) => Promise<boolean>,
+                    Delete: (rawGramCat: GrammaticalCategory) => Promise<boolean>,
                 }
                 language: {
                     ReadAll: () => Promise<Language[]>,
