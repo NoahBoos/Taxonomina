@@ -24,4 +24,11 @@ export class GrammaticalCategory {
             name: this.name,
         }
     }
+
+    public static Hydrate(raw: any): GrammaticalCategory {
+        return new GrammaticalCategory(
+            raw.id,
+            raw.name
+        );
+    }
 }
