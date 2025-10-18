@@ -1,6 +1,7 @@
 import {LanguageUIBuilder} from "../../builders/LanguageUIBuilder";
 import {DictionaryUIBuilder} from "../../builders/DictionaryUIBuilder";
 import {GrammaticalCategoryUIBuilder} from "../../builders/GrammaticalCategoryUIBuilder";
+import {GrammaticalGenreUIBuilder} from "../../builders/GrammaticalGenreUIBuilder";
 
 async function Renderer() {
     console.log("[Renderer] - Renderer() called.");
@@ -13,6 +14,7 @@ async function Renderer() {
     })
 
     await GrammaticalCategoryUIBuilder.Initialize();
+    await GrammaticalGenreUIBuilder.Initialize();
 }
 
 console.log("[Renderer] - Loaded");
