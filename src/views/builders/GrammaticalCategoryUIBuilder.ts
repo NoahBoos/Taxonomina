@@ -4,13 +4,10 @@ import {GrammaticalCategoryService} from "../../utils/renderer/services/Grammati
 
 export class GrammaticalCategoryUIBuilder {
     public static isDrawerRevealed: boolean = false;
-    public static isProcessingDrawerButton: boolean = false;
 
     public static async Initialize() {
         const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#grammatical-category-drawer-button")!;
         drawerButton.addEventListener("click", async () => {
-            if (GrammaticalCategoryUIBuilder.isProcessingDrawerButton) return;
-            GrammaticalCategoryUIBuilder.isProcessingDrawerButton = true;
             GrammaticalCategoryUIBuilder.isDrawerRevealed = !GrammaticalCategoryUIBuilder.isDrawerRevealed;
             console.log("Is drawer revealed ? " + GrammaticalCategoryUIBuilder.isDrawerRevealed);
 
@@ -22,7 +19,6 @@ export class GrammaticalCategoryUIBuilder {
                 const rightLeaf: Element = document.querySelector("#right-leaf")!;
                 rightLeaf.replaceChildren();
             }
-            GrammaticalCategoryUIBuilder.isProcessingDrawerButton = false;
         });
     }
 
