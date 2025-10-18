@@ -12,10 +12,7 @@ async function Renderer() {
         LanguageUIBuilder.CreateAndHandleDrawer();
     })
 
-    const gramCatDrawerButton: HTMLButtonElement = document.getElementById("grammatical-category-drawer-button")! as HTMLButtonElement;
-    gramCatDrawerButton.addEventListener("click", (event: Event) => {
-        GrammaticalCategoryUIBuilder.Initialize();
-    })
+    await GrammaticalCategoryUIBuilder.Initialize();
 }
 
 console.log("[Renderer] - Loaded");
