@@ -127,7 +127,7 @@ export class GrammaticalGenreUIBuilder {
             if (success) {
                 rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await GrammaticalCategoryUIBuilder.UpdateSearchbar(drawer, query);
+                await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
             }
         });
         rightLeaf.appendChild(button);
