@@ -11,10 +11,11 @@ export class GrammaticalGenreService {
         return GrammaticalGenre.Hydrate(rawGramGenre);
     }
 
-    public static async Save(gramGenre: GrammaticalGenre): Promise<boolean> {
-        return gramGenre.GetId() == 0
+    public static async Save(gramGenre: GrammaticalGenre): Promise<[boolean, GrammaticalGenre | undefined]> {
+        let [success, savedGenre] = gramGenre.GetId() == 0
             ? await window.txnmAPI.repositories.grammaticalGenre.Create(gramGenre)
             : await window.txnmAPI.repositories.grammaticalGenre.Update(gramGenre);
+        return [success, GrammaticalGenre.Hydrate(savedGenre)];
     }
 
     public static async Delete(gramGenre: GrammaticalGenre): Promise<boolean> {

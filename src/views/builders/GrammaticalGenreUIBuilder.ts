@@ -1,4 +1,3 @@
-import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
 import {TemplateManager} from "../../utils/renderer/TemplateManager";
 import {GrammaticalGenre} from "../../database/models/GrammaticalGenre";
 import {GrammaticalGenreService} from "../../utils/renderer/services/GrammaticalGenreService";
@@ -93,14 +92,14 @@ export class GrammaticalGenreUIBuilder {
         submitButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
 
-            let gramGenre: GrammaticalGenre = new GrammaticalGenre(parseInt(inputId.value), inputName.value);
-            let success: boolean = await GrammaticalGenreService.Save(gramGenre);
-            if (success) {
+            const gramGenre: GrammaticalGenre | undefined = new GrammaticalGenre(parseInt(inputId.value), inputName.value);
+            const [success, savedGenre] = await GrammaticalGenreService.Save(gramGenre);
+            if (success && savedGenre) {
                 rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await GrammaticalGenreUIBuilder.List(drawer);
                 await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
-                await GrammaticalGenreUIBuilder.Form(drawer, gramGenre ? gramGenre : undefined);
+                await GrammaticalGenreUIBuilder.Form(drawer, savedGenre ? savedGenre : undefined);
             }
         });
 

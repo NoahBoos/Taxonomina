@@ -20,23 +20,27 @@ export class GrammaticalGenreRepository {
         return statement.get({id: id}) as GrammaticalGenre;
     }
 
-    public static Create(genre: GrammaticalGenre): boolean {
+    public static Create(genre: GrammaticalGenre): [boolean, GrammaticalGenre | undefined] {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO grammatical_genres (name)
             VALUES (@name)
         `);
         const result: RunResult = statement.run(genre.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetName())];
+        } else return [false, undefined];
     }
 
-    public static Update(genre: GrammaticalGenre): boolean {
+    public static Update(genre: GrammaticalGenre): [boolean, GrammaticalGenre | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE grammatical_genres
             SET name = @name
             WHERE id = @id
         `);
         const result: RunResult = statement.run(genre.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetName())];
+        } else return [false, undefined];
     }
 
     public static Delete(genre: GrammaticalGenre): boolean {
