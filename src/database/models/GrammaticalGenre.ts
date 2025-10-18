@@ -24,4 +24,11 @@ export class GrammaticalGenre {
             name: this.name,
         }
     }
+
+    public static Hydrate(raw: any): GrammaticalGenre {
+        return new GrammaticalGenre(
+            raw.id,
+            raw.name,
+        );
+    }
 }
