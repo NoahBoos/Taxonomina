@@ -3,6 +3,7 @@ import {Language} from "../../../database/models/Language";
 import {TaxonominaSettings} from "../../../interfaces/I_TaxonominaSettings";
 import {Dictionary} from "../../../database/models/Dictionary";
 import {GrammaticalCategory} from "../../../database/models/GrammaticalCategory";
+import {GrammaticalGenre} from "../../../database/models/GrammaticalGenre";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -27,6 +28,13 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             Create: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:create", rawGramCat),
             Update: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:update", rawGramCat),
             Delete: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:delete", rawGramCat),
+        },
+        grammaticalGenre: {
+            ReadAll: (): Promise<GrammaticalGenre[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:readAll"),
+            ReadOne: (gramGenreId: number) => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:readOne", gramGenreId),
+            Create: (rawGramGenre: GrammaticalGenre): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:create", rawGramGenre),
+            Update: (rawGramGenre: GrammaticalGenre): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:update", rawGramGenre),
+            Delete: (rawGramGenre: GrammaticalGenre): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:delete", rawGramGenre),
         },
         language: {
             ReadAll: (): Promise<Language[]> => ipcRenderer.invoke("txnmAPI:repositories:language:readAll"),

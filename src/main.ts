@@ -11,6 +11,8 @@ import {SettingManager} from "./utils/main/SettingManager";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
 import {GrammaticalCategory} from "./database/models/GrammaticalCategory";
 import {GrammaticalCategoryRepository} from "./database/repositories/GrammaticalCategoryRepository";
+import {GrammaticalGenreRepository} from "./database/repositories/GrammaticalGenreRepository";
+import {GrammaticalGenre} from "./database/models/GrammaticalGenre";
 
 export let settings: TaxonominaSettings;
 async function InitializeSetting() {
@@ -113,6 +115,29 @@ ipcMain.handle("txnmAPI:repositories:grammaticalCategory:update", (event, rawGra
 ipcMain.handle("txnmAPI:repositories:grammaticalCategory:delete", (event, rawGramCat: GrammaticalCategory) => {
     const gramCat: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGramCat)
     return GrammaticalCategoryRepository.Delete(gramCat);
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAll", (): GrammaticalGenre[] => {
+    return GrammaticalGenreRepository.ReadAll();
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readOne", (event, gramGenreId: number) => {
+    return GrammaticalGenreRepository.ReadOne(gramGenreId);
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalGenre:create", (event, rawGramGenre: GrammaticalGenre) => {
+    const gramGenre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGramGenre)
+    return GrammaticalGenreRepository.Create(gramGenre);
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalGenre:update", (event, rawGramGenre: GrammaticalGenre) => {
+    const gramGenre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGramGenre)
+    return GrammaticalGenreRepository.Update(gramGenre);
+});
+
+ipcMain.handle("txnmAPI:repositories:grammaticalGenre:delete", (event, rawGramGenre: GrammaticalGenre) => {
+    const gramGenre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGramGenre)
+    return GrammaticalGenreRepository.Delete(gramGenre);
 });
 
 ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {
