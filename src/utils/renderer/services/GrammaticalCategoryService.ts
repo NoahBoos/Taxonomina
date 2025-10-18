@@ -11,10 +11,11 @@ export class GrammaticalCategoryService {
         return GrammaticalCategory.Hydrate(rawGramCat);
     }
 
-    public static async Save(gramCat: GrammaticalCategory): Promise<boolean> {
-        return gramCat.GetId() == 0
+    public static async Save(gramCat: GrammaticalCategory): Promise<[boolean, GrammaticalCategory | undefined]> {
+        let [success, savedGramCat] = gramCat.GetId() == 0
             ? await window.txnmAPI.repositories.grammaticalCategory.Create(gramCat)
             : await window.txnmAPI.repositories.grammaticalCategory.Update(gramCat);
+        return [success, GrammaticalCategory.Hydrate(savedGramCat)];
     }
 
     public static async Delete(gramCat: GrammaticalCategory): Promise<boolean> {

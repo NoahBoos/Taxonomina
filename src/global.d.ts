@@ -28,8 +28,8 @@ declare global {
                 grammaticalCategory: {
                     ReadAll: () => Promise<GrammaticalCategory[]>,
                     ReadOne: (grammaticalCategoryId) => Promise<GrammaticalCategory>,
-                    Create: (rawGramCat: GrammaticalCategory) => Promise<boolean>,
-                    Update: (rawGramCat: GrammaticalCategory) => Promise<boolean>,
+                    Create: (rawGramCat: GrammaticalCategory) => Promise<[boolean, GrammaticalCategory | undefined]>,
+                    Update: (rawGramCat: GrammaticalCategory) => Promise<[boolean, GrammaticalCategory | undefined]>,
                     Delete: (rawGramCat: GrammaticalCategory) => Promise<boolean>,
                 },
                 grammaticalGenre: {

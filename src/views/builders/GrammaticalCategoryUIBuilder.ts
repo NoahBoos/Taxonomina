@@ -94,13 +94,13 @@ export class GrammaticalCategoryUIBuilder {
             event.preventDefault();
 
             let gramCat: GrammaticalCategory = new GrammaticalCategory(parseInt(inputId.value), inputName.value);
-            let success: boolean = await GrammaticalCategoryService.Save(gramCat);
-            if (success) {
+            let [success, savedGramCat]: [boolean, GrammaticalCategory | undefined] = await GrammaticalCategoryService.Save(gramCat);
+            if (success && savedGramCat) {
                 rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await GrammaticalCategoryUIBuilder.List(drawer);
                 await GrammaticalCategoryUIBuilder.UpdateSearchbar(drawer, query)
-                await GrammaticalCategoryUIBuilder.Form(drawer, gramCat ? gramCat : undefined);
+                await GrammaticalCategoryUIBuilder.Form(drawer, savedGramCat ? savedGramCat : undefined);
             }
         });
 

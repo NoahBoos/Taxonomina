@@ -25,8 +25,8 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         grammaticalCategory: {
             ReadAll: (): Promise<GrammaticalCategory[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readAll"),
             ReadOne: (gramCatId: number) => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readOne", gramCatId),
-            Create: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:create", rawGramCat),
-            Update: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:update", rawGramCat),
+            Create: (rawGramCat: GrammaticalCategory): Promise<[boolean, GrammaticalCategory | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:create", rawGramCat),
+            Update: (rawGramCat: GrammaticalCategory): Promise<[boolean, GrammaticalCategory | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:update", rawGramCat),
             Delete: (rawGramCat: GrammaticalCategory): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:delete", rawGramCat),
         },
         grammaticalGenre: {

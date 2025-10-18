@@ -20,23 +20,27 @@ export class GrammaticalCategoryRepository {
         return statement.get({id: id}) as GrammaticalCategory ?? undefined;
     }
 
-    public static Create(category: GrammaticalCategory): boolean {
+    public static Create(category: GrammaticalCategory): [boolean, GrammaticalCategory | undefined] {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO grammatical_categories (name)
             VALUES (@name)
         `);
         const result: RunResult = statement.run(category.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new GrammaticalCategory(Number(result.lastInsertRowid), category.GetName())];
+        } else return [false, undefined];
     }
 
-    public static Update(category: GrammaticalCategory): boolean {
+    public static Update(category: GrammaticalCategory): [boolean, GrammaticalCategory | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE grammatical_categories
             SET name = @name
             WHERE id = @id
         `);
         const result: RunResult = statement.run(category.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new GrammaticalCategory(Number(result.lastInsertRowid), category.GetName())];
+        } else return [false, undefined];
     }
 
     public static Delete(category: GrammaticalCategory): boolean {
