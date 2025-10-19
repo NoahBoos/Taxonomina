@@ -29,14 +29,14 @@ export class GrammaticalGenreUIBuilder {
         if (!drawer) {
             return;
         } else {
-            await GrammaticalGenreUIBuilder.Searchbar(drawer, gramGenres);
+            await GrammaticalGenreUIBuilder.Searchbar(drawer);
             await GrammaticalGenreUIBuilder.CreateButton(drawer);
             await GrammaticalGenreUIBuilder.List(drawer, gramGenres);
             leftLeaf.appendChild(drawer);
         }
     }
 
-    public static async Searchbar(drawer: Element, gramGenres: GrammaticalGenre[]) {
+    public static async Searchbar(drawer: Element) {
         const searchbar: HTMLInputElement = drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
            const query: string = searchbar.value.toLowerCase();

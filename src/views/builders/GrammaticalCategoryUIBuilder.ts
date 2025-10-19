@@ -30,14 +30,14 @@ export class GrammaticalCategoryUIBuilder {
         if (!drawer) {
             return;
         } else {
-            await GrammaticalCategoryUIBuilder.Searchbar(drawer, gramCats);
+            await GrammaticalCategoryUIBuilder.Searchbar(drawer);
             await GrammaticalCategoryUIBuilder.CreateButton(drawer);
             await GrammaticalCategoryUIBuilder.List(drawer, gramCats);
             leftLeaf.appendChild(drawer);
         }
     }
 
-    public static async Searchbar(drawer: Element, gramCats: GrammaticalCategory[]) {
+    public static async Searchbar(drawer: Element) {
         const searchbar: HTMLInputElement = drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
            const query: string = searchbar.value.toLowerCase();
