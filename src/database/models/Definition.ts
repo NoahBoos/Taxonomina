@@ -24,4 +24,11 @@ export class Definition {
             definition: this.definition
         }
     }
+
+    public static Hydrate(raw: any): Definition {
+        return new Definition(
+            raw.id,
+            raw.definition
+        )
+    }
 }
