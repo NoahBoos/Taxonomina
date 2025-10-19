@@ -74,13 +74,10 @@ export class Database {
                 dictionary_id INTEGER NOT NULL,
                 language_id INTEGER,
                 lemma VARCHAR NOT NULL,
-                grammatical_category_id INTEGER,
                 FOREIGN KEY (dictionary_id) REFERENCES dictionaries(id)
                     ON UPDATE CASCADE ON DELETE CASCADE,
                 FOREIGN KEY (language_id) REFERENCES languages(id)
-                    ON UPDATE SET NULL ON DELETE SET NULL,
-                FOREIGN KEY (grammatical_category_id) REFERENCES grammatical_categories(id)
-                    ON UPDATE CASCADE ON DELETE SET NULL
+                    ON UPDATE SET NULL ON DELETE SET NULL
             );
             
             CREATE TABLE IF NOT EXISTS entry_definition (
@@ -101,6 +98,16 @@ export class Database {
                 FOREIGN KEY (first_entry_id) REFERENCES entries(id)
                     ON UPDATE CASCADE ON DELETE CASCADE,
                 FOREIGN KEY (second_entry_id) REFERENCES entries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
+            );
+            
+            CREATE TABLE IF NOT EXISTS entry_grammatical_category (
+                entry_id INTEGER NOT NULL,
+                grammatical_category_id INTEGER NOT NULL,
+                PRIMARY KEY(entry_id, grammatical_category_id),
+                FOREIGN KEY (entry_id) REFERENCES entries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (grammatical_category_id) REFERENCES grammatical_category(id)
                     ON UPDATE CASCADE ON DELETE CASCADE
             );
             
