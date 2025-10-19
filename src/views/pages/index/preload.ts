@@ -4,6 +4,7 @@ import {TaxonominaSettings} from "../../../interfaces/I_TaxonominaSettings";
 import {Dictionary} from "../../../database/models/Dictionary";
 import {GrammaticalCategory} from "../../../database/models/GrammaticalCategory";
 import {GrammaticalGenre} from "../../../database/models/GrammaticalGenre";
+import {Definition} from "../../../database/models/Definition";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -14,6 +15,13 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         Update: (key: keyof TaxonominaSettings, value: any): Promise<any> => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
     },
     repositories: {
+        definition: {
+            ReadAll: (): Promise<Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),
+            ReadOne: (definitionId: number) => ipcRenderer.invoke("txnmAPI:repositories:definition:readOne", definitionId),
+            Create: (rawDefinition: Definition): Promise<[boolean, Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:create", rawDefinition),
+            Update: (rawDefinition: Definition): Promise<[boolean, Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:update", rawDefinition),
+            Delete: (rawDefinition: Definition): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:delete", rawDefinition),
+        },
         dictionary: {
             ReadAll: (): Promise<Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAll"),
             ReadAllButOne: (rawDictionary: Dictionary): Promise<Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAllButOne", rawDictionary),

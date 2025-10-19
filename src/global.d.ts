@@ -3,6 +3,7 @@ import {Dictionary} from "./database/models/Dictionary";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
 import {GrammaticalCategory} from "./database/models/GrammaticalCategory";
 import {GrammaticalGenre} from "./database/models/GrammaticalGenre";
+import {Definition} from "./database/models/Definition";
 
 export {};
 
@@ -17,6 +18,13 @@ declare global {
                 Update: (key: keyof TaxonominaSettings, value: any) => Promise<void>,
             }
             repositories: {
+                definition: {
+                    ReadAll: () => Promise<Definition[]>,
+                    ReadOne: (definition) => Promise<Definition>,
+                    Create: (rawDefinition: Definition) => Promise<[boolean, Definition | undefined]>,
+                    Update: (rawDefinition: Definition) => Promise<[boolean, Definition | undefined]>,
+                    Delete: (rawDefinition: Definition) => Promise<boolean>,
+                },
                 dictionary: {
                     ReadAll: () => Promise<Dictionary[]>,
                     ReadAllButOne: (rawDictionary) => Promise<Dictionary[]>,
