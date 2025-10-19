@@ -107,7 +107,7 @@ export class Database {
                 PRIMARY KEY(entry_id, grammatical_category_id),
                 FOREIGN KEY (entry_id) REFERENCES entries(id)
                     ON UPDATE CASCADE ON DELETE CASCADE,
-                FOREIGN KEY (grammatical_category_id) REFERENCES grammatical_category(id)
+                FOREIGN KEY (grammatical_category_id) REFERENCES grammatical_categories(id)
                     ON UPDATE CASCADE ON DELETE CASCADE
             );
             
