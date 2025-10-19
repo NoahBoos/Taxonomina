@@ -22,8 +22,8 @@ export class EntryRepository {
 
     public static Create(entry: Entry): boolean {
         const statement = Database.GetDatabase().prepare(`
-            INSERT INTO entries (dictionary_id, language_id, grammatical_category_id, lemma)
-            VALUES (@dictionary_id, @language_id, @grammatical_category_id, @lemma)
+            INSERT INTO entries (dictionary_id, language_id, lemma)
+            VALUES (@dictionary_id, @language_id, @lemma)
         `);
         const result: RunResult = statement.run(entry.GetQueryObject());
         return result.changes > 0;
@@ -34,7 +34,6 @@ export class EntryRepository {
             UPDATE entries
             SET dictionary_id = @dictionary_id,
                 language_id = @language_id,
-                grammatical_category_id = @grammatical_category_id,
                 lemma = @lemma
             WHERE id = @id
         `);
