@@ -1,0 +1,63 @@
+<form id="dictionary-entry-form">
+    <!-- Section Lemme -->
+    <fieldset>
+        <legend>Lemme</legend>
+        <label for="lemma">Lemme</label>
+        <input type="text" id="lemma" name="lemma">
+
+        <label for="language">Langue</label>
+        <select id="language" name="language">
+            <template>
+                <option value=""></option>
+            </template>
+            <option value="default">-- Sélectionnez une langue --</option>
+        </select>
+
+        <fieldset id="grammatical-categories">
+            <legend>Catégories grammaticales</legend>
+            <template id="template-gramCat-checkbox">
+                <label><input type="checkbox" name="gramCats" value=""></label>
+            </template>
+        </fieldset>
+
+        <fieldset id="grammatical-genres">
+            <legend>Genres grammaticaux</legend>
+            <template id="template-genre-checkbox">
+                <label><input type="checkbox" name="gramCats" value=""></label>
+            </template>
+        </fieldset>
+    </fieldset>
+
+    <!-- Section Traductions -->
+<!--    <fieldset id="translations-section">-->
+<!--        <legend>Traductions</legend>-->
+
+<!--        <div class="translation-item">-->
+<!--            <input type="text" name="translations[]" placeholder="Ajouter une traduction">-->
+<!--            &lt;!&ndash; Ici tu peux intégrer la barre de recherche et affichage de tags via JS &ndash;&gt;-->
+<!--        </div>-->
+
+<!--        <button type="button" id="add-translation">Ajouter une traduction</button>-->
+<!--    </fieldset>-->
+
+    <!-- Section Définitions -->
+<!--    <fieldset id="definitions-section">-->
+<!--        <legend>Définitions</legend>-->
+
+<!--        <div class="definition-item">-->
+<!--            <label>Définition :-->
+<!--                <textarea name="definitions[0][text]" rows="3"></textarea>-->
+<!--            </label>-->
+
+<!--            <fieldset>-->
+<!--                <legend>Références aux traductions</legend>-->
+<!--                &lt;!&ndash; Ici tu peux générer dynamiquement les checkboxes pour chaque traduction existante &ndash;&gt;-->
+<!--                <label><input type="checkbox" name="definitions[0][translations][]" value="0"> Pomme</label>-->
+<!--            </fieldset>-->
+<!--        </div>-->
+
+<!--        <button type="button" id="add-definition">Ajouter une définition</button>-->
+<!--    </fieldset>-->
+
+    <button type="submit" id="submit"></button>
+</form>
