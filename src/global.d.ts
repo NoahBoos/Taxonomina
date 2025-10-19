@@ -4,6 +4,7 @@ import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
 import {GrammaticalCategory} from "./database/models/GrammaticalCategory";
 import {GrammaticalGenre} from "./database/models/GrammaticalGenre";
 import {Definition} from "./database/models/Definition";
+import {Entry} from "./database/models/Entry";
 
 export {};
 
@@ -32,6 +33,13 @@ declare global {
                     Create: (rawDictionary: Dictionary) => Promise<boolean>
                     Update: (rawDictionary: Dictionary) => Promise<boolean>,
                     Delete: (rawDictionary: Dictionary) => Promise<boolean>,
+                },
+                entry: {
+                    ReadAll: () => Promise<Entry[]>,
+                    ReadOne: (entry) => Promise<Entry>,
+                    Create: (rawEntry: Entry) => Promise<[boolean, Entry | undefined]>,
+                    Update: (rawEntry: Entry) => Promise<[boolean, Entry | undefined]>,
+                    Delete: (rawEntry: Entry) => Promise<boolean>,
                 },
                 grammaticalCategory: {
                     ReadAll: () => Promise<GrammaticalCategory[]>,

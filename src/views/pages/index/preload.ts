@@ -5,6 +5,7 @@ import {Dictionary} from "../../../database/models/Dictionary";
 import {GrammaticalCategory} from "../../../database/models/GrammaticalCategory";
 import {GrammaticalGenre} from "../../../database/models/GrammaticalGenre";
 import {Definition} from "../../../database/models/Definition";
+import {Entry} from "../../../database/models/Entry";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -29,6 +30,13 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             Create: (rawDictionary: Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", rawDictionary),
             Update: (rawDictionary: Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:update", rawDictionary),
             Delete: (rawDictionary: Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:delete", rawDictionary),
+        },
+        entry: {
+            ReadAll: (): Promise<Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAll"),
+            ReadOne: (entryId: number) => ipcRenderer.invoke("txnmAPI:repositories:entry:readOne", entryId),
+            Create: (rawEntry: Entry): Promise<[boolean, Entry | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:entry:create", rawEntry),
+            Update: (rawEntry: Entry): Promise<[boolean, Entry | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:entry:update", rawEntry),
+            Delete: (rawEntry: Entry): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:entry:delete", rawEntry),
         },
         grammaticalCategory: {
             ReadAll: (): Promise<GrammaticalCategory[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readAll"),

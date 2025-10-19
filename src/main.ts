@@ -15,6 +15,8 @@ import {GrammaticalGenreRepository} from "./database/repositories/GrammaticalGen
 import {GrammaticalGenre} from "./database/models/GrammaticalGenre";
 import {Definition} from "./database/models/Definition";
 import {DefinitionRepository} from "./database/repositories/DefinitionRepository";
+import {Entry} from "./database/models/Entry";
+import {EntryRepository} from "./database/repositories/EntryRepository";
 
 export let settings: TaxonominaSettings;
 async function InitializeSetting() {
@@ -117,6 +119,29 @@ ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, rawDictionary: 
 ipcMain.handle("txnmAPI:repositories:dictionary:delete", (event, rawDictionary: Dictionary) => {
     const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
     return DictionaryRepository.Delete(dictionary);
+});
+
+ipcMain.handle("txnmAPI:repositories:entry:readAll", (): Entry[] => {
+    return EntryRepository.ReadAll();
+});
+
+ipcMain.handle("txnmAPI:repositories:entry:readOne", (event, entryId: number) => {
+    return EntryRepository.ReadOne(entryId);
+});
+
+ipcMain.handle("txnmAPI:repositories:entry:create", (event, rawEntry: Entry) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    return EntryRepository.Create(entry);
+});
+
+ipcMain.handle("txnmAPI:repositories:entry:update", (event, rawEntry: Entry) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    return EntryRepository.Update(entry);
+});
+
+ipcMain.handle("txnmAPI:repositories:entry:delete", (event, rawEntry: Entry) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    return EntryRepository.Delete(entry);
 });
 
 ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAll", (): GrammaticalCategory[] => {
