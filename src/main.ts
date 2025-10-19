@@ -148,6 +148,11 @@ ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAll", (): Grammatic
     return GrammaticalCategoryRepository.ReadAll();
 });
 
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAllByEntry", (event, rawEntry: Entry): GrammaticalCategory[] => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    return GrammaticalCategoryRepository.ReadAllByEntry(entry);
+});
+
 ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readOne", (event, gramCatId: number) => {
     return GrammaticalCategoryRepository.ReadOne(gramCatId);
 });

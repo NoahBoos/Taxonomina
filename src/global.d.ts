@@ -43,6 +43,7 @@ declare global {
                 },
                 grammaticalCategory: {
                     ReadAll: () => Promise<GrammaticalCategory[]>,
+                    ReadAllByEntry: (rawEntry: Entry) => Promise<GrammaticalCategory[]>,
                     ReadOne: (grammaticalCategoryId) => Promise<GrammaticalCategory>,
                     Create: (rawGramCat: GrammaticalCategory) => Promise<[boolean, GrammaticalCategory | undefined]>,
                     Update: (rawGramCat: GrammaticalCategory) => Promise<[boolean, GrammaticalCategory | undefined]>,

@@ -1,6 +1,7 @@
 import {GrammaticalCategory} from "../models/GrammaticalCategory";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
+import {Entry} from "../models/Entry";
 
 export class GrammaticalCategoryRepository {
     public static ReadAll(): GrammaticalCategory[] {
@@ -9,6 +10,17 @@ export class GrammaticalCategoryRepository {
             FROM grammatical_categories
         `);
         return statement.all() as GrammaticalCategory[];
+    }
+
+    public static ReadAllByEntry(entry: Entry): GrammaticalCategory[] {
+        const statement = Database.GetDatabase().prepare(`
+            SELECT gramCat.*
+            FROM grammatical_categories AS gramCat
+            JOIN entry_grammatical_category AS entry_gramCat
+                ON gramCat.id = entry_gramCat.grammatical_category_id
+            WHERE entry_gramCat.entry_id = @id
+        `);
+        return statement.all(entry.GetQueryObject()) as GrammaticalCategory[];
     }
 
     public static ReadOne(id: number): GrammaticalCategory | undefined {

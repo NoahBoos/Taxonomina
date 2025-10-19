@@ -40,6 +40,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         },
         grammaticalCategory: {
             ReadAll: (): Promise<GrammaticalCategory[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readAll"),
+            ReadAllByEntry: (rawEntry: Entry): Promise<GrammaticalCategory[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readAllByEntry", rawEntry),
             ReadOne: (gramCatId: number) => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:readOne", gramCatId),
             Create: (rawGramCat: GrammaticalCategory): Promise<[boolean, GrammaticalCategory | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:create", rawGramCat),
             Update: (rawGramCat: GrammaticalCategory): Promise<[boolean, GrammaticalCategory | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalCategory:update", rawGramCat),
