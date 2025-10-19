@@ -11,6 +11,17 @@ export class EntryRepository {
         return statement.all() as Entry[];
     }
 
+    public static ReadAllByGlobalTranslation(entry: Entry): Entry[] {
+        const statement = Database.GetDatabase().prepare(`
+            SELECT entry.*
+            FROM entries as entry
+            JOIN entry_entry as ee
+                ON (entry.id = ee.first_entry_id AND ee.second_entry_id = @id)
+                OR (entry.id = ee.second_entry_id AND ee.first_entry_id = @id)
+        `);
+        return statement.all(entry.GetQueryObject()) as Entry[];
+    }
+
     public static ReadOne(id: number): Entry | undefined {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
