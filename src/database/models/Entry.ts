@@ -51,4 +51,14 @@ export class Entry {
             lemma: this.lemma,
         }
     }
+
+    public static Hydrate(raw: any) {
+        return new Entry(
+            raw.id,
+            raw.dictionary_id,
+            raw.language_id,
+            raw.grammatical_category_id,
+            raw.lemma,
+        );
+    }
 }
