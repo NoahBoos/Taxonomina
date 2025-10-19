@@ -1,6 +1,7 @@
 import {GrammaticalGenre} from "../models/GrammaticalGenre";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
+import {Entry} from "../models/Entry";
 
 export class GrammaticalGenreRepository {
     public static ReadAll(): GrammaticalGenre[] {
@@ -9,6 +10,17 @@ export class GrammaticalGenreRepository {
             FROM grammatical_genres
         `);
         return statement.all() as GrammaticalGenre[];
+    }
+
+    public static ReadAllByEntry(entry: Entry): GrammaticalGenre[] {
+        const statement = Database.GetDatabase().prepare(`
+            SELECT gramGenre.*
+            FROM grammatical_genres AS gramGenre
+            JOIN  entry_grammatical_genre AS entry_gramGenre
+                ON gramGenre.id = entry_gramGenre.grammatical_genre_id
+            WHERE entry_gramGenre.entry_id = @id
+        `);
+        return statement.all(entry.GetQueryObject()) as GrammaticalGenre[];
     }
 
     public static ReadOne(id: number): GrammaticalGenre | undefined {

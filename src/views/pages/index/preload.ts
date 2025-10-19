@@ -48,6 +48,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         },
         grammaticalGenre: {
             ReadAll: (): Promise<GrammaticalGenre[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:readAll"),
+            ReadAllByEntry: (rawEntry: Entry): Promise<GrammaticalGenre[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:readAllByEntry", rawEntry),
             ReadOne: (gramGenreId: number) => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:readOne", gramGenreId),
             Create: (rawGramGenre: GrammaticalGenre): Promise<[boolean, GrammaticalGenre | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:create", rawGramGenre),
             Update: (rawGramGenre: GrammaticalGenre): Promise<[boolean, GrammaticalGenre | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:update", rawGramGenre),

@@ -1,9 +1,15 @@
 import {GrammaticalGenre} from "../../../database/models/GrammaticalGenre";
+import {Entry} from "../../../database/models/Entry";
 
 export class GrammaticalGenreService {
     public static async ReadAll(): Promise<GrammaticalGenre[]> {
         const rawGramGenres: GrammaticalGenre[] = await window.txnmAPI.repositories.grammaticalGenre.ReadAll();
         return rawGramGenres.map((rawGramGenre: GrammaticalGenre): GrammaticalGenre => GrammaticalGenre.Hydrate(rawGramGenre));
+    }
+
+    public static async ReadAllByEntry(entry: Entry): Promise<GrammaticalGenre[]> {
+        const rawGramGenres: GrammaticalGenre[] = await window.txnmAPI.repositories.grammaticalGenre.ReadAllByEntry(entry);
+        return rawGramGenres.map((rawGramCat: GrammaticalGenre): GrammaticalGenre => GrammaticalGenre.Hydrate(rawGramCat));
     }
 
     public static async ReadOne(gramGenreId: number): Promise<GrammaticalGenre> {

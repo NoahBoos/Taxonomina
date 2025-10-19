@@ -51,6 +51,7 @@ declare global {
                 },
                 grammaticalGenre: {
                     ReadAll: () => Promise<GrammaticalGenre[]>,
+                    ReadAllByEntry: (rawEntry: Entry) => Promise<GrammaticalGenre[]>,
                     ReadOne: (gramGenreId) => Promise<GrammaticalGenre>,
                     Create: (rawGramGenre: GrammaticalGenre) => Promise<[boolean, GrammaticalGenre | undefined]>,
                     Update: (rawGramGenre: GrammaticalGenre) => Promise<[boolean, GrammaticalGenre | undefined]>,
