@@ -124,6 +124,16 @@ export class Database {
                 name VARCHAR NOT NULL
             );
             
+            CREATE TABLE IF NOT EXISTS entry_grammatical_genre (
+                entry_id INTEGER NOT NULL,
+                grammatical_genre_id INTEGER NOT NULL,
+                PRIMARY KEY(entry_id, grammatical_genre_id),
+                FOREIGN KEY (entry_id) REFERENCES entries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (grammatical_genre_id) REFERENCES grammatical_genres(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
+            );
+            
             CREATE TABLE IF NOT EXISTS inflection_grammatical_genre (
                 inflection_id INTEGER NOT NULL,
                 grammatical_genre_id INTEGER NOT NULL,
