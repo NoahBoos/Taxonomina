@@ -15,9 +15,9 @@ export class GrammaticalCaseRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_cases
-            WHERE id = @id
+            WHERE id = @grammatical_case_id
         `);
-        return statement.get({id: id}) as GrammaticalCase ?? undefined;
+        return statement.get({grammatical_case_id: id}) as GrammaticalCase ?? undefined;
     }
 
     public static Create(gramCase: GrammaticalCase): boolean {
@@ -33,7 +33,7 @@ export class GrammaticalCaseRepository {
         const statement = Database.GetDatabase().prepare(`
             UPDATE grammatical_cases
             SET name = @name
-            WHERE id = @id
+            WHERE id = @grammatical_case_id
         `);
         const result: RunResult = statement.run(gramCase.GetQueryObject());
         return result.changes > 0;
@@ -43,7 +43,7 @@ export class GrammaticalCaseRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE
             FROM grammatical_cases
-            WHERE id = @id
+            WHERE id = @grammatical_case_id
         `);
         const result: RunResult = statement.run(gramCase.GetQueryObject());
         return result.changes > 0;

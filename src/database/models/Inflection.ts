@@ -26,7 +26,7 @@ export class Inflection {
 
     public GetQueryObject() {
         return {
-            id: this.id,
+            inflection_id: this.id,
             entry_id: this.entry_id,
             inflection: this.inflection,
         }

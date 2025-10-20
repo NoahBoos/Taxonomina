@@ -15,9 +15,9 @@ export class LanguageRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM languages
-            WHERE id = @id
+            WHERE id = @language_id
         `);
-        return statement.get({id: id}) as Language ?? undefined;
+        return statement.get({language_id: id}) as Language ?? undefined;
     }
 
     public static Create(language: Language): boolean {
@@ -38,7 +38,7 @@ export class LanguageRepository {
                 name_native = @name_native,
                 name_local = @name_local, 
                 direction = @direction
-            WHERE id = @id
+            WHERE id = @language_id
         `);
         const result: RunResult = statement.run(language.GetQueryObject());
         return result.changes > 0;
@@ -48,7 +48,7 @@ export class LanguageRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE
             FROM languages
-            WHERE id = @id
+            WHERE id = @language_id
         `)
         const result: RunResult = statement.run(language.GetQueryObject());
         return result.changes > 0;

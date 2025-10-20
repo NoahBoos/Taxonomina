@@ -35,7 +35,7 @@ export class Entry {
 
     public GetQueryObject() {
         return {
-            id: this.id,
+            entry_id: this.id,
             dictionary_id: this.dictionary_id,
             language_id: this.language_id,
             lemma: this.lemma,

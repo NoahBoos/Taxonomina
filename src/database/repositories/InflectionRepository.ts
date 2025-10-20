@@ -15,9 +15,9 @@ export class InflectionRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM inflections
-            WHERE id = @id
+            WHERE id = @inflection_id
         `);
-        return statement.get({id: id}) as Inflection ?? undefined;
+        return statement.get({inflection_id: id}) as Inflection ?? undefined;
     }
 
     public static Create(inflection: Inflection): boolean {
@@ -34,7 +34,7 @@ export class InflectionRepository {
             UPDATE inflections
             SET entry_id = @entry_id,
                 inflection = @inflection
-            WHERE id = @id
+            WHERE id = @inflection_id
         `);
         const result: RunResult = statement.run(inflection.GetQueryObject());
         return result.changes > 0;
@@ -44,7 +44,7 @@ export class InflectionRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE
             FROM inflections
-            WHERE id = @id
+            WHERE id = @inflection_id
         `);
         const result: RunResult = statement.run(inflection.GetQueryObject());
         return result.changes > 0;

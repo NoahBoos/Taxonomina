@@ -18,7 +18,7 @@ export class GrammaticalCategoryRepository {
             FROM grammatical_categories AS gramCat
             JOIN entry_grammatical_category AS entry_gramCat
                 ON gramCat.id = entry_gramCat.grammatical_category_id
-            WHERE entry_gramCat.entry_id = @id
+            WHERE entry_gramCat.entry_id = @entry_id
         `);
         return statement.all(entry.GetQueryObject()) as GrammaticalCategory[];
     }
@@ -27,9 +27,9 @@ export class GrammaticalCategoryRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_categories
-            WHERE id = @id
+            WHERE id = @grammatical_category_id
         `);
-        return statement.get({id: id}) as GrammaticalCategory ?? undefined;
+        return statement.get({grammatical_category_id: id}) as GrammaticalCategory ?? undefined;
     }
 
     public static Create(category: GrammaticalCategory): [boolean, GrammaticalCategory | undefined] {
@@ -47,7 +47,7 @@ export class GrammaticalCategoryRepository {
         const statement = Database.GetDatabase().prepare(`
             UPDATE grammatical_categories
             SET name = @name
-            WHERE id = @id
+            WHERE id = @grammatical_category_id
         `);
         const result: RunResult = statement.run(category.GetQueryObject());
         if (result.changes > 0) {
@@ -59,7 +59,7 @@ export class GrammaticalCategoryRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE
             FROM grammatical_categories
-            WHERE id = @id
+            WHERE id = @grammatical_category_id
         `);
         const result: RunResult = statement.run(category.GetQueryObject());
         return result.changes > 0;

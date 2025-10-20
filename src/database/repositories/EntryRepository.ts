@@ -17,8 +17,8 @@ export class EntryRepository {
             SELECT entry.*
             FROM entries as entry
             JOIN entry_entry as ee
-                ON (entry.id = ee.first_entry_id AND ee.second_entry_id = @id)
-                OR (entry.id = ee.second_entry_id AND ee.first_entry_id = @id)
+                ON (entry.id = ee.first_entry_id AND ee.second_entry_id = @entry_id)
+                OR (entry.id = ee.second_entry_id AND ee.first_entry_id = @entry_id)
         `);
         return statement.all(entry.GetQueryObject()) as Entry[];
     }
@@ -28,7 +28,7 @@ export class EntryRepository {
             SELECT entry.*
             FROM entries AS entry
             JOIN entry_definition AS ed
-                ON definition_id = @id
+                ON definition_id = @definition_id
         `);
         return statement.all(definition.GetQueryObject()) as Entry[];
     }
@@ -37,9 +37,9 @@ export class EntryRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM entries
-            WHERE id = @id
+            WHERE id = @entry_id
         `);
-        return statement.get({id: id}) as Entry ?? undefined;
+        return statement.get({entry_id: id}) as Entry ?? undefined;
     }
 
     public static Create(entry: Entry): boolean {
@@ -57,7 +57,7 @@ export class EntryRepository {
             SET dictionary_id = @dictionary_id,
                 language_id = @language_id,
                 lemma = @lemma
-            WHERE id = @id
+            WHERE id = @entry_id
         `);
         const result: RunResult = statement.run(entry.GetQueryObject());
         return result.changes > 0;
@@ -67,7 +67,7 @@ export class EntryRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE
             FROM entries
-            WHERE id = @id
+            WHERE id = @entry_id
         `);
         const result: RunResult = statement.run(entry.GetQueryObject());
         return result.changes > 0;

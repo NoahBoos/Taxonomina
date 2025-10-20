@@ -20,7 +20,7 @@ export class GrammaticalNumber {
 
     public GetQueryObject() {
         return {
-            id: this.id,
+            grammatical_number_id: this.id,
             name: this.name,
         }
     }

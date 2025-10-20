@@ -20,7 +20,7 @@ export class GrammaticalCategory {
 
     public GetQueryObject() {
         return {
-            id: this.id,
+            grammatical_category_id: this.id,
             name: this.name,
         }
     }

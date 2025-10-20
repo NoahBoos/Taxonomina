@@ -20,7 +20,7 @@ export class GrammaticalGenre {
 
     public GetQueryObject() {
         return {
-            id: this.id,
+            grammatical_genre_id: this.id,
             name: this.name,
         }
     }

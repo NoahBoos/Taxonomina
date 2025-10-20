@@ -27,11 +27,11 @@ export class Dictionary {
         this.description = description;
     }
 
-    public GetQueryObject(): { id: number; name: string; description: string } {
+    public GetQueryObject() {
         return {
-            "id": this.id,
-            "name": this.name,
-            "description": this.description
+            dictionary_id: this.id,
+            name: this.name,
+            description: this.description
         };
     }
 

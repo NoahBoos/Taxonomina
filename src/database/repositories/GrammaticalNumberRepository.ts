@@ -15,7 +15,7 @@ export class GrammaticalNumberRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_numbers
-            WHERE id = @id
+            WHERE id = @grammatical_number_id
         `);
         return statement.get() as GrammaticalNumber;
     }
@@ -33,7 +33,7 @@ export class GrammaticalNumberRepository {
         const statement = Database.GetDatabase().prepare(`
             UPDATE grammatical_numbers
             SET name = @name
-            WHERE id = @id
+            WHERE id = @grammatical_number_id
         `);
         const result: RunResult = statement.run(number.GetQueryObject());
         return result.changes > 0;
@@ -43,7 +43,7 @@ export class GrammaticalNumberRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE
             FROM grammatical_numbers
-            WHERE id = @id
+            WHERE id = @grammatical_number_id
         `);
         const result: RunResult = statement.run(number.GetQueryObject());
         return result.changes > 0;

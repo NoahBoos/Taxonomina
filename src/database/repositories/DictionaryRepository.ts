@@ -15,7 +15,7 @@ export class DictionaryRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM dictionaries
-            WHERE id != @id
+            WHERE id != @dictionary_id
         `);
         return statement.all(dictionaryToIgnore.GetQueryObject()) as Dictionary[];
     }
@@ -24,9 +24,9 @@ export class DictionaryRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM dictionaries
-            WHERE id = @id
+            WHERE id = @dictionary_id
         `);
-        return statement.get({id: id}) as Dictionary ?? undefined;
+        return statement.get({dictionary_id: id}) as Dictionary ?? undefined;
     }
 
     public static Create(dictionary: Dictionary): boolean {
@@ -43,7 +43,7 @@ export class DictionaryRepository {
             UPDATE dictionaries
             SET name = @name, 
                 description = @description
-            WHERE id = @id
+            WHERE id = @dictionary_id
         `);
         const result: RunResult = statement.run(dictionary.GetQueryObject());
         return result.changes > 0;
@@ -53,7 +53,7 @@ export class DictionaryRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE 
             FROM dictionaries
-            WHERE id = @id
+            WHERE id = @dictionary_id
         `);
         const result: RunResult = statement.run(dictionary.GetQueryObject());
         return result.changes > 0;

@@ -18,9 +18,9 @@ export class Definition {
         this.definition = definition;
     }
 
-    public GetQueryObject(): { id: number; definition: string } {
+    public GetQueryObject() {
         return {
-            id: this.id,
+            definition_id: this.id,
             definition: this.definition
         }
     }

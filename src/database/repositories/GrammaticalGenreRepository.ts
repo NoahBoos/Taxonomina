@@ -18,7 +18,7 @@ export class GrammaticalGenreRepository {
             FROM grammatical_genres AS gramGenre
             JOIN  entry_grammatical_genre AS entry_gramGenre
                 ON gramGenre.id = entry_gramGenre.grammatical_genre_id
-            WHERE entry_gramGenre.entry_id = @id
+            WHERE entry_gramGenre.entry_id = @entry_id
         `);
         return statement.all(entry.GetQueryObject()) as GrammaticalGenre[];
     }
@@ -27,9 +27,9 @@ export class GrammaticalGenreRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_genres
-            WHERE id = @id
+            WHERE id = @grammatical_genre_id
         `);
-        return statement.get({id: id}) as GrammaticalGenre;
+        return statement.get({grammatical_genre_id: id}) as GrammaticalGenre;
     }
 
     public static Create(genre: GrammaticalGenre): [boolean, GrammaticalGenre | undefined] {
@@ -47,7 +47,7 @@ export class GrammaticalGenreRepository {
         const statement = Database.GetDatabase().prepare(`
             UPDATE grammatical_genres
             SET name = @name
-            WHERE id = @id
+            WHERE id = @grammatical_genre_id
         `);
         const result: RunResult = statement.run(genre.GetQueryObject());
         if (result.changes > 0) {
@@ -59,7 +59,7 @@ export class GrammaticalGenreRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE
             FROM grammatical_genres
-            WHERE id = @id
+            WHERE id = @grammatical_genre_id
         `);
         const result: RunResult = statement.run(genre.GetQueryObject());
         return result.changes > 0;

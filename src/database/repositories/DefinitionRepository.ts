@@ -15,9 +15,9 @@ export class DefinitionRepository {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM definitions
-            WHERE id = @id
+            WHERE id = @definition_id
         `);
-        return statement.get({id: id}) as Definition ?? undefined;
+        return statement.get({definition_id: id}) as Definition ?? undefined;
     }
 
     public static Create(definition: Definition): boolean {
@@ -33,7 +33,7 @@ export class DefinitionRepository {
         const statement = Database.GetDatabase().prepare(`
             UPDATE definitions
             SET definition = @definition
-            WHERE id = @id
+            WHERE id = @definition_id
         `);
         const result: RunResult = statement.run(definition.GetQueryObject());
         return result.changes > 0;
@@ -43,7 +43,7 @@ export class DefinitionRepository {
         const statement = Database.GetDatabase().prepare(`
             DELETE
             FROM definitions
-            WHERE id = @id
+            WHERE id = @definition_id
         `);
         const result: RunResult = statement.run(definition.GetQueryObject());
         return result.changes > 0;
