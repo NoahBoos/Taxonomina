@@ -130,6 +130,11 @@ ipcMain.handle("txnmAPI:repositories:entry:readAllByGlobalTranslation", (event, 
    return EntryRepository.ReadAllByGlobalTranslation(entry);
 });
 
+ipcMain.handle("txnmAPI:repositories:entry:readAllByLocalTranslation", (event, rawDefinition: Definition) => {
+    const definition: Definition = Definition.Hydrate(rawDefinition);
+    return EntryRepository.ReadAllByLocalTranslation(definition);
+})
+
 ipcMain.handle("txnmAPI:repositories:entry:readOne", (event, entryId: number) => {
     return EntryRepository.ReadOne(entryId);
 });

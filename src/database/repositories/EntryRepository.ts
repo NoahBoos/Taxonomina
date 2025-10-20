@@ -1,6 +1,7 @@
 import {Entry} from "../models/Entry";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
+import {Definition} from "../models/Definition";
 
 export class EntryRepository {
     public static ReadAll(): Entry[] {
@@ -20,6 +21,16 @@ export class EntryRepository {
                 OR (entry.id = ee.second_entry_id AND ee.first_entry_id = @id)
         `);
         return statement.all(entry.GetQueryObject()) as Entry[];
+    }
+
+    public static ReadAllByLocalTranslation(definition: Definition): Entry[] {
+        const statement = Database.GetDatabase().prepare(`
+            SELECT entry.*
+            FROM entries AS entry
+            JOIN entry_definition AS ed
+                ON definition_id = @id
+        `);
+        return statement.all(definition.GetQueryObject()) as Entry[];
     }
 
     public static ReadOne(id: number): Entry | undefined {

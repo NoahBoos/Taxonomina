@@ -34,6 +34,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         entry: {
             ReadAll: (): Promise<Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAll"),
             ReadAllByGlobalTranslation: (rawEntry: Entry): Promise<Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAllByGlobalTranslation", rawEntry),
+            ReadAllByLocalTranslation: (rawDefinition: Definition): Promise<Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAllByLocalTranslation", rawDefinition),
             ReadOne: (entryId: number) => ipcRenderer.invoke("txnmAPI:repositories:entry:readOne", entryId),
             Create: (rawEntry: Entry): Promise<[boolean, Entry | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:entry:create", rawEntry),
             Update: (rawEntry: Entry): Promise<[boolean, Entry | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:entry:update", rawEntry),
