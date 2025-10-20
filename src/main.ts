@@ -125,6 +125,11 @@ ipcMain.handle("txnmAPI:repositories:entry:readAll", (): Entry[] => {
     return EntryRepository.ReadAll();
 });
 
+ipcMain.handle("txnmAPI:repositories:entry:readAllByGlobalTranslation", (event, rawEntry: Entry) => {
+   const entry: Entry = Entry.Hydrate(rawEntry);
+   return EntryRepository.ReadAllByGlobalTranslation(entry);
+});
+
 ipcMain.handle("txnmAPI:repositories:entry:readOne", (event, entryId: number) => {
     return EntryRepository.ReadOne(entryId);
 });

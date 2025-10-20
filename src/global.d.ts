@@ -36,6 +36,7 @@ declare global {
                 },
                 entry: {
                     ReadAll: () => Promise<Entry[]>,
+                    ReadAllByGlobalTranslation: (rawEntry: Entry) => Promise<Entry[]>,
                     ReadOne: (entry) => Promise<Entry>,
                     Create: (rawEntry: Entry) => Promise<[boolean, Entry | undefined]>,
                     Update: (rawEntry: Entry) => Promise<[boolean, Entry | undefined]>,
