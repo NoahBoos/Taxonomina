@@ -88,42 +88,13 @@ export class EntryUIBuilder {
         const rightLeaf: Element = document.querySelector("#right-leaf")!;
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/entry");
         if (!form) return;
-        const entryGramCats: GrammaticalCategory[] = entry ? await GrammaticalCategoryService.ReadAllByEntry(entry) : [];
-        const entryGenres: GrammaticalGenre[] = entry ? await GrammaticalGenreService.ReadAllByEntry(entry) : [];
+
         const inputLemma: HTMLInputElement = form.querySelector<HTMLInputElement>("#lemma")!;
-        const selectLanguage: HTMLSelectElement = form.querySelector<HTMLSelectElement>("select#language")!;
-        const optionLanguageTemplate: HTMLTemplateElement = selectLanguage.querySelector<HTMLTemplateElement>("template")!;
-        const fieldsetGramCats: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-categories")!;
-        const checkboxGramCatTemplate: HTMLTemplateElement = fieldsetGramCats.querySelector<HTMLTemplateElement>("template")!;
-        const fieldsetGenres: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-genres")!;
-        const checkboxGenreTemplate: HTMLTemplateElement = fieldsetGenres.querySelector<HTMLTemplateElement>("template")!;
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("#submit")!;
 
-        for (const language of await LanguageService.ReadAll()) {
-            const option: HTMLOptionElement = optionLanguageTemplate.content.firstElementChild!.cloneNode(true) as HTMLOptionElement;
-            option.value = String(language.GetId());
-            option.text = language.GetNameLocal();
-            option.selected = entry?.GetLanguageId() === language.GetId();
-            selectLanguage.appendChild(option);
-        }
-
-        for (const gramCat of await GrammaticalCategoryService.ReadAll()) {
-            const label = checkboxGramCatTemplate.content.firstElementChild!.cloneNode(true) as HTMLLabelElement;
-            const input: HTMLInputElement = label.querySelector<HTMLInputElement>("input")!;
-            input.value = String(gramCat.GetId());
-            input.checked = entryGramCats.some(gc => gc.GetId() === gramCat.GetId());
-            label.append(" " + gramCat.GetName());
-            fieldsetGramCats.appendChild(label);
-        }
-
-        for (const gramGenre of await GrammaticalGenreService.ReadAll()) {
-            const label = checkboxGenreTemplate.content.firstElementChild!.cloneNode(true) as HTMLLabelElement;
-            const input: HTMLInputElement = label.querySelector<HTMLInputElement>("input")!;
-            input.value = String(gramGenre.GetId());
-            input.checked = entryGenres.some(gg => gg.GetId() === gramGenre.GetId());
-            label.append(" " + gramGenre.GetName());
-            fieldsetGenres.appendChild(label);
-        }
+        await EntryUIBuilder.GenerateLanguageOptions(form, entry);
+        await EntryUIBuilder.GenerateGrammaticalCategoryCheckboxes(form, entry);
+        await EntryUIBuilder.GenerateGrammaticalGenreCheckboxes(form, entry);
 
         if (!entry) {
             submitButton.innerText = "Créer une entrée";
@@ -138,6 +109,49 @@ export class EntryUIBuilder {
 
         rightLeaf.appendChild(form);
         if (entry) await EntryUIBuilder.DeleteButton(drawer, entry);
+    }
+
+    public static async GenerateLanguageOptions(form: Element, entry?: Entry) {
+        const selectLanguage: HTMLSelectElement = form.querySelector<HTMLSelectElement>("select#language")!;
+        const optionLanguageTemplate: HTMLTemplateElement = selectLanguage.querySelector<HTMLTemplateElement>("template")!;
+
+        for (const language of await LanguageService.ReadAll()) {
+            const option: HTMLOptionElement = optionLanguageTemplate.content.firstElementChild!.cloneNode(true) as HTMLOptionElement;
+            option.value = String(language.GetId());
+            option.text = language.GetNameLocal();
+            option.selected = entry?.GetLanguageId() === language.GetId();
+            selectLanguage.appendChild(option);
+        }
+    }
+
+    public static async GenerateGrammaticalCategoryCheckboxes(form: Element, entry?: Entry) {
+        const entryGramCats: GrammaticalCategory[] = entry ? await GrammaticalCategoryService.ReadAllByEntry(entry) : [];
+        const fieldsetGramCats: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-categories")!;
+        const checkboxGramCatTemplate: HTMLTemplateElement = fieldsetGramCats.querySelector<HTMLTemplateElement>("template")!;
+
+        for (const gramCat of await GrammaticalCategoryService.ReadAll()) {
+            const label = checkboxGramCatTemplate.content.firstElementChild!.cloneNode(true) as HTMLLabelElement;
+            const input: HTMLInputElement = label.querySelector<HTMLInputElement>("input")!;
+            input.value = String(gramCat.GetId());
+            input.checked = entryGramCats.some(gc => gc.GetId() === gramCat.GetId());
+            label.append(" " + gramCat.GetName());
+            fieldsetGramCats.appendChild(label);
+        }
+    }
+
+    public static async GenerateGrammaticalGenreCheckboxes(form: Element, entry?: Entry) {
+        const entryGenres: GrammaticalGenre[] = entry ? await GrammaticalGenreService.ReadAllByEntry(entry) : [];
+        const fieldsetGenres: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-genres")!;
+        const checkboxGenreTemplate: HTMLTemplateElement = fieldsetGenres.querySelector<HTMLTemplateElement>("template")!;
+
+        for (const gramGenre of await GrammaticalGenreService.ReadAll()) {
+            const label = checkboxGenreTemplate.content.firstElementChild!.cloneNode(true) as HTMLLabelElement;
+            const input: HTMLInputElement = label.querySelector<HTMLInputElement>("input")!;
+            input.value = String(gramGenre.GetId());
+            input.checked = entryGenres.some(gg => gg.GetId() === gramGenre.GetId());
+            label.append(" " + gramGenre.GetName());
+            fieldsetGenres.appendChild(label);
+        }
     }
 
     public static async CreateButton(drawer: Element) {
