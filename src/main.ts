@@ -214,6 +214,10 @@ ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {
    return LanguageRepository.ReadAll();
 });
 
+ipcMain.handle("txnmAPI:repositories:language:readOne", (event, languageId: number) => {
+    return LanguageRepository.ReadOne(languageId);
+});
+
 ipcMain.handle("txnmAPI:repositories:language:create", (event, rawLanguage: Language) => {
     const language: Language = Language.Hydrate(rawLanguage);
     return LanguageRepository.Create(language);
