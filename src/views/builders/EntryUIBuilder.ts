@@ -95,6 +95,7 @@ export class EntryUIBuilder {
         EntryUIBuilder.tagTemplate = form.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
 
         const inputLemma: HTMLInputElement = form.querySelector<HTMLInputElement>("#lemma")!;
+        const inputEntryId: HTMLInputElement = form.querySelector<HTMLInputElement>("input#entry_id")!;
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("#submit")!;
 
         await EntryUIBuilder.GenerateLanguageOptions(form, entry);
@@ -107,6 +108,7 @@ export class EntryUIBuilder {
             submitButton.innerText = "Créer une entrée";
         } else {
             inputLemma.value = entry.GetLemma();
+            inputEntryId.value = String(entry.GetId());
             submitButton.innerText = "Mettre à jour l'entrée";
         }
 
