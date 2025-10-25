@@ -170,16 +170,7 @@ export class EntryUIBuilder {
         const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-translation-items")!;
 
         searchbar.addEventListener("input", async () => {
-            if (searchbar.value === "") {
-                dropdown.innerHTML = ""
-                return;
-            }
-
-            const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
-            dropdown.innerHTML = '';
-            for (const filteredEntry of filteredEntries) {
-                EntryUIBuilder.AddTranslationButton(dropdown, container, searchbar, filteredEntry);
-            }
+            EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, entries, translations, entry);
         });
 
         for (const translation of translations) {
@@ -223,16 +214,7 @@ export class EntryUIBuilder {
         const container: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>("#d-translation-items")!;
 
         searchbar.addEventListener("input", async () => {
-            if (searchbar.value === "") {
-                dropdown.innerHTML = ""
-                return;
-            }
-
-            const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
-            dropdown.innerHTML = '';
-            for (const filteredEntry of filteredEntries) {
-                EntryUIBuilder.AddTranslationButton(dropdown, container, searchbar, filteredEntry);
-            }
+            EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, entries, translations, entry);
         });
 
         for (const translation of translations) {
@@ -240,6 +222,19 @@ export class EntryUIBuilder {
         }
 
         parent.appendChild(definitionElement);
+    }
+
+    public static TranslationSearchbarBehaviour(searchbar: HTMLInputElement, dropdown: HTMLDivElement, translationTagContainer: HTMLDivElement, entries: Entry[], translations: Entry[], entry?: Entry) {
+        if (searchbar.value === "") {
+            dropdown.innerHTML = ""
+            return;
+        }
+
+        const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
+        dropdown.innerHTML = '';
+        for (const filteredEntry of filteredEntries) {
+            EntryUIBuilder.AddTranslationButton(dropdown, translationTagContainer, searchbar, filteredEntry);
+        }
     }
 
     public static FilterAvailableTranslations(searchbar: HTMLInputElement, entries: Entry[], translations: Entry[], entry?: Entry) {
