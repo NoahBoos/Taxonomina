@@ -9,6 +9,7 @@ import {GrammaticalGenre} from "../../database/models/GrammaticalGenre";
 import {GrammaticalGenreService} from "../../utils/renderer/services/GrammaticalGenreService";
 import {Definition} from "../../database/models/Definition";
 import {DefinitionService} from "../../utils/renderer/services/DefinitionService";
+import * as sea from "node:sea";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -169,6 +170,11 @@ export class EntryUIBuilder {
         const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-translation-items")!;
 
         searchbar.addEventListener("input", async () => {
+            if (searchbar.value === "") {
+                dropdown.innerHTML = ""
+                return;
+            }
+
             const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
             dropdown.innerHTML = '';
             for (const filteredEntry of filteredEntries) {
@@ -217,6 +223,11 @@ export class EntryUIBuilder {
         const container: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>("#d-translation-items")!;
 
         searchbar.addEventListener("input", async () => {
+            if (searchbar.value === "") {
+                dropdown.innerHTML = ""
+                return;
+            }
+
             const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
             dropdown.innerHTML = '';
             for (const filteredEntry of filteredEntries) {
