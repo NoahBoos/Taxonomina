@@ -10,6 +10,7 @@ import {GrammaticalGenreService} from "../../utils/renderer/services/Grammatical
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
+    public static tagTemplate: HTMLTemplateElement;
 
     public static async Initialize() {
         const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#entry-drawer-button")!;
@@ -88,6 +89,7 @@ export class EntryUIBuilder {
         const rightLeaf: Element = document.querySelector("#right-leaf")!;
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/entry");
         if (!form) return;
+        EntryUIBuilder.tagTemplate = form.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
 
         const inputLemma: HTMLInputElement = form.querySelector<HTMLInputElement>("#lemma")!;
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("#submit")!;
@@ -163,7 +165,6 @@ export class EntryUIBuilder {
         let query: string = '';
         const dropdown: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-dropdown")!;
         const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-translation-items")!;
-        const template: HTMLTemplateElement = fieldset.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
 
         searchbar.addEventListener("input", async () => {
             query = searchbar.value.toLowerCase();
@@ -178,7 +179,7 @@ export class EntryUIBuilder {
                 button.innerText = filteredEntry.GetLemma();
                 button.addEventListener("click", async (event) => {
                     event.preventDefault();
-                    await EntryUIBuilder.GenerateTranslationTag(container, template, filteredEntry);
+                    await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, filteredEntry);
                     button.remove();
                     if (!dropdown.hasChildNodes()) {
                         searchbar.value = '';
@@ -190,7 +191,7 @@ export class EntryUIBuilder {
         });
 
         for (const translation of translations) {
-            await EntryUIBuilder.GenerateTranslationTag(container, template, translation);
+            await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, translation);
         }
     }
 
