@@ -28,7 +28,8 @@ export class EntryRepository {
             SELECT entry.*
             FROM entries AS entry
             JOIN entry_definition AS ed
-                ON definition_id = @definition_id
+                ON entry.id = ed.entry_id    
+            WHERE ed.definition_id = @definition_id
         `);
         return statement.all(definition.GetQueryObject()) as Entry[];
     }
