@@ -165,7 +165,6 @@ export class EntryUIBuilder {
         const translations: Entry[] = entry ? await EntryService.ReadAllByGlobalTranslation(entry) : [];
         const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#global-translations-section")!;
         const searchbar: HTMLInputElement = fieldset.querySelector<HTMLInputElement>("#gts-searchbar")!;
-        let query: string = '';
         const dropdown: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-dropdown")!;
         const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-translation-items")!;
 
@@ -224,7 +223,6 @@ export class EntryUIBuilder {
         textarea.textContent = definition
             ? definition.GetDefinition()
             : '';
-        let query: string = '';
         const searchbar: HTMLInputElement = definitionElement.querySelector<HTMLInputElement>("#d-searchbar")!;
         const dropdown: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>('#d-dropdown')!;
         const container: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>("#d-translation-items")!;
