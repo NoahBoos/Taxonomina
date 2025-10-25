@@ -38,23 +38,39 @@
     </fieldset>
 
     <!-- Section Définitions -->
-<!--    <fieldset id="definitions-section">-->
-<!--        <legend>Définitions</legend>-->
+    <fieldset id="definitions-section">
+        <div>
+            <legend>Définitions</legend>
+            <button id="ds-add-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                    <path d="M5 12h14"/>
+                    <path d="M12 5v14"/>
+                </svg>
+            </button>
+        </div>
 
-<!--        <div class="definition-item">-->
-<!--            <label>Définition :-->
-<!--                <textarea name="definitions[0][text]" rows="3"></textarea>-->
-<!--            </label>-->
+        <div id="ds-definition-items">
 
-<!--            <fieldset>-->
-<!--                <legend>Références aux traductions</legend>-->
-<!--                &lt;!&ndash; Ici tu peux générer dynamiquement les checkboxes pour chaque traduction existante &ndash;&gt;-->
-<!--                <label><input type="checkbox" name="definitions[0][translations][]" value="0"> Pomme</label>-->
-<!--            </fieldset>-->
-<!--        </div>-->
+        </div>
+        <template id="ds-definition-template">
+            <div id="definition-item">
+                <div>
+                    <label for="d-content">Définition : </label>
+                    <button id="d-remove-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus">
+                            <path d="M5 12h14"/>
+                        </svg>
+                    </button>
+                </div>
+                <textarea id="d-content"></textarea>
 
-<!--        <button type="button" id="add-definition">Ajouter une définition</button>-->
-<!--    </fieldset>-->
+                <input type="text" id="d-searchbar" placeholder="Rechercher une entrée">
+                <div id="d-dropdown"></div>
+                <div id="d-translation-items"></div>
+            </div>
+        </template>
+    </fieldset>
+
     <template id="gts-tag-template">
         <div>
             <p></p>

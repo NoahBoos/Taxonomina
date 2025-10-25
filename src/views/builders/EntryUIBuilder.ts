@@ -7,6 +7,8 @@ import {Language} from "../../database/models/Language";
 import {LanguageService} from "../../utils/renderer/services/LanguageService";
 import {GrammaticalGenre} from "../../database/models/GrammaticalGenre";
 import {GrammaticalGenreService} from "../../utils/renderer/services/GrammaticalGenreService";
+import {Definition} from "../../database/models/Definition";
+import {DefinitionService} from "../../utils/renderer/services/DefinitionService";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -98,6 +100,7 @@ export class EntryUIBuilder {
         await EntryUIBuilder.GenerateGrammaticalCategoryCheckboxes(form, entry);
         await EntryUIBuilder.GenerateGrammaticalGenreCheckboxes(form, entry);
         await EntryUIBuilder.GenerateGlobalTranslationFieldset(form, entry);
+        await EntryUIBuilder.GenerateDefinitionFieldset(form, entry);
 
         if (!entry) {
             submitButton.innerText = "Créer une entrée";
@@ -193,6 +196,70 @@ export class EntryUIBuilder {
         for (const translation of translations) {
             await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, translation);
         }
+    }
+
+    public static async GenerateDefinitionFieldset(form: Element, entry?: Entry) {
+        const entries: Entry[] = await EntryService.ReadAll();
+        const definitions: Definition[] = entry ? await DefinitionService.ReadAllByEntry(entry) : [];
+        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#definitions-section")!;
+        const addDefinitionButton: HTMLButtonElement = fieldset.querySelector("#ds-add-button")!;
+        const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#ds-definition-items")!;
+        const template: HTMLTemplateElement = fieldset.querySelector("#ds-definition-template")!;
+
+        addDefinitionButton.addEventListener("click", async (event) => {
+            event.preventDefault();
+            await EntryUIBuilder.GenerateDefinition(container, template, entries, [], entry);
+        });
+
+        for (const definition of definitions) {
+            let translations: Entry[] = await EntryService.ReadAllByLocalTranslation(definition);
+            translations = translations.filter(translation => translation.GetId() !== entry?.GetId());
+            await EntryUIBuilder.GenerateDefinition(container, template, entries, translations, entry, definition);
+        }
+    }
+
+    public static async GenerateDefinition(parent: Element, template: HTMLTemplateElement, entries: Entry[], translations: Entry[], entry?: Entry, definition?: Definition) {
+        const definitionElement = template.content.firstElementChild!.cloneNode(true) as Element;
+        const removeButton: HTMLButtonElement = definitionElement.querySelector<HTMLButtonElement>("#d-remove-button")!;
+        removeButton.addEventListener("click", async (event) => {
+            event.preventDefault();
+            definitionElement.remove();
+        })
+        const textarea: HTMLTextAreaElement = definitionElement.querySelector<HTMLTextAreaElement>("#d-content")!;
+        textarea.textContent = definition
+            ? definition.GetDefinition()
+            : '';
+        let query: string = '';
+        const searchbar: HTMLInputElement = definitionElement.querySelector<HTMLInputElement>("#d-searchbar")!;
+        const dropdown: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>('#d-dropdown')!;
+        const container: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>("#d-translation-items")!;
+        searchbar.addEventListener("input", async () => {
+            query = searchbar.value.toLowerCase();
+            const filteredEntries: Entry[] = entries.filter(loopedEntry => {
+                return [loopedEntry.GetLemma()].some(value => value.toLowerCase().includes(query))
+                && !translations.some(translation => translation.GetId() === loopedEntry.GetId())
+                && loopedEntry.GetId() != entry?.GetId();
+            });
+            dropdown.innerHTML = '';
+            for (const filteredEntry of filteredEntries) {
+                const button: HTMLButtonElement = document.createElement("button");
+                button.innerText = filteredEntry.GetLemma();
+                button.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, filteredEntry);
+                    button.remove();
+                    if (!dropdown.hasChildNodes()) {
+                        searchbar.value = '';
+                        query = '';
+                    }
+                });
+                dropdown.appendChild(button);
+            }
+        });
+        for (const translation of translations) {
+            await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, translation);
+        }
+        parent.appendChild(definitionElement);
     }
 
     public static async GenerateTranslationTag(parent: Element, template: HTMLTemplateElement, entry: Entry) {
