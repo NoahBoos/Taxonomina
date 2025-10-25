@@ -144,6 +144,30 @@ ipcMain.handle("txnmAPI:repositories:entry:readOne", (event, entryId: number) =>
     return EntryRepository.ReadOne(entryId);
 });
 
+ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalCategory", (event, rawEntry: Entry, rawCategory: GrammaticalCategory) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    const category: GrammaticalCategory = GrammaticalCategory.Hydrate(rawCategory);
+    return EntryRepository.BindToGrammaticalCategory(entry, category);
+})
+
+ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalCategory", (event, rawEntry: Entry, rawCategory: GrammaticalCategory) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    const category: GrammaticalCategory = GrammaticalCategory.Hydrate(rawCategory);
+    return EntryRepository.UnbindFromGrammaticalCategory(entry, category);
+})
+
+ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalGenre", (event, rawEntry: Entry, rawGenre: GrammaticalGenre) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    const genre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGenre);
+    return EntryRepository.BindToGrammaticalGenre(entry, genre);
+})
+
+ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalGenre", (event, rawEntry: Entry, rawGenre: GrammaticalGenre) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    const genre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGenre);
+    return EntryRepository.UnbindFromGrammaticalGenre(entry, genre);
+})
+
 ipcMain.handle("txnmAPI:repositories:entry:create", (event, rawEntry: Entry) => {
     const entry: Entry = Entry.Hydrate(rawEntry);
     return EntryRepository.Create(entry);

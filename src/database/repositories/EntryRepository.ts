@@ -2,6 +2,8 @@ import {Entry} from "../models/Entry";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
 import {Definition} from "../models/Definition";
+import {GrammaticalCategory} from "../models/GrammaticalCategory";
+import {GrammaticalGenre} from "../models/GrammaticalGenre";
 
 export class EntryRepository {
     public static ReadAll(): Entry[] {
@@ -49,6 +51,42 @@ export class EntryRepository {
             VALUES (@dictionary_id, @language_id, @lemma)
         `);
         const result: RunResult = statement.run(entry.GetQueryObject());
+        return result.changes > 0;
+    }
+
+    public static BindToGrammaticalCategory(entry: Entry, category: GrammaticalCategory) {
+        const statement = Database.GetDatabase().prepare(`
+            INSERT INTO entry_grammatical_category (entry_id, grammatical_category_id) 
+            VALUES (@entry_id, @grammatical_category_id) 
+        `);
+        const result: RunResult = statement.run([entry.GetQueryObject(), category.GetQueryObject()]);
+        return result.changes > 0;
+    }
+
+    public static UnbindFromGrammaticalCategory(entry: Entry, category: GrammaticalCategory) {
+        const statement = Database.GetDatabase().prepare(`
+            DELETE FROM entry_grammatical_category
+            WHERE entry_id = @entry_id AND grammatical_category_id = @grammatical_category_id
+        `);
+        const result: RunResult = statement.run([entry.GetQueryObject(), category.GetQueryObject()]);
+        return result.changes > 0;
+    }
+
+    public static BindToGrammaticalGenre(entry: Entry, genre: GrammaticalGenre) {
+        const statement = Database.GetDatabase().prepare(`
+            INSERT INTO entry_grammatical_genre (entry_id, grammatical_genre_id)
+            VALUES (@entry_id, @grammatical_genre_id)
+        `);
+        const result: RunResult = statement.run([entry.GetQueryObject(), genre.GetQueryObject()]);
+        return result.changes > 0;
+    }
+
+    public static UnbindFromGrammaticalGenre(entry: Entry, genre: GrammaticalGenre) {
+        const statement = Database.GetDatabase().prepare(`
+            DELETE FROM entry_grammatical_genre
+            WHERE entry_id = @entry_id AND grammatical_genre_id = @grammatical_genre_id
+        `);
+        const result: RunResult = statement.run([entry.GetQueryObject(), genre.GetQueryObject()]);
         return result.changes > 0;
     }
 
