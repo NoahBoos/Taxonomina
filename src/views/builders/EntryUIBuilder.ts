@@ -170,12 +170,7 @@ export class EntryUIBuilder {
         const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-translation-items")!;
 
         searchbar.addEventListener("input", async () => {
-            query = searchbar.value.toLowerCase();
-            const filteredEntries: Entry[] = entries.filter(loopedEntry => {
-                return [loopedEntry.GetLemma()].some(value => value.toLowerCase().includes(query))
-                    && !translations.some(translation => translation.GetId() === loopedEntry.GetId())
-                    && loopedEntry.GetId() != entry?.GetId();
-            });
+            const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
             dropdown.innerHTML = '';
             for (const filteredEntry of filteredEntries) {
                 const button: HTMLButtonElement = document.createElement("button");
@@ -234,12 +229,7 @@ export class EntryUIBuilder {
         const dropdown: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>('#d-dropdown')!;
         const container: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>("#d-translation-items")!;
         searchbar.addEventListener("input", async () => {
-            query = searchbar.value.toLowerCase();
-            const filteredEntries: Entry[] = entries.filter(loopedEntry => {
-                return [loopedEntry.GetLemma()].some(value => value.toLowerCase().includes(query))
-                && !translations.some(translation => translation.GetId() === loopedEntry.GetId())
-                && loopedEntry.GetId() != entry?.GetId();
-            });
+            const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
             dropdown.innerHTML = '';
             for (const filteredEntry of filteredEntries) {
                 const button: HTMLButtonElement = document.createElement("button");
@@ -260,6 +250,15 @@ export class EntryUIBuilder {
             await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, translation);
         }
         parent.appendChild(definitionElement);
+    }
+
+    public static FilterAvailableTranslations(searchbar: HTMLInputElement, entries: Entry[], translations: Entry[], entry?: Entry) {
+        const query = searchbar.value.toLowerCase();
+        return entries.filter(loopedEntry => {
+            return [loopedEntry.GetLemma()].some(value => value.toLowerCase().includes(query))
+                && !translations.some(translation => translation.GetId() === loopedEntry.GetId())
+                && loopedEntry.GetId() != entry?.GetId();
+        });
     }
 
     public static async GenerateTranslationTag(parent: Element, template: HTMLTemplateElement, entry: Entry) {
