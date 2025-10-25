@@ -45,15 +45,6 @@ export class EntryRepository {
         return statement.get({entry_id: id}) as Entry ?? undefined;
     }
 
-    public static Create(entry: Entry): boolean {
-        const statement = Database.GetDatabase().prepare(`
-            INSERT INTO entries (dictionary_id, language_id, lemma)
-            VALUES (@dictionary_id, @language_id, @lemma)
-        `);
-        const result: RunResult = statement.run(entry.GetQueryObject());
-        return result.changes > 0;
-    }
-
     public static BindToGrammaticalCategory(entry: Entry, category: GrammaticalCategory) {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO entry_grammatical_category (entry_id, grammatical_category_id) 
@@ -90,7 +81,18 @@ export class EntryRepository {
         return result.changes > 0;
     }
 
-    public static Update(entry: Entry): boolean {
+    public static Create(entry: Entry): [boolean, Entry | undefined] {
+        const statement = Database.GetDatabase().prepare(`
+            INSERT INTO entries (dictionary_id, language_id, lemma)
+            VALUES (@dictionary_id, @language_id, @lemma)
+        `);
+        const result: RunResult = statement.run(entry.GetQueryObject());
+        if (result.changes > 0) {
+            return [true, new Entry(Number(result.lastInsertRowid), entry.GetDictionaryId(), entry.GetLanguageId(), entry.GetLemma())]
+        } else return [false, undefined]
+    }
+
+    public static Update(entry: Entry): [boolean, Entry | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE entries
             SET dictionary_id = @dictionary_id,
@@ -99,7 +101,9 @@ export class EntryRepository {
             WHERE id = @entry_id
         `);
         const result: RunResult = statement.run(entry.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new Entry(Number(result.lastInsertRowid), entry.GetDictionaryId(), entry.GetLanguageId(), entry.GetLemma())]
+        } else return [false, undefined]
     }
 
     public static Delete(entry: Entry): boolean {
