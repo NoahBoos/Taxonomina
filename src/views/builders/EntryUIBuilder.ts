@@ -204,7 +204,8 @@ export class EntryUIBuilder {
             ? entryLang.GetIso639_3() + " | " + entry.GetLemma()
             : entryLang.GetIso639_1() + " | " + entry.GetLemma();
         const tagDeleteButton: HTMLButtonElement = tag.querySelector<HTMLButtonElement>("button")!;
-        tagDeleteButton.addEventListener("click", async () => {
+        tagDeleteButton.addEventListener("click", async (event) => {
+            event.preventDefault()
             tag.remove();
         });
         parent.appendChild(tag);
