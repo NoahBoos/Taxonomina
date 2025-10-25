@@ -162,7 +162,7 @@ export class EntryUIBuilder {
         const searchbar: HTMLInputElement = fieldset.querySelector<HTMLInputElement>("#gts-searchbar")!;
         let query: string = '';
         const dropdown: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-dropdown")!;
-        const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#translation-item")!;
+        const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-translation-items")!;
         const template: HTMLTemplateElement = fieldset.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
 
         searchbar.addEventListener("input", async () => {
