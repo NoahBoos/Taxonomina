@@ -95,6 +95,7 @@ export class EntryUIBuilder {
         await EntryUIBuilder.GenerateLanguageOptions(form, entry);
         await EntryUIBuilder.GenerateGrammaticalCategoryCheckboxes(form, entry);
         await EntryUIBuilder.GenerateGrammaticalGenreCheckboxes(form, entry);
+        await EntryUIBuilder.GenerateGlobalTranslationFieldset(form, entry);
 
         if (!entry) {
             submitButton.innerText = "Créer une entrée";
@@ -152,6 +153,60 @@ export class EntryUIBuilder {
             label.append(" " + gramGenre.GetName());
             fieldsetGenres.appendChild(label);
         }
+    }
+
+    public static async GenerateGlobalTranslationFieldset(form: Element, entry?: Entry) {
+        const entries: Entry[] = await EntryService.ReadAll();
+        const translations: Entry[] = entry ? await EntryService.ReadAllByGlobalTranslation(entry) : [];
+        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#global-translations-section")!;
+        const searchbar: HTMLInputElement = fieldset.querySelector<HTMLInputElement>("#gts-searchbar")!;
+        let query: string = '';
+        const dropdown: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-dropdown")!;
+        const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#translation-item")!;
+        const template: HTMLTemplateElement = fieldset.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
+
+        searchbar.addEventListener("input", async () => {
+            query = searchbar.value.toLowerCase();
+            const filteredEntries: Entry[] = entries.filter(loopedEntry => {
+                return [loopedEntry.GetLemma()].some(value => value.toLowerCase().includes(query))
+                    && !translations.some(translation => translation.GetId() === loopedEntry.GetId())
+                    && loopedEntry.GetId() != entry?.GetId();
+            });
+            dropdown.innerHTML = '';
+            for (const filteredEntry of filteredEntries) {
+                const button: HTMLButtonElement = document.createElement("button");
+                button.innerText = filteredEntry.GetLemma();
+                button.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    await EntryUIBuilder.GenerateTranslationTag(container, template, filteredEntry);
+                    button.remove();
+                    if (!dropdown.hasChildNodes()) {
+                        searchbar.value = '';
+                        query = '';
+                    }
+                });
+                dropdown.appendChild(button);
+            }
+        });
+
+        for (const translation of translations) {
+            await EntryUIBuilder.GenerateTranslationTag(container, template, translation);
+        }
+    }
+
+    public static async GenerateTranslationTag(parent: Element, template: HTMLTemplateElement, entry: Entry) {
+        const entryLang: Language = await LanguageService.ReadOne(entry.GetLanguageId());
+        const tag = template.content.firstElementChild!.cloneNode(true) as Element;
+        const tagText: HTMLParagraphElement = tag.querySelector<HTMLParagraphElement>("p")!;
+        tagText.id = String(entryLang.GetId());
+        tagText.textContent = entryLang.GetIso639_3()
+            ? entryLang.GetIso639_3() + " | " + entry.GetLemma()
+            : entryLang.GetIso639_1() + " | " + entry.GetLemma();
+        const tagDeleteButton: HTMLButtonElement = tag.querySelector<HTMLButtonElement>("button")!;
+        tagDeleteButton.addEventListener("click", async () => {
+            tag.remove();
+        });
+        parent.appendChild(tag);
     }
 
     public static async CreateButton(drawer: Element) {
