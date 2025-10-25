@@ -99,8 +99,8 @@ export class EntryUIBuilder {
         await EntryUIBuilder.GenerateLanguageOptions(form, entry);
         await EntryUIBuilder.GenerateGrammaticalCategoryCheckboxes(form, entry);
         await EntryUIBuilder.GenerateGrammaticalGenreCheckboxes(form, entry);
-        await EntryUIBuilder.GenerateGlobalTranslationFieldset(form, entry);
-        await EntryUIBuilder.GenerateDefinitionFieldset(form, entry);
+        await EntryUIBuilder.GlobalTranslationFieldset(form, entry);
+        await EntryUIBuilder.DefinitionFieldset(form, entry);
 
         if (!entry) {
             submitButton.innerText = "Créer une entrée";
@@ -160,7 +160,7 @@ export class EntryUIBuilder {
         }
     }
 
-    public static async GenerateGlobalTranslationFieldset(form: Element, entry?: Entry) {
+    public static async GlobalTranslationFieldset(form: Element, entry?: Entry) {
         const entries: Entry[] = await EntryService.ReadAll();
         const translations: Entry[] = entry ? await EntryService.ReadAllByGlobalTranslation(entry) : [];
         const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#global-translations-section")!;
@@ -181,7 +181,7 @@ export class EntryUIBuilder {
         }
     }
 
-    public static async GenerateDefinitionFieldset(form: Element, entry?: Entry) {
+    public static async DefinitionFieldset(form: Element, entry?: Entry) {
         const entries: Entry[] = await EntryService.ReadAll();
         const definitions: Definition[] = entry ? await DefinitionService.ReadAllByEntry(entry) : [];
         const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#definitions-section")!;
@@ -215,6 +215,7 @@ export class EntryUIBuilder {
         const searchbar: HTMLInputElement = definitionElement.querySelector<HTMLInputElement>("#d-searchbar")!;
         const dropdown: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>('#d-dropdown')!;
         const container: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>("#d-translation-items")!;
+
         searchbar.addEventListener("input", async () => {
             const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
             dropdown.innerHTML = '';
@@ -222,9 +223,11 @@ export class EntryUIBuilder {
                 EntryUIBuilder.AddTranslationButton(dropdown, container, searchbar, filteredEntry);
             }
         });
+
         for (const translation of translations) {
             await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, translation);
         }
+
         parent.appendChild(definitionElement);
     }
 
