@@ -1,9 +1,15 @@
 import {Definition} from "../../../database/models/Definition";
+import {Entry} from "../../../database/models/Entry";
 
 export class DefinitionService {
     public static async ReadAll(): Promise<Definition[]> {
         const rawDefinitions: Definition[] = await window.txnmAPI.repositories.definition.ReadAll();
         return rawDefinitions.map((rawDefinition: Definition): Definition => Definition.Hydrate(rawDefinition));
+    }
+
+    public static async ReadAllByEntry(entry: Entry): Promise<Definition[]> {
+        const rawDefinitions: Definition[] = await window.txnmAPI.repositories.definition.ReadAllByEntry(entry);
+        return rawDefinitions.map((rawDefinition: Definition): Definition => Definition.Hydrate(entry));
     }
 
     public static async ReadOne(definitionId: number): Promise<Definition> {

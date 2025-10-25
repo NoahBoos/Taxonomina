@@ -1,6 +1,7 @@
 import {Definition} from "../models/Definition";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
+import {Entry} from "../models/Entry";
 
 export class DefinitionRepository {
     public static ReadAll(): Definition[] {
@@ -9,6 +10,17 @@ export class DefinitionRepository {
             FROM definitions
         `);
         return statement.all() as Definition[];
+    }
+
+    public static ReadAllByEntry(entry: Entry): Definition[] {
+        const statement = Database.GetDatabase().prepare(`
+            SELECT definition.*
+            FROM definitions as definition
+             JOIN entry_definition
+                  ON entry_definition.definition_id = definition.id
+            WHERE entry_definition.entry_id = @entry_id
+        `);
+        return statement.all(entry.GetQueryObject()) as Definition[];
     }
 
     public static ReadOne(id: number): Definition | undefined {

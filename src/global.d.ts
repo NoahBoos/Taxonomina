@@ -21,6 +21,7 @@ declare global {
             repositories: {
                 definition: {
                     ReadAll: () => Promise<Definition[]>,
+                    ReadAllByEntry: (rawEntry: Entry) => Promise<Definition[]>,
                     ReadOne: (definition) => Promise<Definition>,
                     Create: (rawDefinition: Definition) => Promise<[boolean, Definition | undefined]>,
                     Update: (rawDefinition: Definition) => Promise<[boolean, Definition | undefined]>,

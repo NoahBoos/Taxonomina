@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
     repositories: {
         definition: {
             ReadAll: (): Promise<Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),
+            ReadAllByEntry: (rawEntry: Entry): Promise<Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAllByEntry", rawEntry),
             ReadOne: (definitionId: number) => ipcRenderer.invoke("txnmAPI:repositories:definition:readOne", definitionId),
             Create: (rawDefinition: Definition): Promise<[boolean, Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:create", rawDefinition),
             Update: (rawDefinition: Definition): Promise<[boolean, Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:update", rawDefinition),

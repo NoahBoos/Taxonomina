@@ -74,6 +74,11 @@ ipcMain.handle("txnmAPI:repositories:definition:readAll", (): Definition[] => {
     return DefinitionRepository.ReadAll();
 });
 
+ipcMain.handle("txnmAPI:repositories:definition:readAllByEntry", (event, rawEntry: Entry) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    return DefinitionRepository.ReadAllByEntry(entry);
+});
+
 ipcMain.handle("txnmAPI:repositories:definition:readOne", (event, definitionId: number) => {
     return DefinitionRepository.ReadOne(definitionId);
 });
@@ -94,7 +99,7 @@ ipcMain.handle("txnmAPI:repositories:definition:delete", (event, rawDefinition: 
 });
 
 ipcMain.handle("txnmAPI:repositories:dictionary:readAll", () => {
-   return DictionaryRepository.ReadAll();
+    return DictionaryRepository.ReadAll();
 });
 
 ipcMain.handle("txnmAPI:repositories:dictionary:readAllButOne", (event, rawDictionary: Dictionary) => {
