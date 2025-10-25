@@ -172,18 +172,7 @@ export class EntryUIBuilder {
             const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
             dropdown.innerHTML = '';
             for (const filteredEntry of filteredEntries) {
-                const button: HTMLButtonElement = document.createElement("button");
-                button.innerText = filteredEntry.GetLemma();
-                button.addEventListener("click", async (event) => {
-                    event.preventDefault();
-                    await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, filteredEntry);
-                    button.remove();
-                    if (!dropdown.hasChildNodes()) {
-                        searchbar.value = '';
-                        query = '';
-                    }
-                });
-                dropdown.appendChild(button);
+                EntryUIBuilder.AddTranslationButton(dropdown, container, searchbar, filteredEntry);
             }
         });
 
@@ -230,18 +219,7 @@ export class EntryUIBuilder {
             const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
             dropdown.innerHTML = '';
             for (const filteredEntry of filteredEntries) {
-                const button: HTMLButtonElement = document.createElement("button");
-                button.innerText = filteredEntry.GetLemma();
-                button.addEventListener("click", async (event) => {
-                    event.preventDefault();
-                    await EntryUIBuilder.GenerateTranslationTag(container, EntryUIBuilder.tagTemplate, filteredEntry);
-                    button.remove();
-                    if (!dropdown.hasChildNodes()) {
-                        searchbar.value = '';
-                        query = '';
-                    }
-                });
-                dropdown.appendChild(button);
+                EntryUIBuilder.AddTranslationButton(dropdown, container, searchbar, filteredEntry);
             }
         });
         for (const translation of translations) {
@@ -273,6 +251,20 @@ export class EntryUIBuilder {
             tag.remove();
         });
         parent.appendChild(tag);
+    }
+
+    public static AddTranslationButton(parent: Element, translationTagContainer: Element, searchbar: HTMLInputElement, entry: Entry) {
+        const button: HTMLButtonElement = document.createElement("button");
+        button.innerText = entry.GetLemma();
+        button.addEventListener("click", async (event) => {
+            event.preventDefault();
+            await EntryUIBuilder.GenerateTranslationTag(translationTagContainer, EntryUIBuilder.tagTemplate, entry);
+            button.remove();
+            if (!parent.hasChildNodes()) {
+                searchbar.value = '';
+            }
+        });
+        parent.appendChild(button);
     }
 
     public static async CreateButton(drawer: Element) {
