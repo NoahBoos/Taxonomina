@@ -9,7 +9,7 @@ export class DefinitionService {
 
     public static async ReadAllByEntry(entry: Entry): Promise<Definition[]> {
         const rawDefinitions: Definition[] = await window.txnmAPI.repositories.definition.ReadAllByEntry(entry);
-        return rawDefinitions.map((rawDefinition: Definition): Definition => Definition.Hydrate(entry));
+        return rawDefinitions.map((rawDefinition: Definition): Definition => Definition.Hydrate(rawDefinition));
     }
 
     public static async ReadOne(definitionId: number): Promise<Definition> {
