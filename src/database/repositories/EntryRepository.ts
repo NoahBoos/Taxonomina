@@ -50,7 +50,10 @@ export class EntryRepository {
             INSERT INTO entry_grammatical_category (entry_id, grammatical_category_id) 
             VALUES (@entry_id, @grammatical_category_id) 
         `);
-        const result: RunResult = statement.run([entry.GetQueryObject(), category.GetQueryObject()]);
+        const result: RunResult = statement.run({
+            entry_id: entry.GetQueryObject().entry_id,
+            grammatical_category_id: category.GetQueryObject().grammatical_category_id
+        });
         return result.changes > 0;
     }
 
@@ -59,7 +62,10 @@ export class EntryRepository {
             DELETE FROM entry_grammatical_category
             WHERE entry_id = @entry_id AND grammatical_category_id = @grammatical_category_id
         `);
-        const result: RunResult = statement.run([entry.GetQueryObject(), category.GetQueryObject()]);
+        const result: RunResult = statement.run({
+            entry_id: entry.GetQueryObject().entry_id,
+            grammatical_category_id: category.GetQueryObject().grammatical_category_id
+        });
         return result.changes > 0;
     }
 
@@ -68,7 +74,10 @@ export class EntryRepository {
             INSERT INTO entry_grammatical_genre (entry_id, grammatical_genre_id)
             VALUES (@entry_id, @grammatical_genre_id)
         `);
-        const result: RunResult = statement.run([entry.GetQueryObject(), genre.GetQueryObject()]);
+        const result: RunResult = statement.run({
+            entry_id: entry.GetQueryObject().entry_id,
+            grammatical_genre_id: genre.GetQueryObject().grammatical_genre_id
+        });
         return result.changes > 0;
     }
 
@@ -77,7 +86,10 @@ export class EntryRepository {
             DELETE FROM entry_grammatical_genre
             WHERE entry_id = @entry_id AND grammatical_genre_id = @grammatical_genre_id
         `);
-        const result: RunResult = statement.run([entry.GetQueryObject(), genre.GetQueryObject()]);
+        const result: RunResult = statement.run({
+            entry_id: entry.GetQueryObject().entry_id,
+            grammatical_genre_id: genre.GetQueryObject().grammatical_genre_id
+        });
         return result.changes > 0;
     }
 
