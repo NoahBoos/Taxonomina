@@ -114,7 +114,7 @@ export class EntryRepository {
         `);
         const result: RunResult = statement.run(entry.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new Entry(Number(result.lastInsertRowid), entry.GetDictionaryId(), entry.GetLanguageId(), entry.GetLemma())]
+            return [true, new Entry(entry.GetId(), entry.GetDictionaryId(), entry.GetLanguageId(), entry.GetLemma())]
         } else return [false, undefined]
     }
 
