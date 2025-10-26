@@ -9,7 +9,6 @@ import {GrammaticalGenre} from "../../database/models/GrammaticalGenre";
 import {GrammaticalGenreService} from "../../utils/renderer/services/GrammaticalGenreService";
 import {Definition} from "../../database/models/Definition";
 import {DefinitionService} from "../../utils/renderer/services/DefinitionService";
-import * as sea from "node:sea";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -114,6 +113,7 @@ export class EntryUIBuilder {
 
         submitButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
+            await EntryService.ProcessForm(form);
         });
 
         rightLeaf.appendChild(form);
