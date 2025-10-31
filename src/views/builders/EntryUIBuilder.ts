@@ -214,6 +214,8 @@ export class EntryUIBuilder {
         const searchbar: HTMLInputElement = definitionElement.querySelector<HTMLInputElement>("#d-searchbar")!;
         const dropdown: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>('#d-dropdown')!;
         const container: HTMLDivElement = definitionElement.querySelector<HTMLDivElement>("#d-translation-items")!;
+        const definitionIdInput: HTMLInputElement = definitionElement.querySelector<HTMLInputElement>("#definition_id")!;
+        if (definition) definitionIdInput.value = String(definition.GetId());
 
         searchbar.addEventListener("input", async () => {
             EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, entries, translations, entry);
