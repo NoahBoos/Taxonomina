@@ -14,6 +14,7 @@ export class Database {
             console.log("Database created at " + this.databasePath);
             try {
                 this.instance.pragma("foreign_key = ON");
+                this.instance.pragma("journal_mode = WAL");
 
                 const transaction = this.instance.transaction(() => {
                     this.CreateDatabaseTables();
