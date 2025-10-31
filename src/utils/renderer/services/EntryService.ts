@@ -68,6 +68,7 @@ export class EntryService {
         if (success && entry) {
             await EntryService.ProcessGrammaticalCategories(form, entry);
             await EntryService.ProcessGrammaticalGenres(form, entry);
+            await EntryService.ProcessGlobalTranslations(form, entry);
         }
     }
 
@@ -123,6 +124,28 @@ export class EntryService {
             } else {
                 if (!isBound) continue;
                 await EntryService.UnbindFromGrammaticalGenre(entry, genre);
+            }
+        }
+    }
+
+    public static async ProcessGlobalTranslations(form: Element, entry: Entry) {
+        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#global-translations-section")!;
+        const tags: NodeListOf<HTMLDivElement> = fieldset.querySelectorAll<HTMLDivElement>('div[data-role="translation-tag"]');
+        const translations: Entry[] = await EntryService.ReadAllByGlobalTranslation(entry);
+        const newTranslationIds: number[] = [];
+
+        for (const tag of tags) {
+            const translation_id: number = Number(tag.querySelector<HTMLInputElement>('input#translation_id')!.value);
+            newTranslationIds.push(translation_id);
+            const isBound: boolean = translations.some(loopedEntry => loopedEntry.GetId() == translation_id);
+            if (isBound) continue;
+            const translation: Entry = await EntryService.ReadOne(translation_id);
+            await EntryService.BindToTranslation(entry, translation);
+        }
+
+        for (const translation of translations) {
+            if (!newTranslationIds.includes(translation.GetId())) {
+                await EntryService.UnbindFromTranslation(entry, translation);
             }
         }
     }

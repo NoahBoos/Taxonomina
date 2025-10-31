@@ -252,6 +252,8 @@ export class EntryUIBuilder {
         const entryLang: Language = await LanguageService.ReadOne(entry.GetLanguageId());
         const tag = template.content.firstElementChild!.cloneNode(true) as Element;
         const tagText: HTMLParagraphElement = tag.querySelector<HTMLParagraphElement>("p")!;
+        const translationIdInput: HTMLInputElement = tag.querySelector<HTMLInputElement>("input#translation_id")!;
+        translationIdInput.value = String(entry.GetId());
         tagText.id = String(entryLang.GetId());
         tagText.textContent = entryLang.GetIso639_3()
             ? entryLang.GetIso639_3() + " | " + entry.GetLemma()
