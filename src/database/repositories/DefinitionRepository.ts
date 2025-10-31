@@ -32,6 +32,30 @@ export class DefinitionRepository {
         return statement.get({definition_id: id}) as Definition ?? undefined;
     }
 
+    public static BindToTranslation(definition: Definition, translation: Entry) {
+        const statement = Database.GetDatabase().prepare(`
+            INSERT INTO entry_definition (entry_id, definition_id)
+            VALUES (@translation_id, @definition_id)
+        `);
+        const result: RunResult = statement.run({
+            definition_id: definition.GetQueryObject().definition_id,
+            translation_id: translation.GetQueryObject().entry_id
+        });
+        return result.changes > 0;
+    }
+
+    public static UnbindFromTranslation(definition: Definition, translation: Entry) {
+        const statement = Database.GetDatabase().prepare(`
+            DELETE FROM entry_definition
+            WHERE definition_id = @definition_id AND entry_id = @translation_id
+        `);
+        const result: RunResult = statement.run({
+            definition_id: definition.GetQueryObject().definition_id,
+            translation_id: translation.GetQueryObject().entry_id
+        });
+        return result.changes > 0;
+    }
+
     public static Create(definition: Definition): boolean {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO definitions (definition)

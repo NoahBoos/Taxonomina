@@ -6,6 +6,7 @@ import {GrammaticalCategory} from "../../../database/models/GrammaticalCategory"
 import {GrammaticalGenre} from "../../../database/models/GrammaticalGenre";
 import {Definition} from "../../../database/models/Definition";
 import {Entry} from "../../../database/models/Entry";
+import {DefinitionRepository} from "../../../database/repositories/DefinitionRepository";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -20,6 +21,8 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             ReadAll: (): Promise<Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),
             ReadAllByEntry: (rawEntry: Entry): Promise<Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAllByEntry", rawEntry),
             ReadOne: (definitionId: number) => ipcRenderer.invoke("txnmAPI:repositories:definition:readOne", definitionId),
+            BindToTranslation: (rawDefinition: DefinitionRepository, rawTranslation: Entry) => ipcRenderer.invoke("txnmAPI:repositories:definition:bindToTranslation", rawDefinition, rawTranslation),
+            UnbindFromTranslation: (rawDefinition: DefinitionRepository, rawTranslation: Entry) => ipcRenderer.invoke("txnmAPI:repositories:definition:unbindFromTranslation", rawDefinition, rawTranslation),
             Create: (rawDefinition: Definition): Promise<[boolean, Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:create", rawDefinition),
             Update: (rawDefinition: Definition): Promise<[boolean, Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:update", rawDefinition),
             Delete: (rawDefinition: Definition): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:delete", rawDefinition),
@@ -41,6 +44,8 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             UnbindFromGrammaticalCategory: (rawEntry: Entry, rawCategory: GrammaticalCategory) => ipcRenderer.invoke("txnmAPI:repositories:entry:unbindFromGrammaticalCategory", rawEntry, rawCategory),
             BindToGrammaticalGenre: (rawEntry: Entry, rawGenre: GrammaticalGenre) => ipcRenderer.invoke("txnmAPI:repositories:entry:bindToGrammaticalGenre", rawEntry, rawGenre),
             UnbindFromGrammaticalGenre: (rawEntry: Entry, rawGenre: GrammaticalGenre) => ipcRenderer.invoke("txnmAPI:repositories:entry:unbindFromGrammaticalGenre", rawEntry, rawGenre),
+            BindToTranslation: (rawEntry: Entry, rawTranslation: Entry) => ipcRenderer.invoke("txnmAPI:repositories:entry:bindToTranslation", rawEntry, rawTranslation),
+            UnbindFromTranslation: (rawEntry: Entry, rawTranslation: Entry) => ipcRenderer.invoke("txnmAPI:repositories:entry:unbindFromTranslation", rawEntry, rawTranslation),
             Create: (rawEntry: Entry): Promise<[boolean, Entry | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:entry:create", rawEntry),
             Update: (rawEntry: Entry): Promise<[boolean, Entry | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:entry:update", rawEntry),
             Delete: (rawEntry: Entry): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:entry:delete", rawEntry),

@@ -17,6 +17,14 @@ export class DefinitionService {
         return Definition.Hydrate(rawDefinition);
     }
 
+    public static async BindToTranslation(definition: Definition, translation: Entry) {
+        return await window.txnmAPI.repositories.definition.BindToTranslation(definition, translation);
+    }
+
+    public static async UnbindFromTranslation(definition: Definition, translation: Entry) {
+        return await window.txnmAPI.repositories.definition.UnbindFromTranslation(definition, translation);
+    }
+
     public static async Save(definition: Definition): Promise<[boolean, Definition | undefined]> {
         let [success, savedDefinition] = definition.GetId() == 0
             ? await window.txnmAPI.repositories.definition.Create(definition)

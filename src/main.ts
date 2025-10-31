@@ -83,6 +83,18 @@ ipcMain.handle("txnmAPI:repositories:definition:readOne", (event, definitionId: 
     return DefinitionRepository.ReadOne(definitionId);
 });
 
+ipcMain.handle("txnmAPI:repositories:definition:bindToTranslation", (event, rawDefinition: Definition, rawTranslation: Entry) => {
+    const definition: Definition = Definition.Hydrate(rawDefinition);
+    const translation: Entry = Entry.Hydrate(rawTranslation);
+    return DefinitionRepository.BindToTranslation(definition, translation);
+})
+
+ipcMain.handle("txnmAPI:repositories:definition:unbindFromTranslation", (event, rawDefinition: Definition, rawTranslation: Entry) => {
+    const definition: Definition = Definition.Hydrate(rawDefinition);
+    const translation: Entry = Entry.Hydrate(rawTranslation);
+    return DefinitionRepository.UnbindFromTranslation(definition, translation);
+})
+
 ipcMain.handle("txnmAPI:repositories:definition:create", (event, rawDefinition: Definition) => {
     const definition: Definition = Definition.Hydrate(rawDefinition)
     return DefinitionRepository.Create(definition);
@@ -166,6 +178,18 @@ ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalGenre", (event, 
     const entry: Entry = Entry.Hydrate(rawEntry);
     const genre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGenre);
     return EntryRepository.UnbindFromGrammaticalGenre(entry, genre);
+})
+
+ipcMain.handle("txnmAPI:repositories:entry:bindToTranslation", (event, rawEntry: Entry, rawTranslation: Entry) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    const translation: Entry = Entry.Hydrate(rawTranslation);
+    return EntryRepository.BindToTranslation(entry, translation);
+})
+
+ipcMain.handle("txnmAPI:repositories:entry:unbindFromTranslation", (event, rawEntry: Entry, rawTranslation: Entry) => {
+    const entry: Entry = Entry.Hydrate(rawEntry);
+    const translation: Entry = Entry.Hydrate(rawTranslation);
+    return EntryRepository.UnbindFromTranslation(entry, translation);
 })
 
 ipcMain.handle("txnmAPI:repositories:entry:create", (event, rawEntry: Entry) => {

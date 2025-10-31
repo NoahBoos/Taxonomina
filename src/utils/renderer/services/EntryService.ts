@@ -43,6 +43,14 @@ export class EntryService {
         return await window.txnmAPI.repositories.entry.UnbindFromGrammaticalGenre(entry, genre);
     }
 
+    public static async BindToTranslation(entry: Entry, translation: Entry) {
+        return await window.txnmAPI.repositories.entry.BindToTranslation(entry, translation);
+    }
+
+    public static async UnbindFromTranslation(entry: Entry, translation: Entry) {
+        return await window.txnmAPI.repositories.entry.UnbindFromTranslation(entry, translation);
+    }
+
     public static async Save(entry: Entry): Promise<[boolean, Entry | undefined]> {
         let [success, savedEntry] = entry.GetId() == 0
             ? await window.txnmAPI.repositories.entry.Create(entry)
