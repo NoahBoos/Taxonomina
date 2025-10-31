@@ -59,7 +59,7 @@ export class EntryService {
         console.log("Thrown ID : " + entry?.GetId());
         if (success && entry) {
             await EntryService.ProcessGrammaticalCategories(form, entry);
-            await EntryService.ProcessGrammaticalGenre(form, entry);
+            await EntryService.ProcessGrammaticalGenres(form, entry);
         }
     }
 
@@ -100,7 +100,7 @@ export class EntryService {
         }
     }
 
-    public static async ProcessGrammaticalGenre(form: Element, entry: Entry) {
+    public static async ProcessGrammaticalGenres(form: Element, entry: Entry) {
         const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-genres")!;
         const checkboxes: NodeListOf<HTMLInputElement> = fieldset.querySelectorAll<HTMLInputElement>('input[name="grammatical-genre"]');
         const entryGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAllByEntry(entry);
