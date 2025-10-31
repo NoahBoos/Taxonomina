@@ -56,23 +56,27 @@ export class DefinitionRepository {
         return result.changes > 0;
     }
 
-    public static Create(definition: Definition): boolean {
+    public static Create(definition: Definition): [boolean, Definition | undefined] {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO definitions (definition)
             VALUES (@definition)
         `);
         const result: RunResult = statement.run(definition.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new Definition(Number(result.lastInsertRowid), definition.GetDefinition())];
+        } else return [false, undefined];
     }
 
-    public static Update(definition: Definition): boolean {
+    public static Update(definition: Definition): [boolean, Definition | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE definitions
             SET definition = @definition
             WHERE id = @definition_id
         `);
         const result: RunResult = statement.run(definition.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new Definition(definition.GetId(), definition.GetDefinition())];
+        } else return [false, undefined];
     }
 
     public static Delete(definition: Definition): boolean {
