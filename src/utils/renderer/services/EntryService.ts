@@ -5,6 +5,7 @@ import {GrammaticalCategory} from "../../../database/models/GrammaticalCategory"
 import {GrammaticalGenre} from "../../../database/models/GrammaticalGenre";
 import {GrammaticalCategoryService} from "./GrammaticalCategoryService";
 import {GrammaticalGenreService} from "./GrammaticalGenreService";
+import {DefinitionService} from "./DefinitionService";
 
 export class EntryService {
     public static async ReadAll(): Promise<Entry[]> {
@@ -69,6 +70,7 @@ export class EntryService {
             await EntryService.ProcessGrammaticalCategories(form, entry);
             await EntryService.ProcessGrammaticalGenres(form, entry);
             await EntryService.ProcessGlobalTranslations(form, entry);
+            await EntryService.ProcessDefinitions(form, entry);
         }
     }
 
@@ -146,6 +148,78 @@ export class EntryService {
         for (const translation of translations) {
             if (!newTranslationIds.includes(translation.GetId())) {
                 await EntryService.UnbindFromTranslation(entry, translation);
+            }
+        }
+    }
+
+    public static async ProcessDefinitions(form: Element, entry: Entry) {
+        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#definitions-section")!;
+        const definitionItems: NodeListOf<HTMLDivElement> = fieldset.querySelectorAll<HTMLDivElement>('div[data-role="definition-item"]');
+        const definitions: Definition[] = await DefinitionService.ReadAllByEntry(entry);
+        const newDefinitionIds: number[] = [];
+
+        for (const definitionItem of definitionItems) {
+            const definition_id: number = Number(definitionItem.querySelector<HTMLInputElement>('input#definition_id')!.value);
+            let definition: Definition;
+
+            if (definition_id === 0) {
+                const text: string = definitionItem.querySelector<HTMLTextAreaElement>('textarea#d-content')!.value;
+                if (text == '') continue;
+
+                definition = new Definition(0, text);
+                const [success, savedDefinition] = await DefinitionService.Save(definition);
+
+                if (!success || !savedDefinition) {
+                    console.warn('Sauvegarde échoué : ', text);
+                    continue;
+                }
+
+                definition = savedDefinition;
+            } else {
+                definition = await DefinitionService.ReadOne(definition_id);
+            }
+            newDefinitionIds.push(Number(definition.GetId()));
+
+            const isBound: boolean = definitions.some(loopedDefinition => loopedDefinition.GetId() == definition.GetId());
+            if (!isBound) {
+                await DefinitionService.BindToTranslation(definition, entry);
+            }
+
+            const translationContainer: HTMLDivElement = definitionItem.querySelector<HTMLDivElement>('div#d-translation-items')!;
+            if (translationContainer) {
+                const tags: NodeListOf<HTMLDivElement> = translationContainer.querySelectorAll<HTMLDivElement>('div[data-role="translation-tag"]');
+                let translations: Entry[] = await EntryService.ReadAllByLocalTranslation(definition);
+                translations = translations.filter(loopedEntry => loopedEntry.GetId() != entry.GetId());
+                const newTranslationIds: number[] = [];
+
+                for (const tag of tags) {
+                    const translation_id: number = Number(tag.querySelector<HTMLInputElement>('input#translation_id')!.value);
+                    newTranslationIds.push(translation_id);
+
+                    const isBound: boolean = translations.some(loopedTranslation => loopedTranslation.GetId() == translation_id);
+                    if (!isBound) {
+                        const translation: Entry = await EntryService.ReadOne(translation_id);
+                        await DefinitionService.BindToTranslation(definition, translation);
+                    }
+                }
+
+                for (const translation of translations) {
+                    if (!newTranslationIds.includes(translation.GetId())) {
+                        await DefinitionService.UnbindFromTranslation(definition, entry);
+                    }
+                }
+            }
+        }
+
+        for (const definition of definitions) {
+            if (!newDefinitionIds.includes(definition.GetId())) {
+                await DefinitionService.UnbindFromTranslation(definition, entry);
+
+                const relatedEntries: Entry[] = await EntryService.ReadAllByLocalTranslation(definition);
+
+                if (relatedEntries.length === 0) {
+                    await DefinitionService.Delete(definition);
+                }
             }
         }
     }
