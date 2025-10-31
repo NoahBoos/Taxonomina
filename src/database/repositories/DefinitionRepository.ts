@@ -38,8 +38,8 @@ export class DefinitionRepository {
             VALUES (@translation_id, @definition_id)
         `);
         const result: RunResult = statement.run({
-            definition_id: definition.GetQueryObject().definition_id,
-            translation_id: translation.GetQueryObject().entry_id
+            translation_id: translation.GetQueryObject().entry_id,
+            definition_id: definition.GetQueryObject().definition_id
         });
         return result.changes > 0;
     }
