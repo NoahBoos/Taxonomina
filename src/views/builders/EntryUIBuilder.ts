@@ -136,6 +136,7 @@ export class EntryUIBuilder {
     public static async GenerateGrammaticalCategoryCheckboxes(form: Element, entry?: Entry) {
         const entryGramCats: GrammaticalCategory[] = entry ? await GrammaticalCategoryService.ReadAllByEntry(entry) : [];
         const fieldsetGramCats: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-categories")!;
+        const container: HTMLDivElement = fieldsetGramCats.querySelector<HTMLDivElement>("#grammatical-category-checkboxes")!;
         const checkboxGramCatTemplate: HTMLTemplateElement = fieldsetGramCats.querySelector<HTMLTemplateElement>("template")!;
 
         for (const gramCat of await GrammaticalCategoryService.ReadAll()) {
@@ -144,13 +145,14 @@ export class EntryUIBuilder {
             input.value = String(gramCat.GetId());
             input.checked = entryGramCats.some(gc => gc.GetId() === gramCat.GetId());
             label.append(" " + gramCat.GetName());
-            fieldsetGramCats.appendChild(label);
+            container.appendChild(label);
         }
     }
 
     public static async GenerateGrammaticalGenreCheckboxes(form: Element, entry?: Entry) {
         const entryGenres: GrammaticalGenre[] = entry ? await GrammaticalGenreService.ReadAllByEntry(entry) : [];
         const fieldsetGenres: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-genres")!;
+        const container: HTMLDivElement = fieldsetGenres.querySelector<HTMLDivElement>("#grammatical-genre-checkboxes")!;
         const checkboxGenreTemplate: HTMLTemplateElement = fieldsetGenres.querySelector<HTMLTemplateElement>("template")!;
 
         for (const gramGenre of await GrammaticalGenreService.ReadAll()) {
@@ -159,7 +161,7 @@ export class EntryUIBuilder {
             input.value = String(gramGenre.GetId());
             input.checked = entryGenres.some(gg => gg.GetId() === gramGenre.GetId());
             label.append(" " + gramGenre.GetName());
-            fieldsetGenres.appendChild(label);
+            container.appendChild(label);
         }
     }
 
