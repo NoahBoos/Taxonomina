@@ -221,6 +221,8 @@ export class EntryUIBuilder {
         const definitionIdInput: HTMLInputElement = definitionElement.querySelector<HTMLInputElement>("#definition_id")!;
         if (definition) definitionIdInput.value = String(definition.GetId());
 
+        dropdown.classList.add("inactive");
+
         searchbar.addEventListener("input", async () => {
             EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, entries, translations, entry);
         });
