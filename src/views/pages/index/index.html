@@ -7,7 +7,7 @@
     <title>Taxonomina</title>
 </head>
 <body class="flex flex-row h-screen overflow-y-hidden">
-    <aside class="flex flex-col p-2 gap-4 w-[20%] h-screen ">
+    <aside>
         <section class="relative" id="dictionary-section">
             <button class="w-full flex flex-row items-center p-2 gap-2" id="dictionary-dropdown-button">
                 <span id="dictionary-title"></span>
@@ -18,9 +18,9 @@
             <ul data-role="dropdown" data-context="dictionary" id="dictionary-dropdown-menu" class="inactive"></ul>
             <p id="dictionary-description"></p>
         </section>
-        <section class="aside-section">
+        <section class="w-full space-y-2">
             <h2>Principaux</h2>
-            <button data-role="tab-button" class="aside-button" id="language-drawer-button">
+            <button data-role="tab-button" id="language-drawer-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-earth-icon lucide-earth">
                     <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/>
                     <path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/>
@@ -29,7 +29,7 @@
                 </svg>
                 <p>Langues</p>
             </button>
-            <button data-role="tab-button" class="aside-button" id="grammatical-category-drawer-button">
+            <button data-role="tab-button" id="grammatical-category-drawer-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dna-icon lucide-dna">
                     <path d="m10 16 1.5 1.5"/>
                     <path d="m14 8-1.5-1.5"/>
@@ -45,7 +45,7 @@
                 </svg>
                 <p>Catégories grammaticales</p>
             </button>
-            <button data-role="tab-button" class="aside-button" id="grammatical-genre-drawer-button">
+            <button data-role="tab-button" id="grammatical-genre-drawer-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-venus-and-mars-icon lucide-venus-and-mars">
                     <path d="M10 20h4"/>
                     <path d="M12 16v6"/>
@@ -55,7 +55,7 @@
                 </svg>
                 <p>Genres grammaticaux</p>
             </button>
-            <button data-role="tab-button" class="aside-button" id="entry-drawer-button">
+            <button data-role="tab-button" id="entry-drawer-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sticky-note-icon lucide-sticky-note">
                     <path d="M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/>
                     <path d="M15 3v5a1 1 0 0 0 1 1h5"/>
@@ -63,9 +63,9 @@
                 <p>Entrées</p>
             </button>
         </section>
-        <section class="aside-section mt-auto">
+        <section class="w-full space-y-2 mt-auto">
             <h2>Généraux</h2>
-            <button data-role="tab-button" class="aside-button" id="help-window-button">
+            <button data-role="tab-button" id="help-window-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-life-buoy-icon lucide-life-buoy">
                     <circle cx="12" cy="12" r="10"/>
                     <path d="m4.93 4.93 4.24 4.24"/>
@@ -76,7 +76,7 @@
                 </svg>
                 <p>Aides</p>
             </button>
-            <button data-role="tab-button" class="aside-button" id="settings-window-button">
+            <button data-role="tab-button" id="settings-window-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings">
                     <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/>
                     <circle cx="12" cy="12" r="3"/>
@@ -85,9 +85,9 @@
             </button>
         </section>
     </aside>
-    <main class="flex flex-row w-[80%] h-screen" id="main-container">
-        <section data-role="left-leaf" class="w-[30%] h-screen p-2" id="left-leaf"></section>
-        <section data-role="right-leaf" class="w-[70%] h-screen p-2 overflow-y-auto" id="right-leaf"></section>
+    <main id="main-container">
+        <section data-role="left-leaf" id="left-leaf"></section>
+        <section data-role="right-leaf" id="right-leaf"></section>
     </main>
 </body>
 </html>

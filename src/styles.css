@@ -39,6 +39,18 @@
     display: none;
 }
 
-.aside-section {
-    @apply w-full space-y-2;
+aside {
+    @apply flex flex-col p-2 gap-4 w-[20%] h-screen;
+}
+
+main {
+    @apply flex flex-row w-[80%] h-screen;
+}
+
+[data-role="left-leaf"] {
+    @apply w-[30%] h-screen p-2;
+}
+
+[data-role="right-leaf"] {
+    @apply w-[70%] h-screen p-2 overflow-y-auto;
 }
