@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@import './css/buttons.css';
+
 @theme {
     --color-primary-50: #fcf6fe;
     --color-primary-100: #f7e9fe;
@@ -38,22 +40,22 @@
     @apply absolute left-0 z-10 p-2 mt-1 w-full bg-white border rounded-md shadow-md;
 }
 
-.aside-button{
-    @apply w-full flex flex-row items-center px-3 py-1 rounded-md border border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors duration-200;
-}
+/*.aside-button{*/
+/*    @apply w-full flex flex-row items-center px-3 py-1 rounded-md border border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors duration-200;*/
+/*}*/
 
 
-#create-button, .create-button {
-    @apply w-fit p-2 rounded-md border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors duration-200;
-}
+/*#create-button, .create-button {*/
+/*    @apply w-fit p-2 rounded-md border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors duration-200;*/
+/*}*/
 
-#edit-button {
-    @apply w-fit p-2 rounded-md border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-200;
-}
+/*#edit-button {*/
+/*    @apply w-fit p-2 rounded-md border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-200;*/
+/*}*/
 
-#delete-button, .delete-button {
-    @apply flex flex-row gap-2 w-fit p-2 rounded-md border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200;
-}
+/*#delete-button, .delete-button {*/
+/*    @apply flex flex-row gap-2 w-fit p-2 rounded-md border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200;*/
+/*}*/
 
 #searchbar, #d-searchbar, #gts-searchbar {
     @apply w-full h-fit px-2 py-1 rounded-md border border-gray-300 bg-gray-100 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition-colors duration-200
@@ -63,9 +65,9 @@
     @apply w-full h-fit;
 }
 
-.thumbnail-button {
-    @apply w-full h-fit p-2 rounded-md border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-300 transition-colors duration-200;
-}
+/*.thumbnail-button {*/
+/*    @apply w-full h-fit p-2 rounded-md border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-300 transition-colors duration-200;*/
+/*}*/
 
 #language-menu, #grammatical-category-menu, #grammatical-genre-menu, #entry-menu {
     @apply flex flex-row justify-between items-center gap-2 mb-2;
@@ -111,6 +113,6 @@ select {
 }
 
 
-button[type="submit"] {
-    @apply block text-sm w-fit px-4 py-2 mx-auto rounded-lg font-semibold bg-primary-600 text-gray-100 shadow-sm border border-primary-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-primary-700 hover:border-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-1 active:translate-y-0 active:shadow-md;
-}
+/*button[type="submit"] {*/
+/*    @apply block text-sm w-fit px-4 py-2 mx-auto rounded-lg font-semibold bg-primary-600 text-gray-100 shadow-sm border border-primary-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-primary-700 hover:border-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-1 active:translate-y-0 active:shadow-md;*/
+/*}*/
