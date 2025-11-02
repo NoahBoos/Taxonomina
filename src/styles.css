@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @import './css/buttons.css';
+@import './css/drawers.css';
 @import './css/forms.css';
 @import './css/searchbars.css';
 
@@ -63,21 +64,21 @@
 /*    @apply w-full h-fit px-2 py-1 rounded-md border border-gray-300 bg-gray-100 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition-colors duration-200*/
 /*}*/
 
-.thumbnail {
-    @apply w-full h-fit;
-}
+/*.thumbnail {*/
+/*    @apply w-full h-fit;*/
+/*}*/
 
 /*.thumbnail-button {*/
 /*    @apply w-full h-fit p-2 rounded-md border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-300 transition-colors duration-200;*/
 /*}*/
 
-#language-menu, #grammatical-category-menu, #grammatical-genre-menu, #entry-menu {
-    @apply flex flex-row justify-between items-center gap-2 mb-2;
-}
+/*#language-menu, #grammatical-category-menu, #grammatical-genre-menu, #entry-menu {*/
+/*    @apply flex flex-row justify-between items-center gap-2 mb-2;*/
+/*}*/
 
-#language-container, #grammatical-category-container, #grammatical-genre-container, #entry-container {
-    @apply w-full h-fit flex flex-col justify-center items-center gap-2;
-}
+/*#language-container, #grammatical-category-container, #grammatical-genre-container, #entry-container {*/
+/*    @apply w-full h-fit flex flex-col justify-center items-center gap-2;*/
+/*}*/
 
 /*form {*/
 /*    @apply space-y-4;*/
