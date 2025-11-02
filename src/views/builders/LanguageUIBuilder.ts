@@ -95,31 +95,24 @@ export class LanguageUIBuilder {
         const languageContainer: HTMLElement = leftLeaf.querySelector("#language-container")!;
         languageContainer.replaceChildren();
 
-        const languageThumbnail: string | undefined = await window.txnmAPI.LoadTemplateAsString("thumbnails/language");
+        const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
+        if (!thumbnailTemplate) return;
 
         languages.forEach((language: Language) => {
-            let thumbnail: string = languageThumbnail!;
-            thumbnail = thumbnail.replace("{{id}}", String(language.GetId()));
-            thumbnail = thumbnail.replace("{{name_native}}", language.GetNameNative());
-            thumbnail = thumbnail.replace("{{name_local}}", language.GetNameLocal());
+            let thumbnail: Element = thumbnailTemplate.cloneNode(true) as Element;
+            const thumbnailButton: HTMLButtonElement = thumbnail.querySelector('[data-role="thumbnail-button"]')!;
 
-            try {
-                const content: string | undefined = thumbnail;
-                const parser = new DOMParser();
-                const html: Document = parser.parseFromString(content!, "text/html");
-                const thumbnailElement: Element = html.body.firstElementChild!;
-                const thumbnailElementButton: HTMLButtonElement = thumbnailElement.querySelector<HTMLButtonElement>("button")!;
+            thumbnailButton.id = String(language.GetId());
+            thumbnailButton.querySelector('[data-role="thumbnail-name_native"]')!.textContent = language.GetNameNative();
+            thumbnailButton.querySelector('[data-role="thumbnail-name_local"]')!.textContent = language.GetNameLocal();
 
-                thumbnailElementButton!.addEventListener("click", async (event: Event) => {
-                    await LanguageUIBuilder.CreateAndHandleForm(language);
-                    await LanguageUIBuilder.CreateAndHandleDeleteButton(language);
-                })
+            thumbnailButton.addEventListener("click", async (event: Event) => {
+                event.preventDefault();
+                await LanguageUIBuilder.CreateAndHandleForm(language);
+                await LanguageUIBuilder.CreateAndHandleDeleteButton(language);
+            });
 
-                return languageContainer.append(thumbnailElement);
-            } catch (error) {
-                console.error("An error happened trying to parse HTML from the provided template. \n", error);
-                return undefined;
-            }
+            languageContainer.append(thumbnail);
         })
     }
 
