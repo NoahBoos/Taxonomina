@@ -2,35 +2,6 @@ import {Language} from "../../database/models/Language";
 import {TemplateManager} from "../../utils/renderer/TemplateManager";
 
 export class LanguageUIBuilder {
-    /**
-     * Initializes and manages the **Language Drawer** UI component.
-     *
-     * This asynchronous function builds the interactive language management panel,
-     * handling both UI rendering and event wiring for user interactions.
-     *
-     * **Overview:**
-     * The Language Drawer provides tools for managing application languages, including:
-     * - A live search bar to filter languages by ISO codes or names.
-     * - A “+” button that opens a creation form.
-     * - A dynamically rendered list of all existing languages.
-     *
-     * Each listed language acts as a button that loads its corresponding edit form on click.
-     *
-     * **Functional Flow:**
-     * 1. Fetches and parses the drawer’s HTML template from `drawers/language`.
-     * 2. Injects the parsed template into the left container (`#left-leaf`).
-     * 3. Loads all existing languages from `window.txnmAPI.repositories.language.ReadAll()`.
-     * 4. Hydrates the raw data into `Language` instances.
-     * 5. Initializes a real-time search filter that dynamically updates the language list.
-     * 6. Registers an event listener on the creation button to open the language creation form.
-     * 7. Renders the complete list of available languages via `DisplayLanguageThumbnails()`.
-     *
-     * **Parameters:**
-     * None.
-     *
-     * **Returns:**
-     * @returns {Promise<void>} Resolves when the Language Drawer UI and all its event handlers are fully initialized.
-     */
     public static async CreateAndHandleDrawer(): Promise<void> {
         const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
         const languageDrawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
@@ -62,34 +33,6 @@ export class LanguageUIBuilder {
         }
     }
 
-    /**
-     * Renders and manages the list of language thumbnails within the Language Drawer UI.
-     *
-     * Each language is displayed as an interactive thumbnail generated from a predefined HTML template.
-     * These thumbnails act as clickable buttons that open the corresponding language edition form
-     * within the main interface’s right container (`#right-leaf`).
-     *
-     * **Overview:**
-     * This function rebuilds the language list dynamically each time it is invoked,
-     * ensuring the displayed content always reflects the current state of available languages.
-     *
-     * **Functional Flow:**
-     * 1. Selects and clears the language container inside the left panel (`#left-leaf`).
-     * 2. Loads the base thumbnail template from `window.txnmAPI.LoadTemplate("thumbnails/language")`.
-     * 3. Iterates over each provided `Language` instance.
-     * 4. For every language:
-     *    - Replaces template placeholders (`{{id}}`, `{{name_native}}`, `{{name_local}}`) with actual language data.
-     *    - Parses the resulting HTML string into a DOM element.
-     *    - Attaches a click event listener to the element’s button, triggering `CreateAndHandleLanguageForm(language)`.
-     *    - Appends the finalized thumbnail element to the language container.
-     * 5. Logs parsing or rendering errors to the console without halting execution.
-     *
-     * **Parameters:**
-     * @param {Language[]} languages - An array of `Language` instances to be rendered as thumbnails.
-     *
-     * **Returns:**
-     * @returns {Promise<void>} Resolves when all language thumbnails have been successfully rendered and event listeners registered.
-     */
     public static async DisplayThumbnails(languages: Language[]): Promise<void> {
         const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
         const languageContainer: HTMLElement = leftLeaf.querySelector("#language-container")!;
@@ -116,38 +59,6 @@ export class LanguageUIBuilder {
         })
     }
 
-    /**
-     * Initializes and manages the **Language Form** UI within the main interface.
-     *
-     * This asynchronous function renders the language creation or edition form inside the right container (`#right-leaf`),
-     * binds input fields and event handlers, and handles form submission logic to create or update a `Language` record.
-     *
-     * **Overview:**
-     * The Language Form can operate in two modes:
-     * - **Creation Mode:** When no `language` argument is provided, the form is rendered empty for new language entry.
-     * - **Edition Mode:** When a `Language` instance is provided, form fields are pre-filled for editing the existing record.
-     *
-     * **Functional Flow:**
-     * 1. Fetches and parses the language form HTML template (`forms/language`).
-     * 2. Injects the parsed template into the right container (`#right-leaf`), replacing existing content.
-     * 3. Selects all input fields (ISO codes, native/local names, direction, etc.).
-     * 4. If a `language` instance is passed, populates the input fields with its data.
-     * 5. Attaches an event listener to the **Submit** button that:
-     *    - Validates required inputs (`name_native`, `name_local`).
-     *    - Constructs a new `Language` instance from the form data.
-     *    - Sends the instance to the repository API:
-     *        - `Create()` if the language is new (`id == 0`).
-     *        - `Update()` if it already exists.
-     *    - On success, refreshes the Language Drawer (`CreateAndHandleLanguageDrawer()`),
-     *      reapplies the active search filter, re-renders the filtered list of languages,
-     *      and reopens the form for continued editing.
-     *
-     * **Parameters:**
-     * @param {Language} [language] - Optional `Language` instance to pre-fill the form for edition mode.
-     *
-     * **Returns:**
-     * @returns {Promise<void>} Resolves once the form has been rendered, initialized, and submission handlers attached.
-     */
     public static async CreateAndHandleForm(language?: Language): Promise<void> {
         const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
         const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
