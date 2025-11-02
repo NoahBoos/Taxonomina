@@ -2,6 +2,7 @@
 
 @import './css/buttons.css';
 @import './css/drawers.css';
+@import './css/dropdowns.css';
 @import './css/forms.css';
 @import './css/searchbars.css';
 
@@ -39,9 +40,9 @@
     @apply w-full space-y-2;
 }
 
-.dropdown {
-    @apply absolute left-0 z-10 p-2 mt-1 w-full bg-white border rounded-md shadow-md;
-}
+/*.dropdown {*/
+/*    @apply absolute left-0 z-10 p-2 mt-1 w-full bg-white border rounded-md shadow-md;*/
+/*}*/
 
 /*.aside-button{*/
 /*    @apply w-full flex flex-row items-center px-3 py-1 rounded-md border border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors duration-200;*/
