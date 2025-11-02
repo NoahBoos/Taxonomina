@@ -1,0 +1,7 @@
+[data-role="translation-tag"] {
+    @apply flex flex-row w-fit;
+}
+
+[data-role="translation-text"] {
+    @apply rounded-tl-md rounded-bl-md border-2 p-2;
+}

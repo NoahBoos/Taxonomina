@@ -22,8 +22,12 @@
     @apply flex flex-row gap-2 w-fit p-2 rounded-md border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200;
 }
 
+[data-role="delete-button"][data-variant="right-rounded"] {
+    @apply rounded-tr-md rounded-br-md rounded-tl-none rounded-bl-none;
+}
+
 [data-role="switch-button"] {
-    /*  STYLES  */
+    @apply w-full text-left;
 }
 
 [data-role="submit-button"] {

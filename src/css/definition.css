@@ -1,0 +1,11 @@
+[data-role="definition-container"] {
+    @apply flex flex-row flex-wrap gap-2 mt-2;
+}
+
+[data-role="definition"] {
+    @apply relative w-full border-dashed border-2 rounded-lg p-2;
+}
+
+[data-role="definition-title"] {
+    @apply text-gray-700 text-lg font-bold;
+}

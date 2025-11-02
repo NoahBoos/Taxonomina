@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 @import './css/buttons.css';
+@import './css/definition.css';
 @import './css/drawers.css';
 @import './css/dropdowns.css';
 @import './css/forms.css';
 @import './css/searchbars.css';
+@import './css/thumbnails.css';
+@import './css/translation.css';
 
 @theme {
     --color-primary-50: #fcf6fe;

@@ -41,6 +41,6 @@
     }
 }
 
-label, [data-role="group-label"] {
+label, [data-role="label"] {
     @apply block text-gray-700 text-sm font-bold;
 }

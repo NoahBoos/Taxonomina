@@ -1,3 +1,11 @@
 [data-role="dropdown"] {
     @apply absolute left-0 z-10 p-2 mt-1 w-full bg-white border rounded-md shadow-md;
 }
+
+[data-role="dropdown"][data-context="translation"]:not(.inactive) {
+    @apply flex flex-col gap-2;
+}
+
+[data-role="dropdown"][data-context="dictionary"] {
+    @apply space-y-2;
+}

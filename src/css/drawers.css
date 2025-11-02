@@ -7,7 +7,3 @@
 [data-role="drawer-container"] {
     @apply w-full h-fit flex flex-col justify-center items-center gap-2;
 }
-
-[data-role="thumbnail"] {
-    @apply w-full h-fit;
-}

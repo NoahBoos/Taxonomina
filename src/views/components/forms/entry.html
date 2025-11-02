@@ -27,7 +27,7 @@
             </div>
 
             <div data-role="checkbox-group" data-context="grammatical-genre" id="grammatical-genres">
-                <p data-role="group-label" class="text-gray-700 text-sm font-bold mb-2">Genres grammaticaux</p>
+                <p data-role="label" class="text-gray-700 text-sm font-bold mb-2">Genres grammaticaux</p>
                 <div data-role="checkbox-container" id="grammatical-genre-checkboxes"></div>
                 <template id="template-genre-checkbox">
                     <label><input type="checkbox" name="grammatical-genre" value=""></label>
@@ -41,7 +41,7 @@
     <div data-role="fieldset" class="relative mb-4" id="global-translations-section">
         <p data-role="fieldset-title" class="text-gray-700 text-sm font-bold mb-2">Traductions globales</p>
         <input data-role="translation-searchbar" type="text" id="gts-searchbar" placeholder="Rechercher une entrée">
-        <div data-role="dropdown" class="dropdown flex flex-col gap-2" id="gts-dropdown"></div>
+        <div data-role="dropdown" data-context="translation" id="gts-dropdown"></div>
         <div data-role="translation-container" class="flex flex-row flex-wrap gap-2 mt-2" id="gts-translation-items"></div>
     </div>
 
@@ -57,9 +57,9 @@
             </button>
         </div>
 
-        <div data-role="definition-container" class="flex flex-row flex-wrap gap-2 mt-2" id="ds-definition-items"></div>
+        <div data-role="definition-container" id="ds-definition-items"></div>
         <template id="ds-definition-template">
-            <div class="relative w-full border-dashed border-2 rounded-lg p-2" data-role="definition">
+            <div data-role="definition">
                 <div class="flex flex-row justify-between items-center mb-2">
                     <p data-role="definition-title">Définition</p>
                     <button data-role="delete-button" class="delete-button" id="d-remove-button">
@@ -70,13 +70,13 @@
                 </div>
                 <div data-role="text-area-group">
                     <label for="d-content">Texte de la définition</label>
-                    <textarea data-role="definition-input" class="min-w-full max-w-full h-24 p-2 bg-white rounded-lg" id="d-content"></textarea>
+                    <textarea class="min-w-full max-w-full h-24 p-2 bg-white rounded-lg" id="d-content"></textarea>
                 </div>
 
                 <div data-role="translation-section">
-                    <p data-role="definition-subtitle" class="text-gray-700 text-sm font-bold">Traductions</p>
+                    <p data-role="label">Traductions</p>
                     <input data-role="translation-searchbar" type="text" id="d-searchbar" placeholder="Rechercher une entrée">
-                    <div data-role="dropdown" class="dropdown flex flex-col gap-2" id="d-dropdown"></div>
+                    <div data-role="dropdown" data-context="translation" id="d-dropdown"></div>
                     <div data-role="translation-container" class="flex flex-row flex-wrap gap-2 mt-2" id="d-translation-items"></div>
                 </div>
                 <input type="hidden" id="definition_id" value="0">
@@ -85,10 +85,10 @@
     </div>
 
     <template id="gts-tag-template">
-        <div data-role="translation-tag" class="flex flex-row w-fit">
-            <p data-role="translation-text" class="rounded-tl-md rounded-bl-md border-2 p-2"></p>
+        <div data-role="translation-tag">
+            <p data-role="translation-text"></p>
             <input type="hidden" id="translation_id" value="0">
-            <button data-role="delete-button" data-context="translation" class="rounded-tr-md rounded-br-md flex flex-row gap-2 p-2 w-fit border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200">
+            <button data-role="delete-button" data-variant="right-rounded">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
                     <path d="M18 6 6 18"/>
                     <path d="m6 6 12 12"/>
