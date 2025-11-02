@@ -1,5 +1,116 @@
 @import "tailwindcss";
 
+@theme {
+    --color-primary-50: #fcf6fe;
+    --color-primary-100: #f7e9fe;
+    --color-primary-200: #f0d8fc;
+    --color-primary-300: #e4b9f9;
+    --color-primary-400: #d48cf4;
+    --color-primary-500: #c76cee;
+    --color-primary-600: #b03fde;
+    --color-primary-700: #992dc3;
+    --color-primary-800: #802a9f;
+    --color-primary-900: #682380;
+    --color-primary-950: #490d5e;
+
+    --color-secondary-50: #fff9ec;
+    --color-secondary-100: #fff3d4;
+    --color-secondary-200: #ffe5a8;
+    --color-secondary-300: #ffd36b;
+    --color-secondary-400: #ffb930;
+    --color-secondary-500: #fca311;
+    --color-secondary-600: #e18205;
+    --color-secondary-700: #b65c06;
+    --color-secondary-800: #8c450b;
+    --color-secondary-900: #6e370c;
+    --color-secondary-950: #3e1a03;
+}
+
 .inactive {
     display: none;
+}
+
+.aside-section {
+    @apply w-full space-y-2;
+}
+
+.dropdown {
+    @apply absolute left-0 z-10 p-2 mt-1 w-full bg-white border rounded-md shadow-md;
+}
+
+.aside-button{
+    @apply w-full flex flex-row items-center px-3 py-1 rounded-md border border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors duration-200;
+}
+
+
+#create-button, .create-button {
+    @apply w-fit p-2 rounded-md border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors duration-200;
+}
+
+#edit-button {
+    @apply w-fit p-2 rounded-md border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-200;
+}
+
+#delete-button, .delete-button {
+    @apply flex flex-row gap-2 w-fit p-2 rounded-md border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200;
+}
+
+#searchbar, #d-searchbar, #gts-searchbar {
+    @apply w-full h-fit px-2 py-1 rounded-md border border-gray-300 bg-gray-100 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition-colors duration-200
+}
+
+.thumbnail {
+    @apply w-full h-fit;
+}
+
+.thumbnail-button {
+    @apply w-full h-fit p-2 rounded-md border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-300 transition-colors duration-200;
+}
+
+#language-menu, #grammatical-category-menu, #grammatical-genre-menu, #entry-menu {
+    @apply flex flex-row justify-between items-center gap-2 mb-2;
+}
+
+#language-container, #grammatical-category-container, #grammatical-genre-container, #entry-container {
+    @apply w-full h-fit flex flex-col justify-center items-center gap-2;
+}
+
+form {
+    @apply space-y-4;
+}
+
+legend {
+    @apply m-0;
+}
+
+.input-container, fieldset#grammatical-categories, fieldset#grammatical-genres, fieldset#global-translations-section, fieldset#definitions-section {
+    @apply w-full p-5 space-y-2 bg-gray-300 rounded-lg;
+}
+
+#grammatical-genre-checkboxes, #grammatical-category-checkboxes {
+    @apply flex flex-row flex-wrap gap-2;
+}
+
+label {
+    @apply block text-gray-700 text-sm font-bold;
+}
+
+.input-container input:not([type="checkbox"]) {
+    @apply text-sm w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-primary-300 hover:shadow-lg hover:border-primary-300 hover:bg-primary-100 focus:bg-primary-200;
+}
+
+input[type="checkbox"] {
+    @apply transform scale-125 m-0;
+}
+
+select {
+    @apply text-sm w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-primary-300 hover:shadow-lg hover:border-primary-300 hover:bg-primary-100 focus:bg-primary-200;
+    option {
+        @apply bg-gray-100 ;
+    }
+}
+
+
+button[type="submit"] {
+    @apply block text-sm w-fit px-4 py-2 mx-auto rounded-lg font-semibold bg-primary-600 text-gray-100 shadow-sm border border-primary-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-primary-700 hover:border-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-1 active:translate-y-0 active:shadow-md;
 }

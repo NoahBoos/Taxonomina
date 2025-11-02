@@ -2,47 +2,55 @@
     <!-- Section Lemme -->
     <fieldset id="lemma-section">
         <legend>Lemme</legend>
-        <label for="lemma">Lemme</label>
-        <input type="text" id="lemma" name="lemma">
+        <div class="input-container mb-4">
+            <label for="lemma">Lemme</label>
+            <input type="text" id="lemma" name="lemma">
+        </div>
 
-        <label for="language">Langue</label>
-        <select id="language" name="language">
-            <template>
-                <option value=""></option>
-            </template>
-            <option value="default">-- Sélectionnez une langue --</option>
-        </select>
+        <div class="input-container mb-4">
+            <label for="language">Langue</label>
+            <select id="language" name="language">
+                <template>
+                    <option value=""></option>
+                </template>
+                <option value="default">-- Sélectionnez une langue --</option>
+            </select>
+        </div>
 
-        <fieldset id="grammatical-categories">
-            <legend>Catégories grammaticales</legend>
-            <template id="template-gramCat-checkbox">
-                <label><input type="checkbox" name="grammatical-category" value=""></label>
-            </template>
-        </fieldset>
+        <div class="flex flex-row justify-between gap-4">
+            <fieldset id="grammatical-categories">
+                <p class="text-gray-700 text-sm font-bold mb-2">Catégories grammaticales</p>
+                <div id="grammatical-category-checkboxes"></div>
+                <template id="template-gramCat-checkbox">
+                    <label><input type="checkbox" name="grammatical-category" value=""></label>
+                </template>
+            </fieldset>
 
-        <fieldset id="grammatical-genres">
-            <legend>Genres grammaticaux</legend>
-            <template id="template-genre-checkbox">
-                <label><input type="checkbox" name="grammatical-genre" value=""></label>
-            </template>
-        </fieldset>
+            <fieldset id="grammatical-genres">
+                <p class="text-gray-700 text-sm font-bold mb-2">Genres grammaticaux</p>
+                <div id="grammatical-genre-checkboxes"></div>
+                <template id="template-genre-checkbox">
+                    <label><input type="checkbox" name="grammatical-genre" value=""></label>
+                </template>
+            </fieldset>
+        </div>
         <input type="hidden" id="entry_id" value="0">
     </fieldset>
 
     <!-- Section Traductions -->
-    <fieldset id="global-translations-section">
-        <legend>Traductions globales</legend>
+    <fieldset class="relative mb-4" id="global-translations-section">
+        <p class="text-gray-700 text-sm font-bold mb-2">Traductions globales</p>
         <input type="text" id="gts-searchbar" placeholder="Rechercher une entrée">
-        <div id="gts-dropdown"></div>
+        <div class="dropdown flex flex-col gap-2" id="gts-dropdown"></div>
 
-        <div id="gts-translation-items"></div>
+        <div class="flex flex-row flex-wrap gap-2 mt-2" id="gts-translation-items"></div>
     </fieldset>
 
     <!-- Section Définitions -->
     <fieldset id="definitions-section">
-        <div>
-            <legend>Définitions</legend>
-            <button id="ds-add-button">
+        <div class="flex flex-row justify-between items-center">
+            <p class="text-gray-700 text-sm font-bold mb-2">Définitions</p>
+            <button class="create-button" id="ds-add-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                     <path d="M5 12h14"/>
                     <path d="M12 5v14"/>
@@ -50,34 +58,33 @@
             </button>
         </div>
 
-        <div id="ds-definition-items">
-
-        </div>
+        <div class="flex flex-row flex-wrap gap-2 mt-2" id="ds-definition-items"></div>
         <template id="ds-definition-template">
-            <div data-role="definition-item">
-                <div>
-                    <label for="d-content">Définition : </label>
-                    <button id="d-remove-button">
+            <div class="relative w-full border-dashed border-2 rounded-lg p-2" data-role="definition-item">
+                <div class="flex flex-row justify-between items-center mb-2">
+                    <label for="d-content">Définition </label>
+                    <button class="delete-button" id="d-remove-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus">
                             <path d="M5 12h14"/>
                         </svg>
                     </button>
                 </div>
-                <textarea id="d-content"></textarea>
+                <textarea class="min-w-full max-w-full h-24 p-2 bg-white rounded-lg" id="d-content"></textarea>
 
+                <p class="text-gray-700 text-sm font-bold">Traductions</p>
                 <input type="text" id="d-searchbar" placeholder="Rechercher une entrée">
-                <div id="d-dropdown"></div>
-                <div id="d-translation-items"></div>
+                <div class="dropdown flex flex-col gap-2" id="d-dropdown"></div>
+                <div class="flex flex-row flex-wrap gap-2 mt-2" id="d-translation-items"></div>
                 <input type="hidden" id="definition_id" value="0">
             </div>
         </template>
     </fieldset>
 
     <template id="gts-tag-template">
-        <div data-role="translation-tag">
-            <p></p>
+        <div class="flex flex-row w-fit" data-role="translation-tag">
+            <p class="rounded-tl-md rounded-bl-md border-2 p-2"></p>
             <input type="hidden" id="translation_id" value="0">
-            <button>
+            <button class="rounded-tr-md rounded-br-md flex flex-row gap-2 p-2 w-fit border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
                     <path d="M18 6 6 18"/>
                     <path d="m6 6 12 12"/>
