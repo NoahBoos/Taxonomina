@@ -173,6 +173,8 @@ export class EntryUIBuilder {
         const dropdown: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-dropdown")!;
         const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-translation-items")!;
 
+        dropdown.classList.add("inactive");
+
         searchbar.addEventListener("input", async () => {
             EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, entries, translations, entry);
         });
@@ -233,13 +235,17 @@ export class EntryUIBuilder {
     public static TranslationSearchbarBehaviour(searchbar: HTMLInputElement, dropdown: HTMLDivElement, translationTagContainer: HTMLDivElement, entries: Entry[], translations: Entry[], entry?: Entry) {
         if (searchbar.value === "") {
             dropdown.innerHTML = ""
+            dropdown.classList.add("inactive");
             return;
         }
 
         const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
         dropdown.innerHTML = '';
-        for (const filteredEntry of filteredEntries) {
-            EntryUIBuilder.AddTranslationButton(dropdown, translationTagContainer, searchbar, filteredEntry);
+        if (filteredEntries.length > 0) {
+            dropdown.classList.remove("inactive");
+            for (const filteredEntry of filteredEntries) {
+                EntryUIBuilder.AddTranslationButton(dropdown, translationTagContainer, searchbar, filteredEntry);
+            }
         }
     }
 
@@ -273,6 +279,7 @@ export class EntryUIBuilder {
     public static AddTranslationButton(parent: Element, translationTagContainer: Element, searchbar: HTMLInputElement, entry: Entry) {
         const button: HTMLButtonElement = document.createElement("button");
         button.innerText = entry.GetLemma();
+        button.classList.add("p-2", "border-2", "rounded-lg");
         button.addEventListener("click", async (event) => {
             event.preventDefault();
             await EntryUIBuilder.GenerateTranslationTag(translationTagContainer, EntryUIBuilder.tagTemplate, entry);
