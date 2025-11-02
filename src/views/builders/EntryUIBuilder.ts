@@ -135,7 +135,7 @@ export class EntryUIBuilder {
 
     public static async GenerateGrammaticalCategoryCheckboxes(form: Element, entry?: Entry) {
         const entryGramCats: GrammaticalCategory[] = entry ? await GrammaticalCategoryService.ReadAllByEntry(entry) : [];
-        const fieldsetGramCats: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-categories")!;
+        const fieldsetGramCats: HTMLDivElement = form.querySelector<HTMLDivElement>("div#grammatical-categories")!;
         const container: HTMLDivElement = fieldsetGramCats.querySelector<HTMLDivElement>("#grammatical-category-checkboxes")!;
         const checkboxGramCatTemplate: HTMLTemplateElement = fieldsetGramCats.querySelector<HTMLTemplateElement>("template")!;
 
@@ -151,7 +151,7 @@ export class EntryUIBuilder {
 
     public static async GenerateGrammaticalGenreCheckboxes(form: Element, entry?: Entry) {
         const entryGenres: GrammaticalGenre[] = entry ? await GrammaticalGenreService.ReadAllByEntry(entry) : [];
-        const fieldsetGenres: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-genres")!;
+        const fieldsetGenres: HTMLDivElement = form.querySelector<HTMLDivElement>("div#grammatical-genres")!;
         const container: HTMLDivElement = fieldsetGenres.querySelector<HTMLDivElement>("#grammatical-genre-checkboxes")!;
         const checkboxGenreTemplate: HTMLTemplateElement = fieldsetGenres.querySelector<HTMLTemplateElement>("template")!;
 
@@ -168,7 +168,7 @@ export class EntryUIBuilder {
     public static async GlobalTranslationFieldset(form: Element, entry?: Entry) {
         const entries: Entry[] = await EntryService.ReadAll();
         const translations: Entry[] = entry ? await EntryService.ReadAllByGlobalTranslation(entry) : [];
-        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#global-translations-section")!;
+        const fieldset: HTMLDivElement = form.querySelector<HTMLDivElement>("div#global-translations-section")!;
         const searchbar: HTMLInputElement = fieldset.querySelector<HTMLInputElement>("#gts-searchbar")!;
         const dropdown: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-dropdown")!;
         const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#gts-translation-items")!;
@@ -187,7 +187,7 @@ export class EntryUIBuilder {
     public static async DefinitionFieldset(form: Element, entry?: Entry) {
         const entries: Entry[] = await EntryService.ReadAll();
         const definitions: Definition[] = entry ? await DefinitionService.ReadAllByEntry(entry) : [];
-        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#definitions-section")!;
+        const fieldset: HTMLDivElement = form.querySelector<HTMLDivElement>("div#definitions-section")!;
         const addDefinitionButton: HTMLButtonElement = fieldset.querySelector("#ds-add-button")!;
         const container: HTMLDivElement = fieldset.querySelector<HTMLDivElement>("#ds-definition-items")!;
         const template: HTMLTemplateElement = fieldset.querySelector("#ds-definition-template")!;

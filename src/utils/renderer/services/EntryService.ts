@@ -154,7 +154,7 @@ export class EntryService {
 
     public static async ProcessDefinitions(form: Element, entry: Entry) {
         const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#definitions-section")!;
-        const definitionItems: NodeListOf<HTMLDivElement> = fieldset.querySelectorAll<HTMLDivElement>('div[data-role="definition-item"]');
+        const definitionItems: NodeListOf<HTMLDivElement> = fieldset.querySelectorAll<HTMLDivElement>('div[data-role="definition"]');
         const definitions: Definition[] = await DefinitionService.ReadAllByEntry(entry);
         const newDefinitionIds: number[] = [];
 
