@@ -94,25 +94,29 @@ export class EntryRepository {
     }
 
     public static BindToTranslation(entry: Entry, translation: Entry) {
+        const first_entry_id: number = Math.min(entry.GetQueryObject().entry_id, translation.GetQueryObject().entry_id);
+        const second_entry_id: number = Math.max(entry.GetQueryObject().entry_id, translation.GetQueryObject().entry_id);
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO entry_entry (first_entry_id, second_entry_id)
-            VALUES (@entry_id, @translation_id)
+            VALUES (@first_entry_id, @second_entry_id)
         `);
         const result: RunResult = statement.run({
-            entry_id: entry.GetQueryObject().entry_id,
-            translation_id: translation.GetQueryObject().entry_id
+            first_entry_id: first_entry_id,
+            second_entry_id: second_entry_id
         });
         return result.changes > 0;
     }
 
     public static UnbindFromTranslation(entry: Entry, translation: Entry) {
+        const first_entry_id: number = Math.min(entry.GetQueryObject().entry_id, translation.GetQueryObject().entry_id);
+        const second_entry_id: number = Math.max(entry.GetQueryObject().entry_id, translation.GetQueryObject().entry_id);
         const statement = Database.GetDatabase().prepare(`
             DELETE FROM entry_entry
-            WHERE first_entry_id = @entry_id AND second_entry_id = @translation_id
+            WHERE first_entry_id = @first_entry_id AND second_entry_id = @second_entry_id
         `);
         const result: RunResult = statement.run({
-            entry_id: entry.GetQueryObject().entry_id,
-            translation_id: translation.GetQueryObject().entry_id
+            first_entry_id: first_entry_id,
+            second_entry_id: second_entry_id
         });
         return result.changes > 0;
     }
