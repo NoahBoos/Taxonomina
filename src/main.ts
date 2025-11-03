@@ -33,6 +33,7 @@ const CreateIndexWindow = () => {
             // devTools: false
         }
     });
+    window.setMenuBarVisibility(false);
     InitializeSetting().then(r => {
         Database.InitializeDatabase();
     })
