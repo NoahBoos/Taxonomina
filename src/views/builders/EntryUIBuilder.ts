@@ -9,6 +9,9 @@ import {GrammaticalGenre} from "../../database/models/GrammaticalGenre";
 import {GrammaticalGenreService} from "../../utils/renderer/services/GrammaticalGenreService";
 import {Definition} from "../../database/models/Definition";
 import {DefinitionService} from "../../utils/renderer/services/DefinitionService";
+import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
+import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
+import {LanguageUIBuilder} from "./LanguageUIBuilder";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -20,6 +23,9 @@ export class EntryUIBuilder {
             EntryUIBuilder.isDrawerRevealed = !EntryUIBuilder.isDrawerRevealed;
 
             if (EntryUIBuilder.isDrawerRevealed) {
+                GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
+                GrammaticalGenreUIBuilder.isDrawerRevealed = false;
+                LanguageUIBuilder.isDrawerRevealed = false;
                 await EntryUIBuilder.Drawer();
             } else {
                 const leftLeaf: Element = document.querySelector("#left-leaf")!;

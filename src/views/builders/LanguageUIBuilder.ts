@@ -1,6 +1,9 @@
 import {Language} from "../../database/models/Language";
 import {TemplateManager} from "../../utils/renderer/TemplateManager";
 import {LanguageService} from "../../utils/renderer/services/LanguageService";
+import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
+import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
+import {EntryUIBuilder} from "./EntryUIBuilder";
 
 export class LanguageUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -11,6 +14,9 @@ export class LanguageUIBuilder {
             LanguageUIBuilder.isDrawerRevealed = !LanguageUIBuilder.isDrawerRevealed;
 
             if (LanguageUIBuilder.isDrawerRevealed) {
+                EntryUIBuilder.isDrawerRevealed = false;
+                GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
+                GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 await LanguageUIBuilder.Drawer();
             } else {
                 document.querySelector("#left-leaf")!.replaceChildren();
