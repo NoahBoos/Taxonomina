@@ -25,7 +25,30 @@ module.exports = {
           startMenu: true
         }
       }
-    }
+    },
+    // {
+    //   name: '@electron-forge/maker-deb',
+    //   config: {
+    //       options: {
+    //           maintainer: 'Noah Boos AKA Rift',
+    //           genericName: 'Taxonomina',
+    //           description: 'Taxonomina',
+    //           categories: ['Utility', 'Education'],
+    //           icon: "./assets/icon.ico",
+    //       }
+    //   }
+    // },
+    // {
+    //   name: '@electron-forge/maker-rpm',
+    //   config: {
+    //       options: {
+    //           maintainer: 'Noah Boos AKA Rift',
+    //           summary: 'Taxonomina',
+    //           description: 'Taxonomina',
+    //           icon: "./assets/icon.ico",
+    //       }
+    //   }
+    // }
   ],
   plugins: [
     {
