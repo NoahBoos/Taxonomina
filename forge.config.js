@@ -14,7 +14,7 @@ module.exports = {
         name: "Taxonomina",
         description: "Taxonomina",
         manufacturer: 'Noah Boos AKA Rift',
-        version: "1.0.0",
+        version: "1.0.0-alpha",
         icon: "./assets/icon.ico",
         shortcutFolderName: "Taxonomina",
         ui: {
