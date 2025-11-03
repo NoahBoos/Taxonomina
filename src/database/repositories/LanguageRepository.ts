@@ -20,16 +20,18 @@ export class LanguageRepository {
         return statement.get({language_id: id}) as Language ?? undefined;
     }
 
-    public static Create(language: Language): boolean {
+    public static Create(language: Language): [boolean, Language | undefined] {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO languages (iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
             values (@iso_639_1, @iso_639_3, @is_conlang, @name_native, @name_local, @direction)
         `);
         const result: RunResult = statement.run(language.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new Language(Number(result.lastInsertRowid), language.GetIso639_1(), language.GetIso639_3(), language.GetIsConlang(), language.GetNameNative(), language.GetNameLocal(), language.GetDirection())];
+        } else return [false, undefined];
     }
 
-    public static Update(language: Language): boolean {
+    public static Update(language: Language): [boolean, Language | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE languages
             SET iso_639_1 = @iso_639_1, 
@@ -41,7 +43,9 @@ export class LanguageRepository {
             WHERE id = @language_id
         `);
         const result: RunResult = statement.run(language.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new Language(language.GetId(), language.GetIso639_1(), language.GetIso639_3(), language.GetIsConlang(), language.GetNameNative(), language.GetNameLocal(), language.GetDirection())];
+        } else return [false, undefined];
     }
 
     public static Delete(language: Language): boolean {

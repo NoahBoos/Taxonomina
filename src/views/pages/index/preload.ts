@@ -69,8 +69,8 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         language: {
             ReadAll: (): Promise<Language[]> => ipcRenderer.invoke("txnmAPI:repositories:language:readAll"),
             ReadOne: (languageId: number) => ipcRenderer.invoke("txnmAPI:repositories:language:readOne", languageId),
-            Create: (rawLanguage: Language): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:language:create", rawLanguage),
-            Update: (rawLanguage: Language): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:language:update", rawLanguage),
+            Create: (rawLanguage: Language): Promise<[boolean, GrammaticalGenre | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:language:create", rawLanguage),
+            Update: (rawLanguage: Language): Promise<[boolean, GrammaticalGenre | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:language:update", rawLanguage),
             Delete: (rawLanguage: Language): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:language:delete", rawLanguage)
         }
     },
