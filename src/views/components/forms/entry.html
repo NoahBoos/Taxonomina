@@ -17,20 +17,26 @@
             </select>
         </div>
 
-        <div data-role="input-wrapper" class="flex flex-row justify-between gap-4">
-            <div data-role="checkbox-group" data-context="grammatical-category" id="grammatical-categories">
-                <p data-role="group-label" class="text-gray-700 text-sm font-bold mb-2">Catégories grammaticales</p>
+        <div data-role="input-wrapper">
+            <div data-role="checkbox-section" data-context="grammatical-category" id="grammatical-categories">
+                <p data-role="label">Catégories grammaticales</p>
                 <div data-role="checkbox-container" id="grammatical-category-checkboxes"></div>
                 <template id="template-gramCat-checkbox">
-                    <label><input type="checkbox" name="grammatical-category" value=""></label>
+                    <div data-role="checkbox-group">
+                        <input type="checkbox" name="grammatical-category" value="">
+                        <label></label>
+                    </div>
                 </template>
             </div>
 
-            <div data-role="checkbox-group" data-context="grammatical-genre" id="grammatical-genres">
-                <p data-role="label" class="text-gray-700 text-sm font-bold mb-2">Genres grammaticaux</p>
+            <div data-role="checkbox-section" data-context="grammatical-genre" id="grammatical-genres">
+                <p data-role="label">Genres grammaticaux</p>
                 <div data-role="checkbox-container" id="grammatical-genre-checkboxes"></div>
                 <template id="template-genre-checkbox">
-                    <label><input type="checkbox" name="grammatical-genre" value=""></label>
+                    <div data-role="checkbox-group">
+                        <input type="checkbox" name="grammatical-genre" value="">
+                        <label></label>
+                    </div>
                 </template>
             </div>
         </div>
@@ -38,8 +44,8 @@
     </div>
 
     <!-- Section Traductions -->
-    <div data-role="fieldset" class="relative mb-4" id="global-translations-section">
-        <p data-role="fieldset-title" class="text-gray-700 text-sm font-bold mb-2">Traductions globales</p>
+    <div data-role="fieldset" class="relative" id="global-translations-section">
+        <p data-role="fieldset-title">Traductions globales</p>
         <input data-role="searchbar" data-context="translation" type="text" id="gts-searchbar" placeholder="Rechercher une entrée">
         <div data-role="dropdown" data-context="translation" id="gts-dropdown"></div>
         <div data-role="translation-container" class="flex flex-row flex-wrap gap-2 mt-2" id="gts-translation-items"></div>
@@ -48,7 +54,7 @@
     <!-- Section Définitions -->
     <div data-role="fieldset" id="definitions-section">
         <div class="flex flex-row justify-between items-center">
-            <p data-role="fieldset-title" class="text-gray-700 text-sm font-bold mb-2">Définitions</p>
+            <p data-role="fieldset-title">Définitions</p>
             <button data-role="create-button" class="create-button" id="ds-add-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                     <path d="M5 12h14"/>
@@ -77,7 +83,7 @@
                     <p data-role="label">Traductions</p>
                     <input data-role="searchbar" data-context="translation" type="text" id="d-searchbar" placeholder="Rechercher une entrée">
                     <div data-role="dropdown" data-context="translation" id="d-dropdown"></div>
-                    <div data-role="translation-container" class="flex flex-row flex-wrap gap-2 mt-2" id="d-translation-items"></div>
+                    <div data-role="translation-container" id="d-translation-items"></div>
                 </div>
                 <input type="hidden" id="definition_id" value="0">
             </div>

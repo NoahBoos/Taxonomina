@@ -1,3 +1,7 @@
+[data-role="translation-container"] {
+    @apply flex flex-row flex-wrap gap-2 mt-2;
+}
+
 [data-role="translation-tag"] {
     @apply flex flex-row w-fit;
 }

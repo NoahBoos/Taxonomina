@@ -139,12 +139,13 @@ export class EntryUIBuilder {
         const checkboxGramCatTemplate: HTMLTemplateElement = fieldsetGramCats.querySelector<HTMLTemplateElement>("template")!;
 
         for (const gramCat of await GrammaticalCategoryService.ReadAll()) {
-            const label = checkboxGramCatTemplate.content.firstElementChild!.cloneNode(true) as HTMLLabelElement;
-            const input: HTMLInputElement = label.querySelector<HTMLInputElement>("input")!;
+            const checkbox = checkboxGramCatTemplate.content.firstElementChild!.cloneNode(true) as Element;
+            const label: HTMLLabelElement = checkbox.querySelector("label")!;
+            const input: HTMLInputElement = checkbox.querySelector("input")!;
             input.value = String(gramCat.GetId());
             input.checked = entryGramCats.some(gc => gc.GetId() === gramCat.GetId());
-            label.append(" " + gramCat.GetName());
-            container.appendChild(label);
+            label.textContent = gramCat.GetName();
+            container.appendChild(checkbox);
         }
     }
 
@@ -155,12 +156,13 @@ export class EntryUIBuilder {
         const checkboxGenreTemplate: HTMLTemplateElement = fieldsetGenres.querySelector<HTMLTemplateElement>("template")!;
 
         for (const gramGenre of await GrammaticalGenreService.ReadAll()) {
-            const label = checkboxGenreTemplate.content.firstElementChild!.cloneNode(true) as HTMLLabelElement;
-            const input: HTMLInputElement = label.querySelector<HTMLInputElement>("input")!;
+            const checkbox = checkboxGenreTemplate.content.firstElementChild!.cloneNode(true) as Element;
+            const label: HTMLLabelElement = checkbox.querySelector("label")!;
+            const input: HTMLInputElement = checkbox.querySelector("input")!;
             input.value = String(gramGenre.GetId());
             input.checked = entryGenres.some(gg => gg.GetId() === gramGenre.GetId());
-            label.append(" " + gramGenre.GetName());
-            container.appendChild(label);
+            label.textContent = gramGenre.GetName();
+            container.appendChild(checkbox);
         }
     }
 
