@@ -7,7 +7,6 @@ module.exports = {
   },
   rebuildConfig: {},
   makers: [
-    // Modèle du maker pour une build `.msi`, donc adaptée à Windows.
     {
       name: '@electron-forge/maker-wix',
       config: {
@@ -16,6 +15,7 @@ module.exports = {
         description: "Taxonomina",
         manufacturer: 'Noah Boos AKA Rift',
         version: "1.0.0",
+        icon: "./assets/icon.ico",
         shortcutFolderName: "Taxonomina",
         ui: {
           chooseDirectory: true
