@@ -294,6 +294,7 @@ export class EntryUIBuilder {
             await EntryUIBuilder.GenerateTranslationTag(translationTagContainer, EntryUIBuilder.tagTemplate, entry);
             button.remove();
             if (!parent.hasChildNodes()) {
+                parent.classList.add("inactive");
                 searchbar.value = '';
             }
         });
