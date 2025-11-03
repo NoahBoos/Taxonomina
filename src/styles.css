@@ -35,6 +35,10 @@
     --color-secondary-950: #3e1a03;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 .inactive {
     display: none;
 }
