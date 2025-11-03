@@ -75,7 +75,7 @@ export class EntryService {
 
     public static async ProcessEntry(form: Element) {
         const settings: TaxonominaSettings = await window.txnmAPI.settings.Load();
-        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#lemma-section")!;
+        const fieldset: HTMLDivElement = form.querySelector("#lemma-section")!;
         const entryId: number = parseInt(fieldset.querySelector<HTMLInputElement>("input#entry_id")!.value);
         const lemma: string = fieldset.querySelector<HTMLInputElement>("input#lemma")!.value;
         const languageId: number = parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value);
@@ -84,7 +84,7 @@ export class EntryService {
     }
 
     public static async ProcessGrammaticalCategories(form: Element, entry: Entry) {
-        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-categories")!;
+        const fieldset: HTMLDivElement = form.querySelector("#grammatical-categories")!;
         const checkboxes: NodeListOf<HTMLInputElement> = fieldset.querySelectorAll<HTMLInputElement>('input[name="grammatical-category"]');
         const entryCategories: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAllByEntry(entry);
 
@@ -103,7 +103,7 @@ export class EntryService {
     }
 
     public static async ProcessGrammaticalGenres(form: Element, entry: Entry) {
-        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#grammatical-genres")!;
+        const fieldset: HTMLDivElement = form.querySelector("#grammatical-genres")!;
         const checkboxes: NodeListOf<HTMLInputElement> = fieldset.querySelectorAll<HTMLInputElement>('input[name="grammatical-genre"]');
         const entryGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAllByEntry(entry);
 
@@ -122,7 +122,7 @@ export class EntryService {
     }
 
     public static async ProcessGlobalTranslations(form: Element, entry: Entry) {
-        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#global-translations-section")!;
+        const fieldset: HTMLDivElement = form.querySelector("#global-translations-section")!;
         const tags: NodeListOf<HTMLDivElement> = fieldset.querySelectorAll<HTMLDivElement>('div[data-role="translation-tag"]');
         const translations: Entry[] = await EntryService.ReadAllByGlobalTranslation(entry);
         const newTranslationIds: number[] = [];
@@ -144,7 +144,7 @@ export class EntryService {
     }
 
     public static async ProcessDefinitions(form: Element, entry: Entry) {
-        const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#definitions-section")!;
+        const fieldset: HTMLDivElement = form.querySelector("#definitions-section")!;
         const definitionItems: NodeListOf<HTMLDivElement> = fieldset.querySelectorAll<HTMLDivElement>('div[data-role="definition"]');
         const definitions: Definition[] = await DefinitionService.ReadAllByEntry(entry);
         const newDefinitionIds: number[] = [];
