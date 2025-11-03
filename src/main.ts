@@ -25,8 +25,8 @@ async function InitializeSetting() {
 
 const CreateIndexWindow = () => {
     const window = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1600,
+        height: 900,
         frame: true,
         webPreferences: {
             preload: path.join(__dirname, "views", "pages", "index", "preload.js"),
