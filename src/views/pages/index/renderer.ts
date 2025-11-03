@@ -9,11 +9,7 @@ async function Renderer() {
 
     await DictionaryUIBuilder.InitializeDictionarySection();
 
-    const languageDrawerButton: HTMLElement = document.getElementById("language-drawer-button")!;
-    languageDrawerButton.addEventListener("click", (event: Event) => {
-        LanguageUIBuilder.CreateAndHandleDrawer();
-    })
-
+    await LanguageUIBuilder.Initialize();
     await GrammaticalCategoryUIBuilder.Initialize();
     await GrammaticalGenreUIBuilder.Initialize();
     await EntryUIBuilder.Initialize();

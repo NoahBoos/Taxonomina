@@ -1,185 +1,149 @@
 import {Language} from "../../database/models/Language";
 import {TemplateManager} from "../../utils/renderer/TemplateManager";
+import {LanguageService} from "../../utils/renderer/services/LanguageService";
 
 export class LanguageUIBuilder {
-    public static async CreateAndHandleDrawer(): Promise<void> {
-        const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
-        const languageDrawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
-        if (languageDrawer) {
-            leftLeaf.replaceChildren(languageDrawer);
+    public static isDrawerRevealed: boolean = false;
 
-            const languagesRaw = await window.txnmAPI.repositories.language.ReadAll();
-            let languages: Language[] = languagesRaw.map(Language.Hydrate);
+    public static async Initialize() {
+        const button: HTMLButtonElement = document.querySelector("#language-drawer-button")!;
+        button.addEventListener("click", async () => {
+            LanguageUIBuilder.isDrawerRevealed = !LanguageUIBuilder.isDrawerRevealed;
 
-            const languageSearchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
-            languageSearchbar.addEventListener("input", async (event: Event) => {
-                const query: string = languageSearchbar.value.toLowerCase();
-                const filteredLanguages: Language[] = languagesRaw.map(Language.Hydrate).filter((language: Language) => {
-                    return [language.GetIso639_1(), language.GetIso639_3(), language.GetNameNative(), language.GetNameLocal()]
-                        .some(value => value.toLowerCase().includes(query.toLowerCase()));
-                });
-                console.log(filteredLanguages);
-                await LanguageUIBuilder.DisplayThumbnails(filteredLanguages);
-            })
-
-            const createFormButton: HTMLButtonElement = leftLeaf!.querySelector<HTMLButtonElement>("#create-button")!;
-            createFormButton?.addEventListener("click", async (event: Event) => {
-                event.preventDefault();
-                await LanguageUIBuilder.CreateAndHandleForm();
-            })
-
-            await LanguageUIBuilder.DisplayThumbnails(languages);
-            console.log("[Renderer] - " + JSON.stringify(languages));
-        }
+            if (LanguageUIBuilder.isDrawerRevealed) {
+                await LanguageUIBuilder.Drawer();
+            } else {
+                document.querySelector("#left-leaf")!.replaceChildren();
+                document.querySelector("#right-leaf")!.replaceChildren();
+            }
+        });
     }
 
-    public static async DisplayThumbnails(languages: Language[]): Promise<void> {
-        const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
-        const languageContainer: HTMLElement = leftLeaf.querySelector("#language-container")!;
-        languageContainer.replaceChildren();
+    public static async Drawer() {
+        const leftLeaf: Element = document.querySelector("#left-leaf")!;
+        leftLeaf.replaceChildren();
+        const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
+        if (!drawer) return;
+        await LanguageUIBuilder.Searchbar(drawer);
+        await LanguageUIBuilder.CreateButton(drawer);
+        await LanguageUIBuilder.List(drawer);
+        leftLeaf.appendChild(drawer);
+    }
 
-        const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
-        if (!thumbnailTemplate) return;
+    public static async Searchbar(drawer: Element) {
+        const searchbar: HTMLInputElement = drawer.querySelector("#searchbar")!;
+        searchbar.addEventListener("input", async () => {
+            const query: string = searchbar.value.toLowerCase();
+            await LanguageUIBuilder.UpdateSearchbar(drawer, query);
+        });
+    }
+
+    public static async UpdateSearchbar(drawer: Element, query: string) {
+        const languages: Language[] = await LanguageService.ReadAll();
+        const filteredLanguages: Language[] = languages.filter(loopedLanguage => {
+            return [loopedLanguage.GetIso639_1(), loopedLanguage.GetIso639_3(), loopedLanguage.GetNameNative(), loopedLanguage.GetNameLocal()]
+                .some(value => value.toLowerCase().includes(query.toLowerCase()));
+        });
+        await LanguageUIBuilder.List(drawer, filteredLanguages);
+    }
+
+    public static async List(drawer: Element, languages?: Language[]) {
+        const container: Element = drawer.querySelector("#language-container")!;
+        const template: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
+        if (!template) return;
+        container.replaceChildren();
+        if (!languages) languages = await LanguageService.ReadAll();
 
         languages.forEach((language: Language) => {
-            let thumbnail: Element = thumbnailTemplate.cloneNode(true) as Element;
-            const thumbnailButton: HTMLButtonElement = thumbnail.querySelector('[data-role="thumbnail-button"]')!;
+            const thumbnail: Element = template.cloneNode(true) as Element;
+            const button: HTMLButtonElement = thumbnail.querySelector('[data-role="thumbnail-button"]')!;
+            console.log(thumbnail);
+            button.id = String(language.GetId());
+            button.querySelector('[data-role="thumbnail-name_native"]')!.textContent = language.GetNameNative();
+            button.querySelector('[data-role="thumbnail-name_local"]')!.textContent = language.GetNameLocal();
 
-            thumbnailButton.id = String(language.GetId());
-            thumbnailButton.querySelector('[data-role="thumbnail-name_native"]')!.textContent = language.GetNameNative();
-            thumbnailButton.querySelector('[data-role="thumbnail-name_local"]')!.textContent = language.GetNameLocal();
-
-            thumbnailButton.addEventListener("click", async (event: Event) => {
+            button.addEventListener("click", async (event: Event) => {
                 event.preventDefault();
-                await LanguageUIBuilder.CreateAndHandleForm(language);
-                await LanguageUIBuilder.CreateAndHandleDeleteButton(language);
+                document.querySelector('#right-leaf')!.replaceChildren();
+                await LanguageUIBuilder.Form(drawer, language);
             });
 
-            languageContainer.append(thumbnail);
+            container.appendChild(thumbnail);
+        });
+    }
+
+    public static async Form(drawer: Element, language?: Language) {
+        const rightLeaf: Element = document.querySelector("#right-leaf")!;
+        const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/language");
+        if (!form) return;
+        const inputISO6391: HTMLInputElement = form.querySelector<HTMLInputElement>("#iso_639_1")!;
+        const inputISO6393: HTMLInputElement = form.querySelector<HTMLInputElement>("#iso_639_3")!;
+        const inputIsConlang: HTMLInputElement = form.querySelector<HTMLInputElement>("#is_conlang")!;
+        const inputNameNative: HTMLInputElement = form.querySelector<HTMLInputElement>("#name_native")!;
+        const inputNameLocal: HTMLInputElement = form.querySelector<HTMLInputElement>("#name_local")!;
+        const inputDirection: HTMLInputElement = form.querySelector<HTMLInputElement>("#direction")!;
+        const inputId: HTMLInputElement = form.querySelector<HTMLInputElement>("#id")!;
+        const button: HTMLButtonElement = form.querySelector<HTMLButtonElement>("button#submit")!;
+
+        if (!language) {
+            button.innerText = "Créer une langue";
+        } else {
+            inputISO6391.value = language.GetIso639_1();
+            inputISO6393.value = language.GetIso639_3();
+            inputIsConlang.checked = language.GetIsConlang();
+            inputNameNative.value = language.GetNameNative();
+            inputNameLocal.value = language.GetNameLocal();
+            inputDirection.value = language.GetDirection();
+            inputId.value = String(language.GetId());
+            button.innerText = "Mettre à jour la langue";
+        }
+
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            let language: Language = new Language(
+                parseInt(inputId.value) ?? 0,
+                inputISO6391.value ?? "",
+                inputISO6393.value ?? "",
+                inputIsConlang.checked ?? false,
+                inputNameNative.value ?? "",
+                inputNameLocal.value ?? "",
+                inputDirection.value ?? "ltr"
+            );
+            let [success, savedLanguage] = await LanguageService.Save(language);
+            if (success && savedLanguage) {
+                rightLeaf.replaceChildren();
+                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await LanguageUIBuilder.List(drawer);
+                await LanguageUIBuilder.UpdateSearchbar(drawer, query);
+                await LanguageUIBuilder.Form(drawer, savedLanguage ? savedLanguage : undefined);
+            }
+        });
+
+        rightLeaf.appendChild(form);
+        if (language) await LanguageUIBuilder.DeleteButton(drawer, language);
+    }
+
+    public static async CreateButton(drawer: Element) {
+        const button: HTMLButtonElement = drawer.querySelector("#create-button")!;
+        button.addEventListener("click", async () => {
+            document.querySelector("#right-leaf")!.replaceChildren();
+            await LanguageUIBuilder.Form(drawer);
         })
     }
 
-    public static async CreateAndHandleForm(language?: Language): Promise<void> {
-        const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
-        const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
-        const languageCreationForm: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/language");
-        if (languageCreationForm) {
-            rightLeaf.replaceChildren(languageCreationForm);
-
-            const inputISO6391: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#iso_639_1")!;
-            const inputISO6393: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#iso_639_3")!;
-            const inputIsConlang: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#is_conlang")!;
-            const inputNameNative: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#name_native")!;
-            const inputNameLocal: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#name_local")!;
-            const inputDirection: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#direction")!;
-            const inputId: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#id")!;
-
-            if (language) {
-                inputISO6391.value = language.GetIso639_1();
-                inputISO6393.value = language.GetIso639_3();
-                inputIsConlang.checked = language.GetIsConlang();
-                inputNameNative.value = language.GetNameNative();
-                inputNameLocal.value = language.GetNameLocal();
-                inputDirection.value = language.GetDirection();
-                inputId.value = String(language.GetId());
+    public static async DeleteButton(drawer: Element, language: Language) {
+        const rightLeaf: HTMLElement = document.querySelector("#right-leaf")!;
+        const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
+        if (!button) return;
+        button.id = String(language.GetId());
+        button.addEventListener("click", async () => {
+            const success: boolean = await LanguageService.Delete(language);
+            if (success) {
+                rightLeaf.replaceChildren();
+                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await LanguageUIBuilder.UpdateSearchbar(drawer, query);
             }
-
-            const button: HTMLButtonElement = rightLeaf.querySelector<HTMLButtonElement>("#submit")!;
-            button?.addEventListener("click", async (event: Event): Promise<void> => {
-                event.preventDefault();
-
-                if (inputNameNative.value == "" || inputNameLocal.value == "") return;
-
-                let language: Language = new Language(
-                    parseInt(inputId.value) ?? 0,
-                    inputISO6391.value ?? "",
-                    inputISO6393.value ?? "",
-                    inputIsConlang.checked ?? false,
-                    inputNameNative.value ?? "",
-                    inputNameLocal.value ?? "",
-                    inputDirection.value ?? "ltr",
-                );
-
-                let success: boolean
-                if (language.GetId() == 0) {
-                    success = await window.txnmAPI.repositories.language.Create(language);
-                } else {
-                    success = await window.txnmAPI.repositories.language.Update(language);
-                }
-
-                if (success) {
-                    const query: string = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!.value;
-                    await LanguageUIBuilder.CreateAndHandleDrawer();
-                    const searchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
-                    searchbar.value = query;
-                    const filteredLanguages: Language[] = await window.txnmAPI.repositories.language.ReadAll().then(
-                        (languagesRaw: Language[]): Language[] => {
-                            return languagesRaw.map(Language.Hydrate).filter((language: Language) => {
-                                return [language.GetIso639_1(), language.GetIso639_3(), language.GetNameNative(), language.GetNameLocal()]
-                                    .some(value => value.toLowerCase().includes(query.toLowerCase()));
-                            })
-                        }
-                    );
-                    await LanguageUIBuilder.DisplayThumbnails(filteredLanguages);
-                    await LanguageUIBuilder.CreateAndHandleForm(language ? language : undefined);
-                }
-            })
-        }
-    }
-
-    /**
-     * Creates and manages the **Delete Button** for a specific `Language` in the interface.
-     *
-     * This asynchronous function generates a delete button for the given `Language`, injects it into the
-     * right container (`#right-leaf`), and attaches the click event listener that handles deletion and UI updates.
-     *
-     * **Functional Flow:**
-     * 1. Fetches and parses the delete button template (`buttons/delete`) as a string.
-     * 2. Replaces the `{id}` placeholder in the template with the language's ID.
-     * 3. Converts the template string into a DOM element and appends it to the right container (`#right-leaf`).
-     * 4. Attaches a click event listener that:
-     *    - Calls `window.txnmAPI.repositories.language.Delete(language)` to remove the language.
-     *    - If deletion succeeds:
-     *        - Saves the current search query from `#searchbar`.
-     *        - Refreshes the Language Drawer (`CreateAndHandleLanguageDrawer()`).
-     *        - Reapplies the previous search query.
-     *        - Filters all languages based on ISO codes, native name, or local name.
-     *        - Renders the filtered languages as thumbnails (`DisplayLanguageThumbnails()`).
-     *        - Clears the right container (`#right-leaf`) to remove the button.
-     *
-     * **Parameters:**
-     * @param {Language} language - The `Language` instance for which the delete button is created.
-     *
-     * **Returns:**
-     * @returns {Promise<void>} Resolves once the delete button has been created, the event listener attached, and the UI has been updated after a deletion event.
-     */
-    public static async CreateAndHandleDeleteButton(language: Language): Promise<void> {
-        const leftLeaf: HTMLElement = document.getElementById("left-leaf")!;
-        const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
-        let deleteButtonString: string | undefined = await TemplateManager.LoadTemplateAsString("buttons/delete");
-        deleteButtonString = deleteButtonString!.replace("{id}", String(language.GetId()));
-        const deleteButton: Element | undefined = await TemplateManager.ParseHTMLFromString(deleteButtonString);
-        if (deleteButton) {
-            deleteButton.addEventListener("click", async (event: Event): Promise<void> => {
-                const success: boolean = await window.txnmAPI.repositories.language.Delete(language);
-                if (success) {
-                    const query: string = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!.value;
-                    await LanguageUIBuilder.CreateAndHandleDrawer();
-                    const searchbar: HTMLInputElement = leftLeaf.querySelector<HTMLInputElement>("#searchbar")!;
-                    searchbar.value = query;
-                    const filteredLanguages: Language[] = await window.txnmAPI.repositories.language.ReadAll().then(
-                        (languagesRaw: Language[]): Language[] => {
-                            return languagesRaw.map(Language.Hydrate).filter((language: Language) => {
-                                return [language.GetIso639_1(), language.GetIso639_3(), language.GetNameNative(), language.GetNameLocal()]
-                                    .some(value => value.toLowerCase().includes(query.toLowerCase()));
-                            })
-                        }
-                    );
-                    await LanguageUIBuilder.DisplayThumbnails(filteredLanguages);
-                    rightLeaf.replaceChildren();
-                }
-            })
-            rightLeaf.appendChild(deleteButton);
-        }
+        });
+        rightLeaf.appendChild(button);
     }
 }
