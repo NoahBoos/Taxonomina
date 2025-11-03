@@ -65,7 +65,6 @@ export class EntryService {
 
     public static async ProcessForm(form: Element) {
         const [success, entry] = await EntryService.ProcessEntry(form);
-        console.log("Thrown ID : " + entry?.GetId());
         if (success && entry) {
             await EntryService.ProcessGrammaticalCategories(form, entry);
             await EntryService.ProcessGrammaticalGenres(form, entry);
@@ -78,11 +77,9 @@ export class EntryService {
         const settings: TaxonominaSettings = await window.txnmAPI.settings.Load();
         const fieldset: HTMLFieldSetElement = form.querySelector<HTMLFieldSetElement>("fieldset#lemma-section")!;
         const entryId: number = parseInt(fieldset.querySelector<HTMLInputElement>("input#entry_id")!.value);
-        console.log("VALUE : " + entryId);
         const lemma: string = fieldset.querySelector<HTMLInputElement>("input#lemma")!.value;
         const languageId: number = parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value);
         const entry = new Entry(entryId, settings.currentDictionary, languageId, lemma);
-        console.log("ENTRY TO ADD : " + entry.GetId());
         return await EntryService.Save(entry);
     }
 
@@ -92,22 +89,16 @@ export class EntryService {
         const entryCategories: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAllByEntry(entry);
 
         for (const checkbox of checkboxes) {
-            console.log("Tentative de gestion d'une catégorie grammaticale déclenchée.");
             // TODO : Récupération via mapping des catégories, pour éviter les surcharges sur la BDD.
             const category: GrammaticalCategory = await GrammaticalCategoryService.ReadOne(Number(checkbox.value));
             const isBound: boolean = entryCategories.some(loopedCategory => loopedCategory.GetId() == category.GetId());
             if (checkbox.checked) {
                 if (isBound) continue;
-                console.log("CATEGORY : " + category.GetId());
-                console.log("ENTRY : " + entry.GetId());
                 await EntryService.BindToGrammaticalCategory(entry, category);
-                console.log("Lien créé.");
             } else {
                 if (!isBound) continue;
                 await EntryService.UnbindFromGrammaticalCategory(entry, category);
-                console.log("Lien supprimé.");
             }
-            console.log("Tentative de gestion d'une catégorie grammaticale terminée.");
         }
     }
 

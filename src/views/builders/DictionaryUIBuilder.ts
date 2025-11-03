@@ -15,12 +15,10 @@ export class DictionaryUIBuilder {
         const dropdownMenu: HTMLElement = document.getElementById("dictionary-dropdown-menu")!;
         const dropdownStateObserver = new MutationObserver(async () => {
            if (!dropdownMenu.classList.contains("inactive")) {
-               console.log(`La classe inactive vient d'être retirée.`);
                const currentDictionary: Dictionary = await DictionaryService.GetCurrentDictionary();
                let dictionaries: Dictionary[] = await DictionaryService.GetAllDictionariesButOne(currentDictionary);
                await DictionaryUIBuilder.InitializeDropdown(dictionaries);
            } else {
-               console.log(`La classe inactive vient d'être ajoutée.`);
                dropdownMenu.replaceChildren();
            }
         });

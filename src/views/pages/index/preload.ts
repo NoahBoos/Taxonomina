@@ -75,5 +75,3 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         }
     },
 })
-
-console.log("[Preload] - Loaded");

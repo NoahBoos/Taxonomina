@@ -57,7 +57,7 @@ export class LanguageUIBuilder {
         languages.forEach((language: Language) => {
             const thumbnail: Element = template.cloneNode(true) as Element;
             const button: HTMLButtonElement = thumbnail.querySelector('[data-role="thumbnail-button"]')!;
-            console.log(thumbnail);
+
             button.id = String(language.GetId());
             button.querySelector('[data-role="thumbnail-name_native"]')!.textContent = language.GetNameNative();
             button.querySelector('[data-role="thumbnail-name_local"]')!.textContent = language.GetNameLocal();

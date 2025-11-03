@@ -5,8 +5,6 @@ import {GrammaticalGenreUIBuilder} from "../../builders/GrammaticalGenreUIBuilde
 import {EntryUIBuilder} from "../../builders/EntryUIBuilder";
 
 async function Renderer() {
-    console.log("[Renderer] - Renderer() called.");
-
     await DictionaryUIBuilder.InitializeDictionarySection();
 
     await LanguageUIBuilder.Initialize();
@@ -15,5 +13,4 @@ async function Renderer() {
     await EntryUIBuilder.Initialize();
 }
 
-console.log("[Renderer] - Loaded");
 Renderer();

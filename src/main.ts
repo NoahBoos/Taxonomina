@@ -37,7 +37,6 @@ const CreateIndexWindow = () => {
         Database.InitializeDatabase();
     })
     window.loadFile(path.join(__dirname, "views", "pages", "index", "index.html"));
-    console.log("[Main] - Loaded");
 }
 
 app.whenReady().then(() => {

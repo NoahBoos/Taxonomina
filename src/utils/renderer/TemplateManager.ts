@@ -17,7 +17,6 @@ export class TemplateManager {
     public static async LoadTemplateAsHTML(templatePath: string) {
         try {
             const stringToParse: string | undefined = await this.LoadTemplateAsString(templatePath);
-            console.log(stringToParse);
             if (!stringToParse) throw new Error("Impossible to load the request template.");
             const html: Element | undefined = await this.ParseHTMLFromString(stringToParse);
             if (!html) throw new Error("An error happened trying to parse HTML from the provided string.");

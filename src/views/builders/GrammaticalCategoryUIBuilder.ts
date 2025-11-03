@@ -9,7 +9,6 @@ export class GrammaticalCategoryUIBuilder {
         const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#grammatical-category-drawer-button")!;
         drawerButton.addEventListener("click", async () => {
             GrammaticalCategoryUIBuilder.isDrawerRevealed = !GrammaticalCategoryUIBuilder.isDrawerRevealed;
-            console.log("Is drawer revealed ? " + GrammaticalCategoryUIBuilder.isDrawerRevealed);
 
             if (GrammaticalCategoryUIBuilder.isDrawerRevealed) {
                 await GrammaticalCategoryUIBuilder.Drawer();

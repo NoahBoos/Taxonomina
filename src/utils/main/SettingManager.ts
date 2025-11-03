@@ -24,7 +24,6 @@ export class SettingManager {
         try {
             const stringToParse: string = await readFile(join(app.getPath("userData"), "settings.json"), "utf8");
             const settings: TaxonominaSettings = JSON.parse(stringToParse);
-            console.log("Settings successfully loaded :\n", settings);
             return settings;
         } catch (error) {
             console.error("An error occurred while loading settings :\n", error);

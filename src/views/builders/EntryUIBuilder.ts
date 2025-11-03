@@ -62,7 +62,6 @@ export class EntryUIBuilder {
     }
 
     public static async List(drawer: Element, entries?: Entry[]) {
-        console.log(drawer)
         const container: Element = drawer.querySelector("#entry-container")!;
         const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/entry");
         if (!thumbnailTemplate) return;
