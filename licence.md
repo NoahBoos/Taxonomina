@@ -3,7 +3,7 @@
 *Cette licence s’applique au projet Taxonomina.*  
 *Dépôt GitHub : https://github.com/NoahBoos/Taxonomina*
 
-Ce logiciel, y compris son code source, ses ressources et tous les éléments qui y sont associés, est distribué selon les termes de la **Licence Taxonomina v1.1 (Usage Restreint)**.
+Ce logiciel, y compris son code source, ses ressources et tous les éléments qui y sont associés, est distribué selon les termes de la **Licence Taxonomina v1.0**.
 
 ---
 
