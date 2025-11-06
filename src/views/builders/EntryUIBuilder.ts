@@ -28,16 +28,15 @@ export class EntryUIBuilder {
                 LanguageUIBuilder.isDrawerRevealed = false;
                 await EntryUIBuilder.Drawer();
             } else {
-                const leftLeaf: Element = document.querySelector("#left-leaf")!;
-                leftLeaf.replaceChildren();
-                const rightLeaf: Element = document.querySelector("#right-leaf")!;
-                rightLeaf.replaceChildren();
+                document.querySelector("#left-leaf")!.replaceChildren();
+                document.querySelector('#left-leaf')!.classList.add('hidden');
             }
         });
     }
 
     public static async Drawer() {
         const leftLeaf: Element = document.querySelector("#left-leaf")!;
+        leftLeaf.classList.remove('hidden');
         leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/entry");
         const entries: Entry[] = await EntryService.ReadAll();

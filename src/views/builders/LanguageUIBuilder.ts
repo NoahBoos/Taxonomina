@@ -20,13 +20,14 @@ export class LanguageUIBuilder {
                 await LanguageUIBuilder.Drawer();
             } else {
                 document.querySelector("#left-leaf")!.replaceChildren();
-                document.querySelector("#right-leaf")!.replaceChildren();
+                document.querySelector('#left-leaf')!.classList.add('hidden');
             }
         });
     }
 
     public static async Drawer() {
         const leftLeaf: Element = document.querySelector("#left-leaf")!;
+        leftLeaf.classList.remove('hidden');
         leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
         if (!drawer) return;
