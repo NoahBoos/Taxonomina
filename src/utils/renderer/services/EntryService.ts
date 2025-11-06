@@ -159,9 +159,10 @@ export class EntryService {
 
             if (definition_id === 0) {
                 const text: string = definitionItem.querySelector<HTMLTextAreaElement>('textarea#d-content')!.value;
-                if (text == '') continue;
 
                 definition = new Definition(0, text);
+                if (!definition.Validate()) return;
+                definition.Normalize();
                 const [success, savedDefinition] = await DefinitionService.Save(definition);
 
                 if (!success || !savedDefinition) {

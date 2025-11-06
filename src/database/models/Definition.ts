@@ -31,4 +31,17 @@ export class Definition {
             raw.definition
         )
     }
+
+    public Validate() {
+        if (!this.definition.trim()) {
+            console.warn("Une définition ne peut être vide, processus d'ajout des définitions annulé.")
+            return false;
+        }
+
+        return true;
+    }
+
+    public Normalize() {
+        this.definition = this.definition.charAt(0).toUpperCase() + this.definition.slice(1)
+    }
 }
