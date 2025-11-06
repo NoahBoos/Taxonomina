@@ -91,9 +91,7 @@ export class EntryService {
         const fieldset: HTMLDivElement = form.querySelector("#lemma-section")!;
         const id: number = parseInt(fieldset.querySelector<HTMLInputElement>("input#entry_id")!.value);
         const lemma: string = fieldset.querySelector<HTMLInputElement>("input#lemma")!.value;
-        const language_id: number = parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
-            ? parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
-            : 0;
+        const language_id: number = parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value);
         const entry = new Entry(id, settings.currentDictionary, language_id, lemma);
         if (!entry.Validate()) throw new Error(`Unable to validate entry: ${entry}`);
         entry.Normalize();
