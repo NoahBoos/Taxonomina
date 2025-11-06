@@ -98,16 +98,12 @@ export class GrammaticalGenreUIBuilder {
 
         submitButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-
-            const gramGenre: GrammaticalGenre | undefined = new GrammaticalGenre(parseInt(inputId.value), inputName.value);
-            if (!gramGenre.Validate()) return;
-            gramGenre.Normalize();
-            const [success, savedGenre] = await GrammaticalGenreService.Save(gramGenre);
-            if (success && savedGenre) {
+            const [success, savedGrammaticalGenre] = await GrammaticalGenreService.ProcessForm(form);
+            if (success && savedGrammaticalGenre) {
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await GrammaticalGenreUIBuilder.List(drawer);
                 await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
-                await GrammaticalGenreUIBuilder.Form(drawer, gramGenre ? gramGenre : undefined);
+                await GrammaticalGenreUIBuilder.Form(drawer, savedGrammaticalGenre ? savedGrammaticalGenre : undefined);
             }
         });
 

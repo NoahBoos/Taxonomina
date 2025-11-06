@@ -27,4 +27,13 @@ export class GrammaticalGenreService {
     public static async Delete(gramGenre: GrammaticalGenre): Promise<boolean> {
         return await window.txnmAPI.repositories.grammaticalGenre.Delete(gramGenre);
     }
+
+    public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalGenre | undefined]> {
+        const entryId: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
+        const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
+        let grammaticalGenre: GrammaticalGenre = new GrammaticalGenre(entryId, name);
+        if (!grammaticalGenre.Validate()) return [false, undefined];
+        grammaticalGenre.Normalize();
+        return await GrammaticalGenreService.Save(grammaticalGenre);
+    }
 }
