@@ -89,12 +89,12 @@ export class EntryService {
     public static async ProcessEntry(form: Element): Promise<[boolean, Entry | undefined]> {
         const settings: TaxonominaSettings = await window.txnmAPI.settings.Load();
         const fieldset: HTMLDivElement = form.querySelector("#lemma-section")!;
-        const entryId: number = parseInt(fieldset.querySelector<HTMLInputElement>("input#entry_id")!.value);
+        const id: number = parseInt(fieldset.querySelector<HTMLInputElement>("input#entry_id")!.value);
         const lemma: string = fieldset.querySelector<HTMLInputElement>("input#lemma")!.value;
-        const languageId: number = parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
+        const language_id: number = parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
             ? parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
             : 0;
-        const entry = new Entry(entryId, settings.currentDictionary, languageId, lemma);
+        const entry = new Entry(id, settings.currentDictionary, language_id, lemma);
         if (!entry.Validate()) {
             throw new Error(`Unable to validate entry: ${entry}`);
         }
