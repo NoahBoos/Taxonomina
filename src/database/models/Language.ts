@@ -100,4 +100,13 @@ export class Language {
 
         return true;
     }
+
+    public Normalize(): void {
+        this.iso_639_1 = this.iso_639_1.trim().toLowerCase();
+        this.iso_639_3 = this.iso_639_3.trim().toLowerCase();
+        this.name_native = this.name_native.trim();
+        this.name_native = this.name_native.charAt(0).toUpperCase() + this.name_native.slice(1);
+        this.name_local = this.name_local.trim();
+        this.name_local = this.name_local.charAt(0).toUpperCase() + this.name_local.slice(1);
+    }
 }

@@ -116,6 +116,7 @@ export class LanguageUIBuilder {
                 inputDirection.value ?? "ltr"
             );
             if (!language.Validate()) return;
+            language.Normalize();
             let [success, savedLanguage] = await LanguageService.Save(language);
             if (success && savedLanguage) {
                 rightLeaf.replaceChildren();
