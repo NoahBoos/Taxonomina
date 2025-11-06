@@ -95,9 +95,7 @@ export class EntryService {
             ? parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
             : 0;
         const entry = new Entry(id, settings.currentDictionary, language_id, lemma);
-        if (!entry.Validate()) {
-            throw new Error(`Unable to validate entry: ${entry}`);
-        }
+        if (!entry.Validate()) throw new Error(`Unable to validate entry: ${entry}`);
         entry.Normalize();
         return await EntryService.Save(entry);
     }
@@ -176,9 +174,7 @@ export class EntryService {
                 const text: string = definitionItem.querySelector<HTMLTextAreaElement>('textarea#d-content')!.value;
 
                 definition = new Definition(0, text);
-                if (!definition.Validate()) {
-                    throw new Error(`Unable to validate entry: ${definition}`);
-                }
+                if (!definition.Validate()) throw new Error(`Unable to validate entry: ${definition}`);
                 definition.Normalize();
                 const [success, savedDefinition] = await DefinitionService.Save(definition);
 
