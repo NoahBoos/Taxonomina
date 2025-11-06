@@ -16,8 +16,12 @@ import {LanguageUIBuilder} from "./LanguageUIBuilder";
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
     public static tagTemplate: HTMLTemplateElement;
+    private static leftLeaf: Element;
+    private static rightLeaf: Element;
 
     public static async Initialize() {
+        this.leftLeaf = document.querySelector("#left-leaf")!;
+        this.rightLeaf = document.querySelector("#right-leaf")!;
         const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#entry-drawer-button")!;
         drawerButton.addEventListener("click", async () => {
             EntryUIBuilder.isDrawerRevealed = !EntryUIBuilder.isDrawerRevealed;
@@ -28,16 +32,15 @@ export class EntryUIBuilder {
                 LanguageUIBuilder.isDrawerRevealed = false;
                 await EntryUIBuilder.Drawer();
             } else {
-                document.querySelector("#left-leaf")!.replaceChildren();
-                document.querySelector('#left-leaf')!.classList.add('hidden');
+                this.leftLeaf.replaceChildren();
+                this.leftLeaf.classList.add('hidden');
             }
         });
     }
 
     public static async Drawer() {
-        const leftLeaf: Element = document.querySelector("#left-leaf")!;
-        leftLeaf.classList.remove('hidden');
-        leftLeaf.replaceChildren();
+        this.leftLeaf.classList.remove('hidden');
+        this.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/entry");
         const entries: Entry[] = await EntryService.ReadAll();
         if (!drawer) {
@@ -46,7 +49,7 @@ export class EntryUIBuilder {
             await EntryUIBuilder.Searchbar(drawer);
             await EntryUIBuilder.CreateButton(drawer);
             await EntryUIBuilder.List(drawer, entries);
-            leftLeaf.appendChild(drawer);
+            this.leftLeaf.appendChild(drawer);
         }
     }
 
@@ -79,8 +82,7 @@ export class EntryUIBuilder {
            thumbnailButton.id = String(entry.GetId());
            thumbnailButton.innerText = entry.GetLemma();
            thumbnailButton.addEventListener("click", async () => {
-              const rightLeaf: Element = document.querySelector("#right-leaf")!;
-              rightLeaf.replaceChildren();
+               this.rightLeaf.replaceChildren();
               await EntryUIBuilder.Form(drawer, entry);
            });
            container.appendChild(thumbnail);
@@ -92,8 +94,7 @@ export class EntryUIBuilder {
     }
 
     public static async Form(drawer: Element, entry?: Entry) {
-        const rightLeaf: Element = document.querySelector("#right-leaf")!;
-        rightLeaf.replaceChildren();
+        this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/entry");
         if (!form) return;
         EntryUIBuilder.tagTemplate = form.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
@@ -124,7 +125,7 @@ export class EntryUIBuilder {
             await EntryUIBuilder.Form(drawer, savedEntry ? savedEntry : undefined);
         });
 
-        rightLeaf.appendChild(form);
+        this.rightLeaf.appendChild(form);
         if (entry) await EntryUIBuilder.DeleteButton(drawer, entry);
     }
 
@@ -307,25 +308,23 @@ export class EntryUIBuilder {
     public static async CreateButton(drawer: Element) {
         const button: HTMLButtonElement = drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
-            const rightLeaf: Element = document.querySelector("#right-leaf")!;
-            rightLeaf.replaceChildren();
+            this.rightLeaf.replaceChildren();
             await EntryUIBuilder.Form(drawer);
         });
     }
 
     public static async DeleteButton(drawer: Element, entry: Entry) {
-        const rightLeaf: HTMLElement = document.querySelector("#right-leaf")!;
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(entry.GetId());
         button.addEventListener("click", async () => {
             const success: boolean = await EntryService.Delete(entry);
             if (success) {
-                rightLeaf.replaceChildren();
+                this.rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await EntryUIBuilder.UpdateSearchbar(drawer, query);
             }
         });
-        rightLeaf.appendChild(button);
+        this.rightLeaf.appendChild(button);
     }
 }

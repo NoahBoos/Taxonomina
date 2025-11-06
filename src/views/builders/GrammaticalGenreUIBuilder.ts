@@ -7,8 +7,12 @@ import {EntryUIBuilder} from "./EntryUIBuilder";
 
 export class GrammaticalGenreUIBuilder {
     public static isDrawerRevealed: boolean = false;
+    private static leftLeaf: Element;
+    private static rightLeaf: Element;
 
     public static async Initialize() {
+        this.leftLeaf = document.querySelector("#left-leaf")!;
+        this.rightLeaf = document.querySelector("#right-leaf")!;
         const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#grammatical-genre-drawer-button")!;
         drawerButton.addEventListener("click", async () => {
             GrammaticalGenreUIBuilder.isDrawerRevealed = !GrammaticalGenreUIBuilder.isDrawerRevealed;
@@ -19,16 +23,15 @@ export class GrammaticalGenreUIBuilder {
                 LanguageUIBuilder.isDrawerRevealed = false;
                 await GrammaticalGenreUIBuilder.Drawer();
             } else {
-                document.querySelector("#left-leaf")!.replaceChildren();
-                document.querySelector('#left-leaf')!.classList.add('hidden');
+                this.leftLeaf.replaceChildren();
+                this.leftLeaf.classList.add('hidden');
             }
         });
     }
 
     public static async Drawer() {
-        const leftLeaf: Element = document.querySelector("#left-leaf")!;
-        leftLeaf.classList.remove('hidden');
-        leftLeaf.replaceChildren();
+        this.leftLeaf.classList.remove('hidden');
+        this.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/grammatical-genre");
         const gramGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll();
         if (!drawer) {
@@ -37,7 +40,7 @@ export class GrammaticalGenreUIBuilder {
             await GrammaticalGenreUIBuilder.Searchbar(drawer);
             await GrammaticalGenreUIBuilder.CreateButton(drawer);
             await GrammaticalGenreUIBuilder.List(drawer, gramGenres);
-            leftLeaf.appendChild(drawer);
+            this.leftLeaf.appendChild(drawer);
         }
     }
 
@@ -70,8 +73,7 @@ export class GrammaticalGenreUIBuilder {
             thumbnailButton.id = String(gramGenre.GetId());
             thumbnailButton.innerText = gramGenre.GetName();
             thumbnailButton.addEventListener("click", async () => {
-                const rightLeaf: Element = document.querySelector("#right-leaf")!;
-                rightLeaf.replaceChildren();
+                this.rightLeaf.replaceChildren();
                 await GrammaticalGenreUIBuilder.Form(drawer, gramGenre);
             });
             container.appendChild(thumbnail);
@@ -79,8 +81,7 @@ export class GrammaticalGenreUIBuilder {
     }
 
     public static async Form(drawer: Element, gramGenre?: GrammaticalGenre) {
-        const rightLeaf: Element = document.querySelector("#right-leaf")!;
-        rightLeaf.replaceChildren();
+        this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-genre");
         if (!form) return;
         const inputName: HTMLInputElement = form.querySelector<HTMLInputElement>("#name")!;
@@ -106,32 +107,30 @@ export class GrammaticalGenreUIBuilder {
             }
         });
 
-        rightLeaf.appendChild(form);
+        this.rightLeaf.appendChild(form);
         if (gramGenre) await GrammaticalGenreUIBuilder.DeleteButton(drawer, gramGenre);
     }
 
     public static async CreateButton(drawer: Element) {
         const button: HTMLButtonElement = drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
-            const rightLeaf: Element = document.querySelector("#right-leaf")!;
-            rightLeaf.replaceChildren();
+            this.rightLeaf.replaceChildren();
             await GrammaticalGenreUIBuilder.Form(drawer);
         })
     }
 
     public static async DeleteButton(drawer: Element, gramGenre: GrammaticalGenre) {
-        const rightLeaf: HTMLElement = document.querySelector("#right-leaf")!;
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(gramGenre.GetId());
         button.addEventListener("click", async () => {
             const success: boolean = await GrammaticalGenreService.Delete(gramGenre);
             if (success) {
-                rightLeaf.replaceChildren();
+                this.rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
             }
         });
-        rightLeaf.appendChild(button);
+        this.rightLeaf.appendChild(button);
     }
 }

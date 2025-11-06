@@ -7,8 +7,12 @@ import {EntryUIBuilder} from "./EntryUIBuilder";
 
 export class LanguageUIBuilder {
     public static isDrawerRevealed: boolean = false;
+    private static leftLeaf: Element;
+    private static rightLeaf: Element;
 
     public static async Initialize() {
+        this.leftLeaf = document.querySelector("#left-leaf")!;
+        this.rightLeaf = document.querySelector("#right-leaf")!;
         const button: HTMLButtonElement = document.querySelector("#language-drawer-button")!;
         button.addEventListener("click", async () => {
             LanguageUIBuilder.isDrawerRevealed = !LanguageUIBuilder.isDrawerRevealed;
@@ -19,22 +23,21 @@ export class LanguageUIBuilder {
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 await LanguageUIBuilder.Drawer();
             } else {
-                document.querySelector("#left-leaf")!.replaceChildren();
-                document.querySelector('#left-leaf')!.classList.add('hidden');
+                this.leftLeaf.replaceChildren();
+                this.leftLeaf.classList.add('hidden');
             }
         });
     }
 
     public static async Drawer() {
-        const leftLeaf: Element = document.querySelector("#left-leaf")!;
-        leftLeaf.classList.remove('hidden');
-        leftLeaf.replaceChildren();
+        this.leftLeaf.classList.remove('hidden');
+        this.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
         if (!drawer) return;
         await LanguageUIBuilder.Searchbar(drawer);
         await LanguageUIBuilder.CreateButton(drawer);
         await LanguageUIBuilder.List(drawer);
-        leftLeaf.appendChild(drawer);
+        this.leftLeaf.appendChild(drawer);
     }
 
     public static async Searchbar(drawer: Element) {
@@ -80,8 +83,7 @@ export class LanguageUIBuilder {
     }
 
     public static async Form(drawer: Element, language?: Language) {
-        const rightLeaf: Element = document.querySelector("#right-leaf")!;
-        rightLeaf.replaceChildren();
+        this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/language");
         if (!form) return;
         const inputISO6391: HTMLInputElement = form.querySelector<HTMLInputElement>("#iso_639_1")!;
@@ -117,7 +119,7 @@ export class LanguageUIBuilder {
             }
         });
 
-        rightLeaf.appendChild(form);
+        this.rightLeaf.appendChild(form);
         if (language) await LanguageUIBuilder.DeleteButton(drawer, language);
     }
 
@@ -130,18 +132,17 @@ export class LanguageUIBuilder {
     }
 
     public static async DeleteButton(drawer: Element, language: Language) {
-        const rightLeaf: HTMLElement = document.querySelector("#right-leaf")!;
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(language.GetId());
         button.addEventListener("click", async () => {
             const success: boolean = await LanguageService.Delete(language);
             if (success) {
-                rightLeaf.replaceChildren();
+                this.rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await LanguageUIBuilder.UpdateSearchbar(drawer, query);
             }
         });
-        rightLeaf.appendChild(button);
+        this.rightLeaf.appendChild(button);
     }
 }
