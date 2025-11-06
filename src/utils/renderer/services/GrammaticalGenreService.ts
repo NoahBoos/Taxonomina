@@ -29,9 +29,9 @@ export class GrammaticalGenreService {
     }
 
     public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalGenre | undefined]> {
-        const entryId: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
+        const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
         const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
-        let grammaticalGenre: GrammaticalGenre = new GrammaticalGenre(entryId, name);
+        let grammaticalGenre: GrammaticalGenre = new GrammaticalGenre(id, name);
         if (!grammaticalGenre.Validate()) return [false, undefined];
         grammaticalGenre.Normalize();
         return await GrammaticalGenreService.Save(grammaticalGenre);

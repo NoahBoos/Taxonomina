@@ -29,9 +29,9 @@ export class GrammaticalCategoryService {
     }
 
     public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalCategory | undefined]> {
-        const entryId: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
+        const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
         const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
-        let grammaticalCategory: GrammaticalCategory = new GrammaticalCategory(entryId, name);
+        let grammaticalCategory: GrammaticalCategory = new GrammaticalCategory(id, name);
         if (!grammaticalCategory.Validate()) return [false, undefined];
         grammaticalCategory.Normalize();
         return await GrammaticalCategoryService.Save(grammaticalCategory);
