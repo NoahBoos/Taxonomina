@@ -81,6 +81,7 @@ export class GrammaticalCategoryUIBuilder {
 
     public static async Form(drawer: Element, gramCat?: GrammaticalCategory) {
         const rightLeaf: Element = document.querySelector("#right-leaf")!;
+        rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-category");
         if (!form) return;
         const inputName: HTMLInputElement = form.querySelector<HTMLInputElement>("#name")!;
@@ -103,11 +104,9 @@ export class GrammaticalCategoryUIBuilder {
             gramCat.Normalize();
             let [success, savedGramCat]: [boolean, GrammaticalCategory | undefined] = await GrammaticalCategoryService.Save(gramCat);
             if (success && savedGramCat) {
-                rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await GrammaticalCategoryUIBuilder.List(drawer);
                 await GrammaticalCategoryUIBuilder.UpdateSearchbar(drawer, query)
-                await GrammaticalCategoryUIBuilder.Form(drawer, savedGramCat ? savedGramCat : undefined);
             }
         });
 
