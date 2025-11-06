@@ -99,6 +99,8 @@ export class GrammaticalGenreUIBuilder {
             event.preventDefault();
 
             const gramGenre: GrammaticalGenre | undefined = new GrammaticalGenre(parseInt(inputId.value), inputName.value);
+            if (!gramGenre.Validate()) return;
+            gramGenre.Normalize();
             const [success, savedGenre] = await GrammaticalGenreService.Save(gramGenre);
             if (success && savedGenre) {
                 rightLeaf.replaceChildren();
