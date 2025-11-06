@@ -81,6 +81,7 @@ export class GrammaticalGenreUIBuilder {
 
     public static async Form(drawer: Element, gramGenre?: GrammaticalGenre) {
         const rightLeaf: Element = document.querySelector("#right-leaf")!;
+        rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-genre");
         if (!form) return;
         const inputName: HTMLInputElement = form.querySelector<HTMLInputElement>("#name")!;
@@ -103,11 +104,9 @@ export class GrammaticalGenreUIBuilder {
             gramGenre.Normalize();
             const [success, savedGenre] = await GrammaticalGenreService.Save(gramGenre);
             if (success && savedGenre) {
-                rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await GrammaticalGenreUIBuilder.List(drawer);
                 await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
-                await GrammaticalGenreUIBuilder.Form(drawer, savedGenre ? savedGenre : undefined);
             }
         });
 
