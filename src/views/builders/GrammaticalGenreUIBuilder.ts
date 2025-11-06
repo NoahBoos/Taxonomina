@@ -107,6 +107,7 @@ export class GrammaticalGenreUIBuilder {
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await GrammaticalGenreUIBuilder.List(drawer);
                 await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
+                await GrammaticalGenreUIBuilder.Form(drawer, gramGenre ? gramGenre : undefined);
             }
         });
 

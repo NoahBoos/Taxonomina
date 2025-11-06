@@ -123,6 +123,7 @@ export class LanguageUIBuilder {
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await LanguageUIBuilder.List(drawer);
                 await LanguageUIBuilder.UpdateSearchbar(drawer, query);
+                await LanguageUIBuilder.Form(drawer, savedLanguage ? savedLanguage : undefined);
             }
         });
 

@@ -122,6 +122,7 @@ export class EntryUIBuilder {
             const query: string = drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
             const savedEntry: Entry | undefined = await EntryService.ProcessForm(form);
             await EntryUIBuilder.UpdateSearchbar(drawer, query);
+            await EntryUIBuilder.Form(drawer, savedEntry ? savedEntry : undefined);
         });
 
         rightLeaf.appendChild(form);
