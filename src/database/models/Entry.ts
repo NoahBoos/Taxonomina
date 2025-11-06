@@ -50,4 +50,20 @@ export class Entry {
             raw.lemma,
         );
     }
+
+    public Validate() {
+        if (this.dictionary_id === 0) {
+            return false;
+        } else if (this.language_id === 0) {
+            return false;
+        } else if (!this.lemma.trim()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Normalize(): void {
+        this.lemma = this.lemma.charAt(0).toUpperCase() + this.lemma.slice(1);
+    }
 }

@@ -78,8 +78,12 @@ export class EntryService {
         const fieldset: HTMLDivElement = form.querySelector("#lemma-section")!;
         const entryId: number = parseInt(fieldset.querySelector<HTMLInputElement>("input#entry_id")!.value);
         const lemma: string = fieldset.querySelector<HTMLInputElement>("input#lemma")!.value;
-        const languageId: number = parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value);
+        const languageId: number = parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
+            ? parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
+            : 0;
         const entry = new Entry(entryId, settings.currentDictionary, languageId, lemma);
+        if (!entry.Validate()) return [false, undefined];
+        entry.Normalize();
         return await EntryService.Save(entry);
     }
 
