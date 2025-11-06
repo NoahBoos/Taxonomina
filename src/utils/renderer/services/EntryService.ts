@@ -73,7 +73,7 @@ export class EntryService {
         }
     }
 
-    public static async ProcessEntry(form: Element) {
+    public static async ProcessEntry(form: Element): Promise<[boolean, Entry | undefined]> {
         const settings: TaxonominaSettings = await window.txnmAPI.settings.Load();
         const fieldset: HTMLDivElement = form.querySelector("#lemma-section")!;
         const entryId: number = parseInt(fieldset.querySelector<HTMLInputElement>("input#entry_id")!.value);
