@@ -27,4 +27,13 @@ export class GrammaticalCategoryService {
     public static async Delete(gramCat: GrammaticalCategory): Promise<boolean> {
         return await window.txnmAPI.repositories.grammaticalCategory.Delete(gramCat);
     }
+
+    public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalCategory | undefined]> {
+        const entryId: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
+        const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
+        let grammaticalCategory: GrammaticalCategory = new GrammaticalCategory(entryId, name);
+        if (!grammaticalCategory.Validate()) return [false, undefined];
+        grammaticalCategory.Normalize();
+        return await GrammaticalCategoryService.Save(grammaticalCategory);
+    }
 }
