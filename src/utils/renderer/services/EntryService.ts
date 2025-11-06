@@ -79,6 +79,7 @@ export class EntryService {
                 await EntryService.ProcessDefinitions(form, entry);
                 console.log("Definitions processed successfully.");
                 await DatabaseService.CommitTransaction();
+                return entry;
             }
         } catch (error) {
             await DatabaseService.RollbackTransaction();

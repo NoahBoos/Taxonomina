@@ -120,7 +120,7 @@ export class EntryUIBuilder {
         submitButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
             const query: string = drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
-            await EntryService.ProcessForm(form);
+            const savedEntry: Entry | undefined = await EntryService.ProcessForm(form);
             await EntryUIBuilder.UpdateSearchbar(drawer, query);
         });
 
