@@ -94,6 +94,7 @@ export class EntryUIBuilder {
 
     public static async Form(drawer: Element, entry?: Entry) {
         const rightLeaf: Element = document.querySelector("#right-leaf")!;
+        rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/entry");
         if (!form) return;
         EntryUIBuilder.tagTemplate = form.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
