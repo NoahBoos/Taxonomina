@@ -78,6 +78,7 @@ export class EntryService {
                 console.log("Global translations processed successfully.");
                 await EntryService.ProcessDefinitions(form, entry);
                 console.log("Definitions processed successfully.");
+                await DatabaseService.CommitTransaction();
             }
         } catch (error) {
             await DatabaseService.RollbackTransaction();
