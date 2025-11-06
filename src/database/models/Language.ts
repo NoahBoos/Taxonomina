@@ -86,4 +86,18 @@ export class Language {
             raw.direction
         );
     }
+
+    public Validate(): boolean {
+        if (this.iso_639_1?.trim() && this.iso_639_1?.trim().length !== 2) {
+            return false;
+        } else if (this.iso_639_3.trim().length !== 3) {
+            return false;
+        } else if (!this.name_native.trim()) {
+            return false;
+        } else if (!this.name_local.trim()) {
+            return false;
+        }
+
+        return true;
+    }
 }
