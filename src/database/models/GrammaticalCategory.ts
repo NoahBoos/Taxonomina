@@ -31,4 +31,16 @@ export class GrammaticalCategory {
             raw.name
         );
     }
+
+    public Validate(): boolean {
+        if (!this.name.trim()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Normalize(): void {
+        this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
+    }
 }

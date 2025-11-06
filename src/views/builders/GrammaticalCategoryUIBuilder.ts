@@ -99,6 +99,8 @@ export class GrammaticalCategoryUIBuilder {
             event.preventDefault();
 
             let gramCat: GrammaticalCategory = new GrammaticalCategory(parseInt(inputId.value), inputName.value);
+            if (!gramCat.Validate()) return;
+            gramCat.Normalize();
             let [success, savedGramCat]: [boolean, GrammaticalCategory | undefined] = await GrammaticalCategoryService.Save(gramCat);
             if (success && savedGramCat) {
                 rightLeaf.replaceChildren();
