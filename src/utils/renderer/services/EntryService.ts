@@ -6,6 +6,7 @@ import {GrammaticalGenre} from "../../../database/models/GrammaticalGenre";
 import {GrammaticalCategoryService} from "./GrammaticalCategoryService";
 import {GrammaticalGenreService} from "./GrammaticalGenreService";
 import {DefinitionService} from "./DefinitionService";
+import {DatabaseService} from "./DatabaseService";
 
 export class EntryService {
     public static async ReadAll(): Promise<Entry[]> {
@@ -64,12 +65,22 @@ export class EntryService {
     }
 
     public static async ProcessForm(form: Element) {
-        const [success, entry] = await EntryService.ProcessEntry(form);
-        if (success && entry) {
-            await EntryService.ProcessGrammaticalCategories(form, entry);
-            await EntryService.ProcessGrammaticalGenres(form, entry);
-            await EntryService.ProcessGlobalTranslations(form, entry);
-            await EntryService.ProcessDefinitions(form, entry);
+        await DatabaseService.BeginTransaction();
+        try {
+            const [success, entry] = await EntryService.ProcessEntry(form);
+            console.log("Entry added successfully.");
+            if (success && entry) {
+                await EntryService.ProcessGrammaticalCategories(form, entry);
+                console.log("Grammatical categories processed successfully.");
+                await EntryService.ProcessGrammaticalGenres(form, entry);
+                console.log("Grammatical genres processed successfully.");
+                await EntryService.ProcessGlobalTranslations(form, entry);
+                console.log("Global translations processed successfully.");
+                await EntryService.ProcessDefinitions(form, entry);
+                console.log("Definitions processed successfully.");
+            }
+        } catch (error) {
+            await DatabaseService.RollbackTransaction();
         }
     }
 
@@ -82,7 +93,9 @@ export class EntryService {
             ? parseInt(fieldset.querySelector<HTMLSelectElement>("select#language")!.value)
             : 0;
         const entry = new Entry(entryId, settings.currentDictionary, languageId, lemma);
-        if (!entry.Validate()) return [false, undefined];
+        if (!entry.Validate()) {
+            throw new Error(`Unable to validate entry: ${entry}`);
+        }
         entry.Normalize();
         return await EntryService.Save(entry);
     }
@@ -161,7 +174,9 @@ export class EntryService {
                 const text: string = definitionItem.querySelector<HTMLTextAreaElement>('textarea#d-content')!.value;
 
                 definition = new Definition(0, text);
-                if (!definition.Validate()) return;
+                if (!definition.Validate()) {
+                    throw new Error(`Unable to validate entry: ${definition}`);
+                }
                 definition.Normalize();
                 const [success, savedDefinition] = await DefinitionService.Save(definition);
 
