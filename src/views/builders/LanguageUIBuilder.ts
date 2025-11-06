@@ -80,6 +80,7 @@ export class LanguageUIBuilder {
 
     public static async Form(drawer: Element, language?: Language) {
         const rightLeaf: Element = document.querySelector("#right-leaf")!;
+        rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/language");
         if (!form) return;
         const inputISO6391: HTMLInputElement = form.querySelector<HTMLInputElement>("#iso_639_1")!;
@@ -119,11 +120,9 @@ export class LanguageUIBuilder {
             language.Normalize();
             let [success, savedLanguage] = await LanguageService.Save(language);
             if (success && savedLanguage) {
-                rightLeaf.replaceChildren();
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await LanguageUIBuilder.List(drawer);
                 await LanguageUIBuilder.UpdateSearchbar(drawer, query);
-                await LanguageUIBuilder.Form(drawer, savedLanguage ? savedLanguage : undefined);
             }
         });
 
