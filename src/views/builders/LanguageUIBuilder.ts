@@ -107,18 +107,7 @@ export class LanguageUIBuilder {
 
         button.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            let language: Language = new Language(
-                parseInt(inputId.value) ?? 0,
-                inputISO6391.value ?? "",
-                inputISO6393.value ?? "",
-                inputIsConlang.checked ?? false,
-                inputNameNative.value ?? "",
-                inputNameLocal.value ?? "",
-                inputDirection.value ?? "ltr"
-            );
-            if (!language.Validate()) return;
-            language.Normalize();
-            let [success, savedLanguage] = await LanguageService.Save(language);
+            let [success, savedLanguage]: [boolean, Language | undefined] = await LanguageService.ProcessForm(form);
             if (success && savedLanguage) {
                 const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await LanguageUIBuilder.List(drawer);
