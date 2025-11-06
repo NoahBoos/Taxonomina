@@ -54,6 +54,18 @@ ipcMain.handle("txnmAPI:loadTemplateAsString", (event, templatePath: string) => 
     return LoadTemplateAsString(templatePath);
 });
 
+ipcMain.handle("txnmAPI:database:beginTransaction", () => {
+    return Database.BeginTransaction();
+});
+
+ipcMain.handle("txnmAPI:database:commitTransaction", () => {
+    return Database.CommitTransaction();
+});
+
+ipcMain.handle("txnmAPI:database:rollbackTransaction", () => {
+    return Database.RollbackTransaction();
+});
+
 ipcMain.handle("txnmAPI:settings:expose", () => {
    return settings;
 });

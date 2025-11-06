@@ -214,4 +214,16 @@ export class Database {
             VALUES ('de', 'deu', 'false', 'Deutsch', 'Allemand', 'ltr');
         `);
     }
+
+    public static BeginTransaction() {
+        this.GetDatabase().exec("BEGIN TRANSACTION;");
+    }
+
+    public static CommitTransaction() {
+        this.GetDatabase().exec("COMMIT;");
+    }
+
+    public static RollbackTransaction() {
+        this.GetDatabase().exec("ROLLBACK;");
+    }
 }

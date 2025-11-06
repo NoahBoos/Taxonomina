@@ -5,6 +5,7 @@ import {GrammaticalCategory} from "./database/models/GrammaticalCategory";
 import {GrammaticalGenre} from "./database/models/GrammaticalGenre";
 import {Definition} from "./database/models/Definition";
 import {Entry} from "./database/models/Entry";
+import {ipcRenderer} from "electron";
 
 export {};
 
@@ -12,6 +13,11 @@ declare global {
     interface Window {
         txnmAPI: {
             LoadTemplateAsString: (templatePath: string) => Promise<string | undefined>,
+            database: {
+                BeginTransaction: () => Promise<any>,
+                CommitTransaction: () => Promise<any>,
+                RollbackTransaction: () => Promise<any>
+            },
             settings: {
                 Expose: () => Promise<TaxonominaSettings>,
                 Save: () => Promise<void>,

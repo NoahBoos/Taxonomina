@@ -10,6 +10,11 @@ import {DefinitionRepository} from "../../../database/repositories/DefinitionRep
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
+    database: {
+        BeginTransaction: () => ipcRenderer.invoke("txnmAPI:database:beginTransaction"),
+        CommitTransaction: () => ipcRenderer.invoke("txnmAPI:database:commitTransaction"),
+        RollbackTransaction: () => ipcRenderer.invoke("txnmAPI:database:rollbackTransaction")
+    },
     settings: {
         Expose: () => ipcRenderer.invoke("txnmAPI:settings:expose"),
         Save: () => ipcRenderer.invoke("txnmAPI:settings:save"),
