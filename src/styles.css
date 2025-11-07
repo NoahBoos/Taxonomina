@@ -58,3 +58,8 @@ main {
 [data-role="right-leaf"] {
     @apply w-full h-screen p-2 overflow-y-auto border-l-2;
 }
+
+*::-webkit-scrollbar {
+    display: none;
+    scrollbar-width: none;
+}
