@@ -9,6 +9,7 @@ export class GrammaticalGenreUIBuilder {
     public static isDrawerRevealed: boolean = false;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
+    private static drawer: Element;
 
     public static async Initialize() {
         this.leftLeaf = document.querySelector("#left-leaf")!;
@@ -37,31 +38,32 @@ export class GrammaticalGenreUIBuilder {
         if (!drawer) {
             return;
         } else {
-            await GrammaticalGenreUIBuilder.Searchbar(drawer);
-            await GrammaticalGenreUIBuilder.CreateButton(drawer);
-            await GrammaticalGenreUIBuilder.List(drawer, gramGenres);
-            this.leftLeaf.appendChild(drawer);
+            this.drawer = drawer;
+            await GrammaticalGenreUIBuilder.Searchbar();
+            await GrammaticalGenreUIBuilder.CreateButton();
+            await GrammaticalGenreUIBuilder.List(gramGenres);
+            this.leftLeaf.appendChild(this.drawer);
         }
     }
 
-    public static async Searchbar(drawer: Element) {
-        const searchbar: HTMLInputElement = drawer.querySelector<HTMLInputElement>("#searchbar")!;
+    public static async Searchbar() {
+        const searchbar: HTMLInputElement = this.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
            const query: string = searchbar.value.toLowerCase();
-           await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
+           await GrammaticalGenreUIBuilder.UpdateSearchbar(query);
         });
     }
 
-    public static async UpdateSearchbar(drawer: Element, query: string) {
+    public static async UpdateSearchbar(query: string) {
         const gramGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll();
         const filteredGramGenres: GrammaticalGenre[] = gramGenres.filter((gramGenre: GrammaticalGenre) => {
             return [gramGenre.GetName()].some(value => value.toLowerCase().includes(query));
         });
-        await GrammaticalGenreUIBuilder.List(drawer, filteredGramGenres);
+        await GrammaticalGenreUIBuilder.List(filteredGramGenres);
     }
 
-    public static async List(drawer: Element, gramGenres?: GrammaticalGenre[]) {
-        const container: Element = drawer.querySelector<HTMLDivElement>("#grammatical-genre-container")!;
+    public static async List(gramGenres?: GrammaticalGenre[]) {
+        const container: Element = this.drawer.querySelector<HTMLDivElement>("#grammatical-genre-container")!;
         const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/grammatical-genre");
         if (!thumbnailTemplate) return;
         container.replaceChildren();
@@ -74,13 +76,13 @@ export class GrammaticalGenreUIBuilder {
             thumbnailButton.innerText = gramGenre.GetName();
             thumbnailButton.addEventListener("click", async () => {
                 this.rightLeaf.replaceChildren();
-                await GrammaticalGenreUIBuilder.Form(drawer, gramGenre);
+                await GrammaticalGenreUIBuilder.Form(gramGenre);
             });
             container.appendChild(thumbnail);
         });
     }
 
-    public static async Form(drawer: Element, gramGenre?: GrammaticalGenre) {
+    public static async Form(gramGenre?: GrammaticalGenre) {
         this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-genre");
         if (!form) return;
@@ -100,26 +102,26 @@ export class GrammaticalGenreUIBuilder {
             event.preventDefault();
             const [success, savedGrammaticalGenre] = await GrammaticalGenreService.ProcessForm(form);
             if (success && savedGrammaticalGenre) {
-                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await GrammaticalGenreUIBuilder.List(drawer);
-                await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
-                await GrammaticalGenreUIBuilder.Form(drawer, savedGrammaticalGenre ? savedGrammaticalGenre : undefined);
+                const query: string = this.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await GrammaticalGenreUIBuilder.List();
+                await GrammaticalGenreUIBuilder.UpdateSearchbar(query);
+                await GrammaticalGenreUIBuilder.Form(savedGrammaticalGenre ? savedGrammaticalGenre : undefined);
             }
         });
 
         this.rightLeaf.appendChild(form);
-        if (gramGenre) await GrammaticalGenreUIBuilder.DeleteButton(drawer, gramGenre);
+        if (gramGenre) await GrammaticalGenreUIBuilder.DeleteButton(gramGenre);
     }
 
-    public static async CreateButton(drawer: Element) {
-        const button: HTMLButtonElement = drawer.querySelector<HTMLButtonElement>("#create-button")!;
+    public static async CreateButton() {
+        const button: HTMLButtonElement = this.drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
             this.rightLeaf.replaceChildren();
-            await GrammaticalGenreUIBuilder.Form(drawer);
+            await GrammaticalGenreUIBuilder.Form();
         })
     }
 
-    public static async DeleteButton(drawer: Element, gramGenre: GrammaticalGenre) {
+    public static async DeleteButton(gramGenre: GrammaticalGenre) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(gramGenre.GetId());
@@ -127,8 +129,8 @@ export class GrammaticalGenreUIBuilder {
             const success: boolean = await GrammaticalGenreService.Delete(gramGenre);
             if (success) {
                 this.rightLeaf.replaceChildren();
-                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await GrammaticalGenreUIBuilder.UpdateSearchbar(drawer, query);
+                const query: string = this.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await GrammaticalGenreUIBuilder.UpdateSearchbar(query);
             }
         });
         this.rightLeaf.appendChild(button);

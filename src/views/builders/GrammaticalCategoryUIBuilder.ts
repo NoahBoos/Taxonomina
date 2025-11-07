@@ -9,6 +9,7 @@ export class GrammaticalCategoryUIBuilder {
     public static isDrawerRevealed: boolean = false;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
+    private static drawer: Element;
 
     public static async Initialize() {
         this.leftLeaf = document.querySelector("#left-leaf")!;
@@ -37,31 +38,32 @@ export class GrammaticalCategoryUIBuilder {
         if (!drawer) {
             return;
         } else {
-            await GrammaticalCategoryUIBuilder.Searchbar(drawer);
-            await GrammaticalCategoryUIBuilder.CreateButton(drawer);
-            await GrammaticalCategoryUIBuilder.List(drawer, gramCats);
-            this.leftLeaf.appendChild(drawer);
+            this.drawer = drawer;
+            await GrammaticalCategoryUIBuilder.Searchbar();
+            await GrammaticalCategoryUIBuilder.CreateButton();
+            await GrammaticalCategoryUIBuilder.List(gramCats);
+            this.leftLeaf.appendChild(this.drawer);
         }
     }
 
-    public static async Searchbar(drawer: Element) {
-        const searchbar: HTMLInputElement = drawer.querySelector<HTMLInputElement>("#searchbar")!;
+    public static async Searchbar() {
+        const searchbar: HTMLInputElement = this.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
            const query: string = searchbar.value.toLowerCase();
-           await GrammaticalCategoryUIBuilder.UpdateSearchbar(drawer, query);
+           await GrammaticalCategoryUIBuilder.UpdateSearchbar(query);
         });
     }
 
-    public static async UpdateSearchbar(drawer: Element, query: string) {
+    public static async UpdateSearchbar(query: string) {
         const gramCats: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAll();
         const filteredGramCats: GrammaticalCategory[] = gramCats.filter((gramCat: GrammaticalCategory) => {
             return [gramCat.GetName()].some(value => value.toLowerCase().includes(query));
         });
-        await GrammaticalCategoryUIBuilder.List(drawer, filteredGramCats);
+        await GrammaticalCategoryUIBuilder.List(filteredGramCats);
     }
 
-    public static async List(drawer: Element, gramCats?: GrammaticalCategory[]) {
-        const container: Element = drawer.querySelector("#grammatical-category-container")!;
+    public static async List(gramCats?: GrammaticalCategory[]) {
+        const container: Element = this.drawer.querySelector("#grammatical-category-container")!;
         const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/grammatical-category");
         if (!thumbnailTemplate) return;
         container.replaceChildren();
@@ -74,13 +76,13 @@ export class GrammaticalCategoryUIBuilder {
             thumbnailButton.innerText = gramCat.GetName();
             thumbnailButton.addEventListener("click", async () => {
                 this.rightLeaf.replaceChildren();
-                await GrammaticalCategoryUIBuilder.Form(drawer, gramCat);
+                await GrammaticalCategoryUIBuilder.Form(gramCat);
             });
             container.appendChild(thumbnail);
         });
     }
 
-    public static async Form(drawer: Element, gramCat?: GrammaticalCategory) {
+    public static async Form(gramCat?: GrammaticalCategory) {
         this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-category");
         if (!form) return;
@@ -100,26 +102,26 @@ export class GrammaticalCategoryUIBuilder {
             event.preventDefault();
             let [success, savedGrammaticalCategory]: [boolean, GrammaticalCategory | undefined] = await GrammaticalCategoryService.ProcessForm(form);
             if (success && savedGrammaticalCategory) {
-                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await GrammaticalCategoryUIBuilder.List(drawer);
-                await GrammaticalCategoryUIBuilder.UpdateSearchbar(drawer, query)
-                await GrammaticalCategoryUIBuilder.Form(drawer, savedGrammaticalCategory ? savedGrammaticalCategory : undefined);
+                const query: string = this.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await GrammaticalCategoryUIBuilder.List();
+                await GrammaticalCategoryUIBuilder.UpdateSearchbar(query)
+                await GrammaticalCategoryUIBuilder.Form(savedGrammaticalCategory ? savedGrammaticalCategory : undefined);
             }
         });
 
         this.rightLeaf.appendChild(form);
-        if (gramCat) await GrammaticalCategoryUIBuilder.DeleteButton(drawer, gramCat);
+        if (gramCat) await GrammaticalCategoryUIBuilder.DeleteButton(gramCat);
     }
 
-    public static async CreateButton(drawer: Element) {
-        const button: HTMLButtonElement = drawer.querySelector<HTMLButtonElement>("#create-button")!;
+    public static async CreateButton() {
+        const button: HTMLButtonElement = this.drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
             this.rightLeaf.replaceChildren();
-            await GrammaticalCategoryUIBuilder.Form(drawer);
+            await GrammaticalCategoryUIBuilder.Form();
         });
     }
 
-    public static async DeleteButton(drawer: Element, gramCat: GrammaticalCategory) {
+    public static async DeleteButton(gramCat: GrammaticalCategory) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(gramCat.GetId());
@@ -127,8 +129,8 @@ export class GrammaticalCategoryUIBuilder {
             const success: boolean = await GrammaticalCategoryService.Delete(gramCat);
             if (success) {
                 this.rightLeaf.replaceChildren();
-                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await GrammaticalCategoryUIBuilder.UpdateSearchbar(drawer, query);
+                const query: string = this.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await GrammaticalCategoryUIBuilder.UpdateSearchbar(query);
             }
         });
         this.rightLeaf.appendChild(button);

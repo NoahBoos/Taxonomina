@@ -18,6 +18,7 @@ export class EntryUIBuilder {
     public static tagTemplate: HTMLTemplateElement;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
+    private static drawer: Element;
 
     public static async Initialize() {
         this.leftLeaf = document.querySelector("#left-leaf")!;
@@ -46,31 +47,32 @@ export class EntryUIBuilder {
         if (!drawer) {
             return;
         } else {
-            await EntryUIBuilder.Searchbar(drawer);
-            await EntryUIBuilder.CreateButton(drawer);
-            await EntryUIBuilder.List(drawer, entries);
-            this.leftLeaf.appendChild(drawer);
+            this.drawer = drawer;
+            await EntryUIBuilder.Searchbar();
+            await EntryUIBuilder.CreateButton();
+            await EntryUIBuilder.List(entries);
+            this.leftLeaf.appendChild(this.drawer);
         }
     }
 
-    public static async Searchbar(drawer: Element) {
-        const searchbar: HTMLInputElement = drawer.querySelector<HTMLInputElement>("#searchbar")!;
+    public static async Searchbar() {
+        const searchbar: HTMLInputElement = this.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
            const query: string = searchbar.value.toLowerCase();
-           await EntryUIBuilder.UpdateSearchbar(drawer, query);
+           await EntryUIBuilder.UpdateSearchbar(query);
         });
     }
 
-    public static async UpdateSearchbar(drawer: Element, query: string) {
+    public static async UpdateSearchbar(query: string) {
         const entries: Entry[] = await EntryService.ReadAll();
         const filteredEntries: Entry[] = entries.filter((entry: Entry) => {
             return [entry.GetLemma()].some(value => value.toLowerCase().includes(query));
         });
-        await EntryUIBuilder.List(drawer, filteredEntries);
+        await EntryUIBuilder.List(filteredEntries);
     }
 
-    public static async List(drawer: Element, entries?: Entry[]) {
-        const container: Element = drawer.querySelector("#entry-container")!;
+    public static async List(entries?: Entry[]) {
+        const container: Element = this.drawer.querySelector("#entry-container")!;
         const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/entry");
         if (!thumbnailTemplate) return;
         container.replaceChildren();
@@ -83,17 +85,17 @@ export class EntryUIBuilder {
            thumbnailButton.innerText = entry.GetLemma();
            thumbnailButton.addEventListener("click", async () => {
                this.rightLeaf.replaceChildren();
-              await EntryUIBuilder.Form(drawer, entry);
+              await EntryUIBuilder.Form(entry);
            });
            container.appendChild(thumbnail);
         });
     }
 
-    public static async View(drawer: Element, entry: Entry) {
+    public static async View(entry: Entry) {
 
     }
 
-    public static async Form(drawer: Element, entry?: Entry) {
+    public static async Form(entry?: Entry) {
         this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/entry");
         if (!form) return;
@@ -119,14 +121,14 @@ export class EntryUIBuilder {
 
         submitButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            const query: string = drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
+            const query: string = this.drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
             const savedEntry: Entry | undefined = await EntryService.ProcessForm(form);
-            await EntryUIBuilder.UpdateSearchbar(drawer, query);
-            await EntryUIBuilder.Form(drawer, savedEntry ? savedEntry : undefined);
+            await EntryUIBuilder.UpdateSearchbar(query);
+            await EntryUIBuilder.Form(savedEntry ? savedEntry : undefined);
         });
 
         this.rightLeaf.appendChild(form);
-        if (entry) await EntryUIBuilder.DeleteButton(drawer, entry);
+        if (entry) await EntryUIBuilder.DeleteButton(entry);
     }
 
     public static async GenerateLanguageOptions(form: Element, entry?: Entry) {
@@ -305,15 +307,15 @@ export class EntryUIBuilder {
         parent.appendChild(button);
     }
 
-    public static async CreateButton(drawer: Element) {
-        const button: HTMLButtonElement = drawer.querySelector<HTMLButtonElement>("#create-button")!;
+    public static async CreateButton() {
+        const button: HTMLButtonElement = this.drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
             this.rightLeaf.replaceChildren();
-            await EntryUIBuilder.Form(drawer);
+            await EntryUIBuilder.Form();
         });
     }
 
-    public static async DeleteButton(drawer: Element, entry: Entry) {
+    public static async DeleteButton(entry: Entry) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(entry.GetId());
@@ -321,8 +323,8 @@ export class EntryUIBuilder {
             const success: boolean = await EntryService.Delete(entry);
             if (success) {
                 this.rightLeaf.replaceChildren();
-                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await EntryUIBuilder.UpdateSearchbar(drawer, query);
+                const query: string = this.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await EntryUIBuilder.UpdateSearchbar(query);
             }
         });
         this.rightLeaf.appendChild(button);

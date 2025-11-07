@@ -9,6 +9,7 @@ export class LanguageUIBuilder {
     public static isDrawerRevealed: boolean = false;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
+    private static drawer: Element;
 
     public static async Initialize() {
         this.leftLeaf = document.querySelector("#left-leaf")!;
@@ -34,31 +35,32 @@ export class LanguageUIBuilder {
         this.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
         if (!drawer) return;
-        await LanguageUIBuilder.Searchbar(drawer);
-        await LanguageUIBuilder.CreateButton(drawer);
-        await LanguageUIBuilder.List(drawer);
-        this.leftLeaf.appendChild(drawer);
+        this.drawer = drawer;
+        await LanguageUIBuilder.Searchbar();
+        await LanguageUIBuilder.CreateButton();
+        await LanguageUIBuilder.List();
+        this.leftLeaf.appendChild(this.drawer);
     }
 
-    public static async Searchbar(drawer: Element) {
-        const searchbar: HTMLInputElement = drawer.querySelector("#searchbar")!;
+    public static async Searchbar() {
+        const searchbar: HTMLInputElement = this.drawer.querySelector("#searchbar")!;
         searchbar.addEventListener("input", async () => {
             const query: string = searchbar.value.toLowerCase();
-            await LanguageUIBuilder.UpdateSearchbar(drawer, query);
+            await LanguageUIBuilder.UpdateSearchbar(query);
         });
     }
 
-    public static async UpdateSearchbar(drawer: Element, query: string) {
+    public static async UpdateSearchbar(query: string) {
         const languages: Language[] = await LanguageService.ReadAll();
         const filteredLanguages: Language[] = languages.filter(loopedLanguage => {
             return [loopedLanguage.GetIso639_1(), loopedLanguage.GetIso639_3(), loopedLanguage.GetNameNative(), loopedLanguage.GetNameLocal()]
                 .some(value => value.toLowerCase().includes(query.toLowerCase()));
         });
-        await LanguageUIBuilder.List(drawer, filteredLanguages);
+        await LanguageUIBuilder.List(filteredLanguages);
     }
 
-    public static async List(drawer: Element, languages?: Language[]) {
-        const container: Element = drawer.querySelector("#language-container")!;
+    public static async List(languages?: Language[]) {
+        const container: Element = this.drawer.querySelector("#language-container")!;
         const template: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
         if (!template) return;
         container.replaceChildren();
@@ -75,14 +77,14 @@ export class LanguageUIBuilder {
             button.addEventListener("click", async (event: Event) => {
                 event.preventDefault();
                 document.querySelector('#right-leaf')!.replaceChildren();
-                await LanguageUIBuilder.Form(drawer, language);
+                await LanguageUIBuilder.Form(language);
             });
 
             container.appendChild(thumbnail);
         });
     }
 
-    public static async Form(drawer: Element, language?: Language) {
+    public static async Form(language?: Language) {
         this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/language");
         if (!form) return;
@@ -112,26 +114,26 @@ export class LanguageUIBuilder {
             event.preventDefault();
             let [success, savedLanguage]: [boolean, Language | undefined] = await LanguageService.ProcessForm(form);
             if (success && savedLanguage) {
-                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await LanguageUIBuilder.List(drawer);
-                await LanguageUIBuilder.UpdateSearchbar(drawer, query);
-                await LanguageUIBuilder.Form(drawer, savedLanguage ? savedLanguage : undefined);
+                const query: string = this.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await LanguageUIBuilder.List();
+                await LanguageUIBuilder.UpdateSearchbar(query);
+                await LanguageUIBuilder.Form(savedLanguage ? savedLanguage : undefined);
             }
         });
 
         this.rightLeaf.appendChild(form);
-        if (language) await LanguageUIBuilder.DeleteButton(drawer, language);
+        if (language) await LanguageUIBuilder.DeleteButton(language);
     }
 
-    public static async CreateButton(drawer: Element) {
-        const button: HTMLButtonElement = drawer.querySelector("#create-button")!;
+    public static async CreateButton() {
+        const button: HTMLButtonElement = this.drawer.querySelector("#create-button")!;
         button.addEventListener("click", async () => {
             document.querySelector("#right-leaf")!.replaceChildren();
-            await LanguageUIBuilder.Form(drawer);
+            await LanguageUIBuilder.Form();
         })
     }
 
-    public static async DeleteButton(drawer: Element, language: Language) {
+    public static async DeleteButton(language: Language) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(language.GetId());
@@ -139,8 +141,8 @@ export class LanguageUIBuilder {
             const success: boolean = await LanguageService.Delete(language);
             if (success) {
                 this.rightLeaf.replaceChildren();
-                const query: string = drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await LanguageUIBuilder.UpdateSearchbar(drawer, query);
+                const query: string = this.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                await LanguageUIBuilder.UpdateSearchbar(query);
             }
         });
         this.rightLeaf.appendChild(button);
