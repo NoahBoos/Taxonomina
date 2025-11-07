@@ -34,12 +34,15 @@ export class LanguageUIBuilder {
         this.leftLeaf.classList.remove('hidden');
         this.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
-        if (!drawer) return;
-        this.drawer = drawer;
-        await LanguageUIBuilder.Searchbar();
-        await LanguageUIBuilder.CreateButton();
-        await LanguageUIBuilder.List();
-        this.leftLeaf.appendChild(this.drawer);
+        if (!drawer) {
+            return;
+        } else {
+            this.drawer = drawer;
+            await LanguageUIBuilder.Searchbar();
+            await LanguageUIBuilder.CreateButton();
+            await LanguageUIBuilder.List();
+            this.leftLeaf.appendChild(this.drawer);
+        }
     }
 
     public static async Searchbar() {
