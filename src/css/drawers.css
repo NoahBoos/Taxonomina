@@ -1,9 +1,11 @@
-[data-role="drawer"] {}
+[data-role="drawer"] {
+    @apply flex flex-col h-full gap-2;
+}
 
 [data-role="drawer-menu"] {
-    @apply flex flex-row justify-between items-center gap-2 mb-2;
+    @apply flex flex-row justify-between items-center gap-2;
 }
 
 [data-role="drawer-container"] {
-    @apply w-full h-fit flex flex-col justify-center items-center gap-2;
+    @apply flex-1 w-full flex flex-col items-center gap-2 overflow-y-auto;
 }
