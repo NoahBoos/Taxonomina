@@ -86,13 +86,17 @@ export class GrammaticalGenreUIBuilder {
         this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-genre");
         if (!form) return;
+
+        const title: HTMLHeadingElement = form.querySelector<HTMLHeadingElement>('[data-role="form-title"]')!;
         const inputName: HTMLInputElement = form.querySelector<HTMLInputElement>("#name")!;
         const inputId: HTMLInputElement = form.querySelector<HTMLInputElement>("#id")!;
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("button")!;
 
         if (!gramGenre) {
+            title.textContent = "Création - Genre grammatical";
             submitButton.innerText = "Créer un genre grammatical";
         } else {
+            title.textContent = "Modification - " + gramGenre.GetName();
             inputName.value = gramGenre.GetName();
             inputId.value = String(gramGenre.GetId());
             submitButton.innerText = "Mettre à jour le genre grammatical";

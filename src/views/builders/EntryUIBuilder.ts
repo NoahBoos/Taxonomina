@@ -101,6 +101,7 @@ export class EntryUIBuilder {
         if (!form) return;
         EntryUIBuilder.tagTemplate = form.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
 
+        const title: HTMLHeadingElement = form.querySelector<HTMLHeadingElement>('[data-role="form-title"]')!;
         const inputLemma: HTMLInputElement = form.querySelector<HTMLInputElement>("#lemma")!;
         const inputEntryId: HTMLInputElement = form.querySelector<HTMLInputElement>("input#entry_id")!;
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("#submit")!;
@@ -112,8 +113,10 @@ export class EntryUIBuilder {
         await EntryUIBuilder.DefinitionFieldset(form, entry);
 
         if (!entry) {
+            title.textContent = "Création - Entrée";
             submitButton.innerText = "Créer une entrée";
         } else {
+            title.textContent = "Modification - \"" + entry.GetLemma() + "\"";
             inputLemma.value = entry.GetLemma();
             inputEntryId.value = String(entry.GetId());
             submitButton.innerText = "Mettre à jour l'entrée";

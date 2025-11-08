@@ -87,14 +87,17 @@ export class DictionaryUIBuilder {
 
         rightLeaf.replaceChildren(form);
 
+        const title: HTMLHeadingElement = form.querySelector<HTMLHeadingElement>('[data-role="form-title"]')!;
         const inputName: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#name")!;
         const inputDescription: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#description")!;
         const inputId: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#id")!;
         const submitButton: HTMLButtonElement = rightLeaf.querySelector<HTMLButtonElement>("#submit")!;
 
         if (!dictionary) {
+            title.textContent = "Création - Dictionnaire";
             submitButton.innerHTML = "Create dictionary";
         } else if (dictionary) {
+            title.textContent = "Modification - \"" + dictionary.GetName() + "\"";
             inputName.value = dictionary.GetName();
             inputDescription.value = dictionary.GetDescription();
             inputId.value = String(dictionary.GetId());

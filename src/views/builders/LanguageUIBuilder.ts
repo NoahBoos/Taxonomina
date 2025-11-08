@@ -91,6 +91,8 @@ export class LanguageUIBuilder {
         this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/language");
         if (!form) return;
+
+        const title: HTMLHeadingElement = form.querySelector<HTMLHeadingElement>('[data-role="form-title"]')!;
         const inputISO6391: HTMLInputElement = form.querySelector<HTMLInputElement>("#iso_639_1")!;
         const inputISO6393: HTMLInputElement = form.querySelector<HTMLInputElement>("#iso_639_3")!;
         const inputIsConlang: HTMLInputElement = form.querySelector<HTMLInputElement>("#is_conlang")!;
@@ -101,8 +103,10 @@ export class LanguageUIBuilder {
         const button: HTMLButtonElement = form.querySelector<HTMLButtonElement>("button#submit")!;
 
         if (!language) {
+            title.textContent = "Création - Langue";
             button.innerText = "Créer une langue";
         } else {
+            title.textContent = "Modification - " + language.GetNameLocal();
             inputISO6391.value = language.GetIso639_1();
             inputISO6393.value = language.GetIso639_3();
             inputIsConlang.checked = language.GetIsConlang();

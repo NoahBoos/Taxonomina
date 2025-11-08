@@ -86,13 +86,17 @@ export class GrammaticalCategoryUIBuilder {
         this.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-category");
         if (!form) return;
+
+        const title: HTMLHeadingElement = form.querySelector<HTMLHeadingElement>('[data-role="form-title"]')!;
         const inputName: HTMLInputElement = form.querySelector<HTMLInputElement>("#name")!;
         const inputId: HTMLInputElement = form.querySelector<HTMLInputElement>("#id")!;
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("button")!;
 
         if (!gramCat) {
+            title.textContent = "Création - Catégorie grammaticale";
             submitButton.innerText = "Créer une catégorie grammaticale";
         } else {
+            title.textContent = "Modification - " + gramCat.GetName();
             inputName.value = gramCat.GetName();
             inputId.value = String(gramCat.GetId());
             submitButton.innerText = "Mettre à jour la catégorie grammaticale";
