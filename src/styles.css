@@ -52,7 +52,7 @@ main {
 }
 
 [data-role="left-leaf"] {
-    @apply w-[30%] h-screen p-2 border-l-2;
+    @apply w-[35%] h-screen p-2 border-l-2;
 }
 
 [data-role="right-leaf"] {
