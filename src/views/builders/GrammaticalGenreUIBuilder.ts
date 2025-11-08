@@ -94,12 +94,12 @@ export class GrammaticalGenreUIBuilder {
 
         if (!gramGenre) {
             title.textContent = "Création - Genre grammatical";
-            submitButton.innerText = "Créer un genre grammatical";
+            submitButton.innerText = "Créer";
         } else {
             title.textContent = "Modification - " + gramGenre.GetName();
             inputName.value = gramGenre.GetName();
             inputId.value = String(gramGenre.GetId());
-            submitButton.innerText = "Mettre à jour le genre grammatical";
+            submitButton.innerText = "Mettre à jour";
         }
 
         submitButton.addEventListener("click", async (event: Event) => {

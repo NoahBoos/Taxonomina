@@ -95,13 +95,13 @@ export class DictionaryUIBuilder {
 
         if (!dictionary) {
             title.textContent = "Création - Dictionnaire";
-            submitButton.innerHTML = "Create dictionary";
+            submitButton.innerHTML = "Créer";
         } else if (dictionary) {
             title.textContent = "Modification - \"" + dictionary.GetName() + "\"";
             inputName.value = dictionary.GetName();
             inputDescription.value = dictionary.GetDescription();
             inputId.value = String(dictionary.GetId());
-            submitButton.innerHTML = "Update dictionary";
+            submitButton.innerHTML = "Mettre à jour";
         }
 
         submitButton.addEventListener("click", async () => {

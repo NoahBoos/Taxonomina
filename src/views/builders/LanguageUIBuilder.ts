@@ -104,7 +104,7 @@ export class LanguageUIBuilder {
 
         if (!language) {
             title.textContent = "Création - Langue";
-            button.innerText = "Créer une langue";
+            button.innerText = "Créer";
         } else {
             title.textContent = "Modification - " + language.GetNameLocal();
             inputISO6391.value = language.GetIso639_1();
@@ -114,7 +114,7 @@ export class LanguageUIBuilder {
             inputNameLocal.value = language.GetNameLocal();
             inputDirection.value = language.GetDirection();
             inputId.value = String(language.GetId());
-            button.innerText = "Mettre à jour la langue";
+            button.innerText = "Mettre à jour";
         }
 
         button.addEventListener("click", async (event: Event) => {

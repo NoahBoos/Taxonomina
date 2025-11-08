@@ -114,12 +114,12 @@ export class EntryUIBuilder {
 
         if (!entry) {
             title.textContent = "Création - Entrée";
-            submitButton.innerText = "Créer une entrée";
+            submitButton.innerText = "Créer";
         } else {
             title.textContent = "Modification - \"" + entry.GetLemma() + "\"";
             inputLemma.value = entry.GetLemma();
             inputEntryId.value = String(entry.GetId());
-            submitButton.innerText = "Mettre à jour l'entrée";
+            submitButton.innerText = "Mettre à jour";
         }
 
         submitButton.addEventListener("click", async (event: Event) => {

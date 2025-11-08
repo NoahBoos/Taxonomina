@@ -94,12 +94,12 @@ export class GrammaticalCategoryUIBuilder {
 
         if (!gramCat) {
             title.textContent = "Création - Catégorie grammaticale";
-            submitButton.innerText = "Créer une catégorie grammaticale";
+            submitButton.innerText = "Créer";
         } else {
             title.textContent = "Modification - " + gramCat.GetName();
             inputName.value = gramCat.GetName();
             inputId.value = String(gramCat.GetId());
-            submitButton.innerText = "Mettre à jour la catégorie grammaticale";
+            submitButton.innerText = "Mettre à jour";
         }
 
         submitButton.addEventListener("click", async (event: Event) => {
