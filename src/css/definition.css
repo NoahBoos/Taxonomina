@@ -7,5 +7,5 @@
 }
 
 [data-role="definition-title"] {
-    @apply text-gray-700 text-lg font-bold;
+    @apply text-base-100 text-lg font-bold;
 }

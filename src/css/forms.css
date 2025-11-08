@@ -15,14 +15,18 @@
 }
 
 [data-role="input-group"] {
-    @apply w-full p-5 space-y-2 bg-gray-300 rounded-lg;
+    @apply w-full p-5 space-y-2 rounded-lg bg-base-20;
     input {
-        @apply text-sm w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-primary-300 hover:shadow-lg hover:border-primary-300 hover:bg-primary-100 focus:bg-primary-200;
+        @apply text-sm w-full px-4 py-2 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-primary-300 hover:shadow-lg hover:border-primary-300 bg-base-10 hover:bg-base-20 focus:bg-base-25 border border-base-40;
     }
 }
 
+textarea {
+    @apply text-sm w-full px-4 py-2 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-primary-300 hover:shadow-lg hover:border-primary-300 bg-base-10 hover:bg-base-20 focus:bg-base-25 border border-base-40;
+}
+
 [data-role="checkbox-section"] {
-    @apply w-full p-5 space-y-2 bg-gray-300 rounded-lg;
+    @apply w-full p-5 space-y-2 rounded-lg bg-base-20;
     [data-role="checkbox-container"] {
         @apply flex flex-row flex-wrap gap-4;
     }
@@ -36,19 +40,19 @@
 }
 
 [data-role="checkbox-group"][data-variant="as-section"] {
-    @apply w-full p-5 bg-gray-300 rounded-lg;
+    @apply w-full p-5 rounded-lg bg-base-20;
 }
 
 [data-role="select-group"] {
-    @apply w-full p-5 space-y-2 bg-gray-300 rounded-lg;
+    @apply w-full p-5 space-y-2 rounded-lg bg-base-20;
     select {
-        @apply text-sm w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-primary-300 hover:shadow-lg hover:border-primary-300 hover:bg-primary-100 focus:bg-primary-200;
+        @apply text-sm w-full px-4 py-2 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-primary-300 border border-base-40 bg-base-10 hover:shadow-lg hover:border-primary-300 hover:bg-base-20 focus:bg-base-25;
         option {
-            @apply bg-gray-100;
+            @apply bg-base-10;
         }
     }
 }
 
 label, [data-role="label"] {
-    @apply block text-gray-700 text-sm font-bold;
+    @apply block text-base-100 text-sm font-bold;
 }

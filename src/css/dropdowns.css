@@ -1,5 +1,5 @@
 [data-role="dropdown"] {
-    @apply absolute left-0 z-10 p-2 mt-1 w-full bg-white border rounded-md shadow-md;
+    @apply absolute left-0 z-10 p-2 mt-1 w-full bg-base-40 border rounded-md shadow-md;
 }
 
 [data-role="dropdown"][data-context="translation"]:not(.inactive) {
