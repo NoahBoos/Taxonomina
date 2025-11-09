@@ -37,6 +37,7 @@ export class SettingUIBuilder {
     }
 
     public static async Panel() {
+        SettingUIBuilder.settings = await window.txnmAPI.settings.Expose();
         SettingUIBuilder.leftLeaf.replaceChildren();
         SettingUIBuilder.leftLeaf.classList.add("hidden");
         SettingUIBuilder.rightLeaf.replaceChildren();
