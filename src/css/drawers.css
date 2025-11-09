@@ -1,9 +1,9 @@
 [data-role="drawer"] {
-    @apply flex flex-col h-full gap-2;
+    @apply flex flex-col h-full;
 }
 
 [data-role="drawer-menu"] {
-    @apply flex flex-row justify-between items-center gap-2;
+    @apply flex flex-row justify-between items-center gap-2 mb-2;
 }
 
 [data-role="drawer-container"] {
