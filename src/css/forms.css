@@ -47,9 +47,6 @@ textarea {
     @apply w-full p-5 space-y-2 rounded-lg bg-base-20;
     select {
         @apply text-sm w-full px-4 py-2 rounded-lg shadow-sm transition duration-300 ease-in-out transform focus:-translate-y-1 focus:outline-primary-300 border border-base-40 bg-base-10 hover:shadow-lg hover:border-primary-300 hover:bg-base-20 focus:bg-base-25;
-        option {
-            @apply bg-base-10;
-        }
     }
 }
 
