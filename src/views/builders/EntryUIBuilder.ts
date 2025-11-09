@@ -16,7 +16,7 @@ import {SettingUIBuilder} from "./SettingUIBuilder";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
-    public static tagTemplate: HTMLTemplateElement;
+    private static tagTemplate: HTMLTemplateElement;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
     private static drawer: Element;
