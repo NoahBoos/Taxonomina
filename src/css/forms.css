@@ -53,6 +53,10 @@ textarea {
     }
 }
 
+[data-role="select-group"][data-variant="w-fit"] {
+    @apply w-fit;
+}
+
 label, [data-role="label"] {
     @apply block text-base-100 text-sm font-bold;
 }
