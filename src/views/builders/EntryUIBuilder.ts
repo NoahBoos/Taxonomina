@@ -12,6 +12,7 @@ import {DefinitionService} from "../../utils/renderer/services/DefinitionService
 import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
+import {SettingUIBuilder} from "./SettingUIBuilder";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -31,6 +32,7 @@ export class EntryUIBuilder {
                 GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
+                SettingUIBuilder.isDrawerRevealed = false;
                 await EntryUIBuilder.Drawer();
             } else {
                 EntryUIBuilder.leftLeaf.replaceChildren();

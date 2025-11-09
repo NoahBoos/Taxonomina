@@ -4,6 +4,7 @@ import {LanguageService} from "../../utils/renderer/services/LanguageService";
 import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {EntryUIBuilder} from "./EntryUIBuilder";
+import {SettingUIBuilder} from "./SettingUIBuilder";
 
 export class LanguageUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -22,6 +23,7 @@ export class LanguageUIBuilder {
                 EntryUIBuilder.isDrawerRevealed = false;
                 GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
+                SettingUIBuilder.isDrawerRevealed = false;
                 await LanguageUIBuilder.Drawer();
             } else {
                 LanguageUIBuilder.leftLeaf.replaceChildren();
