@@ -7,7 +7,9 @@ import {TaxonominaSettings} from "../../interfaces/I_TaxonominaSettings";
 export class SettingManager {
     private static DEFAULT_SETTINGS: TaxonominaSettings = {
         isDatabaseInitialized: false,
-        currentDictionary: 1
+        currentDictionary: 1,
+        selectedTheme: "default",
+        themeVariant: "light"
     }
 
     public static async SaveSetting(settings: TaxonominaSettings): Promise<void> {
