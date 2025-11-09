@@ -21,8 +21,8 @@ export class EntryUIBuilder {
     private static drawer: Element;
 
     public static async Initialize() {
-        this.leftLeaf = document.querySelector("#left-leaf")!;
-        this.rightLeaf = document.querySelector("#right-leaf")!;
+        EntryUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
+        EntryUIBuilder.rightLeaf = document.querySelector("#right-leaf")!;
         const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#entry-drawer-button")!;
         drawerButton.addEventListener("click", async () => {
             EntryUIBuilder.isDrawerRevealed = !EntryUIBuilder.isDrawerRevealed;
@@ -33,30 +33,30 @@ export class EntryUIBuilder {
                 LanguageUIBuilder.isDrawerRevealed = false;
                 await EntryUIBuilder.Drawer();
             } else {
-                this.leftLeaf.replaceChildren();
-                this.leftLeaf.classList.add('hidden');
+                EntryUIBuilder.leftLeaf.replaceChildren();
+                EntryUIBuilder.leftLeaf.classList.add('hidden');
             }
         });
     }
 
     public static async Drawer() {
-        this.leftLeaf.classList.remove('hidden');
-        this.leftLeaf.replaceChildren();
+        EntryUIBuilder.leftLeaf.classList.remove('hidden');
+        EntryUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/entry");
         const entries: Entry[] = await EntryService.ReadAll();
         if (!drawer) {
             return;
         } else {
-            this.drawer = drawer;
+            EntryUIBuilder.drawer = drawer;
             await EntryUIBuilder.Searchbar();
             await EntryUIBuilder.CreateButton();
             await EntryUIBuilder.List(entries);
-            this.leftLeaf.appendChild(this.drawer);
+            EntryUIBuilder.leftLeaf.appendChild(EntryUIBuilder.drawer);
         }
     }
 
     public static async Searchbar() {
-        const searchbar: HTMLInputElement = this.drawer.querySelector<HTMLInputElement>("#searchbar")!;
+        const searchbar: HTMLInputElement = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
            const query: string = searchbar.value.toLowerCase();
            await EntryUIBuilder.UpdateSearchbar(query);
@@ -72,7 +72,7 @@ export class EntryUIBuilder {
     }
 
     public static async List(entries?: Entry[]) {
-        const container: Element = this.drawer.querySelector("#entry-container")!;
+        const container: Element = EntryUIBuilder.drawer.querySelector("#entry-container")!;
         const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/entry");
         if (!thumbnailTemplate) return;
         container.replaceChildren();
@@ -84,7 +84,7 @@ export class EntryUIBuilder {
            thumbnailButton.id = String(entry.GetId());
            thumbnailButton.innerText = entry.GetLemma();
            thumbnailButton.addEventListener("click", async () => {
-               this.rightLeaf.replaceChildren();
+               EntryUIBuilder.rightLeaf.replaceChildren();
               await EntryUIBuilder.Form(entry);
            });
            container.appendChild(thumbnail);
@@ -96,7 +96,7 @@ export class EntryUIBuilder {
     }
 
     public static async Form(entry?: Entry) {
-        this.rightLeaf.replaceChildren();
+        EntryUIBuilder.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/entry");
         if (!form) return;
         EntryUIBuilder.tagTemplate = form.querySelector<HTMLTemplateElement>("template#gts-tag-template")!;
@@ -124,13 +124,13 @@ export class EntryUIBuilder {
 
         submitButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            const query: string = this.drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
+            const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
             const savedEntry: Entry | undefined = await EntryService.ProcessForm(form);
             await EntryUIBuilder.UpdateSearchbar(query);
             await EntryUIBuilder.Form(savedEntry ? savedEntry : undefined);
         });
 
-        this.rightLeaf.appendChild(form);
+        EntryUIBuilder.rightLeaf.appendChild(form);
         if (entry) await EntryUIBuilder.DeleteButton(entry);
     }
 
@@ -311,9 +311,9 @@ export class EntryUIBuilder {
     }
 
     public static async CreateButton() {
-        const button: HTMLButtonElement = this.drawer.querySelector<HTMLButtonElement>("#create-button")!;
+        const button: HTMLButtonElement = EntryUIBuilder.drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
-            this.rightLeaf.replaceChildren();
+            EntryUIBuilder.rightLeaf.replaceChildren();
             await EntryUIBuilder.Form();
         });
     }
@@ -325,11 +325,11 @@ export class EntryUIBuilder {
         button.addEventListener("click", async () => {
             const success: boolean = await EntryService.Delete(entry);
             if (success) {
-                this.rightLeaf.replaceChildren();
-                const query: string = this.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                EntryUIBuilder.rightLeaf.replaceChildren();
+                const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await EntryUIBuilder.UpdateSearchbar(query);
             }
         });
-        this.rightLeaf.appendChild(button);
+        EntryUIBuilder.rightLeaf.appendChild(button);
     }
 }
