@@ -4,16 +4,19 @@ import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {TemplateManager} from "../../utils/renderer/TemplateManager";
 import {SettingService} from "../../utils/renderer/services/SettingService";
+import {TaxonominaSettings} from "../../interfaces/I_TaxonominaSettings";
 
 export class SettingUIBuilder {
+    private static settings: TaxonominaSettings;
     public static isDrawerRevealed: boolean = false;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
     private static panel: Element;
 
     public static async Initialize() {
-        this.leftLeaf = document.querySelector("#left-leaf")!;
-        this.rightLeaf = document.querySelector("#right-leaf")!;
+        SettingUIBuilder.settings = await window.txnmAPI.settings.Expose();
+        SettingUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
+        SettingUIBuilder.rightLeaf = document.querySelector("#right-leaf")!;
         const button: HTMLButtonElement = document.querySelector("#settings-window-button")!;
         button.addEventListener("click", async () => {
             SettingUIBuilder.isDrawerRevealed = !SettingUIBuilder.isDrawerRevealed;
@@ -25,39 +28,41 @@ export class SettingUIBuilder {
                 LanguageUIBuilder.isDrawerRevealed = false;
                 await SettingUIBuilder.Panel();
             } else {
-                this.leftLeaf.replaceChildren();
-                this.leftLeaf.classList.add("hidden");
-                this.rightLeaf.replaceChildren();
-                this.rightLeaf.classList.add("hidden");
+                SettingUIBuilder.leftLeaf.replaceChildren();
+                SettingUIBuilder.leftLeaf.classList.add("hidden");
+                SettingUIBuilder.rightLeaf.replaceChildren();
+                SettingUIBuilder.rightLeaf.classList.add("hidden");
             }
         });
     }
 
     public static async Panel() {
-        this.leftLeaf.replaceChildren();
-        this.leftLeaf.classList.add("hidden");
-        this.rightLeaf.replaceChildren();
-        this.rightLeaf.classList.remove("hidden");
+        SettingUIBuilder.leftLeaf.replaceChildren();
+        SettingUIBuilder.leftLeaf.classList.add("hidden");
+        SettingUIBuilder.rightLeaf.replaceChildren();
+        SettingUIBuilder.rightLeaf.classList.remove("hidden");
         const panel: Element | undefined = await TemplateManager.LoadTemplateAsHTML("settings");
         if (!panel) {
             return;
         } else {
             this.panel = panel;
-            await this.ThemeVariantListener();
-            await this.ThemeListener();
+            await this.ThemeVariantSelect();
+            await this.ThemeSelect();
             this.rightLeaf.appendChild(panel);
         }
     }
 
-    public static async ThemeVariantListener() {
+    public static async ThemeVariantSelect() {
         const select: HTMLSelectElement = SettingUIBuilder.panel.querySelector<HTMLSelectElement>('#theme-variant')!;
+        select.value = SettingUIBuilder.settings.themeVariant;
         select.addEventListener("change", async () => {
             await SettingService.ChangeThemeVariant(select.value);
         });
     }
 
-    public static async ThemeListener() {
+    public static async ThemeSelect() {
         const select: HTMLSelectElement = SettingUIBuilder.panel.querySelector<HTMLSelectElement>("#theme")!;
+        select.value = SettingUIBuilder.settings.selectedTheme;
         select.addEventListener("change", async () => {
             await SettingService.ChangeTheme(select.value);
         })
