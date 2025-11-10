@@ -9,6 +9,7 @@ import * as sea from "node:sea";
 
 export class LanguageUIBuilder {
     public static isDrawerRevealed: boolean = false;
+    private static thumbnailTemplate: Element | undefined = undefined;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
     private static drawer: Element;
@@ -58,27 +59,26 @@ export class LanguageUIBuilder {
 
     public static async RenderList(languages?: Language[]) {
         const container: Element = LanguageUIBuilder.drawer.querySelector("#language-container")!;
-        const template: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
-        if (!template) return;
+        LanguageUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
         container.replaceChildren();
         if (!languages) languages = await LanguageService.ReadAll();
 
-        languages.forEach((language: Language) => {
-            const thumbnail: Element = template.cloneNode(true) as Element;
-            const button: HTMLButtonElement = thumbnail.querySelector('[data-role="thumbnail-button"]')!;
-
-            button.id = String(language.GetId());
-            button.querySelector('[data-role="thumbnail-name_native"]')!.textContent = language.GetNameNative();
-            button.querySelector('[data-role="thumbnail-name_local"]')!.textContent = language.GetNameLocal();
-
-            button.addEventListener("click", async (event: Event) => {
-                event.preventDefault();
-                document.querySelector('#right-leaf')!.replaceChildren();
-                await LanguageUIBuilder.RenderForm(language);
-            });
-
-            container.appendChild(thumbnail);
+        languages.forEach(language => {
+            LanguageUIBuilder.RenderThumbnail(container, language);
         });
+    }
+
+    public static RenderThumbnail(container: Element, language: Language) {
+        const thumbnail = LanguageUIBuilder.thumbnailTemplate?.cloneNode(true) as Element;
+        const button: HTMLButtonElement = thumbnail.querySelector('button')!;
+        button.querySelector('[data-role="thumbnail-name_native"]')!.textContent = language.GetNameNative();
+        button.querySelector('[data-role="thumbnail-name_local"]')!.textContent = language.GetNameLocal();
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            LanguageUIBuilder.rightLeaf.replaceChildren();
+            await LanguageUIBuilder.RenderForm(language);
+        });
+        container.appendChild(thumbnail);
     }
 
     public static async RenderForm(language?: Language) {
