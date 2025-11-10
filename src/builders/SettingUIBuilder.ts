@@ -2,9 +2,9 @@ import {EntryUIBuilder} from "./EntryUIBuilder";
 import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
-import {TemplateManager} from "../../utils/renderer/TemplateManager";
-import {SettingService} from "../../utils/renderer/services/SettingService";
-import {TaxonominaSettings} from "../../interfaces/I_TaxonominaSettings";
+import {TemplateManager} from "../utils/renderer/TemplateManager";
+import {SettingService} from "../services/SettingService";
+import {TaxonominaSettings} from "../interfaces/I_TaxonominaSettings";
 
 export class SettingUIBuilder {
     private static settings: TaxonominaSettings;

@@ -1,6 +1,6 @@
-import {Dictionary} from "../../database/models/Dictionary";
-import {TemplateManager} from "../../utils/renderer/TemplateManager";
-import {DictionaryService} from "../../utils/renderer/services/DictionaryService";
+import {Dictionary} from "../database/models/Dictionary";
+import {TemplateManager} from "../utils/renderer/TemplateManager";
+import {DictionaryService} from "../services/DictionaryService";
 
 export class DictionaryUIBuilder {
     public static async InitializeDictionarySection() {

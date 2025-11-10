@@ -1,9 +1,9 @@
-import {LanguageUIBuilder} from "../../builders/LanguageUIBuilder";
-import {DictionaryUIBuilder} from "../../builders/DictionaryUIBuilder";
-import {GrammaticalCategoryUIBuilder} from "../../builders/GrammaticalCategoryUIBuilder";
-import {GrammaticalGenreUIBuilder} from "../../builders/GrammaticalGenreUIBuilder";
-import {EntryUIBuilder} from "../../builders/EntryUIBuilder";
-import {SettingUIBuilder} from "../../builders/SettingUIBuilder";
+import {LanguageUIBuilder} from "../../../builders/LanguageUIBuilder";
+import {DictionaryUIBuilder} from "../../../builders/DictionaryUIBuilder";
+import {GrammaticalCategoryUIBuilder} from "../../../builders/GrammaticalCategoryUIBuilder";
+import {GrammaticalGenreUIBuilder} from "../../../builders/GrammaticalGenreUIBuilder";
+import {EntryUIBuilder} from "../../../builders/EntryUIBuilder";
+import {SettingUIBuilder} from "../../../builders/SettingUIBuilder";
 import {TaxonominaSettings} from "../../../interfaces/I_TaxonominaSettings";
 
 async function Renderer() {

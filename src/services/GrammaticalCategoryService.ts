@@ -1,5 +1,5 @@
-import {GrammaticalCategory} from "../../../database/models/GrammaticalCategory";
-import {Entry} from "../../../database/models/Entry";
+import {GrammaticalCategory} from "../database/models/GrammaticalCategory";
+import {Entry} from "../database/models/Entry";
 
 export class GrammaticalCategoryService {
     public static async ReadAll(): Promise<GrammaticalCategory[]> {

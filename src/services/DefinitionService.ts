@@ -1,5 +1,5 @@
-import {Definition} from "../../../database/models/Definition";
-import {Entry} from "../../../database/models/Entry";
+import {Definition} from "../database/models/Definition";
+import {Entry} from "../database/models/Entry";
 
 export class DefinitionService {
     public static async ReadAll(): Promise<Definition[]> {

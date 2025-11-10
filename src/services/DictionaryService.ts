@@ -1,5 +1,5 @@
-import {Dictionary} from "../../../database/models/Dictionary";
-import {TaxonominaSettings} from "../../../interfaces/I_TaxonominaSettings";
+import {Dictionary} from "../database/models/Dictionary";
+import {TaxonominaSettings} from "../interfaces/I_TaxonominaSettings";
 
 export class DictionaryService {
     public static async GetCurrentDictionary(): Promise<Dictionary> {

@@ -1,4 +1,4 @@
-import {Language} from "../../../database/models/Language";
+import {Language} from "../database/models/Language";
 
 export class LanguageService {
     public static async ReadAll(): Promise<Language[]> {
