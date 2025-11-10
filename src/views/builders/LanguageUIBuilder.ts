@@ -131,7 +131,7 @@ export class LanguageUIBuilder {
         const button: HTMLButtonElement = LanguageUIBuilder.drawer.querySelector("#create-button")!;
         button.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            document.querySelector("#right-leaf")!.replaceChildren();
+            LanguageUIBuilder.rightLeaf.replaceChildren();
             await LanguageUIBuilder.RenderForm();
         })
     }
