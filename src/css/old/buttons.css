@@ -1,35 +1,23 @@
 [data-role="tab-button"] {
-    @apply w-full flex flex-row items-center gap-2 px-2 py-2 rounded-md border border-base-40 bg-base-10 text-base-100 hover:bg-base-20 hover:text-base-90 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors duration-200;
+    @apply border-base-40 bg-base-10 text-base-100 hover:bg-base-20 hover:text-base-90 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors duration-200;
 }
 
 [data-role="thumbnail-button"] {
-    @apply text-left font-bold w-full h-fit p-2 rounded-md border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-base-100 focus:outline-none focus:ring-2 focus:ring-primary-300 transition-colors duration-200;
+    @apply border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-base-100 focus:outline-none focus:ring-2 focus:ring-primary-300 transition-colors duration-200;
 }
 
 [data-role="create-button"] {
-    @apply w-fit p-2 rounded-md border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-base-100 focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors duration-200;
-}
-
-[data-role="create-button"][data-context="dictionary"] {
-    @apply w-full;
+    @apply border-green-500 text-green-500 hover:bg-green-500 hover:text-base-100 focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors duration-200;
 }
 
 [data-role="edit-button"] {
-    @apply w-fit p-2 rounded-md border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-base-100 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-200;
+    @apply border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-base-100 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-200;
 }
 
 [data-role="delete-button"] {
-    @apply flex flex-row gap-2 w-fit p-2 rounded-md border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-base-100 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200;
-}
-
-[data-role="delete-button"][data-variant="right-rounded"] {
-    @apply rounded-tr-md rounded-br-md rounded-tl-none rounded-bl-none;
-}
-
-[data-role="switch-button"] {
-    @apply w-full text-left;
+    @apply border-red-500 text-red-500 hover:bg-red-500 hover:text-base-100 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200;
 }
 
 [data-role="submit-button"] {
-    @apply block text-sm w-fit px-4 py-2 mx-auto rounded-lg font-semibold bg-primary-600 text-base-100 shadow-sm border border-primary-600 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-primary-700 hover:border-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-1 active:translate-y-0 active:shadow-md;
+    @apply bg-primary-600 text-base-100 shadow-sm border-primary-600 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-primary-700 hover:border-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-1 active:translate-y-0 active:shadow-md;
 }

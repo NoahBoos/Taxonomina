@@ -1,0 +1,35 @@
+@layer base {
+    * {
+        box-sizing: border-box;
+    }
+
+    *::-webkit-scrollbar {
+        display: none;
+        scrollbar-width: none;
+    }
+
+    body {
+        @apply text-base-100;
+    }
+
+    aside {
+        @apply flex flex-col w-[20%] h-screen p-4 gap-4 bg-base-20;
+    }
+
+    main {
+        @apply flex flex-row w-[80%] h-screen bg-base-00;
+    }
+
+    [data-role="left-leaf"] {
+        @apply w-[35%] h-screen p-4 border-l-2 border-base-30;
+    }
+
+    [data-role="right-leaf"] {
+        @apply w-full h-screen p-4 border-l-2 border-base-30 overflow-y-auto;
+    }
+
+    .inactive {
+        display: none;
+    }
+}
+

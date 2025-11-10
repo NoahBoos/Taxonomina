@@ -1,0 +1,50 @@
+@layer components {
+    button {
+        @apply text-left rounded-md border-2;
+
+        /*********************/
+        /* Button types      */
+        /*********************/
+        &[data-role="tab-button"] {
+            @apply horizontal items-center gap-2 p-2 w-full;
+        }
+
+        &[data-role="thumbnail-button"] {
+            @apply p-2 w-full h-fit font-bold;
+        }
+
+        &[data-role="create-button"] {
+            @apply p-2 w-fit;
+            &[data-context="dictionary"] {
+                @apply w-full;
+            }
+        }
+
+        &[data-role="edit-button"] {
+            @apply p-2 w-fit;
+        }
+
+        &[data-role="delete-button"] {
+            @apply horizontal gap-2 p-2 w-fit;
+        }
+
+        &[data-role="switch-button"] {
+            @apply w-full;
+        }
+
+        &[data-role="submit-button"] {
+            @apply block px-4 py-2 mx-auto w-fit text-sm font-semibold;
+        }
+
+        /*********************/
+        /* Button variants   */
+        /*********************/
+        &[data-variant="border-none"] {
+            @apply border-0;
+        }
+
+        &[data-variant="right-rounded"] {
+            @apply rounded-tr-md rounded-br-md rounded-tl-none rounded-bl-none;
+        }
+    }
+}
