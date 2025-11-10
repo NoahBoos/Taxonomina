@@ -38,14 +38,14 @@ export class GrammaticalCategoryUIBuilder {
         GrammaticalCategoryUIBuilder.leftLeaf.classList.remove('hidden');
         GrammaticalCategoryUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/grammatical-category");
-        const gramCats: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAll();
+        const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAll();
         if (!drawer) {
             return;
         } else {
             GrammaticalCategoryUIBuilder.drawer = drawer;
             await GrammaticalCategoryUIBuilder.RenderSearchbar();
-            await GrammaticalCategoryUIBuilder.CreateButton();
-            await GrammaticalCategoryUIBuilder.RenderList(gramCats);
+            await GrammaticalCategoryUIBuilder.RenderCreateButton();
+            await GrammaticalCategoryUIBuilder.RenderList(grammaticalCategories);
             GrammaticalCategoryUIBuilder.leftLeaf.appendChild(GrammaticalCategoryUIBuilder.drawer);
         }
     }
@@ -75,12 +75,12 @@ export class GrammaticalCategoryUIBuilder {
         button.innerText = grammaticalCategory.GetName();
         button.addEventListener("click", async () => {
             GrammaticalCategoryUIBuilder.rightLeaf.replaceChildren();
-            await GrammaticalCategoryUIBuilder.Form(grammaticalCategory);
+            await GrammaticalCategoryUIBuilder.RenderForm(grammaticalCategory);
         });
         container.appendChild(thumbnail);
     }
 
-    public static async Form(gramCat?: GrammaticalCategory) {
+    public static async RenderForm(grammaticalCategory?: GrammaticalCategory) {
         GrammaticalCategoryUIBuilder.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-category");
         if (!form) return;
@@ -90,13 +90,13 @@ export class GrammaticalCategoryUIBuilder {
         const inputId: HTMLInputElement = form.querySelector<HTMLInputElement>("#id")!;
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("button")!;
 
-        if (!gramCat) {
+        if (!grammaticalCategory) {
             title.textContent = "Création - Catégorie grammaticale";
             submitButton.innerText = "Créer";
         } else {
-            title.textContent = "Modification - " + gramCat.GetName();
-            inputName.value = gramCat.GetName();
-            inputId.value = String(gramCat.GetId());
+            title.textContent = "Modification - " + grammaticalCategory.GetName();
+            inputName.value = grammaticalCategory.GetName();
+            inputId.value = String(grammaticalCategory.GetId());
             submitButton.innerText = "Mettre à jour";
         }
 
@@ -107,28 +107,27 @@ export class GrammaticalCategoryUIBuilder {
                 const query: string = GrammaticalCategoryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value;
                 const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.FilterBySearch(query);
                 await GrammaticalCategoryUIBuilder.RenderList(grammaticalCategories ? grammaticalCategories : undefined);
-                await GrammaticalCategoryUIBuilder.Form(savedGrammaticalCategory ? savedGrammaticalCategory : undefined);
+                await GrammaticalCategoryUIBuilder.RenderForm(savedGrammaticalCategory ? savedGrammaticalCategory : undefined);
             }
         });
 
         GrammaticalCategoryUIBuilder.rightLeaf.appendChild(form);
-        if (gramCat) await GrammaticalCategoryUIBuilder.DeleteButton(gramCat);
+        if (grammaticalCategory) await GrammaticalCategoryUIBuilder.RenderDeleteButton(grammaticalCategory);
     }
 
-    public static async CreateButton() {
+    public static async RenderCreateButton() {
         const button: HTMLButtonElement = GrammaticalCategoryUIBuilder.drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
             GrammaticalCategoryUIBuilder.rightLeaf.replaceChildren();
-            await GrammaticalCategoryUIBuilder.Form();
+            await GrammaticalCategoryUIBuilder.RenderForm();
         });
     }
 
-    public static async DeleteButton(gramCat: GrammaticalCategory) {
+    public static async RenderDeleteButton(grammaticalCategory: GrammaticalCategory) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
-        button.id = String(gramCat.GetId());
         button.addEventListener("click", async () => {
-            const success: boolean = await GrammaticalCategoryService.Delete(gramCat);
+            const success: boolean = await GrammaticalCategoryService.Delete(grammaticalCategory);
             if (success) {
                 GrammaticalCategoryUIBuilder.rightLeaf.replaceChildren();
                 const query: string = GrammaticalCategoryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value;
