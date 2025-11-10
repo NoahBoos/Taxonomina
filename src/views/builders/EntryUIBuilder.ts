@@ -33,7 +33,7 @@ export class EntryUIBuilder {
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
                 SettingUIBuilder.isDrawerRevealed = false;
-                await EntryUIBuilder.Drawer();
+                await EntryUIBuilder.RenderDrawer();
             } else {
                 EntryUIBuilder.leftLeaf.replaceChildren();
                 EntryUIBuilder.leftLeaf.classList.add('hidden');
@@ -41,7 +41,7 @@ export class EntryUIBuilder {
         });
     }
 
-    public static async Drawer() {
+    public static async RenderDrawer() {
         EntryUIBuilder.leftLeaf.classList.remove('hidden');
         EntryUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/entry");
@@ -50,22 +50,22 @@ export class EntryUIBuilder {
             return;
         } else {
             EntryUIBuilder.drawer = drawer;
-            await EntryUIBuilder.Searchbar();
-            await EntryUIBuilder.CreateButton();
-            await EntryUIBuilder.List(entries);
+            await EntryUIBuilder.RenderSearchbar();
+            await EntryUIBuilder.RenderCreateButton();
+            await EntryUIBuilder.RenderList(entries);
             EntryUIBuilder.leftLeaf.appendChild(EntryUIBuilder.drawer);
         }
     }
 
-    public static async Searchbar() {
+    public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
            const entries: Entry[] = await EntryService.FilterBySearch(searchbar.value);
-           await EntryUIBuilder.List(entries);
+           await EntryUIBuilder.RenderList(entries);
         });
     }
 
-    public static async List(entries?: Entry[]) {
+    public static async RenderList(entries?: Entry[]) {
         const container: Element = EntryUIBuilder.drawer.querySelector("#entry-container")!;
         const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/entry");
         if (!thumbnailTemplate) return;
@@ -79,17 +79,17 @@ export class EntryUIBuilder {
            thumbnailButton.innerText = entry.GetLemma();
            thumbnailButton.addEventListener("click", async () => {
                EntryUIBuilder.rightLeaf.replaceChildren();
-              await EntryUIBuilder.Form(entry);
+              await EntryUIBuilder.RenderForm(entry);
            });
            container.appendChild(thumbnail);
         });
     }
 
-    public static async View(entry: Entry) {
+    public static async RenderView(entry: Entry) {
 
     }
 
-    public static async Form(entry?: Entry) {
+    public static async RenderForm(entry?: Entry) {
         EntryUIBuilder.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/entry");
         if (!form) return;
@@ -104,7 +104,7 @@ export class EntryUIBuilder {
         await EntryUIBuilder.GenerateGrammaticalCategoryCheckboxes(form, entry);
         await EntryUIBuilder.GenerateGrammaticalGenreCheckboxes(form, entry);
         await EntryUIBuilder.GlobalTranslationFieldset(form, entry);
-        await EntryUIBuilder.DefinitionFieldset(form, entry);
+        await EntryUIBuilder.RenderDefinitionFieldset(form, entry);
 
         if (!entry) {
             title.textContent = "Création - Entrée";
@@ -121,12 +121,12 @@ export class EntryUIBuilder {
             const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
             const savedEntry: Entry | undefined = await EntryService.ProcessForm(form);
             const entries: Entry[] = await EntryService.FilterBySearch(query);
-            await EntryUIBuilder.List(entries);
-            await EntryUIBuilder.Form(savedEntry ? savedEntry : undefined);
+            await EntryUIBuilder.RenderList(entries);
+            await EntryUIBuilder.RenderForm(savedEntry ? savedEntry : undefined);
         });
 
         EntryUIBuilder.rightLeaf.appendChild(form);
-        if (entry) await EntryUIBuilder.DeleteButton(entry);
+        if (entry) await EntryUIBuilder.RenderDeleteButton(entry);
     }
 
     public static async GenerateLanguageOptions(form: Element, entry?: Entry) {
@@ -195,7 +195,7 @@ export class EntryUIBuilder {
         }
     }
 
-    public static async DefinitionFieldset(form: Element, entry?: Entry) {
+    public static async RenderDefinitionFieldset(form: Element, entry?: Entry) {
         const entries: Entry[] = await EntryService.ReadAll();
         const definitions: Definition[] = entry ? await DefinitionService.ReadAllByEntry(entry) : [];
         const fieldset: HTMLDivElement = form.querySelector<HTMLDivElement>("div#definitions-section")!;
@@ -257,7 +257,7 @@ export class EntryUIBuilder {
         if (filteredEntries.length > 0) {
             dropdown.classList.remove("inactive");
             for (const filteredEntry of filteredEntries) {
-                EntryUIBuilder.AddTranslationButton(dropdown, translationTagContainer, searchbar, filteredEntry);
+                EntryUIBuilder.RenderAddTranslationButton(dropdown, translationTagContainer, searchbar, filteredEntry);
             }
         }
     }
@@ -289,7 +289,7 @@ export class EntryUIBuilder {
         parent.appendChild(tag);
     }
 
-    public static AddTranslationButton(parent: Element, translationTagContainer: Element, searchbar: HTMLInputElement, entry: Entry) {
+    public static RenderAddTranslationButton(parent: Element, translationTagContainer: Element, searchbar: HTMLInputElement, entry: Entry) {
         const button: HTMLButtonElement = document.createElement("button");
         button.innerText = entry.GetLemma();
         button.classList.add("p-2", "border-2", "rounded-lg");
@@ -305,15 +305,15 @@ export class EntryUIBuilder {
         parent.appendChild(button);
     }
 
-    public static async CreateButton() {
+    public static async RenderCreateButton() {
         const button: HTMLButtonElement = EntryUIBuilder.drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
             EntryUIBuilder.rightLeaf.replaceChildren();
-            await EntryUIBuilder.Form();
+            await EntryUIBuilder.RenderForm();
         });
     }
 
-    public static async DeleteButton(entry: Entry) {
+    public static async RenderDeleteButton(entry: Entry) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(entry.GetId());
@@ -323,7 +323,7 @@ export class EntryUIBuilder {
                 EntryUIBuilder.rightLeaf.replaceChildren();
                 const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 const entries: Entry[] = await EntryService.FilterBySearch(query);
-                await EntryUIBuilder.List(entries);
+                await EntryUIBuilder.RenderList(entries);
             }
         });
         EntryUIBuilder.rightLeaf.appendChild(button);
