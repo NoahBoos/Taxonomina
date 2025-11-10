@@ -16,6 +16,7 @@ import {SettingUIBuilder} from "./SettingUIBuilder";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
+    private static thumbnailTemplate: Element | undefined = undefined;
     private static tagTemplate: HTMLTemplateElement;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
@@ -67,22 +68,24 @@ export class EntryUIBuilder {
 
     public static async RenderList(entries?: Entry[]) {
         const container: Element = EntryUIBuilder.drawer.querySelector("#entry-container")!;
-        const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/entry");
-        if (!thumbnailTemplate) return;
+        EntryUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/entry");
         container.replaceChildren();
         if (!entries) entries = await EntryService.ReadAll();
 
         entries.forEach((entry: Entry) => {
-           const thumbnail: Element = thumbnailTemplate.cloneNode(true) as Element;
-           const thumbnailButton: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("button")!;
-           thumbnailButton.id = String(entry.GetId());
-           thumbnailButton.innerText = entry.GetLemma();
-           thumbnailButton.addEventListener("click", async () => {
-               EntryUIBuilder.rightLeaf.replaceChildren();
-              await EntryUIBuilder.RenderForm(entry);
-           });
-           container.appendChild(thumbnail);
+            EntryUIBuilder.RenderThumbnail(container, entry);
         });
+    }
+
+    public static async RenderThumbnail(container: Element, entry: Entry) {
+        const thumbnail = EntryUIBuilder.thumbnailTemplate?.cloneNode(true) as Element;
+        const button: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("button")!;
+        button.innerText = entry.GetLemma();
+        button.addEventListener("click", async () => {
+            EntryUIBuilder.rightLeaf.replaceChildren();
+            await EntryUIBuilder.RenderForm(entry);
+        });
+        container.appendChild(thumbnail);
     }
 
     public static async RenderView(entry: Entry) {
