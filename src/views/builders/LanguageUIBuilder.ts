@@ -24,7 +24,7 @@ export class LanguageUIBuilder {
                 GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 SettingUIBuilder.isDrawerRevealed = false;
-                await LanguageUIBuilder.Drawer();
+                await LanguageUIBuilder.RenderDrawer();
             } else {
                 LanguageUIBuilder.leftLeaf.replaceChildren();
                 LanguageUIBuilder.leftLeaf.classList.add('hidden');
@@ -32,7 +32,7 @@ export class LanguageUIBuilder {
         });
     }
 
-    public static async Drawer() {
+    public static async RenderDrawer() {
         LanguageUIBuilder.leftLeaf.classList.remove('hidden');
         LanguageUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/language");
@@ -40,14 +40,14 @@ export class LanguageUIBuilder {
             return;
         } else {
             LanguageUIBuilder.drawer = drawer;
-            await LanguageUIBuilder.Searchbar();
-            await LanguageUIBuilder.CreateButton();
-            await LanguageUIBuilder.List();
+            await LanguageUIBuilder.RenderSearchbar();
+            await LanguageUIBuilder.RenderCreateButton();
+            await LanguageUIBuilder.RenderList();
             LanguageUIBuilder.leftLeaf.appendChild(LanguageUIBuilder.drawer);
         }
     }
 
-    public static async Searchbar() {
+    public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = LanguageUIBuilder.drawer.querySelector("#searchbar")!;
         searchbar.addEventListener("input", async () => {
             const query: string = searchbar.value.toLowerCase();
@@ -61,10 +61,10 @@ export class LanguageUIBuilder {
             return [loopedLanguage.GetIso639_1(), loopedLanguage.GetIso639_3(), loopedLanguage.GetNameNative(), loopedLanguage.GetNameLocal()]
                 .some(value => value.toLowerCase().includes(query.toLowerCase()));
         });
-        await LanguageUIBuilder.List(filteredLanguages);
+        await LanguageUIBuilder.RenderList(filteredLanguages);
     }
 
-    public static async List(languages?: Language[]) {
+    public static async RenderList(languages?: Language[]) {
         const container: Element = LanguageUIBuilder.drawer.querySelector("#language-container")!;
         const template: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
         if (!template) return;
@@ -82,14 +82,14 @@ export class LanguageUIBuilder {
             button.addEventListener("click", async (event: Event) => {
                 event.preventDefault();
                 document.querySelector('#right-leaf')!.replaceChildren();
-                await LanguageUIBuilder.Form(language);
+                await LanguageUIBuilder.RenderForm(language);
             });
 
             container.appendChild(thumbnail);
         });
     }
 
-    public static async Form(language?: Language) {
+    public static async RenderForm(language?: Language) {
         LanguageUIBuilder.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/language");
         if (!form) return;
@@ -124,25 +124,25 @@ export class LanguageUIBuilder {
             let [success, savedLanguage]: [boolean, Language | undefined] = await LanguageService.ProcessForm(form);
             if (success && savedLanguage) {
                 const query: string = LanguageUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await LanguageUIBuilder.List();
+                await LanguageUIBuilder.RenderList();
                 await LanguageUIBuilder.UpdateSearchbar(query);
-                await LanguageUIBuilder.Form(savedLanguage ? savedLanguage : undefined);
+                await LanguageUIBuilder.RenderForm(savedLanguage ? savedLanguage : undefined);
             }
         });
 
         LanguageUIBuilder.rightLeaf.appendChild(form);
-        if (language) await LanguageUIBuilder.DeleteButton(language);
+        if (language) await LanguageUIBuilder.RenderDeleteButton(language);
     }
 
-    public static async CreateButton() {
+    public static async RenderCreateButton() {
         const button: HTMLButtonElement = LanguageUIBuilder.drawer.querySelector("#create-button")!;
         button.addEventListener("click", async () => {
             document.querySelector("#right-leaf")!.replaceChildren();
-            await LanguageUIBuilder.Form();
+            await LanguageUIBuilder.RenderForm();
         })
     }
 
-    public static async DeleteButton(language: Language) {
+    public static async RenderDeleteButton(language: Language) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(language.GetId());
