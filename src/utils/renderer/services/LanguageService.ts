@@ -22,6 +22,14 @@ export class LanguageService {
         return await window.txnmAPI.repositories.language.Delete(language);
     }
 
+    public static async FilterBySearch(query: string): Promise<Language[]> {
+        const languages: Language[] = await LanguageService.ReadAll();
+        return languages.filter(loopedLanguage => {
+            return [loopedLanguage.GetIso639_1(), loopedLanguage.GetIso639_3(), loopedLanguage.GetNameNative(), loopedLanguage.GetNameLocal()]
+                .some(value => value.toLowerCase().includes(query.toLowerCase()));
+        });
+    }
+
     public static async ProcessForm(form: Element): Promise<[boolean, Language | undefined]> {
         const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
         const iso_639_1: string = form.querySelector<HTMLInputElement>("#iso_639_1")!.value;
