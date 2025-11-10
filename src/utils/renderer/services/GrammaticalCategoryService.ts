@@ -28,6 +28,14 @@ export class GrammaticalCategoryService {
         return await window.txnmAPI.repositories.grammaticalCategory.Delete(gramCat);
     }
 
+    public static async FilterBySearch(query: string): Promise<GrammaticalCategory[]> {
+        query = query.toLowerCase();
+        const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAll();
+        return grammaticalCategories.filter(gc => {
+            return gc.GetName().toLowerCase().includes(query);
+        });
+    }
+
     public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalCategory | undefined]> {
         const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
         const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
