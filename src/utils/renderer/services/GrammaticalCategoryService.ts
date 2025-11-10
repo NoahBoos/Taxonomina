@@ -29,10 +29,9 @@ export class GrammaticalCategoryService {
     }
 
     public static async FilterBySearch(query: string): Promise<GrammaticalCategory[]> {
-        query = query.toLowerCase();
         const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAll();
         return grammaticalCategories.filter(gc => {
-            return gc.GetName().toLowerCase().includes(query);
+            return gc.GetName().toLowerCase().includes(query.toLowerCase());
         });
     }
 
