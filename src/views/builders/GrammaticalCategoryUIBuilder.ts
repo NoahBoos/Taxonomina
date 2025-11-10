@@ -65,7 +65,7 @@ export class GrammaticalCategoryUIBuilder {
         if (!grammaticalCategories) grammaticalCategories = await GrammaticalCategoryService.ReadAll();
 
         grammaticalCategories.forEach(gc => {
-            this.RenderThumbnail(container, gc);
+            GrammaticalCategoryUIBuilder.RenderThumbnail(container, gc);
         });
     }
 
