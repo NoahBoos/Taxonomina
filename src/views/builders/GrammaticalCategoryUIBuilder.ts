@@ -118,7 +118,8 @@ export class GrammaticalCategoryUIBuilder {
 
     public static async RenderCreateButton() {
         const button: HTMLButtonElement = GrammaticalCategoryUIBuilder.drawer.querySelector<HTMLButtonElement>("#create-button")!;
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             GrammaticalCategoryUIBuilder.rightLeaf.replaceChildren();
             await GrammaticalCategoryUIBuilder.RenderForm();
         });
@@ -127,7 +128,8 @@ export class GrammaticalCategoryUIBuilder {
     public static async RenderDeleteButton(grammaticalCategory: GrammaticalCategory) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             const success: boolean = await GrammaticalCategoryService.Delete(grammaticalCategory);
             if (success) {
                 GrammaticalCategoryUIBuilder.rightLeaf.replaceChildren();

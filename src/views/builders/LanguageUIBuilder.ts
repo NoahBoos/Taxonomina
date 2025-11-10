@@ -129,7 +129,8 @@ export class LanguageUIBuilder {
 
     public static async RenderCreateButton() {
         const button: HTMLButtonElement = LanguageUIBuilder.drawer.querySelector("#create-button")!;
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             document.querySelector("#right-leaf")!.replaceChildren();
             await LanguageUIBuilder.RenderForm();
         })
@@ -139,7 +140,8 @@ export class LanguageUIBuilder {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(language.GetId());
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             const success: boolean = await LanguageService.Delete(language);
             if (success) {
                 LanguageUIBuilder.rightLeaf.replaceChildren();

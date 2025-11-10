@@ -311,7 +311,8 @@ export class EntryUIBuilder {
 
     public static async RenderCreateButton() {
         const button: HTMLButtonElement = EntryUIBuilder.drawer.querySelector<HTMLButtonElement>("#create-button")!;
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             EntryUIBuilder.rightLeaf.replaceChildren();
             await EntryUIBuilder.RenderForm();
         });
@@ -321,7 +322,8 @@ export class EntryUIBuilder {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
         button.id = String(entry.GetId());
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             const success: boolean = await EntryService.Delete(entry);
             if (success) {
                 EntryUIBuilder.rightLeaf.replaceChildren();
