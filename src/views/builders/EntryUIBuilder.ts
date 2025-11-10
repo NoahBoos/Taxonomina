@@ -60,17 +60,9 @@ export class EntryUIBuilder {
     public static async Searchbar() {
         const searchbar: HTMLInputElement = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
-           const query: string = searchbar.value.toLowerCase();
-           await EntryUIBuilder.UpdateSearchbar(query);
+           const entries: Entry[] = await EntryService.FilterBySearch(searchbar.value);
+           await EntryUIBuilder.List(entries);
         });
-    }
-
-    public static async UpdateSearchbar(query: string) {
-        const entries: Entry[] = await EntryService.ReadAll();
-        const filteredEntries: Entry[] = entries.filter((entry: Entry) => {
-            return [entry.GetLemma()].some(value => value.toLowerCase().includes(query));
-        });
-        await EntryUIBuilder.List(filteredEntries);
     }
 
     public static async List(entries?: Entry[]) {
@@ -128,7 +120,8 @@ export class EntryUIBuilder {
             event.preventDefault();
             const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
             const savedEntry: Entry | undefined = await EntryService.ProcessForm(form);
-            await EntryUIBuilder.UpdateSearchbar(query);
+            const entries: Entry[] = await EntryService.FilterBySearch(query);
+            await EntryUIBuilder.List(entries);
             await EntryUIBuilder.Form(savedEntry ? savedEntry : undefined);
         });
 
@@ -329,7 +322,8 @@ export class EntryUIBuilder {
             if (success) {
                 EntryUIBuilder.rightLeaf.replaceChildren();
                 const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await EntryUIBuilder.UpdateSearchbar(query);
+                const entries: Entry[] = await EntryService.FilterBySearch(query);
+                await EntryUIBuilder.List(entries);
             }
         });
         EntryUIBuilder.rightLeaf.appendChild(button);

@@ -64,6 +64,13 @@ export class EntryService {
         return await window.txnmAPI.repositories.entry.Delete(entry);
     }
 
+    public static async FilterBySearch(query: string): Promise<Entry[]> {
+        const entries: Entry[] = await EntryService.ReadAll();
+        return entries.filter(entry => {
+            return [entry.GetLemma()].some(value => value.toLowerCase().includes(query.toLowerCase()));
+        });
+    }
+
     public static async ProcessForm(form: Element) {
         await DatabaseService.BeginTransaction();
         try {
