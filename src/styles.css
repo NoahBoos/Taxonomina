@@ -1,14 +1,18 @@
 @import "tailwindcss";
 
-@import './css/buttons.css';
-@import './css/definition.css';
-@import './css/drawers.css';
-@import './css/dropdowns.css';
-@import './css/forms.css';
-@import './css/headings.css';
-@import './css/searchbars.css';
-@import './css/thumbnails.css';
-@import './css/translation.css';
+@import './css/core.css';
+@import './css/themes/default.css';
+@import './css/themes/nord.css';
+
+@import './css/old/buttons.css';
+@import './css/old/definition.css';
+@import './css/old/drawers.css';
+@import './css/old/dropdowns.css';
+@import './css/old/forms.css';
+@import './css/old/headings.css';
+@import './css/old/searchbars.css';
+@import './css/old/thumbnails.css';
+@import './css/old/translation.css';
 
 @theme {
     --color-base-00: #f8f8f8;
