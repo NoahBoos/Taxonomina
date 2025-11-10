@@ -16,8 +16,9 @@ export class GrammaticalGenreUIBuilder {
     public static async Initialize() {
         GrammaticalGenreUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
         GrammaticalGenreUIBuilder.rightLeaf = document.querySelector("#right-leaf")!;
-        const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#grammatical-genre-drawer-button")!;
-        drawerButton.addEventListener("click", async () => {
+        const button: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#grammatical-genre-drawer-button")!;
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             GrammaticalGenreUIBuilder.isDrawerRevealed = !GrammaticalGenreUIBuilder.isDrawerRevealed;
 
             if (GrammaticalGenreUIBuilder.isDrawerRevealed) {

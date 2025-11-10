@@ -18,7 +18,8 @@ export class LanguageUIBuilder {
         LanguageUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
         LanguageUIBuilder.rightLeaf = document.querySelector("#right-leaf")!;
         const button: HTMLButtonElement = document.querySelector("#language-drawer-button")!;
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             LanguageUIBuilder.isDrawerRevealed = !LanguageUIBuilder.isDrawerRevealed;
 
             if (LanguageUIBuilder.isDrawerRevealed) {

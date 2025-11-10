@@ -17,8 +17,9 @@ export class GrammaticalCategoryUIBuilder {
         GrammaticalCategoryUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
         GrammaticalCategoryUIBuilder.rightLeaf = document.querySelector("#right-leaf")!;
 
-        const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#grammatical-category-drawer-button")!;
-        drawerButton.addEventListener("click", async () => {
+        const button: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#grammatical-category-drawer-button")!;
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             GrammaticalCategoryUIBuilder.isDrawerRevealed = !GrammaticalCategoryUIBuilder.isDrawerRevealed;
 
             if (GrammaticalCategoryUIBuilder.isDrawerRevealed) {

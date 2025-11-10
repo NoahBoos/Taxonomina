@@ -25,8 +25,9 @@ export class EntryUIBuilder {
     public static async Initialize() {
         EntryUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
         EntryUIBuilder.rightLeaf = document.querySelector("#right-leaf")!;
-        const drawerButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#entry-drawer-button")!;
-        drawerButton.addEventListener("click", async () => {
+        const button: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#entry-drawer-button")!;
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             EntryUIBuilder.isDrawerRevealed = !EntryUIBuilder.isDrawerRevealed;
 
             if (EntryUIBuilder.isDrawerRevealed) {
