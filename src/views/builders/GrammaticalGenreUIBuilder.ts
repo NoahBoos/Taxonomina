@@ -25,7 +25,7 @@ export class GrammaticalGenreUIBuilder {
                 GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
                 SettingUIBuilder.isDrawerRevealed = false;
-                await GrammaticalGenreUIBuilder.Drawer();
+                await GrammaticalGenreUIBuilder.RenderDrawer();
             } else {
                 GrammaticalGenreUIBuilder.leftLeaf.replaceChildren();
                 GrammaticalGenreUIBuilder.leftLeaf.classList.add('hidden');
@@ -33,37 +33,37 @@ export class GrammaticalGenreUIBuilder {
         });
     }
 
-    public static async Drawer() {
+    public static async RenderDrawer() {
         GrammaticalGenreUIBuilder.leftLeaf.classList.remove('hidden');
         GrammaticalGenreUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/grammatical-genre");
-        const gramGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll();
+        const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll();
         if (!drawer) {
             return;
         } else {
             GrammaticalGenreUIBuilder.drawer = drawer;
-            await GrammaticalGenreUIBuilder.Searchbar();
-            await GrammaticalGenreUIBuilder.CreateButton();
-            await GrammaticalGenreUIBuilder.List(gramGenres);
+            await GrammaticalGenreUIBuilder.RenderSearchbar();
+            await GrammaticalGenreUIBuilder.RenderCreateButton();
+            await GrammaticalGenreUIBuilder.RenderList(grammaticalGenres);
             GrammaticalGenreUIBuilder.leftLeaf.appendChild(GrammaticalGenreUIBuilder.drawer);
         }
     }
 
-    public static async Searchbar() {
+    public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
            const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(searchbar.value);
-           await GrammaticalGenreUIBuilder.List(grammaticalGenres);
+           await GrammaticalGenreUIBuilder.RenderList(grammaticalGenres);
         });
     }
 
-    public static async List(gramGenres?: GrammaticalGenre[]) {
+    public static async RenderList(grammaticalGenres?: GrammaticalGenre[]) {
         const container: Element = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLDivElement>("#grammatical-genre-container")!;
         GrammaticalGenreUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/grammatical-genre");
         container.replaceChildren();
-        if (!gramGenres) gramGenres = await GrammaticalGenreService.ReadAll();
+        if (!grammaticalGenres) grammaticalGenres = await GrammaticalGenreService.ReadAll();
 
-        gramGenres.forEach(gg => {
+        grammaticalGenres.forEach(gg => {
             GrammaticalGenreUIBuilder.RenderThumbnail(container, gg);
         });
     }
@@ -74,12 +74,12 @@ export class GrammaticalGenreUIBuilder {
         button.innerText = grammaticalGenre.GetName();
         button.addEventListener("click", async () => {
             GrammaticalGenreUIBuilder.rightLeaf.replaceChildren();
-            await GrammaticalGenreUIBuilder.Form(grammaticalGenre);
+            await GrammaticalGenreUIBuilder.RenderForm(grammaticalGenre);
         });
         container.appendChild(thumbnail);
     }
 
-    public static async Form(gramGenre?: GrammaticalGenre) {
+    public static async RenderForm(grammaticalGenre?: GrammaticalGenre) {
         GrammaticalGenreUIBuilder.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/grammatical-genre");
         if (!form) return;
@@ -89,13 +89,13 @@ export class GrammaticalGenreUIBuilder {
         const inputId: HTMLInputElement = form.querySelector<HTMLInputElement>("#id")!;
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("button")!;
 
-        if (!gramGenre) {
+        if (!grammaticalGenre) {
             title.textContent = "Création - Genre grammatical";
             submitButton.innerText = "Créer";
         } else {
-            title.textContent = "Modification - " + gramGenre.GetName();
-            inputName.value = gramGenre.GetName();
-            inputId.value = String(gramGenre.GetId());
+            title.textContent = "Modification - " + grammaticalGenre.GetName();
+            inputName.value = grammaticalGenre.GetName();
+            inputId.value = String(grammaticalGenre.GetId());
             submitButton.innerText = "Mettre à jour";
         }
 
@@ -104,36 +104,36 @@ export class GrammaticalGenreUIBuilder {
             const [success, savedGrammaticalGenre] = await GrammaticalGenreService.ProcessForm(form);
             if (success && savedGrammaticalGenre) {
                 const query: string = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                await GrammaticalGenreUIBuilder.List();
+                await GrammaticalGenreUIBuilder.RenderList();
                 const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(query);
-                await GrammaticalGenreUIBuilder.List(grammaticalGenres);
-                await GrammaticalGenreUIBuilder.Form(savedGrammaticalGenre ? savedGrammaticalGenre : undefined);
+                await GrammaticalGenreUIBuilder.RenderList(grammaticalGenres);
+                await GrammaticalGenreUIBuilder.RenderForm(savedGrammaticalGenre ? savedGrammaticalGenre : undefined);
             }
         });
 
         GrammaticalGenreUIBuilder.rightLeaf.appendChild(form);
-        if (gramGenre) await GrammaticalGenreUIBuilder.DeleteButton(gramGenre);
+        if (grammaticalGenre) await GrammaticalGenreUIBuilder.RenderDeleteButton(grammaticalGenre);
     }
 
-    public static async CreateButton() {
+    public static async RenderCreateButton() {
         const button: HTMLButtonElement = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLButtonElement>("#create-button")!;
         button.addEventListener("click", async () => {
             GrammaticalGenreUIBuilder.rightLeaf.replaceChildren();
-            await GrammaticalGenreUIBuilder.Form();
+            await GrammaticalGenreUIBuilder.RenderForm();
         })
     }
 
-    public static async DeleteButton(gramGenre: GrammaticalGenre) {
+    public static async RenderDeleteButton(grammaticalGenre: GrammaticalGenre) {
         const button: Element | undefined = await TemplateManager.LoadTemplateAsHTML("buttons/delete");
         if (!button) return;
-        button.id = String(gramGenre.GetId());
+        button.id = String(grammaticalGenre.GetId());
         button.addEventListener("click", async () => {
-            const success: boolean = await GrammaticalGenreService.Delete(gramGenre);
+            const success: boolean = await GrammaticalGenreService.Delete(grammaticalGenre);
             if (success) {
                 GrammaticalGenreUIBuilder.rightLeaf.replaceChildren();
                 const query: string = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(query);
-                await GrammaticalGenreUIBuilder.List(grammaticalGenres);
+                await GrammaticalGenreUIBuilder.RenderList(grammaticalGenres);
             }
         });
         GrammaticalGenreUIBuilder.rightLeaf.appendChild(button);
