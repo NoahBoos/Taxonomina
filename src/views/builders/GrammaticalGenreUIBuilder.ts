@@ -8,6 +8,7 @@ import {SettingUIBuilder} from "./SettingUIBuilder";
 
 export class GrammaticalGenreUIBuilder {
     public static isDrawerRevealed: boolean = false;
+    private static thumbnailTemplate: Element | undefined = undefined;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
     private static drawer: Element;
@@ -58,22 +59,24 @@ export class GrammaticalGenreUIBuilder {
 
     public static async List(gramGenres?: GrammaticalGenre[]) {
         const container: Element = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLDivElement>("#grammatical-genre-container")!;
-        const thumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/grammatical-genre");
-        if (!thumbnailTemplate) return;
+        GrammaticalGenreUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/grammatical-genre");
         container.replaceChildren();
         if (!gramGenres) gramGenres = await GrammaticalGenreService.ReadAll();
 
-        gramGenres.forEach((gramGenre: GrammaticalGenre) => {
-            const thumbnail: Element = thumbnailTemplate.cloneNode(true) as Element;
-            const thumbnailButton: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("button")!;
-            thumbnailButton.id = String(gramGenre.GetId());
-            thumbnailButton.innerText = gramGenre.GetName();
-            thumbnailButton.addEventListener("click", async () => {
-                GrammaticalGenreUIBuilder.rightLeaf.replaceChildren();
-                await GrammaticalGenreUIBuilder.Form(gramGenre);
-            });
-            container.appendChild(thumbnail);
+        gramGenres.forEach(gg => {
+            GrammaticalGenreUIBuilder.RenderThumbnail(container, gg);
         });
+    }
+
+    public static async RenderThumbnail(container: Element, grammaticalGenre: GrammaticalGenre) {
+        const thumbnail = GrammaticalGenreUIBuilder.thumbnailTemplate?.cloneNode(true) as Element;
+        const button: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("button")!;
+        button.innerText = grammaticalGenre.GetName();
+        button.addEventListener("click", async () => {
+            GrammaticalGenreUIBuilder.rightLeaf.replaceChildren();
+            await GrammaticalGenreUIBuilder.Form(grammaticalGenre);
+        });
+        container.appendChild(thumbnail);
     }
 
     public static async Form(gramGenre?: GrammaticalGenre) {
