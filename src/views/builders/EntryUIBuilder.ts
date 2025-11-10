@@ -81,8 +81,8 @@ export class EntryUIBuilder {
         const thumbnail = EntryUIBuilder.thumbnailTemplate?.cloneNode(true) as Element;
         const button: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("button")!;
         button.innerText = entry.GetLemma();
-        button.addEventListener("click", async () => {
-            EntryUIBuilder.rightLeaf.replaceChildren();
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             await EntryUIBuilder.RenderForm(entry);
         });
         container.appendChild(thumbnail);

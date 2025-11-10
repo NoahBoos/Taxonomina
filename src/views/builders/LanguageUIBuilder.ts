@@ -75,7 +75,6 @@ export class LanguageUIBuilder {
         button.querySelector('[data-role="thumbnail-name_local"]')!.textContent = language.GetNameLocal();
         button.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            LanguageUIBuilder.rightLeaf.replaceChildren();
             await LanguageUIBuilder.RenderForm(language);
         });
         container.appendChild(thumbnail);

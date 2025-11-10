@@ -73,8 +73,8 @@ export class GrammaticalCategoryUIBuilder {
         const thumbnail = GrammaticalCategoryUIBuilder.thumbnailTemplate?.cloneNode(true) as Element;
         const button: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("button")!;
         button.innerText = grammaticalCategory.GetName();
-        button.addEventListener("click", async () => {
-            GrammaticalCategoryUIBuilder.rightLeaf.replaceChildren();
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             await GrammaticalCategoryUIBuilder.RenderForm(grammaticalCategory);
         });
         container.appendChild(thumbnail);

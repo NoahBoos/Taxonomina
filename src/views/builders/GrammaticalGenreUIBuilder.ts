@@ -72,8 +72,8 @@ export class GrammaticalGenreUIBuilder {
         const thumbnail = GrammaticalGenreUIBuilder.thumbnailTemplate?.cloneNode(true) as Element;
         const button: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("button")!;
         button.innerText = grammaticalGenre.GetName();
-        button.addEventListener("click", async () => {
-            GrammaticalGenreUIBuilder.rightLeaf.replaceChildren();
+        button.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
             await GrammaticalGenreUIBuilder.RenderForm(grammaticalGenre);
         });
         container.appendChild(thumbnail);
