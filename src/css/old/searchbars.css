@@ -1,3 +1,0 @@
-[data-role="searchbar"][data-context="drawer"], [data-role="searchbar"][data-context="translation"] {
-    @apply w-full h-fit px-2 py-1 rounded-md border border-base-40 bg-base-10 focus:bg-base-25 text-base-100 placeholder-base-90 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition-colors duration-200;
-}

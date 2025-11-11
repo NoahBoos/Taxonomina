@@ -1,7 +1,0 @@
-[data-role="thumbnail"] {
-    @apply w-full h-fit;
-}
-
-[data-role="thumbnail"][data-context="dictionary"] {
-    @apply flex flex-row justify-between items-center gap-2;
-}
