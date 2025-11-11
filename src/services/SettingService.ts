@@ -8,4 +8,9 @@ export class SettingService {
         document.body.setAttribute("data-theme", theme);
         await window.txnmAPI.settings.Update("selectedTheme", theme);
     }
+
+    public static async ChangeFontSize(fontSize: string) {
+        document.body.setAttribute("data-font-size", fontSize);
+        await window.txnmAPI.settings.Update("fontSize", fontSize);
+    }
 }

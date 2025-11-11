@@ -23,6 +23,7 @@ async function InitializeTheme() {
     const settings: TaxonominaSettings = await window.txnmAPI.settings.Expose();
     document.body.setAttribute("data-theme", settings.selectedTheme);
     document.body.setAttribute("data-variant", settings.themeVariant);
+    document.body.setAttribute("data-font-size", settings.fontSize);
 }
 
 Renderer();

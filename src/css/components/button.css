@@ -1,6 +1,6 @@
 @layer components {
     button {
-        @apply text-left rounded-md border-2 focus:outline-none;
+        @apply text-left text-base rounded-md border-2 focus:outline-none;
 
         /*********************/
         /* Button types      */

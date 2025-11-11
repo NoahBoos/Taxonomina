@@ -9,7 +9,8 @@ export class SettingManager {
         isDatabaseInitialized: false,
         currentDictionary: 1,
         selectedTheme: "default",
-        themeVariant: "light"
+        themeVariant: "light",
+        fontSize: "base",
     }
 
     public static async SaveSetting(settings: TaxonominaSettings): Promise<void> {

@@ -49,6 +49,7 @@ export class SettingUIBuilder {
             this.panel = panel;
             await this.ThemeVariantSelect();
             await this.ThemeSelect();
+            await this.FontSizeSelect();
             this.rightLeaf.appendChild(panel);
         }
     }
@@ -66,6 +67,14 @@ export class SettingUIBuilder {
         select.value = SettingUIBuilder.settings.selectedTheme;
         select.addEventListener("change", async () => {
             await SettingService.ChangeTheme(select.value);
-        })
+        });
+    }
+
+    public static async FontSizeSelect() {
+        const select: HTMLSelectElement = SettingUIBuilder.panel.querySelector<HTMLSelectElement>("#font-size")!;
+        select.value = SettingUIBuilder.settings.fontSize;
+        select.addEventListener("change", async () => {
+            await SettingService.ChangeFontSize(select.value);
+        });
     }
 }
