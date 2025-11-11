@@ -1,0 +1,13 @@
+@layer components {
+    [data-role="definition-container"] {
+        @apply horizontal flex-wrap gap-2 mt-2;
+    }
+
+    [data-role="definition"] {
+        @apply relative w-full border-dashed border-2 rounded-lg p-2;
+    }
+
+    [data-role="definition-title"] {
+        @apply text-base-100 text-lg font-bold;
+    }
+}

@@ -1,0 +1,13 @@
+@layer components {
+    [data-role="dropdown"] {
+        @apply absolute left-0 z-10 p-2 mt-1 w-full bg-base-30 border rounded-md shadow-md;
+
+        &[data-context="translation"]:not(.inactive) {
+            @apply vertical gap-2;
+        }
+
+        &[data-context="dictionary"] {
+            @apply space-y-2;
+        }
+    }
+}

@@ -1,0 +1,13 @@
+@layer components {
+    [data-role="translation-container"] {
+        @apply horizontal flex-wrap gap-2 mt-2;
+    }
+
+    [data-role="translation-tag"] {
+        @apply horizontal w-fit;
+    }
+
+    [data-role="translation-text"] {
+        @apply rounded-tl-md rounded-bl-md border-2 border-base-70 p-2;
+    }
+}

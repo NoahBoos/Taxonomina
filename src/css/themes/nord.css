@@ -13,17 +13,17 @@
     --color-base-90: #D3D7E0;
     --color-base-100: #E7E9ED;
 
-    --color-primary-50:  #e0ece0;
-    --color-primary-100: #c3d8c3;
-    --color-primary-200: #a3c0a3;
-    --color-primary-300: #85aa85;
-    --color-primary-400: #699669;
-    --color-primary-500: #4f7a4f;
-    --color-primary-600: #3c5e3c;
-    --color-primary-700: #2c4730;
-    --color-primary-800: #1e3120;
-    --color-primary-900: #111b11;
-    --color-primary-950: #081006;
+    --color-primary-50:  #dfe9e4;
+    --color-primary-100: #bfd2c8;
+    --color-primary-200: #9cb8aa;
+    --color-primary-300: #7b9f8e;
+    --color-primary-400: #5f8673;
+    --color-primary-500: #4a6b5c;
+    --color-primary-600: #395548;
+    --color-primary-700: #2d4138;
+    --color-primary-800: #20302a;
+    --color-primary-900: #141f1b;
+    --color-primary-950: #0b1210;
 
     --color-gray-50:  #ECEFF4;
     --color-gray-100: #E5E9F0;
@@ -126,6 +126,84 @@
     --color-pink-950: #2D1A2E;
 }
 
+@layer utilities {
+    [data-theme="nord"][data-variant="dark"] {
+        /*********************/
+        /* Buttons           */
+        /*********************/
+        [data-role="tab-button"] {
+            @apply text-base-100 bg-base-10 border-base-40;
+            @apply hover:text-base-90 hover:bg-base-30 hover:border-primary-400;
+            @apply focus:ring-2 focus:ring-primary-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="thumbnail-button"] {
+            @apply text-base-100 bg-transparent border-primary-500;
+            @apply hover:text-base-90 hover:bg-primary-600 hover:border-primary-600;
+            @apply focus:ring-2 focus:ring-primary-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="create-button"] {
+            @apply text-base-100 bg-transparent border-green-500;
+            @apply hover:text-base-90 hover:bg-green-600 hover:border-green-600;
+            @apply focus:ring-2 focus:ring-green-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="edit-button"] {
+            @apply text-base-100 bg-transparent border-blue-500;
+            @apply hover:text-base-90 hover:bg-blue-600 hover:border-blue-600;
+            @apply focus:ring-2 focus:ring-blue-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="delete-button"] {
+            @apply text-base-100 bg-transparent border-red-500;
+            @apply hover:text-base-90 hover:bg-red-600 hover:border-red-600;
+            @apply focus:ring-2 focus:ring-red-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="submit-button"] {
+            @apply text-base-100 bg-transparent border-primary-500;
+            @apply hover:text-base-90 hover:bg-primary-600 hover:border-primary-600;
+            @apply focus:ring-2 focus:ring-primary-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        /*********************/
+        /* Searchbar         */
+        /*********************/
+        [data-role="searchbar"] {
+            @apply text-base-100 placeholder-base-90 border-base-40 bg-base-10;
+            @apply focus:bg-base-25 focus:ring-2 focus:ring-primary-400 focus:border-primary-500;
+            @apply transition-colors duration-250;
+        }
+
+        /*********************/
+        /* Form              */
+        /*********************/
+        [data-role="input-group"],
+        [data-role="checkbox-section"],
+        [data-role="checkbox-group"][data-variant="as-section"],
+        [data-role="select-group"] {
+            @apply bg-base-20;
+        }
+
+        [data-role="input-group"] input,
+        [data-role="checkbox-group"] input,
+        textarea,
+        [data-role="select-group"] select {
+            @apply bg-base-10 border-base-40 shadow-sm transform;
+            @apply hover:bg-base-20 hover:border-primary-300 hover:shadow-lg hover:-translate-y-0.5;
+            @apply focus:bg-base-25 focus:-translate-y-1 focus:outline-primary-300;
+            @apply transition duration-300 ease-in-out;
+        }
+    }
+}
+
 [data-theme="nord"][data-variant="light"] {
     --color-base-00: #F8FAFB;
     --color-base-05: #F1F5F8;
@@ -141,17 +219,17 @@
     --color-base-90: #515A63;
     --color-base-100: #2F343A;
 
-    --color-primary-50:  #f2f5f2;
-    --color-primary-100: #dfe8df;
-    --color-primary-200: #c3d1c3;
-    --color-primary-300: #a6b9a6;
-    --color-primary-400: #8aa18a;
-    --color-primary-500: #6d8a6d;
-    --color-primary-600: #557355;
-    --color-primary-700: #445844;
-    --color-primary-800: #334033;
-    --color-primary-900: #212a21;
-    --color-primary-950: #111410;
+    --color-primary-50:  #fafcfb;
+    --color-primary-100: #edf6ef;
+    --color-primary-200: #d8ebdc;
+    --color-primary-300: #b8d5bd;
+    --color-primary-400: #96b898;
+    --color-primary-500: #6e9c74;
+    --color-primary-600: #55845b;
+    --color-primary-700: #466b4b;
+    --color-primary-800: #34503a;
+    --color-primary-900: #223627;
+    --color-primary-950: #121e14;
 
     --color-gray-50:  #F9FAFB;
     --color-gray-100: #F1F3F5;
@@ -165,91 +243,169 @@
     --color-gray-900: #3A404A;
     --color-gray-950: #272B33;
 
-    --color-red-50:  #D88282;
-    --color-red-100: #C96E6E;
-    --color-red-200: #B55A5A;
-    --color-red-300: #9A4D4D;
-    --color-red-400: #C06A6A;
-    --color-red-500: #9E4747;
-    --color-red-600: #8C3A3A;
-    --color-red-700: #7A2F2F;
-    --color-red-900: #632424;
-    --color-red-950: #4B1A1A;
+    --color-red-50:  #e9c8c8;
+    --color-red-100: #d9b1b1;
+    --color-red-200: #c29191;
+    --color-red-300: #a97777;
+    --color-red-400: #be8686;
+    --color-red-500: #9b6666;
+    --color-red-600: #875555;
+    --color-red-700: #724747;
+    --color-red-900: #573636;
+    --color-red-950: #3c2525;
 
-    --color-orange-50:  #D69673;
-    --color-orange-100: #C4855C;
-    --color-orange-200: #B0734C;
-    --color-orange-300: #B26B40;
-    --color-orange-400: #D18A61;
-    --color-orange-500: #9F623D;
-    --color-orange-600: #8C512E;
-    --color-orange-700: #7A4324;
-    --color-orange-900: #65371B;
-    --color-orange-950: #4C2813;
+    --color-orange-50:  #edd0b8;
+    --color-orange-100: #e1b693;
+    --color-orange-200: #d29e78;
+    --color-orange-300: #bf8863;
+    --color-orange-400: #d09b79;
+    --color-orange-500: #b77c55;
+    --color-orange-600: #a06a47;
+    --color-orange-700: #87583a;
+    --color-orange-900: #6a4530;
+    --color-orange-950: #4a2f22;
 
-    --color-yellow-50:  #C9AB6B;
-    --color-yellow-100: #B89A5B;
-    --color-yellow-200: #A7884A;
-    --color-yellow-300: #A58C54;
-    --color-yellow-400: #C0A16F;
-    --color-yellow-500: #947739;
-    --color-yellow-600: #82682B;
-    --color-yellow-700: #6E5820;
-    --color-yellow-900: #594519;
-    --color-yellow-950: #3F3111;
+    --color-yellow-50:  #e4d5a5;
+    --color-yellow-100: #d6c48d;
+    --color-yellow-200: #c4b174;
+    --color-yellow-300: #b19d5e;
+    --color-yellow-400: #c3af70;
+    --color-yellow-500: #9d8b4f;
+    --color-yellow-600: #887740;
+    --color-yellow-700: #716134;
+    --color-yellow-900: #55492a;
+    --color-yellow-950: #3b321c;
 
-    --color-green-50:  #82AF9E;
-    --color-green-100: #6D9B8A;
-    --color-green-200: #5A8776;
-    --color-green-300: #436257;
-    --color-green-400: #5A8070;
-    --color-green-500: #497364;
-    --color-green-600: #3A5F51;
-    --color-green-700: #2F4D41;
-    --color-green-900: #223A30;
-    --color-green-950: #182820;
+    --color-green-50:  #b4ccc2;
+    --color-green-100: #9bb9ab;
+    --color-green-200: #81a394;
+    --color-green-300: #65897b;
+    --color-green-400: #7b9e8e;
+    --color-green-500: #5d8171;
+    --color-green-600: #4e6d5e;
+    --color-green-700: #3f584d;
+    --color-green-900: #2f423b;
+    --color-green-950: #1f2d28;
 
-    --color-cyan-50:  #73B8B8;
-    --color-cyan-100: #5FA3A3;
-    --color-cyan-200: #4C8F8F;
-    --color-cyan-300: #4A8A8A;
-    --color-cyan-400: #66B0B0;
-    --color-cyan-500: #3A7B7B;
-    --color-cyan-600: #2E6868;
-    --color-cyan-700: #245757;
-    --color-cyan-900: #1B4343;
-    --color-cyan-950: #123232;
+    --color-cyan-50:  #b6d4d4;
+    --color-cyan-100: #9cc0c0;
+    --color-cyan-200: #84abab;
+    --color-cyan-300: #6b9494;
+    --color-cyan-400: #7fa8a8;
+    --color-cyan-500: #618b8b;
+    --color-cyan-600: #527676;
+    --color-cyan-700: #446161;
+    --color-cyan-900: #334b4b;
+    --color-cyan-950: #243535;
 
-    --color-blue-50:  #6C8DCE;
-    --color-blue-100: #597ABA;
-    --color-blue-200: #4867A7;
-    --color-blue-300: #3A4E8C;
-    --color-blue-400: #5C74B0;
-    --color-blue-500: #395694;
-    --color-blue-600: #2E4780;
-    --color-blue-700: #243A6B;
-    --color-blue-900: #1B2C55;
-    --color-blue-950: #132041;
+    --color-blue-50:  #bac7de;
+    --color-blue-100: #a2b3cf;
+    --color-blue-200: #8ba0c0;
+    --color-blue-300: #7187a8;
+    --color-blue-400: #8a9bbc;
+    --color-blue-500: #6a7f9f;
+    --color-blue-600: #586d8b;
+    --color-blue-700: #475977;
+    --color-blue-900: #35425b;
+    --color-blue-950: #242d40;
 
-    --color-purple-50:  #8879C0;
-    --color-purple-100: #7668AC;
-    --color-purple-200: #655799;
-    --color-purple-300: #584A80;
-    --color-purple-400: #7A66A6;
-    --color-purple-500: #564885;
-    --color-purple-600: #493A72;
-    --color-purple-700: #3C2E5E;
-    --color-purple-900: #2F234A;
-    --color-purple-950: #231935;
+    --color-purple-50:  #c5bfe0;
+    --color-purple-100: #b2aad4;
+    --color-purple-200: #9a91c2;
+    --color-purple-300: #8279a8;
+    --color-purple-400: #988fbc;
+    --color-purple-500: #776f9c;
+    --color-purple-600: #655e87;
+    --color-purple-700: #544e71;
+    --color-purple-900: #3d3956;
+    --color-purple-950: #2a283d;
 
-    --color-pink-50:  #B96F91;
-    --color-pink-100: #A76083;
-    --color-pink-200: #945274;
-    --color-pink-300: #8F617F;
-    --color-pink-400: #B07D9B;
-    --color-pink-500: #824566;
-    --color-pink-600: #703B59;
-    --color-pink-700: #60334C;
-    --color-pink-900: #4D293E;
-    --color-pink-950: #3A2030;
+    --color-pink-50:  #d8b8c7;
+    --color-pink-100: #c79eb1;
+    --color-pink-200: #b2859a;
+    --color-pink-300: #9d6d83;
+    --color-pink-400: #b08095;
+    --color-pink-500: #906274;
+    --color-pink-600: #7b5364;
+    --color-pink-700: #674554;
+    --color-pink-900: #4e333f;
+    --color-pink-950: #35242b;
+}
+
+@layer utilities {
+    [data-theme="nord"][data-variant="light"] {
+        /*********************/
+        /* Buttons           */
+        /*********************/
+        [data-role="tab-button"] {
+            @apply text-base-100 bg-base-10 border-base-40;
+            @apply hover:text-base-90 hover:bg-base-30 hover:border-primary-400;
+            @apply focus:ring-2 focus:ring-primary-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="thumbnail-button"] {
+            @apply text-base-100 bg-transparent border-primary-300;
+            @apply hover:text-base-90 hover:bg-primary-300 hover:border-primary-400;
+            @apply focus:ring-2 focus:ring-primary-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="create-button"] {
+            @apply text-base-100 bg-transparent border-green-400;
+            @apply hover:text-base-90 hover:bg-green-400 hover:border-green-500;
+            @apply focus:ring-2 focus:ring-green-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="edit-button"] {
+            @apply text-base-100 bg-transparent border-blue-400;
+            @apply hover:text-base-90 hover:bg-blue-400 hover:border-blue-500;
+            @apply focus:ring-2 focus:ring-blue-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="delete-button"] {
+            @apply text-base-100 bg-transparent border-red-400;
+            @apply hover:text-base-90 hover:bg-red-400 hover:border-red-500;
+            @apply focus:ring-2 focus:ring-red-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        [data-role="submit-button"] {
+            @apply text-base-100 bg-transparent border-primary-300;
+            @apply hover:text-base-90 hover:bg-primary-300 hover:border-primary-400;
+            @apply focus:ring-2 focus:ring-primary-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        /*********************/
+        /* Searchbar         */
+        /*********************/
+        [data-role="searchbar"] {
+            @apply text-base-100 placeholder-base-90 border-base-40 bg-base-10;
+            @apply focus:bg-base-25 focus:ring-2 focus:ring-primary-400 focus:border-primary-500;
+            @apply transition-colors duration-250;
+        }
+
+        /*********************/
+        /* Form              */
+        /*********************/
+        [data-role="input-group"],
+        [data-role="checkbox-section"],
+        [data-role="checkbox-group"][data-variant="as-section"],
+        [data-role="select-group"] {
+            @apply bg-base-20;
+        }
+
+        [data-role="input-group"] input,
+        [data-role="checkbox-group"] input,
+        textarea,
+        [data-role="select-group"] select {
+            @apply bg-base-10 border-base-40 shadow-sm transform;
+            @apply hover:bg-base-20 hover:border-primary-300 hover:shadow-lg hover:-translate-y-0.5;
+            @apply focus:bg-base-25 focus:-translate-y-1 focus:outline-primary-300;
+            @apply transition duration-300 ease-in-out;
+        }
+    }
 }

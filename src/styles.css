@@ -7,16 +7,14 @@
 @import './css/themes/nord.css';
 
 @import "./css/components/button.css";
-
-@import './css/old/buttons.css';
-@import './css/old/definition.css';
-@import './css/old/drawers.css';
-@import './css/old/dropdowns.css';
-@import './css/old/forms.css';
-@import './css/old/headings.css';
-@import './css/old/searchbars.css';
-@import './css/old/thumbnails.css';
-@import './css/old/translation.css';
+@import './css/components/definition.css';
+@import './css/components/drawer.css';
+@import './css/components/dropdown.css';
+@import './css/components/form.css';
+@import './css/components/heading.css';
+@import './css/components/searchbar.css';
+@import './css/components/thumbnail.css';
+@import './css/components/translation.css';
 
 @theme {
     --color-base-00: #f8f8f8;
