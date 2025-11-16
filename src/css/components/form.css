@@ -11,8 +11,12 @@
         @apply mb-2;
     }
 
-    [data-role="input-wrapper"] {
+    [data-role="horizontal-input-wrapper"] {
         @apply horizontal justify-between items-center gap-4;
+    }
+
+    [data-role="vertical-input-wrapper"] {
+        @apply vertical justify-between items-center gap-4;
     }
 
     [data-role="input-group"] {
