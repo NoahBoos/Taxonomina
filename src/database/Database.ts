@@ -22,7 +22,6 @@ export class Database {
                     if (!settings.isDatabaseInitialized) {
                         this.CreateDefaultTuples();
                         settings.isDatabaseInitialized = true;
-                        SettingManager.UpdateSetting("isDatabaseInitialized", true);
                         SettingManager.SaveSetting(settings);
                     }
                 });
