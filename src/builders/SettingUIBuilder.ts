@@ -8,7 +8,7 @@ import {TaxonominaSettings} from "../interfaces/I_TaxonominaSettings";
 
 export class SettingUIBuilder {
     private static settings: TaxonominaSettings;
-    public static isDrawerRevealed: boolean = false;
+    public static isPanelRevealed: boolean = false;
     private static leftLeaf: Element;
     private static rightLeaf: Element;
     private static panel: Element;
@@ -19,9 +19,9 @@ export class SettingUIBuilder {
         SettingUIBuilder.rightLeaf = document.querySelector("#right-leaf")!;
         const button: HTMLButtonElement = document.querySelector("#settings-window-button")!;
         button.addEventListener("click", async () => {
-            SettingUIBuilder.isDrawerRevealed = !SettingUIBuilder.isDrawerRevealed;
+            SettingUIBuilder.isPanelRevealed = !SettingUIBuilder.isPanelRevealed;
 
-            if (SettingUIBuilder.isDrawerRevealed) {
+            if (SettingUIBuilder.isPanelRevealed) {
                 EntryUIBuilder.isDrawerRevealed = false;
                 GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;

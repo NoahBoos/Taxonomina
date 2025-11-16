@@ -5,6 +5,7 @@ import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {EntryUIBuilder} from "./EntryUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
+import {GetSettings} from "../views/pages/index/renderer";
 
 export class GrammaticalGenreUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -25,7 +26,7 @@ export class GrammaticalGenreUIBuilder {
                 EntryUIBuilder.isDrawerRevealed = false;
                 GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
-                SettingUIBuilder.isDrawerRevealed = false;
+                SettingUIBuilder.isPanelRevealed = false;
                 await GrammaticalGenreUIBuilder.RenderDrawer();
             } else {
                 GrammaticalGenreUIBuilder.leftLeaf.replaceChildren();
@@ -38,7 +39,7 @@ export class GrammaticalGenreUIBuilder {
         GrammaticalGenreUIBuilder.leftLeaf.classList.remove('hidden');
         GrammaticalGenreUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/grammatical-genre");
-        const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll();
+        const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll(GetSettings().currentDictionary);
         if (!drawer) {
             return;
         } else {
@@ -53,7 +54,7 @@ export class GrammaticalGenreUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
-           const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(searchbar.value);
+           const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
            await GrammaticalGenreUIBuilder.RenderList(grammaticalGenres);
         });
     }
@@ -62,7 +63,7 @@ export class GrammaticalGenreUIBuilder {
         const container: Element = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLDivElement>("#grammatical-genre-container")!;
         GrammaticalGenreUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/grammatical-genre");
         container.replaceChildren();
-        if (!grammaticalGenres) grammaticalGenres = await GrammaticalGenreService.ReadAll();
+        if (!grammaticalGenres) grammaticalGenres = await GrammaticalGenreService.ReadAll(GetSettings().currentDictionary);
 
         grammaticalGenres.forEach(gg => {
             GrammaticalGenreUIBuilder.RenderThumbnail(container, gg);
@@ -106,7 +107,7 @@ export class GrammaticalGenreUIBuilder {
             if (success && savedGrammaticalGenre) {
                 const query: string = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await GrammaticalGenreUIBuilder.RenderList();
-                const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(query);
+                const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(GetSettings().currentDictionary, query);
                 await GrammaticalGenreUIBuilder.RenderList(grammaticalGenres);
                 await GrammaticalGenreUIBuilder.RenderForm(savedGrammaticalGenre ? savedGrammaticalGenre : undefined);
             }
@@ -135,7 +136,7 @@ export class GrammaticalGenreUIBuilder {
             if (success) {
                 GrammaticalGenreUIBuilder.rightLeaf.replaceChildren();
                 const query: string = GrammaticalGenreUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(query);
+                const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.FilterBySearch(GetSettings().currentDictionary, query);
                 await GrammaticalGenreUIBuilder.RenderList(grammaticalGenres);
             }
         });

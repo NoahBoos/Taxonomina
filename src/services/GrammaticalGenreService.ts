@@ -1,9 +1,10 @@
 import {GrammaticalGenre} from "../database/models/GrammaticalGenre";
 import {Entry} from "../database/models/Entry";
+import {TaxonominaSettings} from "../interfaces/I_TaxonominaSettings";
 
 export class GrammaticalGenreService {
-    public static async ReadAll(): Promise<GrammaticalGenre[]> {
-        const rawGramGenres: GrammaticalGenre[] = await window.txnmAPI.repositories.grammaticalGenre.ReadAll();
+    public static async ReadAll(dictionary_id: number): Promise<GrammaticalGenre[]> {
+        const rawGramGenres: GrammaticalGenre[] = await window.txnmAPI.repositories.grammaticalGenre.ReadAll(dictionary_id);
         return rawGramGenres.map((rawGramGenre: GrammaticalGenre): GrammaticalGenre => GrammaticalGenre.Hydrate(rawGramGenre));
     }
 
@@ -28,17 +29,18 @@ export class GrammaticalGenreService {
         return await window.txnmAPI.repositories.grammaticalGenre.Delete(gramGenre);
     }
 
-    public static async FilterBySearch(query: string): Promise<GrammaticalGenre[]> {
-        const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll();
+    public static async FilterBySearch(dictionary_id: number, query: string): Promise<GrammaticalGenre[]> {
+        const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll(dictionary_id);
         return grammaticalGenres.filter(gc => {
             return gc.GetName().toLowerCase().includes(query.toLowerCase());
         });
     }
 
     public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalGenre | undefined]> {
+        const settings: TaxonominaSettings = await window.txnmAPI.settings.Load();
         const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
         const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
-        let grammaticalGenre: GrammaticalGenre = new GrammaticalGenre(id, name);
+        let grammaticalGenre: GrammaticalGenre = new GrammaticalGenre(id, settings.currentDictionary, name);
         if (!grammaticalGenre.Validate()) return [false, undefined];
         grammaticalGenre.Normalize();
         return await GrammaticalGenreService.Save(grammaticalGenre);

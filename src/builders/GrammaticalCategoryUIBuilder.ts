@@ -5,6 +5,7 @@ import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {EntryUIBuilder} from "./EntryUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
+import {GetSettings} from "../views/pages/index/renderer";
 
 export class GrammaticalCategoryUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -26,7 +27,7 @@ export class GrammaticalCategoryUIBuilder {
                 EntryUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
-                SettingUIBuilder.isDrawerRevealed = false;
+                SettingUIBuilder.isPanelRevealed = false;
                 await GrammaticalCategoryUIBuilder.RenderDrawer();
             } else {
                 GrammaticalCategoryUIBuilder.leftLeaf.replaceChildren();
@@ -39,7 +40,7 @@ export class GrammaticalCategoryUIBuilder {
         GrammaticalCategoryUIBuilder.leftLeaf.classList.remove('hidden');
         GrammaticalCategoryUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/grammatical-category");
-        const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAll();
+        const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAll(GetSettings().currentDictionary);
         if (!drawer) {
             return;
         } else {
@@ -54,7 +55,7 @@ export class GrammaticalCategoryUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = GrammaticalCategoryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
-           const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.FilterBySearch(searchbar.value);
+           const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
            await GrammaticalCategoryUIBuilder.RenderList(grammaticalCategories);
         });
     }
@@ -63,7 +64,7 @@ export class GrammaticalCategoryUIBuilder {
         const container: Element = GrammaticalCategoryUIBuilder.drawer.querySelector("#grammatical-category-container")!;
         GrammaticalCategoryUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/grammatical-category");
         container.replaceChildren();
-        if (!grammaticalCategories) grammaticalCategories = await GrammaticalCategoryService.ReadAll();
+        if (!grammaticalCategories) grammaticalCategories = await GrammaticalCategoryService.ReadAll(GetSettings().currentDictionary);
 
         grammaticalCategories.forEach(gc => {
             GrammaticalCategoryUIBuilder.RenderThumbnail(container, gc);
@@ -106,7 +107,7 @@ export class GrammaticalCategoryUIBuilder {
             let [success, savedGrammaticalCategory]: [boolean, GrammaticalCategory | undefined] = await GrammaticalCategoryService.ProcessForm(form);
             if (success && savedGrammaticalCategory) {
                 const query: string = GrammaticalCategoryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value;
-                const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.FilterBySearch(query);
+                const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.FilterBySearch(GetSettings().currentDictionary, query);
                 await GrammaticalCategoryUIBuilder.RenderList(grammaticalCategories ? grammaticalCategories : undefined);
                 await GrammaticalCategoryUIBuilder.RenderForm(savedGrammaticalCategory ? savedGrammaticalCategory : undefined);
             }
@@ -134,7 +135,7 @@ export class GrammaticalCategoryUIBuilder {
             if (success) {
                 GrammaticalCategoryUIBuilder.rightLeaf.replaceChildren();
                 const query: string = GrammaticalCategoryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value;
-                const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.FilterBySearch(query);
+                const grammaticalCategories: GrammaticalCategory[] = await GrammaticalCategoryService.FilterBySearch(GetSettings().currentDictionary, query);
                 await GrammaticalCategoryUIBuilder.RenderList(grammaticalCategories ? grammaticalCategories : undefined);
             }
         });

@@ -1,5 +1,6 @@
 export class Language {
     private readonly id: number;
+    private dictionary_id: number;
     private iso_639_1: string;
     private iso_639_3: string;
     private is_conlang: boolean;
@@ -7,8 +8,9 @@ export class Language {
     private name_local: string;
     private direction: string;
 
-    constructor(id: number, iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string) {
+    constructor(id: number, dictionary_id: number, iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string) {
         this.id = id;
+        this.dictionary_id = dictionary_id;
         this.iso_639_1 = iso_639_1;
         this.iso_639_3 = iso_639_3;
         this.is_conlang = is_conlang;
@@ -19,6 +21,10 @@ export class Language {
 
     public GetId(): number {
         return this.id;
+    }
+
+    public GetDictionaryId(): number {
+        return this.dictionary_id;
     }
 
     public GetIso639_1(): string {
@@ -66,6 +72,7 @@ export class Language {
     public GetQueryObject() {
         return {
             language_id: this.id,
+            dictionary_id: this.dictionary_id,
             iso_639_1: this.iso_639_1,
             iso_639_3: this.iso_639_3,
             is_conlang: this.is_conlang ? 1 : 0,
@@ -78,6 +85,7 @@ export class Language {
     public static Hydrate(raw: any): Language {
         return new Language(
             raw.id,
+            raw.dictionary_id,
             raw.iso_639_1,
             raw.iso_639_3,
             raw.is_conlang,

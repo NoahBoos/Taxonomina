@@ -2,14 +2,16 @@ import {GrammaticalGenre} from "../models/GrammaticalGenre";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
 import {Entry} from "../models/Entry";
+import {Dictionary} from "../models/Dictionary";
 
 export class GrammaticalGenreRepository {
-    public static ReadAll(): GrammaticalGenre[] {
+    public static ReadAll(dictionary_id: number): GrammaticalGenre[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_genres
+            WHERE dictionary_id = @dictionary_id
         `);
-        return statement.all() as GrammaticalGenre[];
+        return statement.all({"dictionary_id": dictionary_id}) as GrammaticalGenre[];
     }
 
     public static ReadAllByEntry(entry: Entry): GrammaticalGenre[] {
@@ -34,12 +36,12 @@ export class GrammaticalGenreRepository {
 
     public static Create(genre: GrammaticalGenre): [boolean, GrammaticalGenre | undefined] {
         const statement = Database.GetDatabase().prepare(`
-            INSERT INTO grammatical_genres (name)
-            VALUES (@name)
+            INSERT INTO grammatical_genres (dictionary_id, name)
+            VALUES (@dictionary_id, @name)
         `);
         const result: RunResult = statement.run(genre.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetName())];
+            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetDictionaryId(), genre.GetName())];
         } else return [false, undefined];
     }
 
@@ -51,7 +53,7 @@ export class GrammaticalGenreRepository {
         `);
         const result: RunResult = statement.run(genre.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetName())];
+            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetDictionaryId(), genre.GetName())];
         } else return [false, undefined];
     }
 

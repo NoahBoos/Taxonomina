@@ -6,10 +6,13 @@ import {EntryUIBuilder} from "../../../builders/EntryUIBuilder";
 import {SettingUIBuilder} from "../../../builders/SettingUIBuilder";
 import {TaxonominaSettings} from "../../../interfaces/I_TaxonominaSettings";
 
+export let settings: TaxonominaSettings;
+
 async function Renderer() {
+    settings = await window.txnmAPI.settings.Load();
     await InitializeTheme();
 
-    await DictionaryUIBuilder.InitializeDictionarySection();
+    await DictionaryUIBuilder.Initialize();
 
     await LanguageUIBuilder.Initialize();
     await GrammaticalCategoryUIBuilder.Initialize();
@@ -26,6 +29,14 @@ async function InitializeTheme() {
     document.body.setAttribute("data-font-size", settings.fontSize);
     document.body.classList.toggle("hide-scrollbar", !settings.scrollbarVisibility);
     document.querySelector("#help-window-button")!.classList.toggle("inactive", !settings.helpButtonVisibility);
+}
+
+export function GetSettings() {
+    return settings;
+}
+
+export function SetSettings(newSettings: TaxonominaSettings) {
+    settings = newSettings;
 }
 
 Renderer();

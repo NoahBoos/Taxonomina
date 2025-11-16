@@ -150,8 +150,8 @@ ipcMain.handle("txnmAPI:repositories:dictionary:delete", (event, rawDictionary: 
     return DictionaryRepository.Delete(dictionary);
 });
 
-ipcMain.handle("txnmAPI:repositories:entry:readAll", (): Entry[] => {
-    return EntryRepository.ReadAll();
+ipcMain.handle("txnmAPI:repositories:entry:readAll", (event, dictionary_id: number): Entry[] => {
+    return EntryRepository.ReadAll(dictionary_id);
 });
 
 ipcMain.handle("txnmAPI:repositories:entry:readAllByGlobalTranslation", (event, rawEntry: Entry) => {
@@ -219,8 +219,8 @@ ipcMain.handle("txnmAPI:repositories:entry:delete", (event, rawEntry: Entry) => 
     return EntryRepository.Delete(entry);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAll", (): GrammaticalCategory[] => {
-    return GrammaticalCategoryRepository.ReadAll();
+ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAll", (event, dictionary_id: number): GrammaticalCategory[] => {
+    return GrammaticalCategoryRepository.ReadAll(dictionary_id);
 });
 
 ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAllByEntry", (event, rawEntry: Entry): GrammaticalCategory[] => {
@@ -247,8 +247,8 @@ ipcMain.handle("txnmAPI:repositories:grammaticalCategory:delete", (event, rawGra
     return GrammaticalCategoryRepository.Delete(gramCat);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAll", (): GrammaticalGenre[] => {
-    return GrammaticalGenreRepository.ReadAll();
+ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAll", (event, dictionary_id: number): GrammaticalGenre[] => {
+    return GrammaticalGenreRepository.ReadAll(dictionary_id);
 });
 
 ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAllByEntry", (event, rawEntry: Entry): GrammaticalGenre[] => {
@@ -275,8 +275,8 @@ ipcMain.handle("txnmAPI:repositories:grammaticalGenre:delete", (event, rawGramGe
     return GrammaticalGenreRepository.Delete(gramGenre);
 });
 
-ipcMain.handle("txnmAPI:repositories:language:readAll", (): Language[] => {
-   return LanguageRepository.ReadAll();
+ipcMain.handle("txnmAPI:repositories:language:readAll", (event, dictionary_id: number): Language[] => {
+   return LanguageRepository.ReadAll(dictionary_id);
 });
 
 ipcMain.handle("txnmAPI:repositories:language:readOne", (event, languageId: number) => {

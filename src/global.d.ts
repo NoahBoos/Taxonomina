@@ -44,7 +44,7 @@ declare global {
                     Delete: (rawDictionary: Dictionary) => Promise<boolean>,
                 },
                 entry: {
-                    ReadAll: () => Promise<Entry[]>,
+                    ReadAll: (dictionary_id: number) => Promise<Entry[]>,
                     ReadAllByGlobalTranslation: (rawEntry: Entry) => Promise<Entry[]>,
                     ReadAllByLocalTranslation: (rawDefinition: Definition) => Promise<Entry[]>,
                     ReadOne: (entry) => Promise<Entry>,
@@ -59,7 +59,7 @@ declare global {
                     Delete: (rawEntry: Entry) => Promise<boolean>,
                 },
                 grammaticalCategory: {
-                    ReadAll: () => Promise<GrammaticalCategory[]>,
+                    ReadAll: (dictionary_id: number) => Promise<GrammaticalCategory[]>,
                     ReadAllByEntry: (rawEntry: Entry) => Promise<GrammaticalCategory[]>,
                     ReadOne: (grammaticalCategoryId) => Promise<GrammaticalCategory>,
                     Create: (rawGramCat: GrammaticalCategory) => Promise<[boolean, GrammaticalCategory | undefined]>,
@@ -67,7 +67,7 @@ declare global {
                     Delete: (rawGramCat: GrammaticalCategory) => Promise<boolean>,
                 },
                 grammaticalGenre: {
-                    ReadAll: () => Promise<GrammaticalGenre[]>,
+                    ReadAll: (dictionary_id: number) => Promise<GrammaticalGenre[]>,
                     ReadAllByEntry: (rawEntry: Entry) => Promise<GrammaticalGenre[]>,
                     ReadOne: (gramGenreId) => Promise<GrammaticalGenre>,
                     Create: (rawGramGenre: GrammaticalGenre) => Promise<[boolean, GrammaticalGenre | undefined]>,
@@ -75,7 +75,7 @@ declare global {
                     Delete: (rawGramGenre: GrammaticalGenre) => Promise<boolean>,
                 }
                 language: {
-                    ReadAll: () => Promise<Language[]>,
+                    ReadAll: (dictionary_id: number) => Promise<Language[]>,
                     ReadOne: (languageId: number) => Promise<Language>,
                     Create: (rawLanguage: Language) => Promise<[boolean, GrammaticalGenre | undefined]>,
                     Update: (rawLanguage: Language) => Promise<[boolean, GrammaticalGenre | undefined]>,

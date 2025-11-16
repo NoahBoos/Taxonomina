@@ -1,14 +1,20 @@
 export class GrammaticalCategory {
     private readonly id: number;
+    private dictionary_id: number;
     private name: string;
 
-    constructor(id: number, name: string) {
+    constructor(id: number, dictionary_id: number, name: string) {
         this.id = id;
+        this.dictionary_id = dictionary_id;
         this.name = name;
     }
 
     public GetId(): number {
         return this.id;
+    }
+
+    public GetDictionaryId(): number {
+        return this.dictionary_id;
     }
 
     public GetName(): string {
@@ -21,6 +27,7 @@ export class GrammaticalCategory {
     public GetQueryObject() {
         return {
             grammatical_category_id: this.id,
+            dictionary_id: this.dictionary_id,
             name: this.name,
         }
     }
@@ -28,6 +35,7 @@ export class GrammaticalCategory {
     public static Hydrate(raw: any): GrammaticalCategory {
         return new GrammaticalCategory(
             raw.id,
+            raw.dictionary_id,
             raw.name
         );
     }

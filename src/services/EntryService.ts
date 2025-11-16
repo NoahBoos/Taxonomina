@@ -9,8 +9,8 @@ import {DefinitionService} from "./DefinitionService";
 import {DatabaseService} from "./DatabaseService";
 
 export class EntryService {
-    public static async ReadAll(): Promise<Entry[]> {
-        const rawEntries: Entry[] = await window.txnmAPI.repositories.entry.ReadAll();
+    public static async ReadAll(dictionary_id: number): Promise<Entry[]> {
+        const rawEntries: Entry[] = await window.txnmAPI.repositories.entry.ReadAll(dictionary_id);
         return rawEntries.map((rawEntry: Entry): Entry => Entry.Hydrate(rawEntry));
     }
 
@@ -64,8 +64,8 @@ export class EntryService {
         return await window.txnmAPI.repositories.entry.Delete(entry);
     }
 
-    public static async FilterBySearch(query: string): Promise<Entry[]> {
-        const entries: Entry[] = await EntryService.ReadAll();
+    public static async FilterBySearch(dictionary_id: number, query: string): Promise<Entry[]> {
+        const entries: Entry[] = await EntryService.ReadAll(dictionary_id);
         return entries.filter(entry => {
             return [entry.GetLemma()].some(value => value.toLowerCase().includes(query.toLowerCase()));
         });

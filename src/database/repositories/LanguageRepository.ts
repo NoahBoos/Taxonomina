@@ -1,14 +1,16 @@
 import {Language} from "../models/Language";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
+import {Dictionary} from "../models/Dictionary";
 
 export class LanguageRepository {
-    public static ReadAll(): Language[] {
+    public static ReadAll(dictionary_id: number): Language[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM languages
+            WHERE dictionary_id = @dictionary_id
         `);
-        return statement.all() as Language[];
+        return statement.all({"dictionary_id": dictionary_id}) as Language[];
     }
 
     public static ReadOne(id: number): Language | undefined {
@@ -22,12 +24,12 @@ export class LanguageRepository {
 
     public static Create(language: Language): [boolean, Language | undefined] {
         const statement = Database.GetDatabase().prepare(`
-            INSERT INTO languages (iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
-            values (@iso_639_1, @iso_639_3, @is_conlang, @name_native, @name_local, @direction)
+            INSERT INTO languages (dictionary_id, iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
+            values (@dictionary_id, @iso_639_1, @iso_639_3, @is_conlang, @name_native, @name_local, @direction)
         `);
         const result: RunResult = statement.run(language.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new Language(Number(result.lastInsertRowid), language.GetIso639_1(), language.GetIso639_3(), language.GetIsConlang(), language.GetNameNative(), language.GetNameLocal(), language.GetDirection())];
+            return [true, new Language(Number(result.lastInsertRowid), language.GetDictionaryId(), language.GetIso639_1(), language.GetIso639_3(), language.GetIsConlang(), language.GetNameNative(), language.GetNameLocal(), language.GetDirection())];
         } else return [false, undefined];
     }
 
@@ -44,7 +46,7 @@ export class LanguageRepository {
         `);
         const result: RunResult = statement.run(language.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new Language(language.GetId(), language.GetIso639_1(), language.GetIso639_3(), language.GetIsConlang(), language.GetNameNative(), language.GetNameLocal(), language.GetDirection())];
+            return [true, new Language(language.GetId(), language.GetDictionaryId(), language.GetIso639_1(), language.GetIso639_3(), language.GetIsConlang(), language.GetNameNative(), language.GetNameLocal(), language.GetDirection())];
         } else return [false, undefined];
     }
 

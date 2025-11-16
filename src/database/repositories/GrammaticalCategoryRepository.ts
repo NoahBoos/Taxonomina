@@ -2,14 +2,16 @@ import {GrammaticalCategory} from "../models/GrammaticalCategory";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
 import {Entry} from "../models/Entry";
+import {Dictionary} from "../models/Dictionary";
 
 export class GrammaticalCategoryRepository {
-    public static ReadAll(): GrammaticalCategory[] {
+    public static ReadAll(dictionary_id: number): GrammaticalCategory[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_categories
+            WHERE dictionary_id = @dictionary_id
         `);
-        return statement.all() as GrammaticalCategory[];
+        return statement.all({"dictionary_id": dictionary_id}) as GrammaticalCategory[];
     }
 
     public static ReadAllByEntry(entry: Entry): GrammaticalCategory[] {
@@ -34,12 +36,12 @@ export class GrammaticalCategoryRepository {
 
     public static Create(category: GrammaticalCategory): [boolean, GrammaticalCategory | undefined] {
         const statement = Database.GetDatabase().prepare(`
-            INSERT INTO grammatical_categories (name)
-            VALUES (@name)
+            INSERT INTO grammatical_categories (dictionary_id, name)
+            VALUES (@dictionary_id, @name)
         `);
         const result: RunResult = statement.run(category.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalCategory(Number(result.lastInsertRowid), category.GetName())];
+            return [true, new GrammaticalCategory(Number(result.lastInsertRowid), category.GetDictionaryId(), category.GetName())];
         } else return [false, undefined];
     }
 
@@ -51,7 +53,7 @@ export class GrammaticalCategoryRepository {
         `);
         const result: RunResult = statement.run(category.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalCategory(Number(result.lastInsertRowid), category.GetName())];
+            return [true, new GrammaticalCategory(Number(result.lastInsertRowid), category.GetDictionaryId(), category.GetName())];
         } else return [false, undefined];
     }
 

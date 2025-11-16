@@ -6,6 +6,7 @@ import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {EntryUIBuilder} from "./EntryUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
 import * as sea from "node:sea";
+import {GetSettings} from "../views/pages/index/renderer";
 
 export class LanguageUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -26,7 +27,7 @@ export class LanguageUIBuilder {
                 EntryUIBuilder.isDrawerRevealed = false;
                 GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
-                SettingUIBuilder.isDrawerRevealed = false;
+                SettingUIBuilder.isPanelRevealed = false;
                 await LanguageUIBuilder.RenderDrawer();
             } else {
                 LanguageUIBuilder.leftLeaf.replaceChildren();
@@ -53,7 +54,7 @@ export class LanguageUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = LanguageUIBuilder.drawer.querySelector("#searchbar")!;
         searchbar.addEventListener("input", async () => {
-            const languages: Language[] = await LanguageService.FilterBySearch(searchbar.value);
+            const languages: Language[] = await LanguageService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
             await LanguageUIBuilder.RenderList(languages);
         });
     }
@@ -62,7 +63,7 @@ export class LanguageUIBuilder {
         const container: Element = LanguageUIBuilder.drawer.querySelector("#language-container")!;
         LanguageUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
         container.replaceChildren();
-        if (!languages) languages = await LanguageService.ReadAll();
+        if (!languages) languages = await LanguageService.ReadAll(GetSettings().currentDictionary);
 
         languages.forEach(language => {
             LanguageUIBuilder.RenderThumbnail(container, language);
@@ -117,7 +118,7 @@ export class LanguageUIBuilder {
             if (success && savedLanguage) {
                 const query: string = LanguageUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
                 await LanguageUIBuilder.RenderList();
-                const languages: Language[] = await LanguageService.FilterBySearch(query);
+                const languages: Language[] = await LanguageService.FilterBySearch(GetSettings().currentDictionary, query);
                 await LanguageUIBuilder.RenderList(languages);
                 await LanguageUIBuilder.RenderForm(savedLanguage ? savedLanguage : undefined);
             }
@@ -146,7 +147,7 @@ export class LanguageUIBuilder {
             if (success) {
                 LanguageUIBuilder.rightLeaf.replaceChildren();
                 const query: string = LanguageUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                const languages: Language[] = await LanguageService.FilterBySearch(query);
+                const languages: Language[] = await LanguageService.FilterBySearch(GetSettings().currentDictionary, query);
                 await LanguageUIBuilder.RenderList(languages);
             }
         });

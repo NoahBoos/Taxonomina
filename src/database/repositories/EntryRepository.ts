@@ -6,12 +6,13 @@ import {GrammaticalCategory} from "../models/GrammaticalCategory";
 import {GrammaticalGenre} from "../models/GrammaticalGenre";
 
 export class EntryRepository {
-    public static ReadAll(): Entry[] {
+    public static ReadAll(dictionary_id: number): Entry[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM entries
+            WHERE dictionary_id = @dictionary_id
         `);
-        return statement.all() as Entry[];
+        return statement.all({"dictionary_id": dictionary_id}) as Entry[];
     }
 
     public static ReadAllByGlobalTranslation(entry: Entry): Entry[] {

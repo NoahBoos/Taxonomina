@@ -51,17 +51,23 @@ export class Database {
             
             CREATE TABLE IF NOT EXISTS grammatical_categories (
                 id INTEGER PRIMARY KEY,
-                name VARCHAR NOT NULL
+                dictionary_id INTEGER NOT NULL,
+                name VARCHAR NOT NULL,
+                FOREIGN KEY (dictionary_id) REFERENCES dictionaries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
             );
             
             CREATE TABLE IF NOT EXISTS languages (
                 id INTEGER PRIMARY KEY,
+                dictionary_id INTEGER NOT NULL,
                 iso_639_1 VARCHAR,
                 iso_639_3 VARCHAR,
                 is_conlang BOOLEAN NOT NULL,
                 name_native VARCHAR NOT NULL,
                 name_local VARCHAR NOT NULL,
-                direction TEXT NOT NULL
+                direction TEXT NOT NULL,
+                FOREIGN KEY (dictionary_id) REFERENCES dictionaries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
             );
             
             CREATE TABLE IF NOT EXISTS definitions (
@@ -112,17 +118,12 @@ export class Database {
                     ON UPDATE CASCADE ON DELETE CASCADE
             );
             
-            CREATE TABLE IF NOT EXISTS inflections (
-                id INTEGER PRIMARY KEY,
-                entry_id INTEGER NOT NULL,
-                inflection VARCHAR NOT NULL,
-                FOREIGN KEY (entry_id) REFERENCES entries(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE
-            );
-            
             CREATE TABLE IF NOT EXISTS grammatical_genres (
                 id INTEGER PRIMARY KEY,
-                name VARCHAR NOT NULL
+                dictionary_id INTEGER NOT NULL,
+                name VARCHAR NOT NULL,
+                FOREIGN KEY (dictionary_id) REFERENCES dictionaries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
             );
             
             CREATE TABLE IF NOT EXISTS entry_grammatical_genre (
@@ -134,71 +135,21 @@ export class Database {
                 FOREIGN KEY (grammatical_genre_id) REFERENCES grammatical_genres(id)
                     ON UPDATE CASCADE ON DELETE CASCADE
             );
-            
-            CREATE TABLE IF NOT EXISTS inflection_grammatical_genre (
-                inflection_id INTEGER NOT NULL,
-                grammatical_genre_id INTEGER NOT NULL,
-                PRIMARY KEY(inflection_id, grammatical_genre_id),
-                FOREIGN KEY (inflection_id) REFERENCES inflections(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE,
-                FOREIGN KEY (grammatical_genre_id) REFERENCES grammatical_genres(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE
-            );
-            
-            CREATE TABLE IF NOT EXISTS grammatical_numbers (
-                id INTEGER PRIMARY KEY,
-                name VARCHAR NOT NULL
-            );
-            
-            CREATE TABLE IF NOT EXISTS inflection_grammatical_number (
-                inflection_id INTEGER NOT NULL,
-                grammatical_number_id INTEGER NOT NULL,
-                PRIMARY KEY(inflection_id, grammatical_number_id),
-                FOREIGN KEY (inflection_id) REFERENCES inflections(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE,
-                FOREIGN KEY (grammatical_number_id) REFERENCES grammatical_numbers(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE
-            );
-            
-            CREATE TABLE IF NOT EXISTS grammatical_cases (
-                id INTEGER PRIMARY KEY,
-                name VARCHAR NOT NULL
-            );
-            
-            CREATE TABLE IF NOT EXISTS inflection_grammatical_case (
-                inflection_id INTEGER NOT NULL,
-                grammatical_case_id INTEGER NOT NULL,
-                PRIMARY KEY(inflection_id, grammatical_case_id),
-                FOREIGN KEY (inflection_id) REFERENCES inflections(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE,
-                FOREIGN KEY (grammatical_case_id) REFERENCES grammatical_cases(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE
-            );
-            
-            CREATE TABLE IF NOT EXISTS entry_inflection (
-                entry_id INTEGER NOT NULL,
-                inflection_id INTEGER NOT NULL,
-                PRIMARY KEY(entry_id, inflection_id),
-                FOREIGN KEY (entry_id) REFERENCES entries(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE,
-                FOREIGN KEY (inflection_id) REFERENCES inflections(id)
-                    ON UPDATE CASCADE ON DELETE CASCADE
-            );
         `);
     }
 
     private static CreateDatabaseIndexes() {
         this.instance.exec(`
             -- Index pour accélérer les JOIN fréquents
+            CREATE INDEX IF NOT EXISTS idx_languages_dictionary_id ON languages(dictionary_id);
+            CREATE INDEX IF NOT EXISTS idx_entries_dictionary_id ON entries(dictionary_id);
+            CREATE INDEX IF NOT EXISTS idx_grammatical_categories_dictionary_id ON grammatical_categories(dictionary_id);
+            CREATE INDEX IF NOT EXISTS idx_grammatical_genres_dictionary_id ON grammatical_genres(dictionary_id);
             CREATE INDEX IF NOT EXISTS idx_entries_dictionary_id ON entries(dictionary_id);
             CREATE INDEX IF NOT EXISTS idx_entries_language_id ON entries(language_id);
             CREATE INDEX IF NOT EXISTS idx_inflections_entry_id ON inflections(entry_id);
             CREATE INDEX IF NOT EXISTS idx_entry_definition_definition_id ON entry_definition(definition_id);
             CREATE INDEX IF NOT EXISTS idx_entry_entry_second ON entry_entry (second_entry_id);
-            CREATE INDEX IF NOT EXISTS idx_inflection_grammatical_genre_genre_id ON inflection_grammatical_genre(grammatical_genre_id);
-            CREATE INDEX IF NOT EXISTS idx_inflection_grammatical_number_number_id ON inflection_grammatical_number(grammatical_number_id);
-            CREATE INDEX IF NOT EXISTS idx_inflection_grammatical_case_case_id ON inflection_grammatical_case(grammatical_case_id);
-            CREATE INDEX IF NOT EXISTS idx_entry_inflection_inflection_id ON entry_inflection(inflection_id);
         `);
     }
 
@@ -207,11 +158,11 @@ export class Database {
             INSERT INTO dictionaries (name, description)
             VALUES ('Mon dictionnaire', 'C''est mon superbe dictionnaire !');
 
-            INSERT INTO languages (iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
-            VALUES ('fr', 'fra', 'false', 'Français', 'Français', 'ltr');
+            INSERT INTO languages (dictionary_id, iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
+            VALUES (1, 'fr', 'fra', 'false', 'Français', 'Français', 'ltr');
 
-            INSERT INTO languages (iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
-            VALUES ('de', 'deu', 'false', 'Deutsch', 'Allemand', 'ltr');
+            INSERT INTO languages (dictionary_id, iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
+            VALUES (1, 'de', 'deu', 'false', 'Deutsch', 'Allemand', 'ltr');
         `);
     }
 

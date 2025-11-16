@@ -1,14 +1,20 @@
 export class GrammaticalGenre {
     private readonly id: number;
+    private dictionary_id: number;
     private name: string;
 
-    constructor(id: number, name: string) {
+    constructor(id: number, dictionary_id: number, name: string) {
         this.id = id;
+        this.dictionary_id = dictionary_id;
         this.name = name;
     }
 
     public GetId(): number {
         return this.id;
+    }
+
+    public GetDictionaryId(): number {
+        return this.dictionary_id;
     }
 
     public GetName(): string {
@@ -21,6 +27,7 @@ export class GrammaticalGenre {
     public GetQueryObject() {
         return {
             grammatical_genre_id: this.id,
+            dictionary_id: this.dictionary_id,
             name: this.name,
         }
     }
@@ -28,6 +35,7 @@ export class GrammaticalGenre {
     public static Hydrate(raw: any): GrammaticalGenre {
         return new GrammaticalGenre(
             raw.id,
+            raw.dictionary_id,
             raw.name,
         );
     }

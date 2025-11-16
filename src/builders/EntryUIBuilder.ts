@@ -13,6 +13,8 @@ import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
+import {TaxonominaSettings} from "../interfaces/I_TaxonominaSettings";
+import {GetSettings} from "../views/pages/index/renderer";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
@@ -34,7 +36,7 @@ export class EntryUIBuilder {
                 GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
-                SettingUIBuilder.isDrawerRevealed = false;
+                SettingUIBuilder.isPanelRevealed = false;
                 await EntryUIBuilder.RenderDrawer();
             } else {
                 EntryUIBuilder.leftLeaf.replaceChildren();
@@ -47,7 +49,7 @@ export class EntryUIBuilder {
         EntryUIBuilder.leftLeaf.classList.remove('hidden');
         EntryUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/entry");
-        const entries: Entry[] = await EntryService.ReadAll();
+        const entries: Entry[] = await EntryService.ReadAll(GetSettings().currentDictionary);
         if (!drawer) {
             return;
         } else {
@@ -62,7 +64,7 @@ export class EntryUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
-           const entries: Entry[] = await EntryService.FilterBySearch(searchbar.value);
+           const entries: Entry[] = await EntryService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
            await EntryUIBuilder.RenderList(entries);
         });
     }
@@ -71,7 +73,7 @@ export class EntryUIBuilder {
         const container: Element = EntryUIBuilder.drawer.querySelector("#entry-container")!;
         EntryUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/entry");
         container.replaceChildren();
-        if (!entries) entries = await EntryService.ReadAll();
+        if (!entries) entries = await EntryService.ReadAll(GetSettings().currentDictionary);
 
         entries.forEach((entry: Entry) => {
             EntryUIBuilder.RenderThumbnail(container, entry);
@@ -124,7 +126,7 @@ export class EntryUIBuilder {
             event.preventDefault();
             const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
             const savedEntry: Entry | undefined = await EntryService.ProcessForm(form);
-            const entries: Entry[] = await EntryService.FilterBySearch(query);
+            const entries: Entry[] = await EntryService.FilterBySearch(GetSettings().currentDictionary, query);
             await EntryUIBuilder.RenderList(entries);
             await EntryUIBuilder.RenderForm(savedEntry ? savedEntry : undefined);
         });
@@ -137,7 +139,7 @@ export class EntryUIBuilder {
         const selectLanguage: HTMLSelectElement = form.querySelector<HTMLSelectElement>("select#language")!;
         const optionLanguageTemplate: HTMLTemplateElement = selectLanguage.querySelector<HTMLTemplateElement>("template")!;
 
-        for (const language of await LanguageService.ReadAll()) {
+        for (const language of await LanguageService.ReadAll(GetSettings().currentDictionary)) {
             const option: HTMLOptionElement = optionLanguageTemplate.content.firstElementChild!.cloneNode(true) as HTMLOptionElement;
             option.value = String(language.GetId());
             option.text = language.GetNameLocal();
@@ -152,7 +154,7 @@ export class EntryUIBuilder {
         const container: HTMLDivElement = fieldsetGramCats.querySelector<HTMLDivElement>("#grammatical-category-checkboxes")!;
         const checkboxGramCatTemplate: HTMLTemplateElement = fieldsetGramCats.querySelector<HTMLTemplateElement>("template")!;
 
-        for (const gramCat of await GrammaticalCategoryService.ReadAll()) {
+        for (const gramCat of await GrammaticalCategoryService.ReadAll(GetSettings().currentDictionary)) {
             const checkbox = checkboxGramCatTemplate.content.firstElementChild!.cloneNode(true) as Element;
             const label: HTMLLabelElement = checkbox.querySelector("label")!;
             const input: HTMLInputElement = checkbox.querySelector("input")!;
@@ -169,7 +171,7 @@ export class EntryUIBuilder {
         const container: HTMLDivElement = fieldsetGenres.querySelector<HTMLDivElement>("#grammatical-genre-checkboxes")!;
         const checkboxGenreTemplate: HTMLTemplateElement = fieldsetGenres.querySelector<HTMLTemplateElement>("template")!;
 
-        for (const gramGenre of await GrammaticalGenreService.ReadAll()) {
+        for (const gramGenre of await GrammaticalGenreService.ReadAll(GetSettings().currentDictionary)) {
             const checkbox = checkboxGenreTemplate.content.firstElementChild!.cloneNode(true) as Element;
             const label: HTMLLabelElement = checkbox.querySelector("label")!;
             const input: HTMLInputElement = checkbox.querySelector("input")!;
@@ -181,7 +183,7 @@ export class EntryUIBuilder {
     }
 
     public static async GlobalTranslationFieldset(form: Element, entry?: Entry) {
-        const entries: Entry[] = await EntryService.ReadAll();
+        const entries: Entry[] = await EntryService.ReadAll(GetSettings().currentDictionary);
         const translations: Entry[] = entry ? await EntryService.ReadAllByGlobalTranslation(entry) : [];
         const fieldset: HTMLDivElement = form.querySelector<HTMLDivElement>("div#global-translations-section")!;
         const searchbar: HTMLInputElement = fieldset.querySelector<HTMLInputElement>("#gts-searchbar")!;
@@ -200,7 +202,7 @@ export class EntryUIBuilder {
     }
 
     public static async RenderDefinitionFieldset(form: Element, entry?: Entry) {
-        const entries: Entry[] = await EntryService.ReadAll();
+        const entries: Entry[] = await EntryService.ReadAll(GetSettings().currentDictionary);
         const definitions: Definition[] = entry ? await DefinitionService.ReadAllByEntry(entry) : [];
         const fieldset: HTMLDivElement = form.querySelector<HTMLDivElement>("div#definitions-section")!;
         const addDefinitionButton: HTMLButtonElement = fieldset.querySelector("#ds-add-button")!;
@@ -328,7 +330,7 @@ export class EntryUIBuilder {
             if (success) {
                 EntryUIBuilder.rightLeaf.replaceChildren();
                 const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                const entries: Entry[] = await EntryService.FilterBySearch(query);
+                const entries: Entry[] = await EntryService.FilterBySearch(GetSettings().currentDictionary, query);
                 await EntryUIBuilder.RenderList(entries);
             }
         });

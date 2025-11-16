@@ -1,11 +1,24 @@
 import {Dictionary} from "../database/models/Dictionary";
 import {TemplateManager} from "../utils/renderer/TemplateManager";
 import {DictionaryService} from "../services/DictionaryService";
+import {GetSettings} from "../views/pages/index/renderer";
+import {EntryUIBuilder} from "./EntryUIBuilder";
+import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
+import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
+import {LanguageUIBuilder} from "./LanguageUIBuilder";
+import {SettingUIBuilder} from "./SettingUIBuilder";
 
 export class DictionaryUIBuilder {
-    public static async InitializeDictionarySection() {
+    public static currentDictionary_id: number;
+    public static leftLeaf: Element;
+    public static rightLeaf: Element;
+
+    public static async Initialize() {
+        DictionaryUIBuilder.currentDictionary_id = GetSettings().currentDictionary;
         const currentDictionary: Dictionary = await DictionaryService.GetCurrentDictionary();
         DictionaryUIBuilder.SetDictionaryInformation(currentDictionary);
+        DictionaryUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
+        DictionaryUIBuilder.rightLeaf = document.querySelector("#right-leaf")!;
 
         const dropdownButton: HTMLElement = document.getElementById("dictionary-dropdown-button")!;
         dropdownButton.addEventListener("click", async () => {
@@ -17,16 +30,15 @@ export class DictionaryUIBuilder {
            if (!dropdownMenu.classList.contains("inactive")) {
                const currentDictionary: Dictionary = await DictionaryService.GetCurrentDictionary();
                let dictionaries: Dictionary[] = await DictionaryService.GetAllDictionariesButOne(currentDictionary);
-               await DictionaryUIBuilder.InitializeDropdown(dictionaries);
+               await DictionaryUIBuilder.RenderDropdown(dictionaries);
            } else {
                dropdownMenu.replaceChildren();
            }
         });
-
         dropdownStateObserver.observe(dropdownMenu, { attributes: true, attributeFilter: ["class"] })
     }
 
-    public static async InitializeDropdown(dictionaries: Dictionary[]): Promise<void> {
+    public static async RenderDropdown(dictionaries: Dictionary[]): Promise<void> {
         const dropdownMenu: HTMLElement = document.getElementById("dictionary-dropdown-menu")!;
         dropdownMenu.replaceChildren();
         const dictionaryThumbnailTemplate: Element | undefined = await TemplateManager.LoadTemplateAsHTML("thumbnails/dictionary");
@@ -41,22 +53,27 @@ export class DictionaryUIBuilder {
                 switchButton.addEventListener("click", async () => {
                     await DictionaryService.SetCurrentDictionary(dictionary);
                     DictionaryUIBuilder.SetDictionaryInformation(dictionary);
-                    const currentDictionary: Dictionary = await DictionaryService.GetCurrentDictionary();
-                    const dictionaries: Dictionary[] = await DictionaryService.GetAllDictionariesButOne(currentDictionary);
-                    await DictionaryUIBuilder.InitializeDropdown(dictionaries);
+                    EntryUIBuilder.isDrawerRevealed = false;
+                    GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
+                    GrammaticalGenreUIBuilder.isDrawerRevealed = false;
+                    LanguageUIBuilder.isDrawerRevealed = false;
+                    SettingUIBuilder.isPanelRevealed = false;
+                    this.leftLeaf.replaceChildren();
+                    this.leftLeaf.classList.add('hidden');
+                    this.rightLeaf.replaceChildren();
+                    dropdownMenu.classList.toggle("inactive");
                 });
 
                 const editButton: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("#edit-button")!;
                 editButton.addEventListener("click", async () => {
-                    await DictionaryUIBuilder.CreateAndHandleForm(dictionary);
+                    await DictionaryUIBuilder.RenderForm(dictionary);
                 });
 
                 const deleteButton: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("#delete-button")!;
                 deleteButton.addEventListener("click", async () => {
-                    const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
                     const success: boolean = await DictionaryService.Delete(dictionary);
                     if (success) {
-                        rightLeaf.replaceChildren();
+                        DictionaryUIBuilder.rightLeaf.replaceChildren();
                         const dropdownMenu: HTMLElement = document.getElementById("dictionary-dropdown-menu")!;
                         dropdownMenu.replaceChildren();
                         dropdownMenu.classList.toggle("inactive");
@@ -65,7 +82,7 @@ export class DictionaryUIBuilder {
 
                 dropdownMenu.appendChild(thumbnail);
             } catch (error) {
-                console.error("An error occured trying to generate the thumbnails.\n", error);
+                console.error("An error occurred trying to generate the thumbnails.\n", error);
                 return;
             }
         }
@@ -74,24 +91,23 @@ export class DictionaryUIBuilder {
         const createDictionaryButton: HTMLButtonElement = createDictionaryThumbnail.querySelector<HTMLButtonElement>("#dictionary-create-form-button")!;
         createDictionaryButton.innerHTML = "Créer un nouveau dictionnaire";
         createDictionaryButton.addEventListener("click", async () => {
-            await DictionaryUIBuilder.CreateAndHandleForm();
+            await DictionaryUIBuilder.RenderForm();
         });
         dropdownMenu.appendChild(createDictionaryButton);
     }
 
-    public static async CreateAndHandleForm(dictionary?: Dictionary): Promise<void> {
-        const rightLeaf: HTMLElement = document.getElementById("right-leaf")!;
-        rightLeaf.replaceChildren();
+    public static async RenderForm(dictionary?: Dictionary): Promise<void> {
+        DictionaryUIBuilder.rightLeaf.replaceChildren();
         const form: Element | undefined = await TemplateManager.LoadTemplateAsHTML("forms/dictionary");
         if (!form) return;
 
-        rightLeaf.replaceChildren(form);
+        DictionaryUIBuilder.rightLeaf.replaceChildren(form);
 
         const title: HTMLHeadingElement = form.querySelector<HTMLHeadingElement>('[data-role="form-title"]')!;
-        const inputName: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#name")!;
-        const inputDescription: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#description")!;
-        const inputId: HTMLInputElement = rightLeaf.querySelector<HTMLInputElement>("#id")!;
-        const submitButton: HTMLButtonElement = rightLeaf.querySelector<HTMLButtonElement>("#submit")!;
+        const inputName: HTMLInputElement = DictionaryUIBuilder.rightLeaf.querySelector<HTMLInputElement>("#name")!;
+        const inputDescription: HTMLInputElement = DictionaryUIBuilder.rightLeaf.querySelector<HTMLInputElement>("#description")!;
+        const inputId: HTMLInputElement = DictionaryUIBuilder.rightLeaf.querySelector<HTMLInputElement>("#id")!;
+        const submitButton: HTMLButtonElement = DictionaryUIBuilder.rightLeaf.querySelector<HTMLButtonElement>("#submit")!;
 
         if (!dictionary) {
             title.textContent = "Création - Dictionnaire";
@@ -108,7 +124,7 @@ export class DictionaryUIBuilder {
             let dictionary: Dictionary = new Dictionary(parseInt(inputId.value), inputName.value, inputDescription.value);
             let success: boolean = await DictionaryService.Save(dictionary);
             if (success) {
-                await DictionaryUIBuilder.CreateAndHandleForm(dictionary ? dictionary : undefined);
+                await DictionaryUIBuilder.RenderForm(dictionary ? dictionary : undefined);
             }
         });
     }
