@@ -197,6 +197,13 @@
             @apply focus:bg-base-25 focus:-translate-y-1 focus:outline-primary-800;
             @apply transition duration-300 ease-in-out;
         }
+
+        [data-role="checkbox-group"]:is([data-context="toggle"]) input {
+            @apply border-[1px];
+            @apply hover:translate-none;
+            @apply focus:translate-none ;
+            @apply transition-none;
+        }
     }
 }
 
@@ -410,6 +417,13 @@
             @apply hover:bg-base-20 hover:border-primary-300 hover:shadow-lg hover:-translate-y-0.5;
             @apply focus:bg-base-25 focus:-translate-y-1 focus:outline-primary-300;
             @apply transition duration-300 ease-in-out;
+        }
+
+        [data-role="checkbox-group"]:is([data-context="toggle"]) input {
+            @apply border-[1px];
+            @apply hover:translate-none;
+            @apply focus:translate-none ;
+            @apply transition-none;
         }
     }
 }

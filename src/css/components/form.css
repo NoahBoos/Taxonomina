@@ -43,6 +43,12 @@
         }
     }
 
+    [data-role="checkbox-group"][data-context="toggle"] {
+        input {
+            @apply transform scale-100 m-0;
+        }
+    }
+
     [data-role="checkbox-group"][data-variant="as-section"] {
         @apply w-full p-5 rounded-lg;
     }

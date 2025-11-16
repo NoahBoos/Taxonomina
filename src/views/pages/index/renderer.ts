@@ -24,6 +24,7 @@ async function InitializeTheme() {
     document.body.setAttribute("data-theme", settings.selectedTheme);
     document.body.setAttribute("data-variant", settings.themeVariant);
     document.body.setAttribute("data-font-size", settings.fontSize);
+    document.body.classList.toggle("hide-scrollbar", !settings.scrollbarVisibility);
 }
 
 Renderer();

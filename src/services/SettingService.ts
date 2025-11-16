@@ -13,4 +13,9 @@ export class SettingService {
         document.body.setAttribute("data-font-size", fontSize);
         await window.txnmAPI.settings.Update("fontSize", fontSize);
     }
+
+    public static async ChangeScrollbarVisibility(scrollbarVisibility: boolean) {
+        document.body.classList.toggle("hide-scrollbar", !scrollbarVisibility);
+        await window.txnmAPI.settings.Update("scrollbarVisibility", scrollbarVisibility);
+    }
 }

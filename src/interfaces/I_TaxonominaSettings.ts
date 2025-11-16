@@ -3,5 +3,6 @@ export interface TaxonominaSettings {
     currentDictionary: number;
     selectedTheme: string,
     themeVariant: string,
-    fontSize: string
+    fontSize: string,
+    scrollbarVisibility: boolean
 }

@@ -14,6 +14,7 @@
 @import './css/components/heading.css';
 @import './css/components/searchbar.css';
 @import './css/components/thumbnail.css';
+@import './css/components/toggle.css';
 @import './css/components/translation.css';
 
 @theme {

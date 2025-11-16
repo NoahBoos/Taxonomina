@@ -50,6 +50,7 @@ export class SettingUIBuilder {
             await this.ThemeVariantSelect();
             await this.ThemeSelect();
             await this.FontSizeSelect();
+            await this.ScrollbarVisibilityToggle();
             this.rightLeaf.appendChild(panel);
         }
     }
@@ -75,6 +76,14 @@ export class SettingUIBuilder {
         select.value = SettingUIBuilder.settings.fontSize;
         select.addEventListener("change", async () => {
             await SettingService.ChangeFontSize(select.value);
+        });
+    }
+
+    public static async ScrollbarVisibilityToggle() {
+        const toggle: HTMLInputElement = SettingUIBuilder.panel.querySelector<HTMLInputElement>("input#scrollbar-visibility")!;
+        toggle.checked = SettingUIBuilder.settings.scrollbarVisibility;
+        toggle.addEventListener("change", async () => {
+            await SettingService.ChangeScrollbarVisibility(toggle.checked);
         });
     }
 }
