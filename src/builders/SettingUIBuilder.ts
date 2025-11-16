@@ -51,6 +51,7 @@ export class SettingUIBuilder {
             await this.ThemeSelect();
             await this.FontSizeSelect();
             await this.ScrollbarVisibilityToggle();
+            await this.HelpButtonVisibilityToggle();
             this.rightLeaf.appendChild(panel);
         }
     }
@@ -84,6 +85,14 @@ export class SettingUIBuilder {
         toggle.checked = SettingUIBuilder.settings.scrollbarVisibility;
         toggle.addEventListener("change", async () => {
             await SettingService.ChangeScrollbarVisibility(toggle.checked);
+        });
+    }
+
+    public static async HelpButtonVisibilityToggle() {
+        const toggle: HTMLInputElement = SettingUIBuilder.panel.querySelector<HTMLInputElement>("input#help-button-visibility")!;
+        toggle.checked = SettingUIBuilder.settings.helpButtonVisibility;
+        toggle.addEventListener("change", async () => {
+            await SettingService.ChangeHelpButtonVisibility(toggle.checked);
         });
     }
 }

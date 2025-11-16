@@ -11,7 +11,8 @@ export class SettingManager {
         selectedTheme: "default",
         themeVariant: "light",
         fontSize: "base",
-        scrollbarVisibility: true
+        scrollbarVisibility: true,
+        helpButtonVisibility: true
     }
 
     public static async SaveSetting(settings: TaxonominaSettings): Promise<void> {

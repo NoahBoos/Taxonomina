@@ -18,4 +18,9 @@ export class SettingService {
         document.body.classList.toggle("hide-scrollbar", !scrollbarVisibility);
         await window.txnmAPI.settings.Update("scrollbarVisibility", scrollbarVisibility);
     }
+
+    public static async ChangeHelpButtonVisibility(helpButtonVisibility: boolean) {
+        document.querySelector("#help-window-button")!.classList.toggle("inactive", !helpButtonVisibility);
+        await window.txnmAPI.settings.Update("helpButtonVisibility", helpButtonVisibility);
+    }
 }
