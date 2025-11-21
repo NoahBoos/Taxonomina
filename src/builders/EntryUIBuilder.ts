@@ -23,6 +23,7 @@ export class EntryUIBuilder {
     private static leftLeaf: Element;
     private static rightLeaf: Element;
     private static drawer: Element;
+    private static entries: Entry[] = [];
 
     public static async Initialize() {
         EntryUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
@@ -49,14 +50,14 @@ export class EntryUIBuilder {
         EntryUIBuilder.leftLeaf.classList.remove('hidden');
         EntryUIBuilder.leftLeaf.replaceChildren();
         const drawer: Element | undefined = await TemplateManager.LoadTemplateAsHTML("drawers/entry");
-        const entries: Entry[] = await EntryService.ReadAll(GetSettings().currentDictionary);
+        EntryUIBuilder.entries = await EntryService.ReadAll(GetSettings().currentDictionary);
         if (!drawer) {
             return;
         } else {
             EntryUIBuilder.drawer = drawer;
             await EntryUIBuilder.RenderSearchbar();
             await EntryUIBuilder.RenderCreateButton();
-            await EntryUIBuilder.RenderList(entries);
+            await EntryUIBuilder.RenderList();
             EntryUIBuilder.leftLeaf.appendChild(EntryUIBuilder.drawer);
         }
     }
@@ -64,18 +65,18 @@ export class EntryUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
-           const entries: Entry[] = await EntryService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
-           await EntryUIBuilder.RenderList(entries);
+            EntryUIBuilder.entries = await EntryService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
+           await EntryUIBuilder.RenderList();
         });
     }
 
-    public static async RenderList(entries?: Entry[]) {
+    public static async RenderList() {
         const container: Element = EntryUIBuilder.drawer.querySelector("#entry-container")!;
         EntryUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/entry");
         container.replaceChildren();
-        if (!entries) entries = await EntryService.ReadAll(GetSettings().currentDictionary);
+        if (!EntryUIBuilder.entries) EntryUIBuilder.entries = await EntryService.ReadAll(GetSettings().currentDictionary);
 
-        entries.forEach((entry: Entry) => {
+        EntryUIBuilder.entries.forEach((entry: Entry) => {
             EntryUIBuilder.RenderThumbnail(container, entry);
         });
     }
@@ -126,8 +127,8 @@ export class EntryUIBuilder {
             event.preventDefault();
             const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("input#searchbar")!.value;
             const savedEntry: Entry | undefined = await EntryService.ProcessForm(form);
-            const entries: Entry[] = await EntryService.FilterBySearch(GetSettings().currentDictionary, query);
-            await EntryUIBuilder.RenderList(entries);
+            EntryUIBuilder.entries = await EntryService.FilterBySearch(GetSettings().currentDictionary, query);
+            await EntryUIBuilder.RenderList();
             await EntryUIBuilder.RenderForm(savedEntry ? savedEntry : undefined);
         });
 
@@ -183,7 +184,7 @@ export class EntryUIBuilder {
     }
 
     public static async GlobalTranslationFieldset(form: Element, entry?: Entry) {
-        const entries: Entry[] = await EntryService.ReadAll(GetSettings().currentDictionary);
+        EntryUIBuilder.entries = await EntryService.ReadAll(GetSettings().currentDictionary);
         const translations: Entry[] = entry ? await EntryService.ReadAllByGlobalTranslation(entry) : [];
         const fieldset: HTMLDivElement = form.querySelector<HTMLDivElement>("div#global-translations-section")!;
         const searchbar: HTMLInputElement = fieldset.querySelector<HTMLInputElement>("#gts-searchbar")!;
@@ -193,7 +194,7 @@ export class EntryUIBuilder {
         dropdown.classList.add("inactive");
 
         searchbar.addEventListener("input", async () => {
-            EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, entries, translations, entry);
+            EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, translations, entry);
         });
 
         for (const translation of translations) {
@@ -202,7 +203,7 @@ export class EntryUIBuilder {
     }
 
     public static async RenderDefinitionFieldset(form: Element, entry?: Entry) {
-        const entries: Entry[] = await EntryService.ReadAll(GetSettings().currentDictionary);
+        EntryUIBuilder.entries = await EntryService.ReadAll(GetSettings().currentDictionary);
         const definitions: Definition[] = entry ? await DefinitionService.ReadAllByEntry(entry) : [];
         const fieldset: HTMLDivElement = form.querySelector<HTMLDivElement>("div#definitions-section")!;
         const addDefinitionButton: HTMLButtonElement = fieldset.querySelector("#ds-add-button")!;
@@ -211,17 +212,17 @@ export class EntryUIBuilder {
 
         addDefinitionButton.addEventListener("click", async (event) => {
             event.preventDefault();
-            await EntryUIBuilder.GenerateDefinition(container, template, entries, [], entry);
+            await EntryUIBuilder.GenerateDefinition(container, template, [], entry);
         });
 
         for (const definition of definitions) {
             let translations: Entry[] = await EntryService.ReadAllByLocalTranslation(definition);
             translations = translations.filter(translation => translation.GetId() !== entry?.GetId());
-            await EntryUIBuilder.GenerateDefinition(container, template, entries, translations, entry, definition);
+            await EntryUIBuilder.GenerateDefinition(container, template, translations, entry, definition);
         }
     }
 
-    public static async GenerateDefinition(parent: Element, template: HTMLTemplateElement, entries: Entry[], translations: Entry[], entry?: Entry, definition?: Definition) {
+    public static async GenerateDefinition(parent: Element, template: HTMLTemplateElement, translations: Entry[], entry?: Entry, definition?: Definition) {
         const definitionElement = template.content.firstElementChild!.cloneNode(true) as Element;
         const removeButton: HTMLButtonElement = definitionElement.querySelector<HTMLButtonElement>("#d-remove-button")!;
         removeButton.addEventListener("click", async (event) => {
@@ -241,7 +242,7 @@ export class EntryUIBuilder {
         dropdown.classList.add("inactive");
 
         searchbar.addEventListener("input", async () => {
-            EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, entries, translations, entry);
+            EntryUIBuilder.TranslationSearchbarBehaviour(searchbar, dropdown, container, translations, entry);
         });
 
         for (const translation of translations) {
@@ -251,26 +252,26 @@ export class EntryUIBuilder {
         parent.appendChild(definitionElement);
     }
 
-    public static TranslationSearchbarBehaviour(searchbar: HTMLInputElement, dropdown: HTMLDivElement, translationTagContainer: HTMLDivElement, entries: Entry[], translations: Entry[], entry?: Entry) {
+    public static TranslationSearchbarBehaviour(searchbar: HTMLInputElement, dropdown: HTMLDivElement, translationTagContainer: HTMLDivElement, translations: Entry[], entry?: Entry) {
         if (searchbar.value === "") {
             dropdown.innerHTML = ""
             dropdown.classList.add("inactive");
             return;
         }
 
-        const filteredEntries: Entry[] = EntryUIBuilder.FilterAvailableTranslations(searchbar, entries, translations, entry);
+        EntryUIBuilder.entries = EntryUIBuilder.FilterAvailableTranslations(searchbar, translations, entry);
         dropdown.innerHTML = '';
-        if (filteredEntries.length > 0) {
+        if (EntryUIBuilder.entries.length > 0) {
             dropdown.classList.remove("inactive");
-            for (const filteredEntry of filteredEntries) {
+            for (const filteredEntry of EntryUIBuilder.entries) {
                 EntryUIBuilder.RenderAddTranslationButton(dropdown, translationTagContainer, searchbar, filteredEntry);
             }
         }
     }
 
-    public static FilterAvailableTranslations(searchbar: HTMLInputElement, entries: Entry[], translations: Entry[], entry?: Entry) {
+    public static FilterAvailableTranslations(searchbar: HTMLInputElement, translations: Entry[], entry?: Entry) {
         const query = searchbar.value.toLowerCase();
-        return entries.filter(loopedEntry => {
+        return EntryUIBuilder.entries.filter(loopedEntry => {
             return [loopedEntry.GetLemma()].some(value => value.toLowerCase().includes(query))
                 && !translations.some(translation => translation.GetId() === loopedEntry.GetId())
                 && loopedEntry.GetId() != entry?.GetId();
@@ -330,8 +331,8 @@ export class EntryUIBuilder {
             if (success) {
                 EntryUIBuilder.rightLeaf.replaceChildren();
                 const query: string = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                const entries: Entry[] = await EntryService.FilterBySearch(GetSettings().currentDictionary, query);
-                await EntryUIBuilder.RenderList(entries);
+                EntryUIBuilder.entries = await EntryService.FilterBySearch(GetSettings().currentDictionary, query);
+                await EntryUIBuilder.RenderList();
             }
         });
         EntryUIBuilder.rightLeaf.appendChild(button);
