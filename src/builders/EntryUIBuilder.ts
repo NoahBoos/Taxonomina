@@ -24,6 +24,8 @@ export class EntryUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static entries: Entry[] = [];
+    private static previousPageButton: HTMLButtonElement;
+    private static nextPageButton: HTMLButtonElement;
     private static currentPage: number = 1;
     private static pageSize: number = 25;
     private static totalPages: number = 1;
@@ -58,9 +60,12 @@ export class EntryUIBuilder {
             return;
         } else {
             EntryUIBuilder.drawer = drawer;
+            EntryUIBuilder.previousPageButton = this.drawer.querySelector("#previous-page-button")!;
+            EntryUIBuilder.nextPageButton = this.drawer.querySelector("#next-page-button")!;
             await EntryUIBuilder.RenderSearchbar();
             await EntryUIBuilder.RenderCreateButton();
             await EntryUIBuilder.RenderList();
+            await EntryUIBuilder.HandlePaginationControls();
             await EntryUIBuilder.RenderPaginationControls();
             EntryUIBuilder.leftLeaf.appendChild(EntryUIBuilder.drawer);
         }
@@ -91,7 +96,8 @@ export class EntryUIBuilder {
             EntryUIBuilder.RenderThumbnail(container, entry);
         });
 
-        EntryUIBuilder.RenderPageCounter();
+        await EntryUIBuilder.RenderPageCounter();
+        await EntryUIBuilder.RenderPaginationControls();
     }
 
     public static async RenderThumbnail(container: Element, entry: Entry) {
@@ -365,26 +371,26 @@ export class EntryUIBuilder {
         }
     }
 
-    public static async RenderPaginationControls() {
-        const previousPageButton: HTMLButtonElement = this.drawer.querySelector("#previous-page-button")!;
-        previousPageButton.addEventListener("click", async (event: Event) => {
+    public static async HandlePaginationControls() {
+        EntryUIBuilder.previousPageButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
             await EntryUIBuilder.RenderPreviousPage();
-            if (EntryUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
-            else previousPageButton.classList.remove("invisible");
-            if (EntryUIBuilder.currentPage === EntryUIBuilder.totalPages) nextPageButton.classList.add("invisible");
-            else nextPageButton.classList.remove("invisible");
+            await EntryUIBuilder.RenderPaginationControls();
         });
-        const nextPageButton: HTMLButtonElement = this.drawer.querySelector("#next-page-button")!;
-        nextPageButton.addEventListener("click", async (event: Event) => {
+        EntryUIBuilder.nextPageButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            await EntryUIBuilder.RenderNextPage();
-            if (EntryUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
-            else previousPageButton.classList.remove("invisible");
-            if (EntryUIBuilder.currentPage === EntryUIBuilder.totalPages) nextPageButton.classList.add("invisible");
-            else nextPageButton.classList.remove("invisible");
+            await EntryUIBuilder.RenderNextPage()
+            await EntryUIBuilder.RenderPaginationControls();
         });
     }
+
+    public static async RenderPaginationControls() {
+        if (EntryUIBuilder.currentPage === 1 || EntryUIBuilder.totalPages == 1) EntryUIBuilder.previousPageButton.classList.add("invisible");
+        else EntryUIBuilder.previousPageButton.classList.remove("invisible");
+        if (EntryUIBuilder.currentPage === EntryUIBuilder.totalPages || EntryUIBuilder.totalPages == 1) EntryUIBuilder.nextPageButton.classList.add("invisible");
+        else EntryUIBuilder.nextPageButton.classList.remove("invisible");
+    }
+
 
     public static async RenderPageCounter() {
         const pageCounter: HTMLParagraphElement = this.drawer.querySelector("#page-counter")!;

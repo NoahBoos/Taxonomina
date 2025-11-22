@@ -14,6 +14,8 @@ export class GrammaticalGenreUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static grammaticalGenres: GrammaticalGenre[] = [];
+    private static previousPageButton: HTMLButtonElement;
+    private static nextPageButton: HTMLButtonElement;
     private static currentPage: number = 1;
     private static pageSize: number = 25;
     private static totalPages: number = 1;
@@ -48,9 +50,12 @@ export class GrammaticalGenreUIBuilder {
             return;
         } else {
             GrammaticalGenreUIBuilder.drawer = drawer;
+            GrammaticalGenreUIBuilder.previousPageButton = this.drawer.querySelector("#previous-page-button")!;
+            GrammaticalGenreUIBuilder.nextPageButton = this.drawer.querySelector("#next-page-button")!;
             await GrammaticalGenreUIBuilder.RenderSearchbar();
             await GrammaticalGenreUIBuilder.RenderCreateButton();
             await GrammaticalGenreUIBuilder.RenderList();
+            await GrammaticalGenreUIBuilder.HandlePaginationControls();
             await GrammaticalGenreUIBuilder.RenderPaginationControls();
             GrammaticalGenreUIBuilder.leftLeaf.appendChild(GrammaticalGenreUIBuilder.drawer);
         }
@@ -81,7 +86,8 @@ export class GrammaticalGenreUIBuilder {
             GrammaticalGenreUIBuilder.RenderThumbnail(container, gg);
         });
 
-        GrammaticalGenreUIBuilder.RenderPageCounter();
+        await GrammaticalGenreUIBuilder.RenderPageCounter();
+        await GrammaticalGenreUIBuilder.RenderPaginationControls();
     }
 
     public static async RenderThumbnail(container: Element, grammaticalGenre: GrammaticalGenre) {
@@ -171,25 +177,24 @@ export class GrammaticalGenreUIBuilder {
         }
     }
 
-    public static async RenderPaginationControls() {
-        const previousPageButton: HTMLButtonElement = this.drawer.querySelector("#previous-page-button")!;
-        previousPageButton.addEventListener("click", async (event: Event) => {
+    public static async HandlePaginationControls() {
+        GrammaticalGenreUIBuilder.previousPageButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
             await GrammaticalGenreUIBuilder.RenderPreviousPage();
-            if (GrammaticalGenreUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
-            else previousPageButton.classList.remove("invisible");
-            if (GrammaticalGenreUIBuilder.currentPage === GrammaticalGenreUIBuilder.totalPages) nextPageButton.classList.add("invisible");
-            else nextPageButton.classList.remove("invisible");
+            await GrammaticalGenreUIBuilder.RenderPaginationControls();
         });
-        const nextPageButton: HTMLButtonElement = this.drawer.querySelector("#next-page-button")!;
-        nextPageButton.addEventListener("click", async (event: Event) => {
+        GrammaticalGenreUIBuilder.nextPageButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            await GrammaticalGenreUIBuilder.RenderNextPage();
-            if (GrammaticalGenreUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
-            else previousPageButton.classList.remove("invisible");
-            if (GrammaticalGenreUIBuilder.currentPage === GrammaticalGenreUIBuilder.totalPages) nextPageButton.classList.add("invisible");
-            else nextPageButton.classList.remove("invisible");
+            await GrammaticalGenreUIBuilder.RenderNextPage()
+            await GrammaticalGenreUIBuilder.RenderPaginationControls();
         });
+    }
+
+    public static async RenderPaginationControls() {
+        if (GrammaticalGenreUIBuilder.currentPage === 1 || GrammaticalGenreUIBuilder.totalPages == 1) GrammaticalGenreUIBuilder.previousPageButton.classList.add("invisible");
+        else GrammaticalGenreUIBuilder.previousPageButton.classList.remove("invisible");
+        if (GrammaticalGenreUIBuilder.currentPage === GrammaticalGenreUIBuilder.totalPages || GrammaticalGenreUIBuilder.totalPages == 1) GrammaticalGenreUIBuilder.nextPageButton.classList.add("invisible");
+        else GrammaticalGenreUIBuilder.nextPageButton.classList.remove("invisible");
     }
 
     public static async RenderPageCounter() {

@@ -15,6 +15,8 @@ export class LanguageUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static languages: Language[] = [];
+    private static previousPageButton: HTMLButtonElement;
+    private static nextPageButton: HTMLButtonElement;
     private static currentPage: number = 1;
     private static pageSize: number = 25;
     private static totalPages: number = 1;
@@ -48,10 +50,13 @@ export class LanguageUIBuilder {
             return;
         } else {
             LanguageUIBuilder.drawer = drawer;
+            LanguageUIBuilder.previousPageButton = this.drawer.querySelector("#previous-page-button")!;
+            LanguageUIBuilder.nextPageButton = this.drawer.querySelector("#next-page-button")!;
             LanguageUIBuilder.languages = await LanguageService.ReadAll(GetSettings().currentDictionary);
             await LanguageUIBuilder.RenderSearchbar();
             await LanguageUIBuilder.RenderCreateButton();
             await LanguageUIBuilder.RenderList();
+            await LanguageUIBuilder.HandlePaginationControls();
             await LanguageUIBuilder.RenderPaginationControls();
             LanguageUIBuilder.leftLeaf.appendChild(LanguageUIBuilder.drawer);
         }
@@ -82,7 +87,8 @@ export class LanguageUIBuilder {
             LanguageUIBuilder.RenderThumbnail(container, language);
         });
 
-        LanguageUIBuilder.RenderPageCounter();
+        await LanguageUIBuilder.RenderPageCounter();
+        await LanguageUIBuilder.RenderPaginationControls();
     }
 
     public static RenderThumbnail(container: Element, language: Language) {
@@ -182,25 +188,24 @@ export class LanguageUIBuilder {
         }
     }
 
-    public static async RenderPaginationControls() {
-        const previousPageButton: HTMLButtonElement = this.drawer.querySelector("#previous-page-button")!;
-        previousPageButton.addEventListener("click", async (event: Event) => {
+    public static async HandlePaginationControls() {
+        LanguageUIBuilder.previousPageButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
             await LanguageUIBuilder.RenderPreviousPage();
-            if (LanguageUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
-            else previousPageButton.classList.remove("invisible");
-            if (LanguageUIBuilder.currentPage === LanguageUIBuilder.totalPages) nextPageButton.classList.add("invisible");
-            else nextPageButton.classList.remove("invisible");
+            await LanguageUIBuilder.RenderPaginationControls();
         });
-        const nextPageButton: HTMLButtonElement = this.drawer.querySelector("#next-page-button")!;
-        nextPageButton.addEventListener("click", async (event: Event) => {
+        LanguageUIBuilder.nextPageButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
-            await LanguageUIBuilder.RenderNextPage();
-            if (LanguageUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
-            else previousPageButton.classList.remove("invisible");
-            if (LanguageUIBuilder.currentPage === LanguageUIBuilder.totalPages) nextPageButton.classList.add("invisible");
-            else nextPageButton.classList.remove("invisible");
+            await LanguageUIBuilder.RenderNextPage()
+            await LanguageUIBuilder.RenderPaginationControls();
         });
+    }
+
+    public static async RenderPaginationControls() {
+        if (LanguageUIBuilder.currentPage === 1 || LanguageUIBuilder.totalPages == 1) LanguageUIBuilder.previousPageButton.classList.add("invisible");
+        else LanguageUIBuilder.previousPageButton.classList.remove("invisible");
+        if (LanguageUIBuilder.currentPage === LanguageUIBuilder.totalPages || LanguageUIBuilder.totalPages == 1) LanguageUIBuilder.nextPageButton.classList.add("invisible");
+        else LanguageUIBuilder.nextPageButton.classList.remove("invisible");
     }
 
     public static async RenderPageCounter() {
