@@ -1,6 +1,6 @@
 {
   "name": "taxonomina",
-  "version": "0.1.0-alpha",
+  "version": "0.2.0-alpha",
   "main": "dist/main.js",
   "scripts": {
     "start": "npm run build && electron-forge start",

@@ -1,5 +1,6 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+const {randomUUID} = require("node:crypto");
 
 module.exports = {
   packagerConfig: {
@@ -14,7 +15,8 @@ module.exports = {
         name: "Taxonomina",
         description: "Taxonomina",
         manufacturer: 'Noah Boos AKA Rift',
-        version: "0.1.0-alpha",
+        version: "0.2.0-alpha",
+        upgradeCode: "02d84e18-0a7e-4196-8dfe-8e9a538a101c",
         icon: "./assets/icon.ico",
         shortcutFolderName: "Taxonomina",
         ui: {
