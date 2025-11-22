@@ -14,6 +14,9 @@ export class GrammaticalCategoryUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static grammaticalCategories: GrammaticalCategory[] = [];
+    private static currentPage: number = 1;
+    private static pageSize: number = 25;
+    private static totalPages: number = 1;
 
     public static async Initialize() {
         GrammaticalCategoryUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
@@ -49,6 +52,7 @@ export class GrammaticalCategoryUIBuilder {
             await GrammaticalCategoryUIBuilder.RenderSearchbar();
             await GrammaticalCategoryUIBuilder.RenderCreateButton();
             await GrammaticalCategoryUIBuilder.RenderList();
+            await GrammaticalCategoryUIBuilder.RenderPaginationControls();
             GrammaticalCategoryUIBuilder.leftLeaf.appendChild(GrammaticalCategoryUIBuilder.drawer);
         }
     }
@@ -56,8 +60,9 @@ export class GrammaticalCategoryUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = GrammaticalCategoryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
+            GrammaticalCategoryUIBuilder.currentPage = 1;
             GrammaticalCategoryUIBuilder.grammaticalCategories = await GrammaticalCategoryService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
-           await GrammaticalCategoryUIBuilder.RenderList();
+            await GrammaticalCategoryUIBuilder.RenderList();
         });
     }
 
@@ -67,9 +72,17 @@ export class GrammaticalCategoryUIBuilder {
         container.replaceChildren();
         if (!GrammaticalCategoryUIBuilder.grammaticalCategories) GrammaticalCategoryUIBuilder.grammaticalCategories = await GrammaticalCategoryService.ReadAll(GetSettings().currentDictionary);
 
-        GrammaticalCategoryUIBuilder.grammaticalCategories.forEach(gc => {
+        GrammaticalCategoryUIBuilder.totalPages = Math.ceil(GrammaticalCategoryUIBuilder.grammaticalCategories.length / GrammaticalCategoryUIBuilder.pageSize);
+        const startIndex: number = (GrammaticalCategoryUIBuilder.currentPage - 1) * GrammaticalCategoryUIBuilder.pageSize;
+        const endIndex: number = Math.min(startIndex + GrammaticalCategoryUIBuilder.pageSize, GrammaticalCategoryUIBuilder.grammaticalCategories.length);
+
+        const paginatedGrammaticalCategories: GrammaticalCategory[] = GrammaticalCategoryUIBuilder.grammaticalCategories.slice(startIndex, endIndex);
+
+        paginatedGrammaticalCategories.forEach(gc => {
             GrammaticalCategoryUIBuilder.RenderThumbnail(container, gc);
         });
+
+        GrammaticalCategoryUIBuilder.RenderPageCounter();
     }
 
     public static async RenderThumbnail(container: Element, grammaticalCategory: GrammaticalCategory) {
@@ -141,5 +154,45 @@ export class GrammaticalCategoryUIBuilder {
             }
         });
         GrammaticalCategoryUIBuilder.rightLeaf.appendChild(button);
+    }
+
+    public static async RenderPreviousPage() {
+        if (GrammaticalCategoryUIBuilder.currentPage > 1) {
+            GrammaticalCategoryUIBuilder.currentPage--;
+            await GrammaticalCategoryUIBuilder.RenderList();
+        }
+    }
+
+    public static async RenderNextPage() {
+        if (GrammaticalCategoryUIBuilder.currentPage < GrammaticalCategoryUIBuilder.totalPages) {
+            GrammaticalCategoryUIBuilder.currentPage++;
+            await GrammaticalCategoryUIBuilder.RenderList();
+        }
+    }
+
+    public static async RenderPaginationControls() {
+        const previousPageButton: HTMLButtonElement = this.drawer.querySelector("#previous-page-button")!;
+        previousPageButton.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            await GrammaticalCategoryUIBuilder.RenderPreviousPage();
+            if (GrammaticalCategoryUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
+            else previousPageButton.classList.remove("invisible");
+            if (GrammaticalCategoryUIBuilder.currentPage === GrammaticalCategoryUIBuilder.totalPages) nextPageButton.classList.add("invisible");
+            else nextPageButton.classList.remove("invisible");
+        });
+        const nextPageButton: HTMLButtonElement = this.drawer.querySelector("#next-page-button")!;
+        nextPageButton.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            await GrammaticalCategoryUIBuilder.RenderNextPage();
+            if (GrammaticalCategoryUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
+            else previousPageButton.classList.remove("invisible");
+            if (GrammaticalCategoryUIBuilder.currentPage === GrammaticalCategoryUIBuilder.totalPages) nextPageButton.classList.add("invisible");
+            else nextPageButton.classList.remove("invisible");
+        });
+    }
+
+    public static async RenderPageCounter() {
+        const pageCounter: HTMLParagraphElement = this.drawer.querySelector("#page-counter")!;
+        pageCounter.textContent = String(GrammaticalCategoryUIBuilder.currentPage) + "/" + String(GrammaticalCategoryUIBuilder.totalPages);
     }
 }

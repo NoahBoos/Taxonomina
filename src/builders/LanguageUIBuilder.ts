@@ -15,6 +15,9 @@ export class LanguageUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static languages: Language[] = [];
+    private static currentPage: number = 1;
+    private static pageSize: number = 25;
+    private static totalPages: number = 1;
 
     public static async Initialize() {
         LanguageUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
@@ -49,6 +52,7 @@ export class LanguageUIBuilder {
             await LanguageUIBuilder.RenderSearchbar();
             await LanguageUIBuilder.RenderCreateButton();
             await LanguageUIBuilder.RenderList();
+            await LanguageUIBuilder.RenderPaginationControls();
             LanguageUIBuilder.leftLeaf.appendChild(LanguageUIBuilder.drawer);
         }
     }
@@ -56,6 +60,7 @@ export class LanguageUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = LanguageUIBuilder.drawer.querySelector("#searchbar")!;
         searchbar.addEventListener("input", async () => {
+            LanguageUIBuilder.currentPage = 1;
             LanguageUIBuilder.languages = await LanguageService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
             await LanguageUIBuilder.RenderList();
         });
@@ -67,9 +72,17 @@ export class LanguageUIBuilder {
         container.replaceChildren();
         if (!LanguageUIBuilder.languages) LanguageUIBuilder.languages = await LanguageService.ReadAll(GetSettings().currentDictionary);
 
-        LanguageUIBuilder.languages.forEach(language => {
+        LanguageUIBuilder.totalPages = Math.ceil(LanguageUIBuilder.languages.length / LanguageUIBuilder.pageSize);
+        const startIndex: number = (LanguageUIBuilder.currentPage - 1) * LanguageUIBuilder.pageSize;
+        const endIndex: number = Math.min(startIndex + LanguageUIBuilder.pageSize, LanguageUIBuilder.languages.length);
+
+        const paginatedLanguages: Language[] = LanguageUIBuilder.languages.slice(startIndex, endIndex);
+
+        paginatedLanguages.forEach(language => {
             LanguageUIBuilder.RenderThumbnail(container, language);
         });
+
+        LanguageUIBuilder.RenderPageCounter();
     }
 
     public static RenderThumbnail(container: Element, language: Language) {
@@ -153,5 +166,45 @@ export class LanguageUIBuilder {
             }
         });
         LanguageUIBuilder.rightLeaf.appendChild(button);
+    }
+
+    public static async RenderPreviousPage() {
+        if (LanguageUIBuilder.currentPage > 1) {
+            LanguageUIBuilder.currentPage--;
+            await LanguageUIBuilder.RenderList();
+        }
+    }
+
+    public static async RenderNextPage() {
+        if (LanguageUIBuilder.currentPage < LanguageUIBuilder.totalPages) {
+            LanguageUIBuilder.currentPage++;
+            await LanguageUIBuilder.RenderList();
+        }
+    }
+
+    public static async RenderPaginationControls() {
+        const previousPageButton: HTMLButtonElement = this.drawer.querySelector("#previous-page-button")!;
+        previousPageButton.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            await LanguageUIBuilder.RenderPreviousPage();
+            if (LanguageUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
+            else previousPageButton.classList.remove("invisible");
+            if (LanguageUIBuilder.currentPage === LanguageUIBuilder.totalPages) nextPageButton.classList.add("invisible");
+            else nextPageButton.classList.remove("invisible");
+        });
+        const nextPageButton: HTMLButtonElement = this.drawer.querySelector("#next-page-button")!;
+        nextPageButton.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            await LanguageUIBuilder.RenderNextPage();
+            if (LanguageUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
+            else previousPageButton.classList.remove("invisible");
+            if (LanguageUIBuilder.currentPage === LanguageUIBuilder.totalPages) nextPageButton.classList.add("invisible");
+            else nextPageButton.classList.remove("invisible");
+        });
+    }
+
+    public static async RenderPageCounter() {
+        const pageCounter: HTMLParagraphElement = this.drawer.querySelector("#page-counter")!;
+        pageCounter.textContent = String(LanguageUIBuilder.currentPage) + "/" + String(LanguageUIBuilder.totalPages);
     }
 }
