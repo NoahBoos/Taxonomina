@@ -15,7 +15,7 @@ export class GrammaticalGenreUIBuilder {
     private static drawer: Element;
     private static grammaticalGenres: GrammaticalGenre[] = [];
     private static currentPage: number = 1;
-    private static pageSize: number = 1;
+    private static pageSize: number = 25;
     private static totalPages: number = 1;
 
     public static async Initialize() {
