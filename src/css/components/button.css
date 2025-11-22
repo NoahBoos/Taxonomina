@@ -36,6 +36,10 @@
             @apply block px-4 py-2 mx-auto w-fit text-sm font-semibold;
         }
 
+        &#previous-page-button, &#next-page-button {
+            @apply p-2 w-fit;
+        }
+
         /*********************/
         /* Button variants   */
         /*********************/

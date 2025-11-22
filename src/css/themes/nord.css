@@ -173,6 +173,13 @@
             @apply transition-colors duration-250 ease-out;
         }
 
+        #previous-page-button, #next-page-button {
+            @apply text-base-100 bg-transparent border-primary-500;
+            @apply hover:text-base-90 hover:bg-primary-600 hover:border-primary-600;
+            @apply focus:ring-2 focus:ring-primary-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
         /*********************/
         /* Searchbar         */
         /*********************/
@@ -380,6 +387,13 @@
         }
 
         [data-role="submit-button"] {
+            @apply text-base-100 bg-transparent border-primary-300;
+            @apply hover:text-base-90 hover:bg-primary-300 hover:border-primary-400;
+            @apply focus:ring-2 focus:ring-primary-400;
+            @apply transition-colors duration-250 ease-out;
+        }
+
+        #previous-page-button, #next-page-button {
             @apply text-base-100 bg-transparent border-primary-300;
             @apply hover:text-base-90 hover:bg-primary-300 hover:border-primary-400;
             @apply focus:ring-2 focus:ring-primary-400;
