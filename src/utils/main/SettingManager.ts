@@ -11,6 +11,7 @@ export class SettingManager {
         selectedTheme: "default",
         themeVariant: "light",
         fontSize: "base",
+        elementsPerPage: 25,
         scrollbarVisibility: true,
         helpButtonVisibility: true
     }

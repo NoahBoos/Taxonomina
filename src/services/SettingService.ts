@@ -1,3 +1,8 @@
+import {EntryUIBuilder} from "../builders/EntryUIBuilder";
+import {GrammaticalCategoryUIBuilder} from "../builders/GrammaticalCategoryUIBuilder";
+import {GrammaticalGenreUIBuilder} from "../builders/GrammaticalGenreUIBuilder";
+import {LanguageUIBuilder} from "../builders/LanguageUIBuilder";
+
 export class SettingService {
     public static async ChangeThemeVariant(variant: string) {
         document.body.setAttribute("data-variant", variant);
@@ -12,6 +17,14 @@ export class SettingService {
     public static async ChangeFontSize(fontSize: string) {
         document.body.setAttribute("data-font-size", fontSize);
         await window.txnmAPI.settings.Update("fontSize", fontSize);
+    }
+
+    public static async ChangeElementsPerPage(elementsPerPage: number) {
+        EntryUIBuilder.pageSize = elementsPerPage;
+        GrammaticalCategoryUIBuilder.pageSize = elementsPerPage;
+        GrammaticalGenreUIBuilder.pageSize = elementsPerPage;
+        LanguageUIBuilder.pageSize = elementsPerPage;
+        await window.txnmAPI.settings.Update("elementsPerPage", elementsPerPage);
     }
 
     public static async ChangeScrollbarVisibility(scrollbarVisibility: boolean) {

@@ -4,6 +4,7 @@ export interface TaxonominaSettings {
     selectedTheme: string,
     themeVariant: string,
     fontSize: string,
+    elementsPerPage: number,
     scrollbarVisibility: boolean,
     helpButtonVisibility: boolean
 }

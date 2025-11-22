@@ -17,7 +17,7 @@ export class GrammaticalGenreUIBuilder {
     private static previousPageButton: HTMLButtonElement;
     private static nextPageButton: HTMLButtonElement;
     private static currentPage: number = 1;
-    private static pageSize: number = 25;
+    public static pageSize: number = 25;
     private static totalPages: number = 1;
 
     public static async Initialize() {

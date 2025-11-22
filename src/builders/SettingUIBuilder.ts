@@ -50,6 +50,7 @@ export class SettingUIBuilder {
             await this.ThemeVariantSelect();
             await this.ThemeSelect();
             await this.FontSizeSelect();
+            await this.ElementsPerPageSelect();
             await this.ScrollbarVisibilityToggle();
             await this.HelpButtonVisibilityToggle();
             this.rightLeaf.appendChild(panel);
@@ -77,6 +78,14 @@ export class SettingUIBuilder {
         select.value = SettingUIBuilder.settings.fontSize;
         select.addEventListener("change", async () => {
             await SettingService.ChangeFontSize(select.value);
+        });
+    }
+
+    public static async ElementsPerPageSelect() {
+        const select: HTMLSelectElement = SettingUIBuilder.panel.querySelector<HTMLSelectElement>("#elements-per-page")!;
+        select.value = SettingUIBuilder.settings.elementsPerPage.toString();
+        select.addEventListener("change", async () => {
+            await SettingService.ChangeElementsPerPage(parseInt(select.value));
         });
     }
 

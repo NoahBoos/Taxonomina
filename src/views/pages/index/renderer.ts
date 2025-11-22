@@ -29,6 +29,10 @@ async function InitializeTheme() {
     document.body.setAttribute("data-font-size", settings.fontSize);
     document.body.classList.toggle("hide-scrollbar", !settings.scrollbarVisibility);
     document.querySelector("#help-window-button")!.classList.toggle("inactive", !settings.helpButtonVisibility);
+    EntryUIBuilder.pageSize = settings.elementsPerPage;
+    GrammaticalCategoryUIBuilder.pageSize = settings.elementsPerPage;
+    GrammaticalGenreUIBuilder.pageSize = settings.elementsPerPage;
+    LanguageUIBuilder.pageSize = settings.elementsPerPage;
 }
 
 export function GetSettings() {
