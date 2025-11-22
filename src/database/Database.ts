@@ -146,7 +146,6 @@ export class Database {
             CREATE INDEX IF NOT EXISTS idx_grammatical_genres_dictionary_id ON grammatical_genres(dictionary_id);
             CREATE INDEX IF NOT EXISTS idx_entries_dictionary_id ON entries(dictionary_id);
             CREATE INDEX IF NOT EXISTS idx_entries_language_id ON entries(language_id);
-            CREATE INDEX IF NOT EXISTS idx_inflections_entry_id ON inflections(entry_id);
             CREATE INDEX IF NOT EXISTS idx_entry_definition_definition_id ON entry_definition(definition_id);
             CREATE INDEX IF NOT EXISTS idx_entry_entry_second ON entry_entry (second_entry_id);
         `);
