@@ -14,6 +14,7 @@ export class LanguageUIBuilder {
     private static leftLeaf: Element;
     private static rightLeaf: Element;
     private static drawer: Element;
+    private static languages: Language[] = [];
 
     public static async Initialize() {
         LanguageUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
@@ -44,6 +45,7 @@ export class LanguageUIBuilder {
             return;
         } else {
             LanguageUIBuilder.drawer = drawer;
+            LanguageUIBuilder.languages = await LanguageService.ReadAll(GetSettings().currentDictionary);
             await LanguageUIBuilder.RenderSearchbar();
             await LanguageUIBuilder.RenderCreateButton();
             await LanguageUIBuilder.RenderList();
@@ -54,18 +56,18 @@ export class LanguageUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = LanguageUIBuilder.drawer.querySelector("#searchbar")!;
         searchbar.addEventListener("input", async () => {
-            const languages: Language[] = await LanguageService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
-            await LanguageUIBuilder.RenderList(languages);
+            LanguageUIBuilder.languages = await LanguageService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
+            await LanguageUIBuilder.RenderList();
         });
     }
 
-    public static async RenderList(languages?: Language[]) {
+    public static async RenderList() {
         const container: Element = LanguageUIBuilder.drawer.querySelector("#language-container")!;
         LanguageUIBuilder.thumbnailTemplate = await TemplateManager.LoadTemplateAsHTML("thumbnails/language");
         container.replaceChildren();
-        if (!languages) languages = await LanguageService.ReadAll(GetSettings().currentDictionary);
+        if (!LanguageUIBuilder.languages) LanguageUIBuilder.languages = await LanguageService.ReadAll(GetSettings().currentDictionary);
 
-        languages.forEach(language => {
+        LanguageUIBuilder.languages.forEach(language => {
             LanguageUIBuilder.RenderThumbnail(container, language);
         });
     }
@@ -117,9 +119,8 @@ export class LanguageUIBuilder {
             let [success, savedLanguage]: [boolean, Language | undefined] = await LanguageService.ProcessForm(form);
             if (success && savedLanguage) {
                 const query: string = LanguageUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
+                LanguageUIBuilder.languages = await LanguageService.FilterBySearch(GetSettings().currentDictionary, query);
                 await LanguageUIBuilder.RenderList();
-                const languages: Language[] = await LanguageService.FilterBySearch(GetSettings().currentDictionary, query);
-                await LanguageUIBuilder.RenderList(languages);
                 await LanguageUIBuilder.RenderForm(savedLanguage ? savedLanguage : undefined);
             }
         });
@@ -147,8 +148,8 @@ export class LanguageUIBuilder {
             if (success) {
                 LanguageUIBuilder.rightLeaf.replaceChildren();
                 const query: string = LanguageUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!.value.toLowerCase();
-                const languages: Language[] = await LanguageService.FilterBySearch(GetSettings().currentDictionary, query);
-                await LanguageUIBuilder.RenderList(languages);
+                LanguageUIBuilder.languages = await LanguageService.FilterBySearch(GetSettings().currentDictionary, query);
+                await LanguageUIBuilder.RenderList();
             }
         });
         LanguageUIBuilder.rightLeaf.appendChild(button);
