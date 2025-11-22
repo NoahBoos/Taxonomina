@@ -1,41 +1,53 @@
 <div>
     <h2 class="mb-4">Paramètres</h2>
-    <h3>Thème</h3>
-    <div data-role="horizontal-input-wrapper">
-        <div data-role="select-group" data-variant="w-fit">
-            <label for="theme-variant" class="whitespace-nowrap">Variante du thème</label>
-            <select id="theme-variant">
-                <option value="light">Clair</option>
-                <option value="dark">Sombre</option>
-            </select>
+    <div class="space-y-4">
+        <h3>Apparence</h3>
+        <div data-role="horizontal-input-wrapper">
+            <div data-role="select-group" class="w-[75%]">
+                <label for="theme">Thème</label>
+                <select id="theme">
+                    <option value="default">Défault</option>
+                    <option value="nord">Nord</option>
+                </select>
+            </div>
+            <div data-role="select-group" class="w-[25%]">
+                <label for="theme-variant" class="whitespace-nowrap">Variante du thème</label>
+                <select id="theme-variant">
+                    <option value="light">Clair</option>
+                    <option value="dark">Sombre</option>
+                </select>
+            </div>
         </div>
-        <div data-role="select-group">
-            <label for="theme">Thème</label>
-            <select id="theme">
-                <option value="default">Défault</option>
-                <option value="nord">Nord</option>
-            </select>
+        <h3>Accessibilité</h3>
+        <div data-role="horizontal-input-wrapper">
+            <div data-role="select-group">
+                <label for="font-size">Sélectionnez la taille du texte de l'interface.</label>
+                <select id="font-size">
+                    <option value="small">Petite</option>
+                    <option value="base">Défault</option>
+                    <option value="medium">Moyenne</option>
+                    <option value="large">Grande</option>
+                </select>
+            </div>
+            <div data-role="select-group">
+                <label for="element-per-page">Sélectionnez le nombre d'éléments à afficher par page</label>
+                <select id="element-per-page">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <h3 class="mt-2">Taille du texte</h3>
-    <div data-role="select-group">
-        <label for="font-size">Sélectionnez la taille du texte de l'interface.</label>
-        <select id="font-size">
-            <option value="small">Petite</option>
-            <option value="base">Défault</option>
-            <option value="medium">Moyenne</option>
-            <option value="large">Grande</option>
-        </select>
-    </div>
-    <h3 class="mt-2">Paramètres généraux</h3>
-    <div data-role="horizontal-input-wrapper">
-        <div data-role="checkbox-group" data-variant="as-section" data-context="toggle">
-            <input id="scrollbar-visibility" type="checkbox" data-role="toggle">
-            <label for="scrollbar-visibility">Afficher les barres de défilement.</label>
-        </div>
-        <div data-role="checkbox-group" data-variant="as-section" data-context="toggle">
-            <input id="help-button-visibility" type="checkbox" data-role="toggle">
-            <label for="help-button-visibility">Afficher le bouton d'aide dans la barre latérale.</label>
+        <div data-role="horizontal-input-wrapper">
+            <div data-role="checkbox-group" data-variant="as-section" data-context="toggle">
+                <input id="scrollbar-visibility" type="checkbox" data-role="toggle">
+                <label for="scrollbar-visibility">Afficher les barres de défilement.</label>
+            </div>
+            <div data-role="checkbox-group" data-variant="as-section" data-context="toggle">
+                <input id="help-button-visibility" type="checkbox" data-role="toggle">
+                <label for="help-button-visibility">Afficher le bouton d'aide dans la barre latérale.</label>
+            </div>
         </div>
     </div>
 </div>
