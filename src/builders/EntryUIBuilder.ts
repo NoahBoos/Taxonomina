@@ -394,6 +394,8 @@ export class EntryUIBuilder {
 
     public static async RenderPageCounter() {
         const pageCounter: HTMLParagraphElement = this.drawer.querySelector("#page-counter")!;
+        const elementCounter: HTMLParagraphElement = this.drawer.querySelector("#element-counter")!;
         pageCounter.textContent = String(EntryUIBuilder.currentPage) + "/" + String(EntryUIBuilder.totalPages);
+        elementCounter.textContent = String(EntryUIBuilder.pageSize + " Éléments affichés.");
     }
 }

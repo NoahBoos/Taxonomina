@@ -198,6 +198,8 @@ export class GrammaticalCategoryUIBuilder {
 
     public static async RenderPageCounter() {
         const pageCounter: HTMLParagraphElement = this.drawer.querySelector("#page-counter")!;
+        const elementCounter: HTMLParagraphElement = this.drawer.querySelector("#element-counter")!;
         pageCounter.textContent = String(GrammaticalCategoryUIBuilder.currentPage) + "/" + String(GrammaticalCategoryUIBuilder.totalPages);
+        elementCounter.textContent = String(GrammaticalCategoryUIBuilder.pageSize + " Éléments affichés.");
     }
 }
