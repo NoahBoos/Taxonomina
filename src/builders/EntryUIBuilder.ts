@@ -24,6 +24,9 @@ export class EntryUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static entries: Entry[] = [];
+    private static currentPage: number = 1;
+    private static pageSize: number = 25;
+    private static totalPages: number = 1;
 
     public static async Initialize() {
         EntryUIBuilder.leftLeaf = document.querySelector("#left-leaf")!;
@@ -58,6 +61,7 @@ export class EntryUIBuilder {
             await EntryUIBuilder.RenderSearchbar();
             await EntryUIBuilder.RenderCreateButton();
             await EntryUIBuilder.RenderList();
+            await EntryUIBuilder.RenderPaginationControls();
             EntryUIBuilder.leftLeaf.appendChild(EntryUIBuilder.drawer);
         }
     }
@@ -65,8 +69,9 @@ export class EntryUIBuilder {
     public static async RenderSearchbar() {
         const searchbar: HTMLInputElement = EntryUIBuilder.drawer.querySelector<HTMLInputElement>("#searchbar")!;
         searchbar.addEventListener("input", async () => {
+            EntryUIBuilder.currentPage = 1;
             EntryUIBuilder.entries = await EntryService.FilterBySearch(GetSettings().currentDictionary, searchbar.value);
-           await EntryUIBuilder.RenderList();
+            await EntryUIBuilder.RenderList();
         });
     }
 
@@ -76,9 +81,17 @@ export class EntryUIBuilder {
         container.replaceChildren();
         if (!EntryUIBuilder.entries) EntryUIBuilder.entries = await EntryService.ReadAll(GetSettings().currentDictionary);
 
-        EntryUIBuilder.entries.forEach((entry: Entry) => {
+        EntryUIBuilder.totalPages = Math.ceil(EntryUIBuilder.entries.length / EntryUIBuilder.pageSize);
+        const startIndex: number = (EntryUIBuilder.currentPage - 1) * EntryUIBuilder.pageSize;
+        const endIndex: number = Math.min(startIndex + EntryUIBuilder.pageSize, EntryUIBuilder.entries.length);
+
+        const paginatedEntries: Entry[] = EntryUIBuilder.entries.slice(startIndex, endIndex);
+
+        paginatedEntries.forEach((entry: Entry) => {
             EntryUIBuilder.RenderThumbnail(container, entry);
         });
+
+        EntryUIBuilder.RenderPageCounter();
     }
 
     public static async RenderThumbnail(container: Element, entry: Entry) {
@@ -336,5 +349,45 @@ export class EntryUIBuilder {
             }
         });
         EntryUIBuilder.rightLeaf.appendChild(button);
+    }
+
+    public static async RenderPreviousPage() {
+        if (EntryUIBuilder.currentPage > 1) {
+            EntryUIBuilder.currentPage--;
+            await EntryUIBuilder.RenderList();
+        }
+    }
+
+    public static async RenderNextPage() {
+        if (EntryUIBuilder.currentPage < EntryUIBuilder.totalPages) {
+            EntryUIBuilder.currentPage++;
+            await EntryUIBuilder.RenderList();
+        }
+    }
+
+    public static async RenderPaginationControls() {
+        const previousPageButton: HTMLButtonElement = this.drawer.querySelector("#previous-page-button")!;
+        previousPageButton.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            await EntryUIBuilder.RenderPreviousPage();
+            if (EntryUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
+            else previousPageButton.classList.remove("invisible");
+            if (EntryUIBuilder.currentPage === EntryUIBuilder.totalPages) nextPageButton.classList.add("invisible");
+            else nextPageButton.classList.remove("invisible");
+        });
+        const nextPageButton: HTMLButtonElement = this.drawer.querySelector("#next-page-button")!;
+        nextPageButton.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            await EntryUIBuilder.RenderNextPage();
+            if (EntryUIBuilder.currentPage === 1) previousPageButton.classList.add("invisible");
+            else previousPageButton.classList.remove("invisible");
+            if (EntryUIBuilder.currentPage === EntryUIBuilder.totalPages) nextPageButton.classList.add("invisible");
+            else nextPageButton.classList.remove("invisible");
+        });
+    }
+
+    public static async RenderPageCounter() {
+        const pageCounter: HTMLParagraphElement = this.drawer.querySelector("#page-counter")!;
+        pageCounter.textContent = String(EntryUIBuilder.currentPage) + "/" + String(EntryUIBuilder.totalPages);
     }
 }
