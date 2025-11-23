@@ -24,6 +24,12 @@ export class DictionaryUIBuilder {
         dropdownButton.addEventListener("click", async () => {
             dropdownMenu.classList.toggle("inactive");
         });
+        document.addEventListener("click", (event: MouseEvent) => {
+            event.preventDefault();
+            if (!dropdownMenu.contains(event.target as Node) && event.target !== dropdownMenu && event.target !== dropdownButton && !dropdownButton.contains(event.target as Node)) {
+                dropdownMenu.classList.add("inactive");
+            }
+        })
 
         const dropdownMenu: HTMLElement = document.getElementById("dictionary-dropdown-menu")!;
         const dropdownStateObserver = new MutationObserver(async () => {
@@ -66,6 +72,9 @@ export class DictionaryUIBuilder {
 
                 const editButton: HTMLButtonElement = thumbnail.querySelector<HTMLButtonElement>("#edit-button")!;
                 editButton.addEventListener("click", async () => {
+                    const dropdownMenu: HTMLElement = document.getElementById("dictionary-dropdown-menu")!;
+                    dropdownMenu.replaceChildren();
+                    dropdownMenu.classList.toggle("inactive");
                     await DictionaryUIBuilder.RenderForm(dictionary);
                 });
 
