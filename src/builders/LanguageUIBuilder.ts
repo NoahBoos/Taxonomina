@@ -211,7 +211,7 @@ export class LanguageUIBuilder {
     public static async RenderPageCounter() {
         const pageCounter: HTMLParagraphElement = this.drawer.querySelector("#page-counter")!;
         const elementCounter: HTMLParagraphElement = this.drawer.querySelector("#element-counter")!;
-        pageCounter.textContent = String(LanguageUIBuilder.currentPage) + "/" + String(LanguageUIBuilder.totalPages);
+        pageCounter.textContent = String(LanguageUIBuilder.totalPages >= 1 ? LanguageUIBuilder.currentPage : 0) + "/" + String(LanguageUIBuilder.totalPages);
         elementCounter.textContent = String(LanguageUIBuilder.pageSize + " Éléments affichés.");
     }
 }

@@ -200,7 +200,7 @@ export class GrammaticalGenreUIBuilder {
     public static async RenderPageCounter() {
         const pageCounter: HTMLParagraphElement = this.drawer.querySelector("#page-counter")!;
         const elementCounter: HTMLParagraphElement = this.drawer.querySelector("#element-counter")!;
-        pageCounter.textContent = String(GrammaticalGenreUIBuilder.currentPage) + "/" + String(GrammaticalGenreUIBuilder.totalPages);
+        pageCounter.textContent = String(GrammaticalGenreUIBuilder.totalPages >= 1 ? GrammaticalGenreUIBuilder.currentPage : 0) + "/" + String(GrammaticalGenreUIBuilder.totalPages);
         elementCounter.textContent = String(GrammaticalGenreUIBuilder.pageSize + " Éléments affichés.");
     }
 }
