@@ -11,7 +11,7 @@
         @apply flex-1 vertical items-center gap-2 p-2 w-full overflow-y-auto overflow-x-visible;
     }
 
-    #pagination-element-container {
+    #pagination-container {
         @apply flex flex-row justify-between items-center pt-2;
     }
 }

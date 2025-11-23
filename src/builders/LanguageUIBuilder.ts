@@ -15,6 +15,7 @@ export class LanguageUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static languages: Language[] = [];
+    private static paginationContainer: Element;
     private static previousPageButton: HTMLButtonElement;
     private static nextPageButton: HTMLButtonElement;
     private static currentPage: number = 1;
@@ -50,6 +51,7 @@ export class LanguageUIBuilder {
             return;
         } else {
             LanguageUIBuilder.drawer = drawer;
+            LanguageUIBuilder.paginationContainer = this.drawer.querySelector("#pagination-container")!;
             LanguageUIBuilder.previousPageButton = this.drawer.querySelector("#previous-page-button")!;
             LanguageUIBuilder.nextPageButton = this.drawer.querySelector("#next-page-button")!;
             LanguageUIBuilder.languages = await LanguageService.ReadAll(GetSettings().currentDictionary);
@@ -202,6 +204,8 @@ export class LanguageUIBuilder {
     }
 
     public static async RenderPaginationControls() {
+        if (LanguageUIBuilder.totalPages == 0) LanguageUIBuilder.paginationContainer.classList.add("hidden")
+        else LanguageUIBuilder.paginationContainer.classList.remove("hidden");
         if (LanguageUIBuilder.currentPage === 1 || LanguageUIBuilder.totalPages == 1) LanguageUIBuilder.previousPageButton.classList.add("invisible");
         else LanguageUIBuilder.previousPageButton.classList.remove("invisible");
         if (LanguageUIBuilder.currentPage === LanguageUIBuilder.totalPages || LanguageUIBuilder.totalPages == 1) LanguageUIBuilder.nextPageButton.classList.add("invisible");

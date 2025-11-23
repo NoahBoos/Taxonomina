@@ -24,6 +24,7 @@ export class EntryUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static entries: Entry[] = [];
+    private static paginationContainer: Element;
     private static previousPageButton: HTMLButtonElement;
     private static nextPageButton: HTMLButtonElement;
     private static currentPage: number = 1;
@@ -60,6 +61,7 @@ export class EntryUIBuilder {
             return;
         } else {
             EntryUIBuilder.drawer = drawer;
+            EntryUIBuilder.paginationContainer = this.drawer.querySelector("#pagination-container")!;
             EntryUIBuilder.previousPageButton = this.drawer.querySelector("#previous-page-button")!;
             EntryUIBuilder.nextPageButton = this.drawer.querySelector("#next-page-button")!;
             await EntryUIBuilder.RenderSearchbar();
@@ -385,9 +387,11 @@ export class EntryUIBuilder {
     }
 
     public static async RenderPaginationControls() {
-        if (EntryUIBuilder.currentPage === 1 || EntryUIBuilder.totalPages == 1) EntryUIBuilder.previousPageButton.classList.add("invisible");
+        if (EntryUIBuilder.totalPages === 0) EntryUIBuilder.paginationContainer.classList.add("hidden")
+        else EntryUIBuilder.paginationContainer.classList.remove("hidden");
+        if (EntryUIBuilder.currentPage === 1 || EntryUIBuilder.totalPages == 1) EntryUIBuilder.previousPageButton.classList.add("invisible")
         else EntryUIBuilder.previousPageButton.classList.remove("invisible");
-        if (EntryUIBuilder.currentPage === EntryUIBuilder.totalPages || EntryUIBuilder.totalPages == 1) EntryUIBuilder.nextPageButton.classList.add("invisible");
+        if (EntryUIBuilder.currentPage === EntryUIBuilder.totalPages || EntryUIBuilder.totalPages == 1) EntryUIBuilder.nextPageButton.classList.add("invisible")
         else EntryUIBuilder.nextPageButton.classList.remove("invisible");
     }
 

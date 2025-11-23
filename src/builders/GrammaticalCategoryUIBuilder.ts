@@ -14,6 +14,7 @@ export class GrammaticalCategoryUIBuilder {
     private static rightLeaf: Element;
     private static drawer: Element;
     private static grammaticalCategories: GrammaticalCategory[] = [];
+    private static paginationContainer: Element;
     private static previousPageButton: HTMLButtonElement;
     private static nextPageButton: HTMLButtonElement;
     private static currentPage: number = 1;
@@ -51,6 +52,7 @@ export class GrammaticalCategoryUIBuilder {
             return;
         } else {
             GrammaticalCategoryUIBuilder.drawer = drawer;
+            GrammaticalCategoryUIBuilder.paginationContainer = this.drawer.querySelector("#pagination-container")!;
             GrammaticalCategoryUIBuilder.previousPageButton = this.drawer.querySelector("#previous-page-button")!;
             GrammaticalCategoryUIBuilder.nextPageButton = this.drawer.querySelector("#next-page-button")!;
             await GrammaticalCategoryUIBuilder.RenderSearchbar();
@@ -190,9 +192,11 @@ export class GrammaticalCategoryUIBuilder {
     }
 
     public static async RenderPaginationControls() {
-        if (GrammaticalCategoryUIBuilder.currentPage === 1 || GrammaticalCategoryUIBuilder.totalPages == 1) GrammaticalCategoryUIBuilder.previousPageButton.classList.add("invisible");
+        if (GrammaticalCategoryUIBuilder.totalPages == 0) GrammaticalCategoryUIBuilder.paginationContainer.classList.add("hidden")
+        else GrammaticalCategoryUIBuilder.paginationContainer.classList.remove("hidden");
+        if (GrammaticalCategoryUIBuilder.currentPage === 1 || GrammaticalCategoryUIBuilder.totalPages == 1) GrammaticalCategoryUIBuilder.previousPageButton.classList.add("invisible")
         else GrammaticalCategoryUIBuilder.previousPageButton.classList.remove("invisible");
-        if (GrammaticalCategoryUIBuilder.currentPage === GrammaticalCategoryUIBuilder.totalPages || GrammaticalCategoryUIBuilder.totalPages == 1) GrammaticalCategoryUIBuilder.nextPageButton.classList.add("invisible");
+        if (GrammaticalCategoryUIBuilder.currentPage === GrammaticalCategoryUIBuilder.totalPages || GrammaticalCategoryUIBuilder.totalPages == 1) GrammaticalCategoryUIBuilder.nextPageButton.classList.add("invisible")
         else GrammaticalCategoryUIBuilder.nextPageButton.classList.remove("invisible");
     }
 
