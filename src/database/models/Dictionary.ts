@@ -38,4 +38,16 @@ export class Dictionary {
     public static Hydrate(raw: any): Dictionary {
         return new Dictionary(raw.id, raw.name, raw.description);
     }
+
+    public Validate(): boolean {
+        if (!this.name.trim()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Normalize(): void {
+        this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
+    }
 }

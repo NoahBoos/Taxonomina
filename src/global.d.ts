@@ -39,8 +39,8 @@ declare global {
                     ReadAll: () => Promise<Dictionary[]>,
                     ReadAllButOne: (rawDictionary) => Promise<Dictionary[]>,
                     ReadOne: (dictionaryId) => Promise<Dictionary>,
-                    Create: (rawDictionary: Dictionary) => Promise<boolean>
-                    Update: (rawDictionary: Dictionary) => Promise<boolean>,
+                    Create: (rawDictionary: Dictionary) => Promise<[boolean, Entry | undefined]>,
+                    Update: (rawDictionary: Dictionary) => Promise<[boolean, Entry | undefined]>,
                     Delete: (rawDictionary: Dictionary) => Promise<boolean>,
                 },
                 entry: {

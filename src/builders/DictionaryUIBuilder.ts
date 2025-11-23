@@ -120,11 +120,15 @@ export class DictionaryUIBuilder {
             submitButton.innerHTML = "Mettre à jour";
         }
 
-        submitButton.addEventListener("click", async () => {
-            let dictionary: Dictionary = new Dictionary(parseInt(inputId.value), inputName.value, inputDescription.value);
-            let success: boolean = await DictionaryService.Save(dictionary);
-            if (success) {
-                await DictionaryUIBuilder.RenderForm(dictionary ? dictionary : undefined);
+        submitButton.addEventListener("click", async (event: Event) => {
+            event.preventDefault();
+            let [success, savedDictionary]: [boolean, Dictionary | undefined] = await DictionaryService.ProcessForm(form);
+            if (success && savedDictionary) {
+                await DictionaryService.SetCurrentDictionary(savedDictionary);
+                DictionaryUIBuilder.SetDictionaryInformation(savedDictionary);
+                const dictionaries: Dictionary[] = await DictionaryService.GetAllDictionariesButOne(savedDictionary);
+                await DictionaryUIBuilder.RenderDropdown(dictionaries);
+                await DictionaryUIBuilder.RenderForm(savedDictionary ? savedDictionary : undefined);
             }
         });
     }

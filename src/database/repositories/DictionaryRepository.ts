@@ -29,16 +29,18 @@ export class DictionaryRepository {
         return statement.get({dictionary_id: id}) as Dictionary ?? undefined;
     }
 
-    public static Create(dictionary: Dictionary): boolean {
+    public static Create(dictionary: Dictionary): [boolean, Dictionary | undefined] {
         const statement = Database.GetDatabase().prepare(`
            INSERT INTO dictionaries (name, description)
            VALUES (@name, @description)
         `);
         const result: RunResult = statement.run(dictionary.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new Dictionary(Number(result.lastInsertRowid), dictionary.GetName(), dictionary.GetDescription())];
+        } else return [false, undefined];
     }
 
-    public static Update(dictionary: Dictionary): boolean {
+    public static Update(dictionary: Dictionary): [boolean, Dictionary | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE dictionaries
             SET name = @name, 
@@ -46,7 +48,9 @@ export class DictionaryRepository {
             WHERE id = @dictionary_id
         `);
         const result: RunResult = statement.run(dictionary.GetQueryObject());
-        return result.changes > 0;
+        if (result.changes > 0) {
+            return [true, new Dictionary(dictionary.GetId(), dictionary.GetName(), dictionary.GetDescription())];
+        } else return [false, undefined];
     }
 
     public static Delete(dictionary: Dictionary): boolean {

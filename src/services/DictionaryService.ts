@@ -24,21 +24,24 @@ export class DictionaryService {
         return rawDictionaries.map((dictionary: Dictionary): Dictionary => Dictionary.Hydrate(dictionary));
     }
 
-    public static async Create(dictionary: Dictionary): Promise<boolean> {
-        return await window.txnmAPI.repositories.dictionary.Create(dictionary);
-    }
-
-    public static async Update(dictionary: Dictionary): Promise<boolean> {
-        return await window.txnmAPI.repositories.dictionary.Update(dictionary);
-    }
-
     public static async Delete(dictionary: Dictionary): Promise<boolean> {
         return await window.txnmAPI.repositories.dictionary.Delete(dictionary);
     }
 
-    public static async Save(dictionary: Dictionary): Promise<boolean> {
-        return dictionary.GetId() == 0
-            ? await DictionaryService.Create(dictionary)
-            : await DictionaryService.Update(dictionary);
+    public static async Save(dictionary: Dictionary): Promise<[boolean, Dictionary | undefined]> {
+        let [success, savedDictionary] = dictionary.GetId() == 0
+            ? await window.txnmAPI.repositories.dictionary.Create(dictionary)
+            : await window.txnmAPI.repositories.dictionary.Update(dictionary);
+        return [success, Dictionary.Hydrate(savedDictionary)];
+    }
+
+    public static async ProcessForm(form: Element): Promise<[boolean, Dictionary | undefined]> {
+        const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
+        const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
+        const description: string = form.querySelector<HTMLInputElement>("#description")!.value;
+        let dictionary: Dictionary = new Dictionary(id, name, description);
+        if (!dictionary.Validate()) return [false, undefined];
+        dictionary.Normalize();
+        return await DictionaryService.Save(dictionary);
     }
 }

@@ -36,8 +36,8 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             ReadAll: (): Promise<Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAll"),
             ReadAllButOne: (rawDictionary: Dictionary): Promise<Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAllButOne", rawDictionary),
             ReadOne: (dictionaryId: number) => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readOne", dictionaryId),
-            Create: (rawDictionary: Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", rawDictionary),
-            Update: (rawDictionary: Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:update", rawDictionary),
+            Create: (rawDictionary: Dictionary): Promise<[boolean, Entry | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", rawDictionary),
+            Update: (rawDictionary: Dictionary): Promise<[boolean, Entry | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:update", rawDictionary),
             Delete: (rawDictionary: Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:delete", rawDictionary),
         },
         entry: {
