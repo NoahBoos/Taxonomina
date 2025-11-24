@@ -25,7 +25,8 @@ export class DictionaryUIBuilder {
             dropdownMenu.classList.toggle("inactive");
         });
         document.addEventListener("click", (event: MouseEvent) => {
-            event.preventDefault();
+            // Disabling the event.preventDefault() line will allow the setting checkboxes to actually change their values and to be saved.
+            // event.preventDefault();
             if (!dropdownMenu.contains(event.target as Node) && event.target !== dropdownMenu && event.target !== dropdownButton && !dropdownButton.contains(event.target as Node)) {
                 dropdownMenu.classList.add("inactive");
             }
