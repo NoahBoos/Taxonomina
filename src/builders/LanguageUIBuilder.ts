@@ -1,7 +1,7 @@
 import {Language} from "../database/models/Language";
 import {TemplateManager} from "../utils/renderer/TemplateManager";
 import {LanguageService} from "../services/LanguageService";
-import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
+import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {EntryUIBuilder} from "./EntryUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
@@ -32,7 +32,7 @@ export class LanguageUIBuilder {
 
             if (LanguageUIBuilder.isDrawerRevealed) {
                 EntryUIBuilder.isDrawerRevealed = false;
-                GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
+                GrammaticalClassUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 SettingUIBuilder.isPanelRevealed = false;
                 await LanguageUIBuilder.RenderDrawer();

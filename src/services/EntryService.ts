@@ -1,9 +1,9 @@
 import {Entry} from "../database/models/Entry";
 import {Definition} from "../database/models/Definition";
 import {TaxonominaSettings} from "../interfaces/I_TaxonominaSettings";
-import {GrammaticalCategory} from "../database/models/GrammaticalCategory";
+import {GrammaticalClass} from "../database/models/GrammaticalClass";
 import {GrammaticalGenre} from "../database/models/GrammaticalGenre";
-import {GrammaticalCategoryService} from "./GrammaticalCategoryService";
+import {GrammaticalClassService} from "./GrammaticalClassService";
 import {GrammaticalGenreService} from "./GrammaticalGenreService";
 import {DefinitionService} from "./DefinitionService";
 import {DatabaseService} from "./DatabaseService";
@@ -29,12 +29,12 @@ export class EntryService {
         return Entry.Hydrate(rawEntry);
     }
 
-    public static async BindToGrammaticalCategory(entry: Entry, category: GrammaticalCategory) {
-        return await window.txnmAPI.repositories.entry.BindToGrammaticalCategory(entry, category);
+    public static async BindToGrammaticalClass(entry: Entry, grammaticalClass: GrammaticalClass) {
+        return await window.txnmAPI.repositories.entry.BindToGrammaticalClass(entry, grammaticalClass);
     }
 
-    public static async UnbindFromGrammaticalCategory(entry: Entry, category: GrammaticalCategory) {
-        return await window.txnmAPI.repositories.entry.UnbindFromGrammaticalCategory(entry, category);
+    public static async UnbindFromGrammaticalClass(entry: Entry, grammaticalClass: GrammaticalClass) {
+        return await window.txnmAPI.repositories.entry.UnbindFromGrammaticalClass(entry, grammaticalClass);
     }
 
     public static async BindToGrammaticalGenre(entry: Entry, genre: GrammaticalGenre) {
@@ -107,19 +107,19 @@ export class EntryService {
 
     public static async ProcessGrammaticalCategories(form: Element, entry: Entry) {
         const fieldset: HTMLDivElement = form.querySelector("#grammatical-categories")!;
-        const checkboxes: NodeListOf<HTMLInputElement> = fieldset.querySelectorAll<HTMLInputElement>('input[name="grammatical-category"]');
-        const entryCategories: GrammaticalCategory[] = await GrammaticalCategoryService.ReadAllByEntry(entry);
+        const checkboxes: NodeListOf<HTMLInputElement> = fieldset.querySelectorAll<HTMLInputElement>('input[name="grammatical-grammaticalClass"]');
+        const entryCategories: GrammaticalClass[] = await GrammaticalClassService.ReadAllByEntry(entry);
 
         for (const checkbox of checkboxes) {
             // TODO : Récupération via mapping des catégories, pour éviter les surcharges sur la BDD.
-            const category: GrammaticalCategory = await GrammaticalCategoryService.ReadOne(Number(checkbox.value));
-            const isBound: boolean = entryCategories.some(loopedCategory => loopedCategory.GetId() == category.GetId());
+            const grammaticalClass: GrammaticalClass = await GrammaticalClassService.ReadOne(Number(checkbox.value));
+            const isBound: boolean = entryCategories.some(loopedClass => loopedClass.GetId() == grammaticalClass.GetId());
             if (checkbox.checked) {
                 if (isBound) continue;
-                await EntryService.BindToGrammaticalCategory(entry, category);
+                await EntryService.BindToGrammaticalClass(entry, grammaticalClass);
             } else {
                 if (!isBound) continue;
-                await EntryService.UnbindFromGrammaticalCategory(entry, category);
+                await EntryService.UnbindFromGrammaticalClass(entry, grammaticalClass);
             }
         }
     }

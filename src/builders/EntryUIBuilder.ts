@@ -1,15 +1,15 @@
 import {TemplateManager} from "../utils/renderer/TemplateManager";
 import {Entry} from "../database/models/Entry";
 import {EntryService} from "../services/EntryService";
-import {GrammaticalCategory} from "../database/models/GrammaticalCategory";
-import {GrammaticalCategoryService} from "../services/GrammaticalCategoryService";
+import {GrammaticalClass} from "../database/models/GrammaticalClass";
+import {GrammaticalClassService} from "../services/GrammaticalClassService";
 import {Language} from "../database/models/Language";
 import {LanguageService} from "../services/LanguageService";
 import {GrammaticalGenre} from "../database/models/GrammaticalGenre";
 import {GrammaticalGenreService} from "../services/GrammaticalGenreService";
 import {Definition} from "../database/models/Definition";
 import {DefinitionService} from "../services/DefinitionService";
-import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
+import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
@@ -40,7 +40,7 @@ export class EntryUIBuilder {
             EntryUIBuilder.isDrawerRevealed = !EntryUIBuilder.isDrawerRevealed;
 
             if (EntryUIBuilder.isDrawerRevealed) {
-                GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
+                GrammaticalClassUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
                 SettingUIBuilder.isPanelRevealed = false;
@@ -171,12 +171,12 @@ export class EntryUIBuilder {
     }
 
     public static async GenerateGrammaticalCategoryCheckboxes(form: Element, entry?: Entry) {
-        const entryGramCats: GrammaticalCategory[] = entry ? await GrammaticalCategoryService.ReadAllByEntry(entry) : [];
+        const entryGramCats: GrammaticalClass[] = entry ? await GrammaticalClassService.ReadAllByEntry(entry) : [];
         const fieldsetGramCats: HTMLDivElement = form.querySelector<HTMLDivElement>("div#grammatical-categories")!;
         const container: HTMLDivElement = fieldsetGramCats.querySelector<HTMLDivElement>("#grammatical-category-checkboxes")!;
         const checkboxGramCatTemplate: HTMLTemplateElement = fieldsetGramCats.querySelector<HTMLTemplateElement>("template")!;
 
-        for (const gramCat of await GrammaticalCategoryService.ReadAll(GetSettings().currentDictionary)) {
+        for (const gramCat of await GrammaticalClassService.ReadAll(GetSettings().currentDictionary)) {
             const checkbox = checkboxGramCatTemplate.content.firstElementChild!.cloneNode(true) as Element;
             const label: HTMLLabelElement = checkbox.querySelector("label")!;
             const input: HTMLInputElement = checkbox.querySelector("input")!;

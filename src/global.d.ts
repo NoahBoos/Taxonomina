@@ -1,7 +1,7 @@
 import {Language} from "./database/models/Language";
 import {Dictionary} from "./database/models/Dictionary";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
-import {GrammaticalCategory} from "./database/models/GrammaticalCategory";
+import {GrammaticalClass} from "./database/models/GrammaticalClass";
 import {GrammaticalGenre} from "./database/models/GrammaticalGenre";
 import {Definition} from "./database/models/Definition";
 import {Entry} from "./database/models/Entry";
@@ -49,8 +49,8 @@ declare global {
                     ReadAllByLocalTranslation: (rawDefinition: Definition) => Promise<Entry[]>,
                     ReadOne: (entry) => Promise<Entry>,
                     Create: (rawEntry: Entry) => Promise<[boolean, Entry | undefined]>,
-                    BindToGrammaticalCategory: (rawEntry: Entry, rawCategory: GrammaticalCategory) => Promise<boolean>,
-                    UnbindFromGrammaticalCategory: (rawEntry: Entry, rawCategory: GrammaticalCategory) => Promise<boolean>,
+                    BindToGrammaticalClass: (rawEntry: Entry, rawClass: GrammaticalClass) => Promise<boolean>,
+                    UnbindFromGrammaticalClass: (rawEntry: Entry, rawClass: GrammaticalClass) => Promise<boolean>,
                     BindToGrammaticalGenre: (rawEntry: Entry, rawGenre: GrammaticalGenre) => Promise<boolean>,
                     UnbindFromGrammaticalGenre: (rawEntry: Entry, rawGenre: GrammaticalGenre) => Promise<boolean>,
                     BindToTranslation: (rawEntry: Entry, rawTranslation: Entry) => Promise<boolean>,
@@ -58,13 +58,13 @@ declare global {
                     Update: (rawEntry: Entry) => Promise<[boolean, Entry | undefined]>,
                     Delete: (rawEntry: Entry) => Promise<boolean>,
                 },
-                grammaticalCategory: {
-                    ReadAll: (dictionary_id: number) => Promise<GrammaticalCategory[]>,
-                    ReadAllByEntry: (rawEntry: Entry) => Promise<GrammaticalCategory[]>,
-                    ReadOne: (grammaticalCategoryId) => Promise<GrammaticalCategory>,
-                    Create: (rawGramCat: GrammaticalCategory) => Promise<[boolean, GrammaticalCategory | undefined]>,
-                    Update: (rawGramCat: GrammaticalCategory) => Promise<[boolean, GrammaticalCategory | undefined]>,
-                    Delete: (rawGramCat: GrammaticalCategory) => Promise<boolean>,
+                grammaticalClass: {
+                    ReadAll: (dictionary_id: number) => Promise<GrammaticalClass[]>,
+                    ReadAllByEntry: (rawEntry: Entry) => Promise<GrammaticalClass[]>,
+                    ReadOne: (grammaticalCategoryId) => Promise<GrammaticalClass>,
+                    Create: (rawGramCat: GrammaticalClass) => Promise<[boolean, GrammaticalClass | undefined]>,
+                    Update: (rawGramCat: GrammaticalClass) => Promise<[boolean, GrammaticalClass | undefined]>,
+                    Delete: (rawGramCat: GrammaticalClass) => Promise<boolean>,
                 },
                 grammaticalGenre: {
                     ReadAll: (dictionary_id: number) => Promise<GrammaticalGenre[]>,

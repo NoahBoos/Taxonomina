@@ -1,5 +1,5 @@
 import {EntryUIBuilder} from "../builders/EntryUIBuilder";
-import {GrammaticalCategoryUIBuilder} from "../builders/GrammaticalCategoryUIBuilder";
+import {GrammaticalClassUIBuilder} from "../builders/GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "../builders/GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "../builders/LanguageUIBuilder";
 
@@ -21,7 +21,7 @@ export class SettingService {
 
     public static async ChangeElementsPerPage(elementsPerPage: number) {
         EntryUIBuilder.pageSize = elementsPerPage;
-        GrammaticalCategoryUIBuilder.pageSize = elementsPerPage;
+        GrammaticalClassUIBuilder.pageSize = elementsPerPage;
         GrammaticalGenreUIBuilder.pageSize = elementsPerPage;
         LanguageUIBuilder.pageSize = elementsPerPage;
         await window.txnmAPI.settings.Update("elementsPerPage", elementsPerPage);

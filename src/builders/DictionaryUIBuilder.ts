@@ -3,7 +3,7 @@ import {TemplateManager} from "../utils/renderer/TemplateManager";
 import {DictionaryService} from "../services/DictionaryService";
 import {GetSettings} from "../views/pages/index/renderer";
 import {EntryUIBuilder} from "./EntryUIBuilder";
-import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
+import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
@@ -61,7 +61,7 @@ export class DictionaryUIBuilder {
                     await DictionaryService.SetCurrentDictionary(dictionary);
                     DictionaryUIBuilder.SetDictionaryInformation(dictionary);
                     EntryUIBuilder.isDrawerRevealed = false;
-                    GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
+                    GrammaticalClassUIBuilder.isDrawerRevealed = false;
                     GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                     LanguageUIBuilder.isDrawerRevealed = false;
                     SettingUIBuilder.isPanelRevealed = false;

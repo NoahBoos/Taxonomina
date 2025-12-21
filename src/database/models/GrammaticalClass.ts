@@ -1,4 +1,4 @@
-export class GrammaticalCategory {
+export class GrammaticalClass {
     private readonly id: number;
     private dictionary_id: number;
     private name: string;
@@ -26,14 +26,14 @@ export class GrammaticalCategory {
 
     public GetQueryObject() {
         return {
-            grammatical_category_id: this.id,
+            grammatical_class_id: this.id,
             dictionary_id: this.dictionary_id,
             name: this.name,
         }
     }
 
-    public static Hydrate(raw: any): GrammaticalCategory {
-        return new GrammaticalCategory(
+    public static Hydrate(raw: any): GrammaticalClass {
+        return new GrammaticalClass(
             raw.id,
             raw.dictionary_id,
             raw.name

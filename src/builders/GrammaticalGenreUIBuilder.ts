@@ -1,7 +1,7 @@
 import {TemplateManager} from "../utils/renderer/TemplateManager";
 import {GrammaticalGenre} from "../database/models/GrammaticalGenre";
 import {GrammaticalGenreService} from "../services/GrammaticalGenreService";
-import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
+import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {EntryUIBuilder} from "./EntryUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
@@ -31,7 +31,7 @@ export class GrammaticalGenreUIBuilder {
 
             if (GrammaticalGenreUIBuilder.isDrawerRevealed) {
                 EntryUIBuilder.isDrawerRevealed = false;
-                GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
+                GrammaticalClassUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
                 SettingUIBuilder.isPanelRevealed = false;
                 await GrammaticalGenreUIBuilder.RenderDrawer();

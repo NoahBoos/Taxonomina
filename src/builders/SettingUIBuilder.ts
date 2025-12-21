@@ -1,5 +1,5 @@
 import {EntryUIBuilder} from "./EntryUIBuilder";
-import {GrammaticalCategoryUIBuilder} from "./GrammaticalCategoryUIBuilder";
+import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {TemplateManager} from "../utils/renderer/TemplateManager";
@@ -23,7 +23,7 @@ export class SettingUIBuilder {
 
             if (SettingUIBuilder.isPanelRevealed) {
                 EntryUIBuilder.isDrawerRevealed = false;
-                GrammaticalCategoryUIBuilder.isDrawerRevealed = false;
+                GrammaticalClassUIBuilder.isDrawerRevealed = false;
                 GrammaticalGenreUIBuilder.isDrawerRevealed = false;
                 LanguageUIBuilder.isDrawerRevealed = false;
                 await SettingUIBuilder.Panel();

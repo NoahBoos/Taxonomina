@@ -9,8 +9,8 @@ import {Language} from "./database/models/Language";
 import {LoadTemplateAsString} from "./utils/main/TemplateManager";
 import {SettingManager} from "./utils/main/SettingManager";
 import {TaxonominaSettings} from "./interfaces/I_TaxonominaSettings";
-import {GrammaticalCategory} from "./database/models/GrammaticalCategory";
-import {GrammaticalCategoryRepository} from "./database/repositories/GrammaticalCategoryRepository";
+import {GrammaticalClass} from "./database/models/GrammaticalClass";
+import {GrammaticalClassRepository} from "./database/repositories/GrammaticalClassRepository";
 import {GrammaticalGenreRepository} from "./database/repositories/GrammaticalGenreRepository";
 import {GrammaticalGenre} from "./database/models/GrammaticalGenre";
 import {Definition} from "./database/models/Definition";
@@ -168,16 +168,16 @@ ipcMain.handle("txnmAPI:repositories:entry:readOne", (event, entryId: number) =>
     return EntryRepository.ReadOne(entryId);
 });
 
-ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalCategory", (event, rawEntry: Entry, rawCategory: GrammaticalCategory) => {
+ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalClass", (event, rawEntry: Entry, rawClass: GrammaticalClass) => {
     const entry: Entry = Entry.Hydrate(rawEntry);
-    const category: GrammaticalCategory = GrammaticalCategory.Hydrate(rawCategory);
-    return EntryRepository.BindToGrammaticalCategory(entry, category);
+    const grammaticalClass: GrammaticalClass = GrammaticalClass.Hydrate(rawClass);
+    return EntryRepository.BindToGrammaticalClass(entry, grammaticalClass);
 })
 
-ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalCategory", (event, rawEntry: Entry, rawCategory: GrammaticalCategory) => {
+ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalClass", (event, rawEntry: Entry, rawClass: GrammaticalClass) => {
     const entry: Entry = Entry.Hydrate(rawEntry);
-    const category: GrammaticalCategory = GrammaticalCategory.Hydrate(rawCategory);
-    return EntryRepository.UnbindFromGrammaticalCategory(entry, category);
+    const grammaticalClass: GrammaticalClass = GrammaticalClass.Hydrate(rawClass);
+    return EntryRepository.UnbindFromGrammaticalClass(entry, grammaticalClass);
 })
 
 ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalGenre", (event, rawEntry: Entry, rawGenre: GrammaticalGenre) => {
@@ -219,32 +219,32 @@ ipcMain.handle("txnmAPI:repositories:entry:delete", (event, rawEntry: Entry) => 
     return EntryRepository.Delete(entry);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAll", (event, dictionary_id: number): GrammaticalCategory[] => {
-    return GrammaticalCategoryRepository.ReadAll(dictionary_id);
+ipcMain.handle("txnmAPI:repositories:grammaticalClass:readAll", (event, dictionary_id: number): GrammaticalClass[] => {
+    return GrammaticalClassRepository.ReadAll(dictionary_id);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readAllByEntry", (event, rawEntry: Entry): GrammaticalCategory[] => {
+ipcMain.handle("txnmAPI:repositories:grammaticalClass:readAllByEntry", (event, rawEntry: Entry): GrammaticalClass[] => {
     const entry: Entry = Entry.Hydrate(rawEntry);
-    return GrammaticalCategoryRepository.ReadAllByEntry(entry);
+    return GrammaticalClassRepository.ReadAllByEntry(entry);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:readOne", (event, gramCatId: number) => {
-    return GrammaticalCategoryRepository.ReadOne(gramCatId);
+ipcMain.handle("txnmAPI:repositories:grammaticalClass:readOne", (event, grammaticalClassId: number) => {
+    return GrammaticalClassRepository.ReadOne(grammaticalClassId);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:create", (event, rawGramCat: GrammaticalCategory) => {
-    const gramCat: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGramCat)
-    return GrammaticalCategoryRepository.Create(gramCat);
+ipcMain.handle("txnmAPI:repositories:grammaticalClass:create", (event, rawGrammaticalClass: GrammaticalClass) => {
+    const gramCat: GrammaticalClass = GrammaticalClass.Hydrate(rawGrammaticalClass)
+    return GrammaticalClassRepository.Create(gramCat);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:update", (event, rawGramCat: GrammaticalCategory) => {
-    const gramCat: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGramCat)
-    return GrammaticalCategoryRepository.Update(gramCat);
+ipcMain.handle("txnmAPI:repositories:grammaticalClass:update", (event, rawGrammaticalClass: GrammaticalClass) => {
+    const gramCat: GrammaticalClass = GrammaticalClass.Hydrate(rawGrammaticalClass)
+    return GrammaticalClassRepository.Update(gramCat);
 });
 
-ipcMain.handle("txnmAPI:repositories:grammaticalCategory:delete", (event, rawGramCat: GrammaticalCategory) => {
-    const gramCat: GrammaticalCategory = GrammaticalCategory.Hydrate(rawGramCat)
-    return GrammaticalCategoryRepository.Delete(gramCat);
+ipcMain.handle("txnmAPI:repositories:grammaticalClass:delete", (event, rawGrammaticalClass: GrammaticalClass) => {
+    const gramCat: GrammaticalClass = GrammaticalClass.Hydrate(rawGrammaticalClass)
+    return GrammaticalClassRepository.Delete(gramCat);
 });
 
 ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAll", (event, dictionary_id: number): GrammaticalGenre[] => {

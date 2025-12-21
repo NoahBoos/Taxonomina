@@ -1,6 +1,6 @@
 import {LanguageUIBuilder} from "../../../builders/LanguageUIBuilder";
 import {DictionaryUIBuilder} from "../../../builders/DictionaryUIBuilder";
-import {GrammaticalCategoryUIBuilder} from "../../../builders/GrammaticalCategoryUIBuilder";
+import {GrammaticalClassUIBuilder} from "../../../builders/GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "../../../builders/GrammaticalGenreUIBuilder";
 import {EntryUIBuilder} from "../../../builders/EntryUIBuilder";
 import {SettingUIBuilder} from "../../../builders/SettingUIBuilder";
@@ -15,7 +15,7 @@ async function Renderer() {
     await DictionaryUIBuilder.Initialize();
 
     await LanguageUIBuilder.Initialize();
-    await GrammaticalCategoryUIBuilder.Initialize();
+    await GrammaticalClassUIBuilder.Initialize();
     await GrammaticalGenreUIBuilder.Initialize();
     await EntryUIBuilder.Initialize();
 
@@ -30,7 +30,7 @@ async function InitializeTheme() {
     document.body.classList.toggle("hide-scrollbar", !settings.scrollbarVisibility);
     document.querySelector("#help-window-button")!.classList.toggle("inactive", !settings.helpButtonVisibility);
     EntryUIBuilder.pageSize = settings.elementsPerPage;
-    GrammaticalCategoryUIBuilder.pageSize = settings.elementsPerPage;
+    GrammaticalClassUIBuilder.pageSize = settings.elementsPerPage;
     GrammaticalGenreUIBuilder.pageSize = settings.elementsPerPage;
     LanguageUIBuilder.pageSize = settings.elementsPerPage;
 }

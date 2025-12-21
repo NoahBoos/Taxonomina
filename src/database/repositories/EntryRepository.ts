@@ -2,7 +2,7 @@ import {Entry} from "../models/Entry";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
 import {Definition} from "../models/Definition";
-import {GrammaticalCategory} from "../models/GrammaticalCategory";
+import {GrammaticalClass} from "../models/GrammaticalClass";
 import {GrammaticalGenre} from "../models/GrammaticalGenre";
 
 export class EntryRepository {
@@ -46,26 +46,26 @@ export class EntryRepository {
         return statement.get({entry_id: id}) as Entry ?? undefined;
     }
 
-    public static BindToGrammaticalCategory(entry: Entry, category: GrammaticalCategory) {
+    public static BindToGrammaticalClass(entry: Entry, grammaticalClass: GrammaticalClass) {
         const statement = Database.GetDatabase().prepare(`
-            INSERT INTO entry_grammatical_category (entry_id, grammatical_category_id) 
-            VALUES (@entry_id, @grammatical_category_id) 
+            INSERT INTO entry_grammatical_class (entry_id, grammatical_class_id) 
+            VALUES (@entry_id, @grammatical_class_id) 
         `);
         const result: RunResult = statement.run({
             entry_id: entry.GetQueryObject().entry_id,
-            grammatical_category_id: category.GetQueryObject().grammatical_category_id
+            grammatical_class_id: grammaticalClass.GetQueryObject().grammatical_class_id
         });
         return result.changes > 0;
     }
 
-    public static UnbindFromGrammaticalCategory(entry: Entry, category: GrammaticalCategory) {
+    public static UnbindFromGrammaticalClass(entry: Entry, grammaticalClass: GrammaticalClass) {
         const statement = Database.GetDatabase().prepare(`
-            DELETE FROM entry_grammatical_category
-            WHERE entry_id = @entry_id AND grammatical_category_id = @grammatical_category_id
+            DELETE FROM entry_grammatical_class
+            WHERE entry_id = @entry_id AND grammatical_class_id = @grammatical_class_id
         `);
         const result: RunResult = statement.run({
             entry_id: entry.GetQueryObject().entry_id,
-            grammatical_category_id: category.GetQueryObject().grammatical_category_id
+            grammatical_class_id: grammaticalClass.GetQueryObject().grammatical_class_id
         });
         return result.changes > 0;
     }
