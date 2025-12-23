@@ -115,7 +115,7 @@ export class GrammaticalClassUIBuilder {
         const submitButton: HTMLButtonElement = form.querySelector<HTMLButtonElement>("button")!;
 
         if (!grammaticalClass) {
-            title.textContent = "Création - Catégorie grammaticale";
+            title.textContent = "Création - Classe grammaticale";
             submitButton.innerText = "Créer";
         } else {
             title.textContent = "Modification - " + grammaticalClass.GetName();
