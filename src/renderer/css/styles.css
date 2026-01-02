@@ -1,0 +1,46 @@
+@import "../../../node_modules/tailwindcss/dist/lib.d.mts";
+
+@import 'utilities.css';
+
+@import 'common.css';
+@import 'themes/default.css';
+@import 'themes/nord.css';
+
+@import "components/button.css";
+@import 'components/definition.css';
+@import 'components/drawer.css';
+@import 'components/dropdown.css';
+@import 'components/form.css';
+@import 'components/heading.css';
+@import 'components/searchbar.css';
+@import 'components/thumbnail.css';
+@import 'components/toggle.css';
+@import 'components/translation.css';
+
+@theme {
+    --color-base-00: #f8f8f8;
+    --color-base-05: #f5f5f5;
+    --color-base-10: #f2f2f2;
+    --color-base-20: #eeeeee;
+    --color-base-25: #e3e3e3;
+    --color-base-30: #e0e0e0;
+    --color-base-35: #d4d4d4;
+    --color-base-40: #bdbdbd;
+    --color-base-50: #ababab;
+    --color-base-60: #707070;
+    --color-base-70: #5c5c5c;
+    --color-base-90: #2a2a2a;
+    --color-base-100: #222222;
+
+    --color-primary-50: var(--color-purple-50);
+    --color-primary-100: var(--color-purple-100);
+    --color-primary-200: var(--color-purple-200);
+    --color-primary-300: var(--color-purple-300);
+    --color-primary-400: var(--color-purple-400);
+    --color-primary-500: var(--color-purple-500);
+    --color-primary-600: var(--color-purple-600);
+    --color-primary-700: var(--color-purple-700);
+    --color-primary-800: var(--color-purple-800);
+    --color-primary-900: var(--color-purple-900);
+    --color-primary-950: var(--color-purple-950);
+}
