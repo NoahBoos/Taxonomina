@@ -43,4 +43,4 @@ export function SetSettings(newSettings: TaxonominaSettings) {
     settings = newSettings;
 }
 
-IndexRenderer();
+addEventListener("DOMContentLoaded", IndexRenderer);
