@@ -5,7 +5,9 @@
 </script>
 
 <style>
-
+    #app {
+        @apply flex flex-row w-full h-screen overflow-hidden;
+    }
 </style>
 
 <div id="app">
