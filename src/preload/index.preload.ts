@@ -6,7 +6,6 @@ import {GrammaticalClass} from "../shared/models/GrammaticalClass";
 import {GrammaticalGenre} from "../shared/models/GrammaticalGenre";
 import {Definition} from "../shared/models/Definition";
 import {Entry} from "../shared/models/Entry";
-import {DefinitionRepository} from "../main/database/repositories/DefinitionRepository";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -26,8 +25,8 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             ReadAll: (): Promise<Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),
             ReadAllByEntry: (rawEntry: Entry): Promise<Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAllByEntry", rawEntry),
             ReadOne: (definitionId: number) => ipcRenderer.invoke("txnmAPI:repositories:definition:readOne", definitionId),
-            BindToTranslation: (rawDefinition: DefinitionRepository, rawTranslation: Entry) => ipcRenderer.invoke("txnmAPI:repositories:definition:bindToTranslation", rawDefinition, rawTranslation),
-            UnbindFromTranslation: (rawDefinition: DefinitionRepository, rawTranslation: Entry) => ipcRenderer.invoke("txnmAPI:repositories:definition:unbindFromTranslation", rawDefinition, rawTranslation),
+            BindToTranslation: (rawDefinition: Definition, rawTranslation: Entry) => ipcRenderer.invoke("txnmAPI:repositories:definition:bindToTranslation", rawDefinition, rawTranslation),
+            UnbindFromTranslation: (rawDefinition: Definition, rawTranslation: Entry) => ipcRenderer.invoke("txnmAPI:repositories:definition:unbindFromTranslation", rawDefinition, rawTranslation),
             Create: (rawDefinition: Definition): Promise<[boolean, Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:create", rawDefinition),
             Update: (rawDefinition: Definition): Promise<[boolean, Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:update", rawDefinition),
             Delete: (rawDefinition: Definition): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:delete", rawDefinition),
