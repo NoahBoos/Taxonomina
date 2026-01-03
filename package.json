@@ -10,8 +10,7 @@
     "start": "npm run build && electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "watch": "tsc --watch"
+    "publish": "electron-forge publish"
   },
   "repository": {
     "type": "git",
