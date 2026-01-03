@@ -8,7 +8,7 @@
 
 </style>
 
-<div>
+<div id="app">
     <Navigator />
     <Browser />
     <Inspector />
