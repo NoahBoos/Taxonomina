@@ -1,7 +1,7 @@
 {
   "name": "taxonomina",
   "version": "0.2.2-alpha",
-  "main": "dist/main.js",
+  "main": "dist/main/main/main.js",
   "scripts": {
     "build:main": "tsc -p tsconfig.main.json",
     "build:preload": "tsc -p tsconfig.preload.json",
