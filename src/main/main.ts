@@ -29,7 +29,7 @@ const CreateIndexWindow = () => {
         height: 900,
         frame: true,
         webPreferences: {
-            preload: path.join(__dirname, "views", "pages", "index", "preload.js"),
+            preload: path.join(__dirname, "../../preload/preload/index.preload.js"),
             // devTools: false
         }
     });
