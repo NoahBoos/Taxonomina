@@ -1,5 +1,6 @@
 <script lang="ts">
     import Navigator from "@/renderer/components/layouts/Navigator.svelte";
+    import Browser from "@/renderer/components/layouts/Browser.svelte";
 </script>
 
 <style>
@@ -8,4 +9,5 @@
 
 <div>
     <Navigator />
+    <Browser />
 </div>
