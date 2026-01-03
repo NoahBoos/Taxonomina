@@ -76,6 +76,10 @@
         }
     }
 
+    #app-container {
+        @apply w-full h-screen overflow-y-hidden;
+    }
+
     aside {
         @apply flex flex-col w-[20%] h-screen p-4 gap-4 bg-base-20;
     }
