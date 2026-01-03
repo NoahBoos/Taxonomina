@@ -11,7 +11,7 @@ import App from "@/renderer/components/App.svelte";
 // export let settings: TaxonominaSettings;
 
 async function IndexRenderer() {
-    const app_container = document.getElementById("app");
+    const app_container = document.getElementById("app-container");
     if (!app_container) {
         throw new Error("The App container (#app) is missing from the DOM.");
     }
