@@ -1,3 +1,6 @@
+import {Component} from "svelte";
+import {LucideDna, LucideEarth, LucideStickyNote, LucideVenusAndMars} from '@lucide/svelte';
+
 export enum ContentTab {
     Language = 'language',
     GrammaticalClass = 'grammatical-class',
@@ -18,5 +21,12 @@ export namespace ContentTab {
         [ContentTab.GrammaticalClass]: 'Classes grammaticales',
         [ContentTab.GrammaticalGenre]: 'Genres grammaticaux',
         [ContentTab.Entry]: 'Entrées',
+    }
+
+    export const icons: Record<ContentTab, Component> = {
+        [ContentTab.Language]: LucideEarth,
+        [ContentTab.GrammaticalClass]: LucideDna,
+        [ContentTab.GrammaticalGenre]: LucideVenusAndMars,
+        [ContentTab.Entry]: LucideStickyNote
     }
 }
