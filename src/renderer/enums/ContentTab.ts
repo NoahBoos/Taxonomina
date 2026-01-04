@@ -1,9 +1,9 @@
 import {Component} from "svelte";
 import {LucideDna, LucideEarth, LucideStickyNote, LucideVenusAndMars} from '@lucide/svelte';
-import EntryBrowser from "@/renderer/components/entry/EntryBrowser.svelte";
-import GrammaticalClassBrowser from "@/renderer/components/grammatical_class/GrammaticalClassBrowser.svelte";
-import GrammaticalGenreBrowser from "@/renderer/components/grammatical_genre/GrammaticalGenreBrowser.svelte";
-import LanguageBrowser from "@/renderer/components/language/LanguageBrowser.svelte";
+import EntryBrowser from "@/renderer/components/features/entry/EntryBrowser.svelte";
+import GrammaticalClassBrowser from "@/renderer/components/features/grammatical_class/GrammaticalClassBrowser.svelte";
+import GrammaticalGenreBrowser from "@/renderer/components/features/grammatical_genre/GrammaticalGenreBrowser.svelte";
+import LanguageBrowser from "@/renderer/components/features/language/LanguageBrowser.svelte";
 import {ContentType} from "@/renderer/enums/ContentType";
 
 export enum ContentTab {
