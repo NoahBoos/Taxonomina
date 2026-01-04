@@ -1,8 +1,8 @@
 export enum ContentTab {
-    Language,
-    GrammaticalClass,
-    GrammaticalGenre,
-    Entry
+    Language = 'language',
+    GrammaticalClass = 'grammatical-class',
+    GrammaticalGenre = 'grammatical-genre',
+    Entry = 'entry',
 }
 
 export namespace ContentTab {

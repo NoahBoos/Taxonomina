@@ -1,6 +1,6 @@
 export enum SpecialContentTab {
-    Help,
-    Settings
+    Help = 'help',
+    Settings = 'settings',
 }
 
 export namespace SpecialContentTab {
