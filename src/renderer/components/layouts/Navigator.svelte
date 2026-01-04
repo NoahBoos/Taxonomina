@@ -1,7 +1,7 @@
 <script lang="ts">
     import {ContentTab} from "@/renderer/enums/ContentTab";
     import {SpecialContentTab} from "@/renderer/enums/SpecialContentTab";
-    import {updateCurrentTab} from "@/renderer/stores/currentTabStore";
+    import TabButton from "@/renderer/components/navigator/TabButton.svelte";
 </script>
 
 <style>
@@ -11,16 +11,12 @@
 <div>
     <div>
         {#each ContentTab.all as tab}
-            <button on:click={() => updateCurrentTab(tab)}>
-                { ContentTab.labels[tab] }
-            </button>
+            <TabButton tab={tab} />
         {/each}
     </div>
     <div>
         {#each SpecialContentTab.all as tab}
-            <button on:click={() => updateCurrentTab(tab)}>
-                { SpecialContentTab.labels[tab] }
-            </button>
+            <TabButton tab={tab} />
         {/each}
     </div>
 </div>
