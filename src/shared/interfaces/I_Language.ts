@@ -1,4 +1,4 @@
-export interface Language {
+export interface I_Language {
     id: number;
     dictionary_id: number;
     iso_639_1: string;

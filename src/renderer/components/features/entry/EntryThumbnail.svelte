@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {Entry} from "@/renderer/types/Entry";
+    import {I_Entry} from "@/shared/interfaces/I_Entry";
 
-    export let entry: Entry;
+    export let entry: I_Entry;
 </script>
 
 <style>

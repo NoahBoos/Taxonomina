@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {GrammaticalGenre} from "@/renderer/types/GrammaticalGenre";
+    import {I_GrammaticalGenre} from "@/shared/interfaces/I_GrammaticalGenre";
 
-    export let grammatical_genre: GrammaticalGenre;
+    export let grammatical_genre: I_GrammaticalGenre;
 </script>
 
 <style>

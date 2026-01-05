@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {Language} from "@/renderer/types/Language";
+    import {I_Language} from "@/shared/interfaces/I_Language";
 
-    export let language: Language;
+    export let language: I_Language;
 </script>
 
 <style>

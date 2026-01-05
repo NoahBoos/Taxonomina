@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {GrammaticalClass} from "@/renderer/types/GrammaticalClass";
+    import {I_GrammaticalClass} from "@/shared/interfaces/I_GrammaticalClass";
 
-    export let grammatical_class: GrammaticalClass;
+    export let grammatical_class: I_GrammaticalClass;
 </script>
 
 <style>

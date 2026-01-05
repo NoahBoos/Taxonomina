@@ -1,4 +1,4 @@
-export interface Dictionary {
+export interface I_Dictionary {
     id: number;
     name: string;
     description: string;
