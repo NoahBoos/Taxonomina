@@ -1,6 +1,6 @@
 import {GrammaticalClass} from "../../shared/models/GrammaticalClass";
 import {Entry} from "../../shared/models/Entry";
-import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
+import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 
 export class GrammaticalClassService {
     public static async ReadAll(dictionary_id: number): Promise<GrammaticalClass[]> {
@@ -37,7 +37,7 @@ export class GrammaticalClassService {
     }
 
     public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalClass | undefined]> {
-        const settings: TaxonominaSettings = await window.txnmAPI.settings.Load();
+        const settings: I_TaxonominaSettings = await window.txnmAPI.settings.Load();
         const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
         const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
         let grammaticalCategory: GrammaticalClass = new GrammaticalClass(id, settings.currentDictionary, name);

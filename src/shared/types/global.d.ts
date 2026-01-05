@@ -1,6 +1,6 @@
 import {Language} from "../models/Language";
 import {Dictionary} from "../models/Dictionary";
-import {TaxonominaSettings} from "../interfaces/TaxonominaSettings";
+import {I_TaxonominaSettings} from "../interfaces/I_TaxonominaSettings";
 import {GrammaticalClass} from "../models/GrammaticalClass";
 import {GrammaticalGenre} from "../models/GrammaticalGenre";
 import {Definition} from "../models/Definition";
@@ -19,10 +19,10 @@ declare global {
                 RollbackTransaction: () => Promise<any>
             },
             settings: {
-                Expose: () => Promise<TaxonominaSettings>,
+                Expose: () => Promise<I_TaxonominaSettings>,
                 Save: () => Promise<void>,
-                Load: () => Promise<TaxonominaSettings>,
-                Update: (key: keyof TaxonominaSettings, value: any) => Promise<void>,
+                Load: () => Promise<I_TaxonominaSettings>,
+                Update: (key: keyof I_TaxonominaSettings, value: any) => Promise<void>,
             }
             repositories: {
                 definition: {

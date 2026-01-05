@@ -1,5 +1,5 @@
 import {Language} from "../../shared/models/Language";
-import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
+import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 
 export class LanguageService {
     public static async ReadAll(dictionary_id: number): Promise<Language[]> {
@@ -32,7 +32,7 @@ export class LanguageService {
     }
 
     public static async ProcessForm(form: Element): Promise<[boolean, Language | undefined]> {
-        const settings: TaxonominaSettings = await window.txnmAPI.settings.Load();
+        const settings: I_TaxonominaSettings = await window.txnmAPI.settings.Load();
         const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
         const iso_639_1: string = form.querySelector<HTMLInputElement>("#iso_639_1")!.value;
         const iso_639_3: string = form.querySelector<HTMLInputElement>("#iso_639_3")!.value;

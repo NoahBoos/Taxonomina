@@ -1,6 +1,6 @@
 import {contextBridge, ipcRenderer} from "electron";
 import {Language} from "../shared/models/Language";
-import {TaxonominaSettings} from "../shared/interfaces/TaxonominaSettings";
+import {I_TaxonominaSettings} from "../shared/interfaces/I_TaxonominaSettings";
 import {Dictionary} from "../shared/models/Dictionary";
 import {GrammaticalClass} from "../shared/models/GrammaticalClass";
 import {GrammaticalGenre} from "../shared/models/GrammaticalGenre";
@@ -18,7 +18,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         Expose: () => ipcRenderer.invoke("txnmAPI:settings:expose"),
         Save: () => ipcRenderer.invoke("txnmAPI:settings:save"),
         Load: () => ipcRenderer.invoke("txnmAPI:settings:load"),
-        Update: (key: keyof TaxonominaSettings, value: any): Promise<any> => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
+        Update: (key: keyof I_TaxonominaSettings, value: any): Promise<any> => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
     },
     repositories: {
         definition: {

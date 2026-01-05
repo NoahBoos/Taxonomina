@@ -1,4 +1,4 @@
-export interface TaxonominaSettings {
+export interface I_TaxonominaSettings {
     isDatabaseInitialized: boolean;
     currentDictionary: number;
     selectedTheme: string,

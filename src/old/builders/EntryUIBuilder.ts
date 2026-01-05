@@ -13,7 +13,7 @@ import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
-import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
+import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 import {GetSettings} from "../../renderer/pages/index/index.renderer";
 
 export class EntryUIBuilder {

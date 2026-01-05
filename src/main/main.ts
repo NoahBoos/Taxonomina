@@ -8,7 +8,7 @@ import {LanguageRepository} from "./database/repositories/LanguageRepository";
 import {Language} from "../shared/models/Language";
 import {LoadTemplateAsString} from "./utils/TemplateManager";
 import {SettingManager} from "./utils/SettingManager";
-import {TaxonominaSettings} from "../shared/interfaces/TaxonominaSettings";
+import {I_TaxonominaSettings} from "../shared/interfaces/I_TaxonominaSettings";
 import {GrammaticalClass} from "../shared/models/GrammaticalClass";
 import {GrammaticalClassRepository} from "./database/repositories/GrammaticalClassRepository";
 import {GrammaticalGenreRepository} from "./database/repositories/GrammaticalGenreRepository";
@@ -18,7 +18,7 @@ import {DefinitionRepository} from "./database/repositories/DefinitionRepository
 import {Entry} from "../shared/models/Entry";
 import {EntryRepository} from "./database/repositories/EntryRepository";
 
-export let settings: TaxonominaSettings;
+export let settings: I_TaxonominaSettings;
 async function InitializeSetting() {
     settings = await SettingManager.LoadSettings();
 }
@@ -78,7 +78,7 @@ ipcMain.handle("txnmAPI:settings:load", async () => {
    return await SettingManager.LoadSettings();
 });
 
-ipcMain.handle("txnmAPI:settings:update", async (event, key: keyof TaxonominaSettings, value: any) => {
+ipcMain.handle("txnmAPI:settings:update", async (event, key: keyof I_TaxonominaSettings, value: any) => {
    return await SettingManager.UpdateSetting(key, value);
 });
 

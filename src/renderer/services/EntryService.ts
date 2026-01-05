@@ -1,6 +1,6 @@
 import {Entry} from "../../shared/models/Entry";
 import {Definition} from "../../shared/models/Definition";
-import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
+import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 import {GrammaticalClass} from "../../shared/models/GrammaticalClass";
 import {GrammaticalGenre} from "../../shared/models/GrammaticalGenre";
 import {GrammaticalClassService} from "./GrammaticalClassService";
@@ -94,7 +94,7 @@ export class EntryService {
     }
 
     public static async ProcessEntry(form: Element): Promise<[boolean, Entry | undefined]> {
-        const settings: TaxonominaSettings = await window.txnmAPI.settings.Load();
+        const settings: I_TaxonominaSettings = await window.txnmAPI.settings.Load();
         const fieldset: HTMLDivElement = form.querySelector("#lemma-section")!;
         const id: number = parseInt(fieldset.querySelector<HTMLInputElement>("input#entry_id")!.value);
         const lemma: string = fieldset.querySelector<HTMLInputElement>("input#lemma")!.value;
