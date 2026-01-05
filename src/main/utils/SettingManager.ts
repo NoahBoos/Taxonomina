@@ -2,7 +2,7 @@ import {readFile, writeFile} from "node:fs/promises";
 import {app} from "electron";
 import { join } from "node:path";
 import {settings} from "../main";
-import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
 
 export class SettingManager {
     private static DEFAULT_SETTINGS: TaxonominaSettings = {

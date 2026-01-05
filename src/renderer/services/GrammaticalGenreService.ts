@@ -1,6 +1,6 @@
 import {GrammaticalGenre} from "../../shared/models/GrammaticalGenre";
 import {Entry} from "../../shared/models/Entry";
-import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
 
 export class GrammaticalGenreService {
     public static async ReadAll(dictionary_id: number): Promise<GrammaticalGenre[]> {

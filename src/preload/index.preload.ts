@@ -1,6 +1,6 @@
 import {contextBridge, ipcRenderer} from "electron";
 import {Language} from "../shared/models/Language";
-import {TaxonominaSettings} from "../shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../shared/interfaces/TaxonominaSettings";
 import {Dictionary} from "../shared/models/Dictionary";
 import {GrammaticalClass} from "../shared/models/GrammaticalClass";
 import {GrammaticalGenre} from "../shared/models/GrammaticalGenre";

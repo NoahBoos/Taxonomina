@@ -1,5 +1,5 @@
 import {writable, Writable} from "svelte/store";
-import {TaxonominaSettings} from "@/shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "@/shared/interfaces/TaxonominaSettings";
 
 export const settings: Writable<TaxonominaSettings | null> = writable<TaxonominaSettings | null>(null);
 

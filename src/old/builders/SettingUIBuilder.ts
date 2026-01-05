@@ -4,7 +4,7 @@ import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {TemplateManager} from "../../renderer/utils/TemplateManager";
 import {SettingService} from "src/renderer/services/SettingService";
-import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
 
 export class SettingUIBuilder {
     private static settings: TaxonominaSettings;

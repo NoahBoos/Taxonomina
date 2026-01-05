@@ -1,6 +1,6 @@
 import {Language} from "../models/Language";
 import {Dictionary} from "../models/Dictionary";
-import {TaxonominaSettings} from "../interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../interfaces/TaxonominaSettings";
 import {GrammaticalClass} from "../models/GrammaticalClass";
 import {GrammaticalGenre} from "../models/GrammaticalGenre";
 import {Definition} from "../models/Definition";

@@ -1,6 +1,6 @@
 import {Entry} from "../../shared/models/Entry";
 import {Definition} from "../../shared/models/Definition";
-import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
 import {GrammaticalClass} from "../../shared/models/GrammaticalClass";
 import {GrammaticalGenre} from "../../shared/models/GrammaticalGenre";
 import {GrammaticalClassService} from "./GrammaticalClassService";

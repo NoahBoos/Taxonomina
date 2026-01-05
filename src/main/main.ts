@@ -8,7 +8,7 @@ import {LanguageRepository} from "./database/repositories/LanguageRepository";
 import {Language} from "../shared/models/Language";
 import {LoadTemplateAsString} from "./utils/TemplateManager";
 import {SettingManager} from "./utils/SettingManager";
-import {TaxonominaSettings} from "../shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../shared/interfaces/TaxonominaSettings";
 import {GrammaticalClass} from "../shared/models/GrammaticalClass";
 import {GrammaticalClassRepository} from "./database/repositories/GrammaticalClassRepository";
 import {GrammaticalGenreRepository} from "./database/repositories/GrammaticalGenreRepository";

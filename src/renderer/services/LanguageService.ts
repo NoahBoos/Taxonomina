@@ -1,5 +1,5 @@
 import {Language} from "../../shared/models/Language";
-import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
 
 export class LanguageService {
     public static async ReadAll(dictionary_id: number): Promise<Language[]> {

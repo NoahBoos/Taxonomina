@@ -1,5 +1,5 @@
 import {Dictionary} from "../../shared/models/Dictionary";
-import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
+import {TaxonominaSettings} from "../../shared/interfaces/TaxonominaSettings";
 // import {SetSettings} from "../pages/index/index.renderer";
 
 export class DictionaryService {
