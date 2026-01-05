@@ -1,6 +1,6 @@
 import {Dictionary} from "../../shared/models/Dictionary";
 import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
-import {SetSettings} from "../pages/index/index.renderer";
+// import {SetSettings} from "../pages/index/index.renderer";
 
 export class DictionaryService {
     public static async GetCurrentDictionary(): Promise<Dictionary> {
@@ -11,7 +11,7 @@ export class DictionaryService {
 
     public static async SetCurrentDictionary(dictionary: Dictionary): Promise<void> {
         await window.txnmAPI.settings.Update("currentDictionary", dictionary.GetId());
-        SetSettings(await window.txnmAPI.settings.Expose());
+        // SetSettings(await window.txnmAPI.settings.Expose());
     }
 
     public static async GetAllDictionaries(): Promise<Dictionary[]> {

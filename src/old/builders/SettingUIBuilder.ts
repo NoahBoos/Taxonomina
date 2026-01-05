@@ -2,8 +2,8 @@ import {EntryUIBuilder} from "./EntryUIBuilder";
 import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
-import {TemplateManager} from "../utils/TemplateManager";
-import {SettingService} from "@/renderer/services/SettingService";
+import {TemplateManager} from "../../renderer/utils/TemplateManager";
+import {SettingService} from "src/renderer/services/SettingService";
 import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 
 export class SettingUIBuilder {

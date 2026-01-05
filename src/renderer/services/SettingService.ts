@@ -1,7 +1,7 @@
-import {EntryUIBuilder} from "../builders/EntryUIBuilder";
-import {GrammaticalClassUIBuilder} from "../builders/GrammaticalClassUIBuilder";
-import {GrammaticalGenreUIBuilder} from "../builders/GrammaticalGenreUIBuilder";
-import {LanguageUIBuilder} from "../builders/LanguageUIBuilder";
+// import {EntryUIBuilder} from "@/old/builders/EntryUIBuilder";
+// import {GrammaticalClassUIBuilder} from "@/old/builders/GrammaticalClassUIBuilder";
+// import {GrammaticalGenreUIBuilder} from "@/old/builders/GrammaticalGenreUIBuilder";
+// import {LanguageUIBuilder} from "@/old/builders/LanguageUIBuilder";
 
 export class SettingService {
     public static async ChangeThemeVariant(variant: string) {
@@ -20,10 +20,10 @@ export class SettingService {
     }
 
     public static async ChangeElementsPerPage(elementsPerPage: number) {
-        EntryUIBuilder.pageSize = elementsPerPage;
-        GrammaticalClassUIBuilder.pageSize = elementsPerPage;
-        GrammaticalGenreUIBuilder.pageSize = elementsPerPage;
-        LanguageUIBuilder.pageSize = elementsPerPage;
+        // EntryUIBuilder.pageSize = elementsPerPage;
+        // GrammaticalClassUIBuilder.pageSize = elementsPerPage;
+        // GrammaticalGenreUIBuilder.pageSize = elementsPerPage;
+        // LanguageUIBuilder.pageSize = elementsPerPage;
         await window.txnmAPI.settings.Update("elementsPerPage", elementsPerPage);
     }
 

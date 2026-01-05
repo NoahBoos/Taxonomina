@@ -1,11 +1,11 @@
-import {TemplateManager} from "../utils/TemplateManager";
+import {TemplateManager} from "../../renderer/utils/TemplateManager";
 import {GrammaticalGenre} from "../../shared/models/GrammaticalGenre";
-import {GrammaticalGenreService} from "@/renderer/services/GrammaticalGenreService";
+import {GrammaticalGenreService} from "src/renderer/services/GrammaticalGenreService";
 import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {EntryUIBuilder} from "./EntryUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
-import {GetSettings} from "../pages/index/index.renderer";
+import {GetSettings} from "../../renderer/pages/index/index.renderer";
 
 export class GrammaticalGenreUIBuilder {
     public static isDrawerRevealed: boolean = false;

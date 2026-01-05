@@ -1,12 +1,12 @@
 import {Language} from "../../shared/models/Language";
-import {TemplateManager} from "../utils/TemplateManager";
-import {LanguageService} from "@/renderer/services/LanguageService";
+import {TemplateManager} from "../../renderer/utils/TemplateManager";
+import {LanguageService} from "src/renderer/services/LanguageService";
 import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {EntryUIBuilder} from "./EntryUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
 import * as sea from "node:sea";
-import {GetSettings} from "../pages/index/index.renderer";
+import {GetSettings} from "../../renderer/pages/index/index.renderer";
 
 export class LanguageUIBuilder {
     public static isDrawerRevealed: boolean = false;

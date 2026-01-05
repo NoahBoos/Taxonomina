@@ -1,20 +1,20 @@
-import {TemplateManager} from "../utils/TemplateManager";
+import {TemplateManager} from "../../renderer/utils/TemplateManager";
 import {Entry} from "../../shared/models/Entry";
-import {EntryService} from "@/renderer/services/EntryService";
+import {EntryService} from "src/renderer/services/EntryService";
 import {GrammaticalClass} from "../../shared/models/GrammaticalClass";
-import {GrammaticalClassService} from "@/renderer/services/GrammaticalClassService";
+import {GrammaticalClassService} from "src/renderer/services/GrammaticalClassService";
 import {Language} from "../../shared/models/Language";
-import {LanguageService} from "@/renderer/services/LanguageService";
+import {LanguageService} from "src/renderer/services/LanguageService";
 import {GrammaticalGenre} from "../../shared/models/GrammaticalGenre";
-import {GrammaticalGenreService} from "@/renderer/services/GrammaticalGenreService";
+import {GrammaticalGenreService} from "src/renderer/services/GrammaticalGenreService";
 import {Definition} from "../../shared/models/Definition";
-import {DefinitionService} from "@/renderer/services/DefinitionService";
+import {DefinitionService} from "src/renderer/services/DefinitionService";
 import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";
 import {SettingUIBuilder} from "./SettingUIBuilder";
 import {TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
-import {GetSettings} from "../pages/index/index.renderer";
+import {GetSettings} from "../../renderer/pages/index/index.renderer";
 
 export class EntryUIBuilder {
     public static isDrawerRevealed: boolean = false;
