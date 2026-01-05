@@ -7,6 +7,7 @@
 // import {TaxonominaSettings} from "../../../shared/interfaces/I_TaxonominaSettings";
 import {mount} from "svelte";
 import App from "@/renderer/components/App.svelte";
+import {loadSettings} from "@/renderer/stores/settingsStore";
 
 // export let settings: TaxonominaSettings;
 
@@ -16,6 +17,7 @@ async function IndexRenderer() {
         throw new Error("The App container (#app) is missing from the DOM.");
     }
 
+    await loadSettings();
     const app = mount(App, { target: app_container });
 
     // settings = await window.txnmAPI.settings.Load();
