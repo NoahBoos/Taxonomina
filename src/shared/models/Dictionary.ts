@@ -1,3 +1,5 @@
+import {I_Dictionary} from "@/shared/interfaces/I_Dictionary";
+
 export class Dictionary {
     private readonly id: number;
     private name: string;
@@ -33,6 +35,14 @@ export class Dictionary {
             name: this.name,
             description: this.description
         };
+    }
+
+    public ToJSON(): I_Dictionary {
+        return {
+            id: this.id,
+            name: this.name,
+            description: this.description
+        }
     }
 
     public static Hydrate(raw: any): Dictionary {

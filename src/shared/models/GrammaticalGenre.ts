@@ -1,3 +1,5 @@
+import {I_GrammaticalGenre} from "@/shared/interfaces/I_GrammaticalGenre";
+
 export class GrammaticalGenre {
     private readonly id: number;
     private dictionary_id: number;
@@ -29,6 +31,14 @@ export class GrammaticalGenre {
             grammatical_genre_id: this.id,
             dictionary_id: this.dictionary_id,
             name: this.name,
+        }
+    }
+
+    public ToJSON(): I_GrammaticalGenre {
+        return {
+            id: this.id,
+            dictionary_id: this.dictionary_id,
+            name: this.name
         }
     }
 

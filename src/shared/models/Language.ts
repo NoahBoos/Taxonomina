@@ -1,3 +1,5 @@
+import {I_Language} from "@/shared/interfaces/I_Language";
+
 export class Language {
     private readonly id: number;
     private dictionary_id: number;
@@ -79,6 +81,19 @@ export class Language {
             name_native: this.name_native,
             name_local: this.name_local,
             direction: this.direction,
+        }
+    }
+
+    public ToJSON(): I_Language {
+        return {
+            id: this.id,
+            dictionary_id: this.dictionary_id,
+            iso_639_1: this.iso_639_1,
+            iso_639_3: this.iso_639_3,
+            is_conlang: this.is_conlang,
+            name_native: this.name_native,
+            name_local: this.name_local,
+            direction: this.direction
         }
     }
 

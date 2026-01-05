@@ -1,3 +1,5 @@
+import {I_Entry} from "@/shared/interfaces/I_Entry";
+
 export class Entry {
     private readonly id: number;
     private readonly dictionary_id: number;
@@ -39,6 +41,15 @@ export class Entry {
             dictionary_id: this.dictionary_id,
             language_id: this.language_id,
             lemma: this.lemma,
+        }
+    }
+
+    public ToJSON(): I_Entry {
+        return {
+            id: this.id,
+            dictionary_id: this.dictionary_id,
+            language_id: this.language_id,
+            lemma: this.lemma
         }
     }
 

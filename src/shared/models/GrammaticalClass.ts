@@ -1,3 +1,5 @@
+import {I_GrammaticalClass} from "@/shared/interfaces/I_GrammaticalClass";
+
 export class GrammaticalClass {
     private readonly id: number;
     private dictionary_id: number;
@@ -29,6 +31,14 @@ export class GrammaticalClass {
             grammatical_class_id: this.id,
             dictionary_id: this.dictionary_id,
             name: this.name,
+        }
+    }
+
+    public ToJSON(): I_GrammaticalClass {
+        return {
+            id: this.id,
+            dictionary_id: this.dictionary_id,
+            name: this.name
         }
     }
 

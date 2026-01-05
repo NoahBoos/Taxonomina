@@ -1,3 +1,5 @@
+import {I_Definition} from "@/shared/interfaces/I_Definition";
+
 export class Definition {
     private readonly id: number;
     private definition: string;
@@ -21,6 +23,13 @@ export class Definition {
     public GetQueryObject() {
         return {
             definition_id: this.id,
+            definition: this.definition
+        }
+    }
+
+    public ToJSON(): I_Definition {
+        return {
+            id: this.id,
             definition: this.definition
         }
     }
