@@ -1,0 +1,1 @@
+export const CONTENT_TYPE_KEY = Symbol('content-type');
