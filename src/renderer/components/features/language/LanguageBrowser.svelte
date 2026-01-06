@@ -40,5 +40,5 @@
 </style>
 
 <div>
-    <ContentList items={languages} />
+    <ContentList items={ languages } />
 </div>

@@ -7,7 +7,7 @@
     import EntryThumbnail from "@/renderer/components/features/entry/EntryThumbnail.svelte";
     import {CONTENT_TYPE_KEY} from "@/renderer/utils/symbols";
 
-    export let items: any = [];
+    let { items = [] }: { items: any } = $props();
 
     let contentType: ContentType = getContext<ContentType>(CONTENT_TYPE_KEY);
 </script>

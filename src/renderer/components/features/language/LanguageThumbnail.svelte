@@ -1,7 +1,7 @@
 <script lang="ts">
     import {I_Language} from "@/shared/interfaces/I_Language";
 
-    export let language: I_Language;
+    let { language }: { language: I_Language } = $props();
 </script>
 
 <style>
