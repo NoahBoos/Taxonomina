@@ -1,4 +1,4 @@
-import {I_Definition} from "@/shared/interfaces/I_Definition";
+import {I_Definition} from "../../../shared/interfaces/I_Definition";
 
 export class Definition {
     private readonly id: number;

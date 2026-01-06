@@ -1,23 +1,24 @@
-import {GrammaticalCase} from "../../../shared/models/GrammaticalCase";
+import {GrammaticalCase} from "../models/GrammaticalCase";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
+import {I_GrammaticalCase} from "../../../shared/interfaces/I_GrammaticalCase";
 
 export class GrammaticalCaseRepository {
-    public static ReadAll(): GrammaticalCase[] {
+    public static ReadAll(): I_GrammaticalCase[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_cases
         `);
-        return statement.all() as GrammaticalCase[];
+        return statement.all() as I_GrammaticalCase[];
     }
 
-    public static ReadOne(id: number): GrammaticalCase | undefined {
+    public static ReadOne(id: number): I_GrammaticalCase | undefined {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_cases
             WHERE id = @grammatical_case_id
         `);
-        return statement.get({grammatical_case_id: id}) as GrammaticalCase ?? undefined;
+        return statement.get({grammatical_case_id: id}) as I_GrammaticalCase ?? undefined;
     }
 
     public static Create(gramCase: GrammaticalCase): boolean {

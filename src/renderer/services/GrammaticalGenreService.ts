@@ -1,5 +1,5 @@
-import {GrammaticalGenre} from "../../shared/models/GrammaticalGenre";
-import {Entry} from "../../shared/models/Entry";
+import {GrammaticalGenre} from "@/main/database/models/GrammaticalGenre";
+import {Entry} from "@/main/database/models/Entry";
 import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 
 export class GrammaticalGenreService {

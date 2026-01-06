@@ -1,21 +1,22 @@
-import {Entry} from "../../../shared/models/Entry";
+import {Entry} from "../models/Entry";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
-import {Definition} from "../../../shared/models/Definition";
-import {GrammaticalClass} from "../../../shared/models/GrammaticalClass";
-import {GrammaticalGenre} from "../../../shared/models/GrammaticalGenre";
+import {Definition} from "../models/Definition";
+import {GrammaticalClass} from "../models/GrammaticalClass";
+import {GrammaticalGenre} from "../models/GrammaticalGenre";
+import {I_Entry} from "../../../shared/interfaces/I_Entry";
 
 export class EntryRepository {
-    public static ReadAll(dictionary_id: number): Entry[] {
+    public static ReadAll(dictionary_id: number): I_Entry[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM entries
             WHERE dictionary_id = @dictionary_id
         `);
-        return statement.all({"dictionary_id": dictionary_id}) as Entry[];
+        return statement.all({"dictionary_id": dictionary_id}) as I_Entry[];
     }
 
-    public static ReadAllByGlobalTranslation(entry: Entry): Entry[] {
+    public static ReadAllByGlobalTranslation(entry: Entry): I_Entry[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT entry.*
             FROM entries as entry
@@ -23,10 +24,10 @@ export class EntryRepository {
                 ON (entry.id = ee.first_entry_id AND ee.second_entry_id = @entry_id)
                 OR (entry.id = ee.second_entry_id AND ee.first_entry_id = @entry_id)
         `);
-        return statement.all(entry.GetQueryObject()) as Entry[];
+        return statement.all(entry.GetQueryObject()) as I_Entry[];
     }
 
-    public static ReadAllByLocalTranslation(definition: Definition): Entry[] {
+    public static ReadAllByLocalTranslation(definition: Definition): I_Entry[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT entry.*
             FROM entries AS entry
@@ -34,16 +35,16 @@ export class EntryRepository {
                 ON entry.id = ed.entry_id    
             WHERE ed.definition_id = @definition_id
         `);
-        return statement.all(definition.GetQueryObject()) as Entry[];
+        return statement.all(definition.GetQueryObject()) as I_Entry[];
     }
 
-    public static ReadOne(id: number): Entry | undefined {
+    public static ReadOne(id: number): I_Entry | undefined {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM entries
             WHERE id = @entry_id
         `);
-        return statement.get({entry_id: id}) as Entry ?? undefined;
+        return statement.get({entry_id: id}) as I_Entry ?? undefined;
     }
 
     public static BindToGrammaticalClass(entry: Entry, grammaticalClass: GrammaticalClass) {
@@ -122,18 +123,18 @@ export class EntryRepository {
         return result.changes > 0;
     }
 
-    public static Create(entry: Entry): [boolean, Entry | undefined] {
+    public static Create(entry: Entry): [boolean, I_Entry | undefined] {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO entries (dictionary_id, language_id, lemma)
             VALUES (@dictionary_id, @language_id, @lemma)
         `);
         const result: RunResult = statement.run(entry.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new Entry(Number(result.lastInsertRowid), entry.GetDictionaryId(), entry.GetLanguageId(), entry.GetLemma())]
+            return [true, new Entry(Number(result.lastInsertRowid), entry.GetDictionaryId(), entry.GetLanguageId(), entry.GetLemma()).ToJSON()]
         } else return [false, undefined]
     }
 
-    public static Update(entry: Entry): [boolean, Entry | undefined] {
+    public static Update(entry: Entry): [boolean, I_Entry | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE entries
             SET dictionary_id = @dictionary_id,
@@ -143,7 +144,7 @@ export class EntryRepository {
         `);
         const result: RunResult = statement.run(entry.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new Entry(entry.GetId(), entry.GetDictionaryId(), entry.GetLanguageId(), entry.GetLemma())]
+            return [true, new Entry(entry.GetId(), entry.GetDictionaryId(), entry.GetLanguageId(), entry.GetLemma()).ToJSON()]
         } else return [false, undefined]
     }
 

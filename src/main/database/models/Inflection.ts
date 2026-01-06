@@ -1,4 +1,4 @@
-import {I_Inflection} from "@/shared/interfaces/I_Inflection";
+import {I_Inflection} from "../../../shared/interfaces/I_Inflection";
 
 export class Inflection {
     private readonly id: number;

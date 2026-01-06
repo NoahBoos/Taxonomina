@@ -1,20 +1,21 @@
-import {GrammaticalGenre} from "../../../shared/models/GrammaticalGenre";
+import {GrammaticalGenre} from "../models/GrammaticalGenre";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
-import {Entry} from "../../../shared/models/Entry";
-import {Dictionary} from "../../../shared/models/Dictionary";
+import {Entry} from "../models/Entry";
+import {Dictionary} from "../models/Dictionary";
+import {I_GrammaticalGenre} from "../../../shared/interfaces/I_GrammaticalGenre";
 
 export class GrammaticalGenreRepository {
-    public static ReadAll(dictionary_id: number): GrammaticalGenre[] {
+    public static ReadAll(dictionary_id: number): I_GrammaticalGenre[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_genres
             WHERE dictionary_id = @dictionary_id
         `);
-        return statement.all({"dictionary_id": dictionary_id}) as GrammaticalGenre[];
+        return statement.all({"dictionary_id": dictionary_id}) as I_GrammaticalGenre[];
     }
 
-    public static ReadAllByEntry(entry: Entry): GrammaticalGenre[] {
+    public static ReadAllByEntry(entry: Entry): I_GrammaticalGenre[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT gramGenre.*
             FROM grammatical_genres AS gramGenre
@@ -22,30 +23,30 @@ export class GrammaticalGenreRepository {
                 ON gramGenre.id = entry_gramGenre.grammatical_genre_id
             WHERE entry_gramGenre.entry_id = @entry_id
         `);
-        return statement.all(entry.GetQueryObject()) as GrammaticalGenre[];
+        return statement.all(entry.GetQueryObject()) as I_GrammaticalGenre[];
     }
 
-    public static ReadOne(id: number): GrammaticalGenre | undefined {
+    public static ReadOne(id: number): I_GrammaticalGenre | undefined {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_genres
             WHERE id = @grammatical_genre_id
         `);
-        return statement.get({grammatical_genre_id: id}) as GrammaticalGenre;
+        return statement.get({grammatical_genre_id: id}) as I_GrammaticalGenre;
     }
 
-    public static Create(genre: GrammaticalGenre): [boolean, GrammaticalGenre | undefined] {
+    public static Create(genre: GrammaticalGenre): [boolean, I_GrammaticalGenre | undefined] {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO grammatical_genres (dictionary_id, name)
             VALUES (@dictionary_id, @name)
         `);
         const result: RunResult = statement.run(genre.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetDictionaryId(), genre.GetName())];
+            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetDictionaryId(), genre.GetName()).ToJSON()];
         } else return [false, undefined];
     }
 
-    public static Update(genre: GrammaticalGenre): [boolean, GrammaticalGenre | undefined] {
+    public static Update(genre: GrammaticalGenre): [boolean, I_GrammaticalGenre | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE grammatical_genres
             SET name = @name
@@ -53,7 +54,7 @@ export class GrammaticalGenreRepository {
         `);
         const result: RunResult = statement.run(genre.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetDictionaryId(), genre.GetName())];
+            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetDictionaryId(), genre.GetName()).ToJSON()];
         } else return [false, undefined];
     }
 

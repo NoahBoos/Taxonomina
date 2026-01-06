@@ -1,4 +1,4 @@
-import {Dictionary} from "../../shared/models/Dictionary";
+import {Dictionary} from "../../main/database/models/Dictionary";
 import {TemplateManager} from "../../renderer/utils/TemplateManager";
 import {DictionaryService} from "src/renderer/services/DictionaryService";
 import {GetSettings} from "../../renderer/pages/index/index.renderer";

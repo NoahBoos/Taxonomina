@@ -1,4 +1,4 @@
-import {Dictionary} from "../../shared/models/Dictionary";
+import {Dictionary} from "@/main/database/models/Dictionary";
 import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 // import {SetSettings} from "../pages/index/index.renderer";
 

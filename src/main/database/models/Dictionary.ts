@@ -1,4 +1,4 @@
-import {I_Dictionary} from "@/shared/interfaces/I_Dictionary";
+import {I_Dictionary} from "../../../shared/interfaces/I_Dictionary";
 
 export class Dictionary {
     private readonly id: number;

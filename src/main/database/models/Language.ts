@@ -1,4 +1,4 @@
-import {I_Language} from "@/shared/interfaces/I_Language";
+import {I_Language} from "../../../shared/interfaces/I_Language";
 
 export class Language {
     private readonly id: number;

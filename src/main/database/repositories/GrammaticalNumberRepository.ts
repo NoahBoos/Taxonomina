@@ -1,23 +1,24 @@
-import {GrammaticalNumber} from "../../../shared/models/GrammaticalNumber";
+import {GrammaticalNumber} from "../models/GrammaticalNumber";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
+import {I_GrammaticalNumber} from "../../../shared/interfaces/I_GrammaticalNumber";
 
 export class GrammaticalNumberRepository {
-    public static ReadAll(): GrammaticalNumber[] {
+    public static ReadAll(): I_GrammaticalNumber[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_numbers
         `);
-        return statement.all() as GrammaticalNumber[];
+        return statement.all() as I_GrammaticalNumber[];
     }
 
-    public static ReadOne(id: number): GrammaticalNumber | undefined {
+    public static ReadOne(id: number): I_GrammaticalNumber | undefined {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_numbers
             WHERE id = @grammatical_number_id
         `);
-        return statement.get() as GrammaticalNumber;
+        return statement.get() as I_GrammaticalNumber;
     }
 
     public static Create(number: GrammaticalNumber): boolean {

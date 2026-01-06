@@ -1,4 +1,4 @@
-import {I_Entry} from "@/shared/interfaces/I_Entry";
+import {I_Entry} from "../../../shared/interfaces/I_Entry";
 
 export class Entry {
     private readonly id: number;

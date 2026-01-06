@@ -1,4 +1,4 @@
-import {I_GrammaticalCase} from "@/shared/interfaces/I_GrammaticalCase";
+import {I_GrammaticalCase} from "../../../shared/interfaces/I_GrammaticalCase";
 
 export class GrammaticalCase {
     private readonly id: number;

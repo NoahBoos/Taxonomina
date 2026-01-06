@@ -1,4 +1,4 @@
-import {I_GrammaticalClass} from "@/shared/interfaces/I_GrammaticalClass";
+import {I_GrammaticalClass} from "../../../shared/interfaces/I_GrammaticalClass";
 
 export class GrammaticalClass {
     private readonly id: number;

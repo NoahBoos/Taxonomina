@@ -1,4 +1,4 @@
-import {GrammaticalClass} from "../../shared/models/GrammaticalClass";
+import {GrammaticalClass} from "../../main/database/models/GrammaticalClass";
 import {TemplateManager} from "../../renderer/utils/TemplateManager";
 import {GrammaticalClassService} from "src/renderer/services/GrammaticalClassService";
 import {GrammaticalGenreUIBuilder} from "./GrammaticalGenreUIBuilder";

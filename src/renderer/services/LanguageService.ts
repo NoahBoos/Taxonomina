@@ -1,4 +1,4 @@
-import {Language} from "../../shared/models/Language";
+import {Language} from "@/main/database/models/Language";
 import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 
 export class LanguageService {

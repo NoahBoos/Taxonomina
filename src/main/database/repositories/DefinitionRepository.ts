@@ -1,18 +1,19 @@
-import {Definition} from "../../../shared/models/Definition";
+import {Definition} from "../models/Definition";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
-import {Entry} from "../../../shared/models/Entry";
+import {Entry} from "../models/Entry";
+import {I_Definition} from "../../../shared/interfaces/I_Definition";
 
 export class DefinitionRepository {
-    public static ReadAll(): Definition[] {
+    public static ReadAll(): I_Definition[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM definitions
         `);
-        return statement.all() as Definition[];
+        return statement.all() as I_Definition[];
     }
 
-    public static ReadAllByEntry(entry: Entry): Definition[] {
+    public static ReadAllByEntry(entry: Entry): I_Definition[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT definition.*
             FROM definitions as definition
@@ -20,16 +21,16 @@ export class DefinitionRepository {
                   ON entry_definition.definition_id = definition.id
             WHERE entry_definition.entry_id = @entry_id
         `);
-        return statement.all(entry.GetQueryObject()) as Definition[];
+        return statement.all(entry.GetQueryObject()) as I_Definition[];
     }
 
-    public static ReadOne(id: number): Definition | undefined {
+    public static ReadOne(id: number): I_Definition | undefined {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM definitions
             WHERE id = @definition_id
         `);
-        return statement.get({definition_id: id}) as Definition ?? undefined;
+        return statement.get({definition_id: id}) as I_Definition ?? undefined;
     }
 
     public static BindToTranslation(definition: Definition, translation: Entry) {
@@ -56,18 +57,18 @@ export class DefinitionRepository {
         return result.changes > 0;
     }
 
-    public static Create(definition: Definition): [boolean, Definition | undefined] {
+    public static Create(definition: Definition): [boolean, I_Definition | undefined] {
         const statement = Database.GetDatabase().prepare(`
             INSERT INTO definitions (definition)
             VALUES (@definition)
         `);
         const result: RunResult = statement.run(definition.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new Definition(Number(result.lastInsertRowid), definition.GetDefinition())];
+            return [true, new Definition(Number(result.lastInsertRowid), definition.GetDefinition()).ToJSON()];
         } else return [false, undefined];
     }
 
-    public static Update(definition: Definition): [boolean, Definition | undefined] {
+    public static Update(definition: Definition): [boolean, I_Definition | undefined] {
         const statement = Database.GetDatabase().prepare(`
             UPDATE definitions
             SET definition = @definition
@@ -75,7 +76,7 @@ export class DefinitionRepository {
         `);
         const result: RunResult = statement.run(definition.GetQueryObject());
         if (result.changes > 0) {
-            return [true, new Definition(definition.GetId(), definition.GetDefinition())];
+            return [true, new Definition(definition.GetId(), definition.GetDefinition()).ToJSON()];
         } else return [false, undefined];
     }
 

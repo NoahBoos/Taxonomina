@@ -1,5 +1,5 @@
 import {TemplateManager} from "../../renderer/utils/TemplateManager";
-import {GrammaticalGenre} from "../../shared/models/GrammaticalGenre";
+import {GrammaticalGenre} from "../../main/database/models/GrammaticalGenre";
 import {GrammaticalGenreService} from "src/renderer/services/GrammaticalGenreService";
 import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
 import {LanguageUIBuilder} from "./LanguageUIBuilder";

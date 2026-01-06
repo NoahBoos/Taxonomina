@@ -1,23 +1,24 @@
-import {Inflection} from "../../../shared/models/Inflection";
+import {Inflection} from "../models/Inflection";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
+import {I_Inflection} from "../../../shared/interfaces/I_Inflection";
 
 export class InflectionRepository {
-    public static ReadAll(): Inflection[] {
+    public static ReadAll(): I_Inflection[] {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM inflections
         `);
-        return statement.all() as Inflection[];
+        return statement.all() as I_Inflection[];
     }
 
-    public static ReadOne(id: number): Inflection | undefined {
+    public static ReadOne(id: number): I_Inflection | undefined {
         const statement = Database.GetDatabase().prepare(`
             SELECT *
             FROM inflections
             WHERE id = @inflection_id
         `);
-        return statement.get({inflection_id: id}) as Inflection ?? undefined;
+        return statement.get({inflection_id: id}) as I_Inflection ?? undefined;
     }
 
     public static Create(inflection: Inflection): boolean {

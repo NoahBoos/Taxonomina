@@ -1,4 +1,4 @@
-import {Language} from "../../shared/models/Language";
+import {Language} from "../../main/database/models/Language";
 import {TemplateManager} from "../../renderer/utils/TemplateManager";
 import {LanguageService} from "src/renderer/services/LanguageService";
 import {GrammaticalClassUIBuilder} from "./GrammaticalClassUIBuilder";
