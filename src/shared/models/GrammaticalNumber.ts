@@ -24,4 +24,11 @@ export class GrammaticalNumber {
             name: this.name,
         }
     }
+
+    public ToJSON() {
+        return {
+            id: this.id,
+            name: this.name
+        }
+    }
 }

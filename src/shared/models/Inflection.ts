@@ -31,4 +31,12 @@ export class Inflection {
             inflection: this.inflection,
         }
     }
+
+    public ToJSON() {
+        return {
+            id: this.id,
+            entry_id: this.entry_id,
+            inflection: this.inflection
+        }
+    }
 }
