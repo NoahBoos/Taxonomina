@@ -1,3 +1,5 @@
+import {I_Inflection} from "@/shared/interfaces/I_Inflection";
+
 export class Inflection {
     private readonly id: number;
     private readonly entry_id: number;
@@ -32,7 +34,7 @@ export class Inflection {
         }
     }
 
-    public ToJSON() {
+    public ToJSON(): I_Inflection {
         return {
             id: this.id,
             entry_id: this.entry_id,

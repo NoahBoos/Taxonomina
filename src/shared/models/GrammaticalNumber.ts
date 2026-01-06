@@ -1,3 +1,5 @@
+import {I_GrammaticalNumber} from "@/shared/interfaces/I_GrammaticalNumber";
+
 export class GrammaticalNumber {
     private readonly id: number;
     private name: string;
@@ -25,7 +27,7 @@ export class GrammaticalNumber {
         }
     }
 
-    public ToJSON() {
+    public ToJSON(): I_GrammaticalNumber {
         return {
             id: this.id,
             name: this.name

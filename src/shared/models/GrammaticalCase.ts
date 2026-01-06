@@ -1,3 +1,5 @@
+import {I_GrammaticalCase} from "@/shared/interfaces/I_GrammaticalCase";
+
 export class GrammaticalCase {
     private readonly id: number;
     private name: string;
@@ -25,7 +27,7 @@ export class GrammaticalCase {
         }
     }
 
-    public ToJSON() {
+    public ToJSON(): I_GrammaticalCase {
         return {
             id: this.id,
             name: this.name
