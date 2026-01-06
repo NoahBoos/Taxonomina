@@ -6,11 +6,21 @@
     import {LanguageService} from "@/renderer/services/LanguageService";
     import ContentList from "@/renderer/components/browser/ContentList.svelte";
     import {CONTENT_TYPE_KEY} from "@/renderer/utils/symbols";
-
-    let languages: I_Language[] = $state([]);
+    import ContentSearchBar from "@/renderer/components/browser/ContentSearchBar.svelte";
 
     const contentType: ContentType = ContentType.Language;
     setContext(CONTENT_TYPE_KEY, contentType);
+
+    let languages: I_Language[] = $state([]);
+    let query = $state('');
+    let filteredLanguages: I_Language[] = $derived(
+        languages.filter(language =>
+            language.iso_639_1.toLowerCase().includes(query.toLowerCase())
+            || language.iso_639_3.toLowerCase().includes(query.toLowerCase())
+            || language.name_native.toLowerCase().includes(query.toLowerCase())
+            || language.name_local.toLowerCase().includes(query.toLowerCase())
+        )
+    );
 
     let dictionary_id = $derived($settings?.currentDictionary);
 
@@ -40,5 +50,8 @@
 </style>
 
 <div>
-    <ContentList items={ languages } />
+    <div>
+        <ContentSearchBar bind:query={ query } />
+    </div>
+    <ContentList items={ filteredLanguages } />
 </div>
