@@ -12,7 +12,8 @@
     <p>The current tab is { $currentBrowserTabStore }</p>
     {#each ContentTab.all as tab}
         {#if tab === $currentBrowserTabStore}
-            <svelte:component this={ ContentTab.browsers[tab] } />
+            {@const BrowserComponent = ContentTab.browsers[tab]}
+            <BrowserComponent />
         {/if}
     {/each}
 </div>
