@@ -7,9 +7,16 @@
     import ContentList from "@/renderer/components/browser/ContentList.svelte";
     import {CONTENT_TYPE_KEY} from "@/renderer/utils/symbols";
     import ContentSearchBar from "@/renderer/components/browser/ContentSearchBar.svelte";
+    import PreviousPageButton from "@/renderer/components/browser/pagination/PreviousPageButton.svelte";
+    import PaginationInformation from "@/renderer/components/browser/pagination/PaginationInformation.svelte";
+    import NextPageButton from "@/renderer/components/browser/pagination/NextPageButton.svelte";
 
     const contentType: ContentType = ContentType.Language;
     setContext(CONTENT_TYPE_KEY, contentType);
+
+    let dictionary_id = $derived($settings?.currentDictionary);
+    const elementsPerPage = $derived($settings?.elementsPerPage ?? 25);
+    let currentPage = $state(1);
 
     let languages: I_Language[] = $state([]);
     let query = $state('');
@@ -22,7 +29,8 @@
         )
     );
 
-    let dictionary_id = $derived($settings?.currentDictionary);
+    let totalPages = $derived(Math.ceil(filteredLanguages.length / elementsPerPage));
+    let paginatedLanguages = $derived(filteredLanguages.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
         if (dictionary_id) languages = (await LanguageService.ReadAll(dictionary_id)).map(language => language.ToJSON());
@@ -40,5 +48,10 @@
     <div>
         <ContentSearchBar bind:query={ query } />
     </div>
-    <ContentList items={ filteredLanguages } />
+    <ContentList items={ paginatedLanguages } />
+    <div>
+        <PreviousPageButton bind:currentPage={ currentPage } />
+        <PaginationInformation bind:currentPage={ currentPage } totalPages={ totalPages } elementsPerPage={ elementsPerPage } />
+        <NextPageButton bind:currentPage={ currentPage } bind:totalPages={ totalPages } />
+    </div>
 </div>
