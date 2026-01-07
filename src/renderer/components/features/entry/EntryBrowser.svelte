@@ -1,8 +1,5 @@
 <script lang="ts">
-    import {ContentType} from "@/renderer/enums/ContentType";
-    import {setContext} from "svelte";
     import {settings} from '@/renderer/stores/settingsStore';
-    import {CONTENT_TYPE_KEY} from "@/renderer/utils/symbols";
     import {I_Entry} from "@/shared/interfaces/I_Entry";
     import {EntryService} from "@/renderer/services/EntryService";
     import PreviousPageButton from "@/renderer/components/browser/pagination/PreviousPageButton.svelte";
@@ -10,9 +7,6 @@
     import NextPageButton from "@/renderer/components/browser/pagination/NextPageButton.svelte";
     import ContentSearchBar from "@/renderer/components/browser/ContentSearchBar.svelte";
     import PaginationInformation from "@/renderer/components/browser/pagination/PaginationInformation.svelte";
-
-    const contentType: ContentType = ContentType.Entry;
-    setContext(CONTENT_TYPE_KEY, contentType);
 
     let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);

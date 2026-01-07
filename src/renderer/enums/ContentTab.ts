@@ -4,7 +4,10 @@ import EntryBrowser from "@/renderer/components/features/entry/EntryBrowser.svel
 import GrammaticalClassBrowser from "@/renderer/components/features/grammatical_class/GrammaticalClassBrowser.svelte";
 import GrammaticalGenreBrowser from "@/renderer/components/features/grammatical_genre/GrammaticalGenreBrowser.svelte";
 import LanguageBrowser from "@/renderer/components/features/language/LanguageBrowser.svelte";
-import {ContentType} from "@/renderer/enums/ContentType";
+import LanguageThumbnail from "@/renderer/components/features/language/LanguageThumbnail.svelte";
+import GrammaticalClassThumbnail from "@/renderer/components/features/grammatical_class/GrammaticalClassThumbnail.svelte";
+import GrammaticalGenreThumbnail from "@/renderer/components/features/grammatical_genre/GrammaticalGenreThumbnail.svelte";
+import EntryThumbnail from "@/renderer/components/features/entry/EntryThumbnail.svelte";
 
 export enum ContentTab {
     Language = 'language',
@@ -28,11 +31,11 @@ export namespace ContentTab {
         [ContentTab.Entry]: EntryBrowser
     }
 
-    export const contents: Record<ContentTab, ContentType> = {
-        [ContentTab.Language]: ContentType.Language,
-        [ContentTab.GrammaticalClass]: ContentType.GrammaticalClass,
-        [ContentTab.GrammaticalGenre]: ContentType.GrammaticalGenre,
-        [ContentTab.Entry]: ContentType.Entry,
+    export const thumbnails: Record<ContentTab, Component<{ item: any }>> = {
+        [ContentTab.Language]: LanguageThumbnail,
+        [ContentTab.GrammaticalClass]: GrammaticalClassThumbnail,
+        [ContentTab.GrammaticalGenre]: GrammaticalGenreThumbnail,
+        [ContentTab.Entry]: EntryThumbnail
     }
 
     export const icons: Record<ContentTab, Component> = {
@@ -47,5 +50,12 @@ export namespace ContentTab {
         [ContentTab.GrammaticalClass]: 'Classes grammaticales',
         [ContentTab.GrammaticalGenre]: 'Genres grammaticaux',
         [ContentTab.Entry]: 'Entrées',
+    }
+
+    export const searchbarLabels: Record<ContentTab, string> = {
+        [ContentTab.Language]: "Rechercher une langue...",
+        [ContentTab.GrammaticalClass]: "Rechercher une classe grammaticale...",
+        [ContentTab.GrammaticalGenre]: "Rechercher un genre grammatical...",
+        [ContentTab.Entry]: "Rechercher une entrée..."
     }
 }

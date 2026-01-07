@@ -1,18 +1,12 @@
 <script lang="ts">
-    import {ContentType} from "@/renderer/enums/ContentType";
-    import {setContext} from "svelte";
     import {settings} from '@/renderer/stores/settingsStore';
     import {I_Language} from "@/shared/interfaces/I_Language";
     import {LanguageService} from "@/renderer/services/LanguageService";
     import ContentList from "@/renderer/components/browser/ContentList.svelte";
-    import {CONTENT_TYPE_KEY} from "@/renderer/utils/symbols";
     import ContentSearchBar from "@/renderer/components/browser/ContentSearchBar.svelte";
     import PreviousPageButton from "@/renderer/components/browser/pagination/PreviousPageButton.svelte";
     import PaginationInformation from "@/renderer/components/browser/pagination/PaginationInformation.svelte";
     import NextPageButton from "@/renderer/components/browser/pagination/NextPageButton.svelte";
-
-    const contentType: ContentType = ContentType.Language;
-    setContext(CONTENT_TYPE_KEY, contentType);
 
     let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);

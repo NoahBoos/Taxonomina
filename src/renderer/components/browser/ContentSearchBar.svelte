@@ -1,12 +1,9 @@
 <script lang="ts">
-    import {ContentType} from "@/renderer/enums/ContentType";
-    import {getContext} from "svelte";
-    import {CONTENT_TYPE_KEY} from "@/renderer/utils/symbols";
+    import {currentBrowserTabStore} from "@/renderer/stores/currentBrowserTabStore";
     import {PaginationUtils} from "@/renderer/utils/pagination";
+    import {ContentTab} from "@/renderer/enums/ContentTab";
 
     let { query = $bindable(''), currentPage = $bindable(1) }: { query: string, currentPage: number } = $props();
-
-    let contentType: ContentType = getContext<ContentType>(CONTENT_TYPE_KEY);
 
     function handleInput() {
         currentPage = PaginationUtils.setPage(currentPage, 1);
@@ -18,9 +15,9 @@
 </style>
 
 <div>
-    {#each ContentType.all as type}
-        {#if type === contentType}
-            <input type="text" placeholder="{ ContentType.searchBarLabels[type] }" bind:value={ query } oninput={ handleInput } />
+    {#each ContentTab.all as tab}
+        {#if tab === $currentBrowserTabStore}
+            <input type="text" placeholder="{ ContentTab.searchbarLabels[tab] }" bind:value={ query } oninput={ handleInput } />
         {/if}
     {/each}
 </div>
