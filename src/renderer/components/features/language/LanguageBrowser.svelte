@@ -46,7 +46,7 @@
 
 <div>
     <div>
-        <ContentSearchBar bind:query={ query } />
+        <ContentSearchBar bind:query={ query } bind:currentPage={ currentPage } />
     </div>
     <ContentList items={ paginatedLanguages } />
     <div>
