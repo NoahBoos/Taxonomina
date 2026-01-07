@@ -1,7 +1,7 @@
 <script lang="ts">
     import {I_GrammaticalClass} from "@/shared/interfaces/I_GrammaticalClass";
 
-    let { grammatical_class }: { grammatical_class: I_GrammaticalClass } = $props();
+    let { item: grammatical_class }: { item: I_GrammaticalClass } = $props();
 </script>
 
 <style>

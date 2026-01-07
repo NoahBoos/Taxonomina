@@ -19,19 +19,19 @@
 <div>
     {#if contentType === ContentType.Language}
         {#each items as item }
-            <LanguageThumbnail language={item} />
+            <LanguageThumbnail item={item} />
         {/each}
     {:else if contentType === ContentType.GrammaticalClass}
         {#each items as item }
-            <GrammaticalClassThumbnail grammatical_class={item} />
+            <GrammaticalClassThumbnail item={item} />
         {/each}
     {:else if contentType === ContentType.GrammaticalGenre}
         {#each items as item }
-            <GrammaticalGenreThumbnail grammatical_genre={item} />
+            <GrammaticalGenreThumbnail item={item} />
         {/each}
     {:else if contentType === ContentType.Entry}
         {#each items as item }
-            <EntryThumbnail entry={item} />
+            <EntryThumbnail item={item} />
         {/each}
     {/if}
 </div>
