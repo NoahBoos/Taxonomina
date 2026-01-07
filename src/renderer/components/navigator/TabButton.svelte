@@ -1,7 +1,7 @@
 <script lang="ts">
     import {TabType} from "@/renderer/types/TabType";
     import {getTabIcon, getTabLabel} from "@/renderer/utils/tab";
-    import {updateCurrentTab} from "@/renderer/stores/currentTabStore";
+    import {updateCurrentBrowserTab} from "@/renderer/stores/currentBrowserTabStore";
 
     export let tab: TabType;
     $: label = getTabLabel(tab);
@@ -12,6 +12,6 @@
 
 </style>
 
-<button on:click={() => updateCurrentTab(tab)}>
+<button on:click={() => updateCurrentBrowserTab(tab)}>
     <svelte:component this={ icon } /> { label }
 </button>

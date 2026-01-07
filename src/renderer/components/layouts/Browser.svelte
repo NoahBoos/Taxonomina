@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {currentTabStore} from "@/renderer/stores/currentTabStore";
+    import {currentBrowserTabStore} from "@/renderer/stores/currentBrowserTabStore";
     import {ContentTab} from "@/renderer/enums/ContentTab";
 </script>
 
@@ -9,9 +9,9 @@
 
 <div>
     <p>This is the browser.</p>
-    <p>The current tab is { $currentTabStore }</p>
+    <p>The current tab is { $currentBrowserTabStore }</p>
     {#each ContentTab.all as tab}
-        {#if tab === $currentTabStore}
+        {#if tab === $currentBrowserTabStore}
             <svelte:component this={ ContentTab.browsers[tab] } />
         {/if}
     {/each}
