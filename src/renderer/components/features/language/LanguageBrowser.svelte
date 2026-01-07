@@ -14,12 +14,12 @@
     const contentType: ContentType = ContentType.Language;
     setContext(CONTENT_TYPE_KEY, contentType);
 
-    let dictionary_id = $derived($settings?.currentDictionary);
-    const elementsPerPage = $derived($settings?.elementsPerPage ?? 25);
-    let currentPage = $state(1);
+    let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
+    const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
+    let currentPage: number = $state(1);
 
     let languages: I_Language[] = $state([]);
-    let query = $state('');
+    let query: string = $state('');
     let filteredLanguages: I_Language[] = $derived(
         languages.filter(language =>
             language.iso_639_1.toLowerCase().includes(query.toLowerCase())
@@ -29,8 +29,8 @@
         )
     );
 
-    let totalPages = $derived(Math.ceil(filteredLanguages.length / elementsPerPage));
-    let paginatedLanguages = $derived(filteredLanguages.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
+    let totalPages: number = $derived(Math.ceil(filteredLanguages.length / elementsPerPage));
+    let paginatedLanguages: I_Language[] = $derived(filteredLanguages.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
         if (dictionary_id) languages = (await LanguageService.ReadAll(dictionary_id)).map(language => language.ToJSON());

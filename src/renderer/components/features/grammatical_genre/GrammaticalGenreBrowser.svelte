@@ -14,16 +14,16 @@
     const contentType: ContentType = ContentType.GrammaticalGenre;
     setContext(CONTENT_TYPE_KEY, contentType);
 
-    let dictionary_id = $derived($settings?.currentDictionary);
-    const elementsPerPage = $derived($settings?.elementsPerPage ?? 25);
-    let currentPage = $state(1);
+    let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
+    const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
+    let currentPage: number = $state(1);
 
     let grammaticalGenres: I_GrammaticalGenre[] = $state([]);
-    let query = $state('');
+    let query: string = $state('');
     let filteredGrammaticalGenres: I_GrammaticalGenre[] = $derived(grammaticalGenres.filter(genre => genre.name.toLowerCase().includes(query.toLowerCase())));
 
-    let totalPages = $derived(Math.ceil(filteredGrammaticalGenres.length / elementsPerPage));
-    let paginatedGrammaticalGenres = $derived(filteredGrammaticalGenres.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
+    let totalPages: number = $derived(Math.ceil(filteredGrammaticalGenres.length / elementsPerPage));
+    let paginatedGrammaticalGenres: I_GrammaticalGenre[] = $derived(filteredGrammaticalGenres.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
         if (dictionary_id) grammaticalGenres = (await GrammaticalGenreService.ReadAll(dictionary_id)).map(gg => gg.ToJSON());

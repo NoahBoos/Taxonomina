@@ -14,16 +14,16 @@
     const contentType: ContentType = ContentType.Entry;
     setContext(CONTENT_TYPE_KEY, contentType);
 
-    let dictionary_id = $derived($settings?.currentDictionary);
-    const elementsPerPage = $derived($settings?.elementsPerPage ?? 25);
-    let currentPage = $state(1);
+    let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
+    const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
+    let currentPage: number = $state(1);
 
     let entries: I_Entry[] = $state([]);
-    let query = $state('');
+    let query: string = $state('');
     let filteredEntries: I_Entry[] = $derived(entries.filter(entry => entry.lemma.toLowerCase().includes(query.toLowerCase())));
 
-    let totalPages = $derived(Math.ceil(filteredEntries.length / elementsPerPage));
-    let paginatedEntries = $derived(filteredEntries.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
+    let totalPages: number = $derived(Math.ceil(filteredEntries.length / elementsPerPage));
+    let paginatedEntries: I_Entry[] = $derived(filteredEntries.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
         if (dictionary_id) entries = (await EntryService.ReadAll(dictionary_id)).map(entry => entry.ToJSON());

@@ -14,16 +14,16 @@
     const contentType: ContentType = ContentType.GrammaticalClass;
     setContext(CONTENT_TYPE_KEY, contentType);
 
-    let dictionary_id = $derived($settings?.currentDictionary);
-    const elementsPerPage = $derived($settings?.elementsPerPage ?? 25);
-    let currentPage = $state(1);
+    let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
+    const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
+    let currentPage: number = $state(1);
 
     let grammaticalClasses: I_GrammaticalClass[] = $state([]);
-    let query = $state('');
+    let query: string = $state('');
     let filteredGrammaticalClasses: I_GrammaticalClass[] = $derived(grammaticalClasses.filter(gc => gc.name.toLowerCase().includes(query.toLowerCase())));
 
-    let totalPages = $derived(Math.ceil(filteredGrammaticalClasses.length / elementsPerPage));
-    let paginatedGrammaticalClasses = $derived(filteredGrammaticalClasses.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
+    let totalPages: number = $derived(Math.ceil(filteredGrammaticalClasses.length / elementsPerPage));
+    let paginatedGrammaticalClasses: I_GrammaticalClass[] = $derived(filteredGrammaticalClasses.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
         if (dictionary_id) grammaticalClasses = (await GrammaticalClassService.ReadAll(dictionary_id)).map(gc => gc.ToJSON());
