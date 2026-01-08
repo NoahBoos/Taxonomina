@@ -1,7 +1,7 @@
 <script lang="ts">
     import {currentBrowserTabStore} from "@/renderer/stores/currentBrowserTabStore";
     import {PaginationUtils} from "@/renderer/utils/pagination";
-    import {ContentTab} from "@/renderer/enums/ContentTab";
+    import {ContentType} from "@/renderer/enums/ContentType";
 
     let { query = $bindable(''), currentPage = $bindable(1) }: { query: string, currentPage: number } = $props();
 
@@ -15,9 +15,9 @@
 </style>
 
 <div>
-    {#each ContentTab.all as tab}
+    {#each ContentType.all as tab}
         {#if tab === $currentBrowserTabStore}
-            <input type="text" placeholder="{ ContentTab.searchbarLabels[tab] }" bind:value={ query } oninput={ handleInput } />
+            <input type="text" placeholder="{ ContentType.searchbarLabels[tab] }" bind:value={ query } oninput={ handleInput } />
         {/if}
     {/each}
 </div>

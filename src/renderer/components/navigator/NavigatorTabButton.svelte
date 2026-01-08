@@ -1,9 +1,9 @@
 <script lang="ts">
-    import {TabType} from "@/renderer/types/TabType";
+    import {BrowserContentTab} from "@/renderer/types/BrowserContentTab";
     import {getTabIcon, getTabLabel} from "@/renderer/utils/tab";
     import {updateCurrentBrowserTab} from "@/renderer/stores/currentBrowserTabStore";
 
-    export let tab: TabType;
+    export let tab: BrowserContentTab;
     $: label = getTabLabel(tab);
     $: icon = getTabIcon(tab);
 </script>

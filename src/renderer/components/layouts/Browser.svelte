@@ -1,6 +1,6 @@
 <script lang="ts">
     import {currentBrowserTabStore} from "@/renderer/stores/currentBrowserTabStore";
-    import {ContentTab} from "@/renderer/enums/ContentTab";
+    import {ContentType} from "@/renderer/enums/ContentType";
 </script>
 
 <style>
@@ -10,9 +10,9 @@
 <div>
     <p>This is the browser.</p>
     <p>The current tab is { $currentBrowserTabStore }</p>
-    {#each ContentTab.all as tab}
+    {#each ContentType.all as tab}
         {#if tab === $currentBrowserTabStore}
-            {@const BrowserComponent = ContentTab.browsers[tab]}
+            {@const BrowserComponent = ContentType.browsers[tab]}
             <BrowserComponent />
         {/if}
     {/each}

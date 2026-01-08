@@ -1,6 +1,6 @@
 <script lang="ts">
     import {currentBrowserTabStore} from "@/renderer/stores/currentBrowserTabStore";
-    import {ContentTab} from "@/renderer/enums/ContentTab";
+    import {ContentType} from "@/renderer/enums/ContentType";
 
     let { items = [] }: { items: any } = $props();
 </script>
@@ -10,10 +10,10 @@
 </style>
 
 <div>
-    {#each ContentTab.all as tab }
+    {#each ContentType.all as tab }
         {#if tab === $currentBrowserTabStore}
             {#each items as item }
-                {@const ThumbnailComponent = ContentTab.thumbnails[tab]}
+                {@const ThumbnailComponent = ContentType.thumbnails[tab]}
                 <ThumbnailComponent item={item} />
             {/each}
         {/if}

@@ -1,4 +1,4 @@
-import {ContentTab} from "@/renderer/enums/ContentTab";
+import {ContentType} from "@/renderer/enums/ContentType";
 import {SpecialContentTab} from "@/renderer/enums/SpecialContentTab";
 
-export type TabType = ContentTab | SpecialContentTab;
+export type TabType = ContentType | SpecialContentTab;
