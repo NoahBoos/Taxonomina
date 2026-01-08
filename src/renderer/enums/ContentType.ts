@@ -24,13 +24,6 @@ export namespace ContentType {
         ContentType.Entry
     ]
 
-    export const browsers: Record<ContentType, Component> = {
-        [ContentType.Language]: LanguageBrowser,
-        [ContentType.GrammaticalClass]: GrammaticalClassBrowser,
-        [ContentType.GrammaticalGenre]: GrammaticalGenreBrowser,
-        [ContentType.Entry]: EntryBrowser
-    }
-
     export const thumbnails: Record<ContentType, Component<{ item: any }>> = {
         [ContentType.Language]: LanguageThumbnail,
         [ContentType.GrammaticalClass]: GrammaticalClassThumbnail,
