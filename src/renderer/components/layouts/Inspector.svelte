@@ -8,7 +8,7 @@
         if (state.category === 'content') {
             return INSPECTOR_REGISTRY.content[state.type]?.[state.action];
         } else if (state.category === 'special-content') {
-            return INSPECTOR_REGISTRY['special-content'][state.tab];
+            return INSPECTOR_REGISTRY['special-content'][state.type];
         } else {
             return INSPECTOR_REGISTRY['idle'];
         }

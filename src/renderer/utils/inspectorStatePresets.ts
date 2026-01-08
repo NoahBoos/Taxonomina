@@ -88,11 +88,11 @@ export const INSPECTOR_STATE_PRESETS = {
     SPECIAL_CONTENT: {
         HELP: {
             category: 'special-content',
-            tab: SpecialContentType.Help
+            type: SpecialContentType.Help
         } as const,
         SETTINGS: {
             category: 'special-content',
-            tab: SpecialContentType.Settings
+            type: SpecialContentType.Settings
         } as const
     }
 };

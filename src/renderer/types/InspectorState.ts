@@ -4,6 +4,9 @@ import {SpecialContentType} from "@/renderer/enums/SpecialContentType";
 
 export type InspectorState =
     | {
+        category: 'idle';
+    }
+    | {
         category: 'content';
         type: ContentType;
         action: InspectorAction;
@@ -11,8 +14,5 @@ export type InspectorState =
     }
     | {
         category: 'special-content';
-        tab: SpecialContentType;
-    }
-    | {
-        category: 'idle';
+        type: SpecialContentType;
     };
