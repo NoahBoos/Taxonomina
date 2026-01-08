@@ -1,6 +1,6 @@
 <script lang="ts">
     import {ContentType} from "@/renderer/enums/ContentType";
-    import {SpecialContentTab} from "@/renderer/enums/SpecialContentTab";
+    import {SpecialContentType} from "@/renderer/enums/SpecialContentType";
     import NavigatorTabButton from "@/renderer/components/navigator/NavigatorTabButton.svelte";
 </script>
 
@@ -15,7 +15,7 @@
         {/each}
     </div>
     <div>
-        {#each SpecialContentTab.all as tab}
+        {#each SpecialContentType.all as tab}
             <NavigatorTabButton tab={tab} />
         {/each}
     </div>
