@@ -1,8 +1,8 @@
 import {Writable, writable} from "svelte/store";
-import {TabType} from "@/renderer/types/TabType";
+import {BrowserContentTab} from "@/renderer/types/BrowserContentTab";
 
-export const currentBrowserTabStore: Writable<TabType | null> = writable<TabType | null>(null);
+export const currentBrowserTabStore: Writable<BrowserContentTab | null> = writable<BrowserContentTab | null>(null);
 
-export function updateCurrentBrowserTab(tab: TabType): void {
+export function updateCurrentBrowserTab(tab: BrowserContentTab): void {
     currentBrowserTabStore.update(current => current === tab ? null : tab);
 }
