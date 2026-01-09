@@ -45,7 +45,7 @@
         setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
     }
 
-    $effect(() => { loadLanguage() });
+    $effect(() => { loadLanguage(); });
 </script>
 
 <style>
