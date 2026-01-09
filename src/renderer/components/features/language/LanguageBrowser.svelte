@@ -34,7 +34,7 @@
         else languages = [];
     }
 
-    async function openCreateForm() {
+    function openCreateForm() {
         setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.LANGUAGE.CREATE);
     }
 

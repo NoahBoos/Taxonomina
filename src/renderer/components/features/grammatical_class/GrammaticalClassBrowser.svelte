@@ -7,6 +7,9 @@
     import NextPageButton from "@/renderer/components/browser/pagination/NextPageButton.svelte";
     import ContentSearchBar from "@/renderer/components/browser/ContentSearchBar.svelte";
     import PaginationInformation from "@/renderer/components/browser/pagination/PaginationInformation.svelte";
+    import AddContentButton from "@/renderer/components/browser/AddContentButton.svelte";
+    import {setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
+    import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
 
     let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
@@ -24,6 +27,10 @@
         else grammaticalClasses = [];
     }
 
+    function openCreateForm() {
+        setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_CLASS.CREATE);
+    }
+
     $effect(() => { refresh(); });
 </script>
 
@@ -34,6 +41,7 @@
 <div>
     <div>
         <ContentSearchBar bind:query={ query } bind:currentPage={ currentPage } />
+        <AddContentButton onClick={ openCreateForm } />
     </div>
     <ContentList items={ paginatedGrammaticalClasses } />
     <div>
