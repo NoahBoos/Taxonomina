@@ -1,4 +1,5 @@
 <script lang="ts">
+    import {setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
     import {settings} from '@/renderer/stores/settingsStore';
     import {I_Language} from "@/shared/interfaces/I_Language";
     import {LanguageService} from "@/renderer/services/LanguageService";
@@ -7,6 +8,8 @@
     import PreviousPageButton from "@/renderer/components/browser/pagination/PreviousPageButton.svelte";
     import PaginationInformation from "@/renderer/components/browser/pagination/PaginationInformation.svelte";
     import NextPageButton from "@/renderer/components/browser/pagination/NextPageButton.svelte";
+    import AddContentButton from "@/renderer/components/browser/AddContentButton.svelte";
+    import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
 
     let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
@@ -27,8 +30,12 @@
     let paginatedLanguages: I_Language[] = $derived(filteredLanguages.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) languages = (await LanguageService.ReadAll(dictionary_id)).map(language => language.ToJSON());
+        if (dictionary_id) languages = (await LanguageService.ReadAll(dictionary_id));
         else languages = [];
+    }
+
+    async function openCreateForm() {
+        setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.LANGUAGE.CREATE);
     }
 
     $effect(() => { refresh(); });
@@ -41,6 +48,7 @@
 <div>
     <div>
         <ContentSearchBar bind:query={ query } bind:currentPage={ currentPage } />
+        <AddContentButton onClick={ openCreateForm } />
     </div>
     <ContentList items={ paginatedLanguages } />
     <div>
