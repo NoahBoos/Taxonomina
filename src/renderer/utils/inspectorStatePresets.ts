@@ -24,7 +24,7 @@ export const INSPECTOR_STATE_PRESETS = {
                 category: 'content',
                 type: ContentType.Entry,
                 action: InspectorAction.UPDATE,
-                id: 0
+                id: id
             })
         },
         GRAMMATICAL_CLASS: {
@@ -43,7 +43,7 @@ export const INSPECTOR_STATE_PRESETS = {
                 category: 'content',
                 type: ContentType.GrammaticalClass,
                 action: InspectorAction.UPDATE,
-                id: 0
+                id: id
             })
         },
         GRAMMATICAL_GENRE: {
@@ -62,7 +62,7 @@ export const INSPECTOR_STATE_PRESETS = {
                 category: 'content',
                 type: ContentType.GrammaticalGenre,
                 action: InspectorAction.UPDATE,
-                id: 0
+                id: id
             })
         },
         LANGUAGE: {
@@ -81,7 +81,7 @@ export const INSPECTOR_STATE_PRESETS = {
                 category: 'content',
                 type: ContentType.Language,
                 action: InspectorAction.UPDATE,
-                id: 0
+                id: id
             })
         }
     },
