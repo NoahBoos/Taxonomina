@@ -3,6 +3,7 @@ import {InspectorAction} from "@/renderer/enums/InspectorAction";
 import {SpecialContentType} from "@/renderer/enums/SpecialContentType";
 import {Component} from "svelte";
 import Idle from "@/renderer/components/inspector/Idle.svelte";
+import LanguageForm from "@/renderer/components/features/language/LanguageForm.svelte";
 
 type ContentComponentMapping = Record<ContentType, Partial<Record<InspectorAction, Component<any>>>>;
 type SpecialContentComponentMapping = Record<SpecialContentType, Component<any>>;
@@ -33,8 +34,8 @@ export const INSPECTOR_REGISTRY: I_InspectorRegistry = {
         },
         [ContentType.Language]: {
             [InspectorAction.READ_ONE]: null as unknown as Component<any>,
-            [InspectorAction.CREATE]: null as unknown as Component<any>,
-            [InspectorAction.UPDATE]: null as unknown as Component<any>,
+            [InspectorAction.CREATE]: LanguageForm,
+            [InspectorAction.UPDATE]: LanguageForm,
         }
     },
     'special-content': {
