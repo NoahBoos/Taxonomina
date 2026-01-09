@@ -2,7 +2,7 @@
     import {currentInspectorStateStore} from "@/renderer/stores/currentInspectorStateStore";
     import {INSPECTOR_REGISTRY} from "@/renderer/utils/registries/inspectorRegistry";
 
-    $: InspectorComponent = (() => {
+    let InspectorComponent = $derived.by(() => {
         const state = $currentInspectorStateStore;
 
         if (state.category === 'content') {
@@ -12,7 +12,7 @@
         } else {
             return INSPECTOR_REGISTRY['idle'];
         }
-    })();
+    });
 </script>
 
 <style>
