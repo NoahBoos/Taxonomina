@@ -4,6 +4,7 @@ import {SpecialContentType} from "@/renderer/enums/SpecialContentType";
 import {Component} from "svelte";
 import Idle from "@/renderer/components/inspector/Idle.svelte";
 import LanguageForm from "@/renderer/components/features/language/LanguageForm.svelte";
+import GrammaticalClassForm from "@/renderer/components/features/grammatical_class/GrammaticalClassForm.svelte";
 
 type ContentComponentMapping = Record<ContentType, Partial<Record<InspectorAction, Component<any>>>>;
 type SpecialContentComponentMapping = Record<SpecialContentType, Component<any>>;
@@ -24,8 +25,8 @@ export const INSPECTOR_REGISTRY: I_InspectorRegistry = {
         },
         [ContentType.GrammaticalClass]: {
             [InspectorAction.READ_ONE]: null as unknown as Component<any>,
-            [InspectorAction.CREATE]: null as unknown as Component<any>,
-            [InspectorAction.UPDATE]: null as unknown as Component<any>,
+            [InspectorAction.CREATE]: GrammaticalClassForm,
+            [InspectorAction.UPDATE]: GrammaticalClassForm,
         },
         [ContentType.GrammaticalGenre]: {
             [InspectorAction.READ_ONE]: null as unknown as Component<any>,
