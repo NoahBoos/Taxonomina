@@ -20,7 +20,7 @@
     let paginatedGrammaticalClasses: I_GrammaticalClass[] = $derived(filteredGrammaticalClasses.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) grammaticalClasses = (await GrammaticalClassService.ReadAll(dictionary_id)).map(gc => gc.ToJSON());
+        if (dictionary_id) grammaticalClasses = (await GrammaticalClassService.ReadAll(dictionary_id));
         else grammaticalClasses = [];
     }
 
