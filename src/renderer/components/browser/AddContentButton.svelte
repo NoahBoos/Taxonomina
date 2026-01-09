@@ -1,7 +1,7 @@
 <script lang="ts">
     import {Plus} from "@lucide/svelte";
 
-    let { onClick }: { onClick: () => {} } = $props();
+    let { onClick }: { onClick: () => void } = $props();
 </script>
 
 <style>
