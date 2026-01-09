@@ -5,7 +5,7 @@
 
     let { item: language }: { item: I_Language } = $props();
 
-    async function openUpdateForm() {
+    function openUpdateForm() {
         setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.LANGUAGE.UPDATE(language.id));
     }
 </script>
