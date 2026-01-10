@@ -2,7 +2,7 @@ import {SelectOptions} from "@/renderer/types/SelectOptions";
 import {LanguageService} from "@/renderer/services/LanguageService";
 import {I_Language} from "@/shared/interfaces/I_Language";
 
-export const DIRECTION: SelectOptions = {
+export const DIRECTIONS: SelectOptions = {
     'ltr': "Gauche à droite",
     'rtl': "Droite à gauche"
 }

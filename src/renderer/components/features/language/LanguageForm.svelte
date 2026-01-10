@@ -6,7 +6,7 @@
     import TextInput from "@/renderer/components/ui/forms/TextInput.svelte";
     import Checkbox from "@/renderer/components/ui/forms/Checkbox.svelte";
     import Select from "@/renderer/components/ui/forms/Select.svelte";
-    import {DIRECTION} from "@/renderer/utils/selectOptionPresets";
+    import {DIRECTIONS} from "@/renderer/utils/selectOptionPresets";
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
 
@@ -62,6 +62,6 @@
         <TextInput name="iso_639_1" label="ISO 639-1" placeholder="Entrez le code ISO 639-1 de la langue." bind:value={ language.iso_639_1 } />
         <TextInput name="iso_639_3" label="ISO 639-3" placeholder="Entrez le code ISO 639-3 de la langue." bind:value={ language.iso_639_3 } />
     </div>
-    <Select label="Sens de lecture de la langue" options={ DIRECTION } value={ language.direction } />
+    <Select label="Sens de lecture de la langue" options={ DIRECTIONS } value={ language.direction } />
     <SubmitButton label={ submitButtonLabel } />
 </form>
