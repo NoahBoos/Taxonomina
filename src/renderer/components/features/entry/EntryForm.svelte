@@ -8,29 +8,43 @@
     import EntrySection from "@/renderer/components/features/entry/form/EntrySection.svelte";
 
     const dictionary_id: number = $settings!.currentDictionary;
-    let entry: I_Entry = $state<I_Entry>({id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: ''});
 
-    let submitButtonLabel: string = $derived(entry.id === 0 ? 'Créer' : 'Modifier');
+    let entry: I_Entry = $state<I_Entry>({
+        id: 0,
+        dictionary_id: dictionary_id,
+        language_id: 0,
+        lemma: ''
+    });
+
+    let is_submitting: boolean = $state(false);
+    let submit_button_label: string = $derived(entry.id === 0 ? 'Créer' : 'Modifier');
 
     async function loadEntry() {
         let inspectorState = $currentInspectorStateStore;
+
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
-            const entry_data = await EntryService.ReadOne(inspectorState.id);
-            if (entry_data) {
-                Object.assign(entry, entry_data);
-            }
+            const data = await EntryService.ReadOne(inspectorState.id);
+            if (data) Object.assign(entry, data);
         } else {
-            entry = {id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: ''};
+            entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' };
         }
     }
 
     async function onSubmit(event: Event) {
         event.preventDefault();
-        let _entry = $state.snapshot(entry);
+        if (is_submitting) return;
+        is_submitting = true;
 
-        await EntryService.Save(_entry);
+        try {
+            const entryToSave = $state.snapshot(entry);
+            await EntryService.Save(entryToSave);
 
-        setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
+            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
+        } catch (error) {
+            console.error("An error occurred during the process :", error);
+        } finally {
+            is_submitting = false;
+        }
     }
 
     $effect(() => { loadEntry() });
@@ -42,5 +56,5 @@
 
 <form onsubmit={ onSubmit }>
     <EntrySection { dictionary_id } bind:entry />
-    <SubmitButton label={ submitButtonLabel } />
+    <SubmitButton label={ submit_button_label } />
 </form>
