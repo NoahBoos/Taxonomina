@@ -10,9 +10,11 @@
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
 
+    const dictionary_id: number = $settings!.currentDictionary;
+
     let language: I_Language = $state<I_Language>({
         id: 0,
-        dictionary_id: $settings!.currentDictionary,
+        dictionary_id: dictionary_id,
         name_native: '',
         name_local: '',
         is_conlang: false,
@@ -20,29 +22,46 @@
         iso_639_3: '',
         direction: 'ltr'
     });
-    let submitButtonLabel: string = $derived(language.id === 0 ? "Créer" : "Modifier");
+
+    let is_submitting: boolean = $state(false);
+    let submit_button_label: string = $derived(language.id === 0 ? "Créer" : "Modifier");
 
     async function loadLanguage() {
         let inspectorState = $currentInspectorStateStore;
+
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
             const data = await LanguageService.ReadOne(inspectorState.id);
-            console.log(data.id);
             if (data) Object.assign(language, data);
         } else {
-            language.id = 0;
-            language.dictionary_id = $settings!.currentDictionary;
-            language.name_native = '';
-            language.name_local = '';
-            language.is_conlang = false;
-            language.iso_639_1 = '';
-            language.iso_639_3 = '';
-            language.direction = 'ltr';
+            language = {
+                id: 0,
+                dictionary_id: dictionary_id,
+                name_native: '',
+                name_local: '',
+                is_conlang: false,
+                iso_639_1: '',
+                iso_639_3: '',
+                direction: 'ltr'
+            };
         }
     }
 
-    async function onSubmit() {
-        await LanguageService.Save($state.snapshot(language));
-        setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
+    async function onSubmit(event: Event) {
+        event.preventDefault();
+        if (is_submitting) return;
+        is_submitting = true;
+
+        try {
+            const languageToSave = $state.snapshot(language);
+            const [success, savedLanguage] = await LanguageService.Save(languageToSave);
+            if (!success || !savedLanguage) throw new Error("Failed to save the language.");
+
+            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
+        } catch (error) {
+            console.error("An error occurred during the process :", error);
+        } finally {
+            is_submitting = false;
+        }
     }
 
     $effect(() => { loadLanguage(); });
@@ -63,5 +82,5 @@
         <TextInput name="iso_639_3" label="ISO 639-3" placeholder="Entrez le code ISO 639-3 de la langue." bind:value={ language.iso_639_3 } />
     </div>
     <Select label="Sens de lecture de la langue" options={ DIRECTIONS } value={ language.direction } />
-    <SubmitButton label={ submitButtonLabel } />
+    <SubmitButton label={ submit_button_label } />
 </form>

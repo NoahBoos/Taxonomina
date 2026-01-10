@@ -47,7 +47,7 @@
             const selectedGrammaticalClasses = $state.snapshot(selected_grammatical_classes);
             const selectedGrammaticalGenres = $state.snapshot(selected_grammatical_genres);
             const [success, savedEntry] = await EntryService.Save(entryToSave);
-            if (!success || !savedEntry) throw new Error("Failed to save the entry.")
+            if (!success || !savedEntry) throw new Error("Failed to save the entry.");
 
             if (entryToSave.id !== 0) {
                 let [oldGrammaticalClasses, oldGrammaticalGenres] = await Promise.all([
