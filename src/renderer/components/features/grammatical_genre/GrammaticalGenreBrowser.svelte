@@ -23,7 +23,7 @@
     let paginatedGrammaticalGenres: I_GrammaticalGenre[] = $derived(filteredGrammaticalGenres.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) grammaticalGenres = (await GrammaticalGenreService.ReadAll(dictionary_id)).map(gg => gg.ToJSON());
+        if (dictionary_id) grammaticalGenres = (await GrammaticalGenreService.ReadAll(dictionary_id));
         else grammaticalGenres = [];
     }
 
