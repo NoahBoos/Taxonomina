@@ -58,7 +58,7 @@
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {
-            console.error("An error occurred during the process :", error);
+            console.error("An error occurred while saving the language :", error);
         } finally {
             is_submitting = false;
         }

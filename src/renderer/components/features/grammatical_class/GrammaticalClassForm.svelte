@@ -37,7 +37,7 @@
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {
-            console.error("An error occured during the process : ", error);
+            console.error("An error occurred while saving the grammatical class : ", error);
         } finally {
             is_submitting = false;
         }
