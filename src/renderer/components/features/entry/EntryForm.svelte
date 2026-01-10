@@ -9,6 +9,9 @@
     import GrammaticalClassSection from "@/renderer/components/features/entry/form/GrammaticalClassSection.svelte";
     import {I_GrammaticalClass} from "@/shared/interfaces/I_GrammaticalClass";
     import {GrammaticalClassService} from "@/renderer/services/GrammaticalClassService";
+    import {I_GrammaticalGenre} from "@/shared/interfaces/I_GrammaticalGenre";
+    import {GrammaticalGenreService} from "@/renderer/services/GrammaticalGenreService";
+    import GrammaticalGenreSection from "@/renderer/components/features/entry/form/GrammaticalGenreSection.svelte";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -19,6 +22,7 @@
         lemma: ''
     });
     let selected_grammatical_classes = $state<I_GrammaticalClass[]>([]);
+    let selected_grammatical_genres = $state<I_GrammaticalGenre[]>([]);
 
     let is_submitting: boolean = $state(false);
     let submit_button_label: string = $derived(entry.id === 0 ? 'Créer' : 'Modifier');
@@ -31,6 +35,7 @@
             if (data) {
                 Object.assign(entry, data);
                 selected_grammatical_classes = await GrammaticalClassService.ReadAllByEntry(data);
+                selected_grammatical_genres = await GrammaticalGenreService.ReadAllByEntry(data);
             }
         } else {
             entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' };
@@ -45,17 +50,21 @@
         try {
             const entryToSave = $state.snapshot(entry);
             const selectedGrammaticalClasses = $state.snapshot(selected_grammatical_classes);
+            const selectedGrammaticalGenres = $state.snapshot(selected_grammatical_genres);
             const [success, savedEntry] = await EntryService.Save(entryToSave);
             if (!success || !savedEntry) throw new Error("Failed to save the entry.")
 
             if (entryToSave.id !== 0) {
-                let [old_grammatical_classes] = await Promise.all([
-                    await GrammaticalClassService.ReadAllByEntry(savedEntry)
+                let [old_grammatical_classes, old_grammatical_genres] = await Promise.all([
+                    await GrammaticalClassService.ReadAllByEntry(savedEntry),
+                    await GrammaticalGenreService.ReadAllByEntry(savedEntry)
                 ]);
                 old_grammatical_classes.forEach(gc => EntryService.UnbindFromGrammaticalClass(savedEntry, gc));
+                old_grammatical_genres.forEach(gg => EntryService.UnbindFromGrammaticalGenre(savedEntry, gg));
             }
 
             selectedGrammaticalClasses.forEach(gc => EntryService.BindToGrammaticalClass(savedEntry, gc));
+            selectedGrammaticalGenres.forEach(gg => EntryService.BindToGrammaticalGenre(savedEntry, gg));
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {
@@ -74,6 +83,9 @@
 
 <form onsubmit={ onSubmit }>
     <EntrySection { dictionary_id } bind:entry />
-    <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
+    <div>
+        <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
+        <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
+    </div>
     <SubmitButton label={ submit_button_label } />
 </form>
