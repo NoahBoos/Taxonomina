@@ -15,12 +15,7 @@
 
     const dictionary_id: number = $settings!.currentDictionary;
 
-    let entry = $state<I_Entry>({
-        id: 0,
-        dictionary_id: dictionary_id,
-        language_id: 0,
-        lemma: ''
-    });
+    let entry = $state<I_Entry>({ id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' });
     let selected_grammatical_classes = $state<I_GrammaticalClass[]>([]);
     let selected_grammatical_genres = $state<I_GrammaticalGenre[]>([]);
 
@@ -55,12 +50,12 @@
             if (!success || !savedEntry) throw new Error("Failed to save the entry.")
 
             if (entryToSave.id !== 0) {
-                let [old_grammatical_classes, old_grammatical_genres] = await Promise.all([
+                let [oldGrammaticalClasses, oldGrammaticalGenres] = await Promise.all([
                     await GrammaticalClassService.ReadAllByEntry(savedEntry),
                     await GrammaticalGenreService.ReadAllByEntry(savedEntry)
                 ]);
-                old_grammatical_classes.forEach(gc => EntryService.UnbindFromGrammaticalClass(savedEntry, gc));
-                old_grammatical_genres.forEach(gg => EntryService.UnbindFromGrammaticalGenre(savedEntry, gg));
+                oldGrammaticalClasses.forEach(gc => EntryService.UnbindFromGrammaticalClass(savedEntry, gc));
+                oldGrammaticalGenres.forEach(gg => EntryService.UnbindFromGrammaticalGenre(savedEntry, gg));
             }
 
             selectedGrammaticalClasses.forEach(gc => EntryService.BindToGrammaticalClass(savedEntry, gc));
