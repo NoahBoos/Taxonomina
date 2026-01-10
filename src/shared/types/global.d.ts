@@ -5,7 +5,6 @@ import {I_GrammaticalClass} from "../interfaces/I_GrammaticalClass";
 import {I_GrammaticalGenre} from "../interfaces/I_GrammaticalGenre";
 import {I_Definition} from "../interfaces/I_Definition";
 import {I_Entry} from "../interfaces/I_Entry";
-import {ipcRenderer} from "electron";
 
 export {};
 
@@ -51,8 +50,8 @@ declare global {
                     Create: (rawEntry: I_Entry) => Promise<[boolean, I_Entry | undefined]>,
                     BindToGrammaticalClass: (rawEntry: I_Entry, rawClass: I_GrammaticalClass) => Promise<boolean>,
                     UnbindFromGrammaticalClass: (rawEntry: I_Entry, rawClass: I_GrammaticalClass) => Promise<boolean>,
-                    BindToGrammaticalGenre: (rawEntry: I_Entry, rawGenre: GrammaticalGenre) => Promise<boolean>,
-                    UnbindFromGrammaticalGenre: (rawEntry: I_Entry, rawGenre: GrammaticalGenre) => Promise<boolean>,
+                    BindToGrammaticalGenre: (rawEntry: I_Entry, rawGenre: I_GrammaticalGenre) => Promise<boolean>,
+                    UnbindFromGrammaticalGenre: (rawEntry: I_Entry, rawGenre: I_GrammaticalGenre) => Promise<boolean>,
                     BindToTranslation: (rawEntry: I_Entry, rawTranslation: I_Entry) => Promise<boolean>,
                     UnbindFromTranslation: (rawEntry: I_Entry, rawTranslation: I_Entry) => Promise<boolean>,
                     Update: (rawEntry: I_Entry) => Promise<[boolean, I_Entry | undefined]>,
