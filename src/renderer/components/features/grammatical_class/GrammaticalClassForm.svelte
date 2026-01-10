@@ -10,7 +10,7 @@
     let grammaticalClass: I_GrammaticalClass = $state<I_GrammaticalClass>({
         id: 0,
         dictionary_id: $settings!.currentDictionary,
-        name: "",
+        name: ''
     });
     let submitButtonLabel: string = $derived(grammaticalClass.id === 0 ? "Créer" : "Modifier");
 
@@ -22,7 +22,7 @@
         } else {
             grammaticalClass.id = 0;
             grammaticalClass.dictionary_id = $settings!.currentDictionary;
-            grammaticalClass.name = "";
+            grammaticalClass.name = '';
         }
     }
 
