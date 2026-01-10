@@ -9,7 +9,7 @@
 
     const dictionary_id: number = $settings!.currentDictionary;
 
-    let entry: I_Entry = $state<I_Entry>({
+    let entry = $state<I_Entry>({
         id: 0,
         dictionary_id: dictionary_id,
         language_id: 0,
