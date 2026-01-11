@@ -20,6 +20,5 @@
 </style>
 
 <div>
-    <p>This is the inspector panel.</p>
     <InspectorComponent />
 </div>

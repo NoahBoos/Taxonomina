@@ -9,8 +9,6 @@
 </style>
 
 <div>
-    <p>This is the browser.</p>
-    <p>The current tab is { $currentBrowserTabStore }</p>
     {#each ContentType.all as tab}
         {#if tab === $currentBrowserTabStore}
             {@const BrowserComponent = BROWSER_REGISTRY[tab]}
