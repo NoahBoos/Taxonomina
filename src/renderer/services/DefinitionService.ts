@@ -1,38 +1,35 @@
-import {Definition} from "@/main/database/models/Definition";
-import {Entry} from "@/main/database/models/Entry";
+import {I_Definition} from "@/shared/interfaces/I_Definition";
+import {I_Entry} from "@/shared/interfaces/I_Entry";
 
 export class DefinitionService {
-    public static async ReadAll(): Promise<Definition[]> {
-        const rawDefinitions: Definition[] = await window.txnmAPI.repositories.definition.ReadAll();
-        return rawDefinitions.map((rawDefinition: Definition): Definition => Definition.Hydrate(rawDefinition));
+    public static async ReadAll(): Promise<I_Definition[]> {
+        return await window.txnmAPI.repositories.definition.ReadAll();
     }
 
-    public static async ReadAllByEntry(entry: Entry): Promise<Definition[]> {
-        const rawDefinitions: Definition[] = await window.txnmAPI.repositories.definition.ReadAllByEntry(entry);
-        return rawDefinitions.map((rawDefinition: Definition): Definition => Definition.Hydrate(rawDefinition));
+    public static async ReadAllByEntry(entry: I_Entry): Promise<I_Definition[]> {
+        return await window.txnmAPI.repositories.definition.ReadAllByEntry(entry);
     }
 
-    public static async ReadOne(definitionId: number): Promise<Definition> {
-        const rawDefinition: Definition = await window.txnmAPI.repositories.definition.ReadOne(definitionId);
-        return Definition.Hydrate(rawDefinition);
+    public static async ReadOne(definitionId: number): Promise<I_Definition> {
+        return await window.txnmAPI.repositories.definition.ReadOne(definitionId);
     }
 
-    public static async BindToTranslation(definition: Definition, translation: Entry) {
+    public static async BindToTranslation(definition: I_Definition, translation: I_Entry) {
         return await window.txnmAPI.repositories.definition.BindToTranslation(definition, translation);
     }
 
-    public static async UnbindFromTranslation(definition: Definition, translation: Entry) {
+    public static async UnbindFromTranslation(definition: I_Definition, translation: I_Entry) {
         return await window.txnmAPI.repositories.definition.UnbindFromTranslation(definition, translation);
     }
 
-    public static async Save(definition: Definition): Promise<[boolean, Definition | undefined]> {
-        let [success, savedDefinition] = definition.GetId() == 0
+    public static async Save(definition: I_Definition): Promise<[boolean, I_Definition | undefined]> {
+        let [success, savedDefinition] = definition.id == 0
             ? await window.txnmAPI.repositories.definition.Create(definition)
             : await window.txnmAPI.repositories.definition.Update(definition);
-        return [success, Definition.Hydrate(savedDefinition)];
+        return [success, savedDefinition];
     }
 
-    public static async Delete(definition: Definition): Promise<boolean> {
+    public static async Delete(definition: I_Definition): Promise<boolean> {
         return await window.txnmAPI.repositories.definition.Delete(definition);
     }
 }
