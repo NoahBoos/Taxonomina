@@ -13,6 +13,9 @@
     import {GrammaticalGenreService} from "@/renderer/services/GrammaticalGenreService";
     import GrammaticalGenreSection from "@/renderer/components/features/entry/form/GrammaticalGenreSection.svelte";
     import TranslationSection from "@/renderer/components/features/entry/form/TranslationSection.svelte";
+    import DefinitionSection from "@/renderer/components/features/entry/form/DefinitionSection.svelte";
+    import {I_Definition} from "@/shared/interfaces/I_Definition";
+    import {DefinitionService} from "@/renderer/services/DefinitionService";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -20,6 +23,7 @@
     let selected_grammatical_classes = $state<I_GrammaticalClass[]>([]);
     let selected_grammatical_genres = $state<I_GrammaticalGenre[]>([]);
     let selected_translations = $state<I_Entry[]>([]);
+    let selected_definitions = $state<I_Definition[]>([]);
 
     let is_submitting: boolean = $state(false);
     let submit_button_label: string = $derived(entry.id === 0 ? 'Créer' : 'Modifier');
@@ -34,6 +38,7 @@
                 selected_grammatical_classes = await GrammaticalClassService.ReadAllByEntry(data);
                 selected_grammatical_genres = await GrammaticalGenreService.ReadAllByEntry(data);
                 selected_translations = await EntryService.ReadAllByGlobalTranslation(data);
+                selected_definitions = await DefinitionService.ReadAllByEntry(data);
             }
         } else {
             entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' };
@@ -50,23 +55,34 @@
             const selectedGrammaticalClasses = $state.snapshot(selected_grammatical_classes);
             const selectedGrammaticalGenres = $state.snapshot(selected_grammatical_genres);
             const selectedTranslations = $state.snapshot(selected_translations);
+            const selectedDefinitions = $state.snapshot(selected_definitions);
             const [success, savedEntry] = await EntryService.Save(entryToSave);
             if (!success || !savedEntry) throw new Error("Failed to save the entry.");
 
             if (entryToSave.id !== 0) {
-                let [oldGrammaticalClasses, oldGrammaticalGenres, oldTranslations] = await Promise.all([
+                let [oldGrammaticalClasses, oldGrammaticalGenres, oldTranslations, oldDefinitions] = await Promise.all([
                     await GrammaticalClassService.ReadAllByEntry(savedEntry),
                     await GrammaticalGenreService.ReadAllByEntry(savedEntry),
-                    await EntryService.ReadAllByGlobalTranslation(savedEntry)
+                    await EntryService.ReadAllByGlobalTranslation(savedEntry),
+                    await DefinitionService.ReadAllByEntry(savedEntry)
                 ]);
                 oldGrammaticalClasses.forEach(gc => EntryService.UnbindFromGrammaticalClass(savedEntry, gc));
                 oldGrammaticalGenres.forEach(gg => EntryService.UnbindFromGrammaticalGenre(savedEntry, gg));
                 oldTranslations.forEach(e => EntryService.UnbindFromTranslation(savedEntry, e));
+                for (const d of oldDefinitions) {
+                    await DefinitionService.UnbindFromTranslation(d, savedEntry);
+                    if (selectedDefinitions.every(sd => sd.id !== d.id)) await DefinitionService.Delete(d);
+                }
             }
 
             selectedGrammaticalClasses.forEach(gc => EntryService.BindToGrammaticalClass(savedEntry, gc));
             selectedGrammaticalGenres.forEach(gg => EntryService.BindToGrammaticalGenre(savedEntry, gg));
             selectedTranslations.forEach(e => EntryService.BindToTranslation(savedEntry, e));
+            for (const d of selectedDefinitions) {
+                const [success, savedDefinition] = await DefinitionService.Save(d);
+                if (!success || !savedDefinition) throw new Error(`Failed to save the definition \"${d.definition}\".`);
+                await DefinitionService.BindToTranslation(savedDefinition, savedEntry);
+            }
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {
@@ -91,6 +107,7 @@
             <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
         </div>
         <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
+        <DefinitionSection bind:selected_definitions />
         <SubmitButton label={ submit_button_label } />
     </form>
 {/key}
