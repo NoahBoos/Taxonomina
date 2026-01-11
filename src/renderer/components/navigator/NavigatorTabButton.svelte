@@ -1,17 +1,22 @@
 <script lang="ts">
     import {BrowserContentTab} from "@/renderer/types/BrowserContentTab";
     import {getTabIcon, getTabLabel} from "@/renderer/utils/tab";
-    import {updateCurrentBrowserTab} from "@/renderer/stores/currentBrowserTabStore";
 
-    export let tab: BrowserContentTab;
-    $: label = getTabLabel(tab);
-    $: icon = getTabIcon(tab);
+    interface Props {
+        tab: BrowserContentTab;
+        onClick: (...args: any[]) => void;
+    }
+
+    let { tab, onClick }: Props = $props();
+
+    let label = $derived(getTabLabel(tab));
+    let IconComponent = $derived.by(() => getTabIcon(tab));
 </script>
 
 <style>
 
 </style>
 
-<button on:click={() => updateCurrentBrowserTab(tab)}>
-    <svelte:component this={ icon } /> { label }
+<button onclick={ onClick }>
+    <IconComponent /> { label }
 </button>
