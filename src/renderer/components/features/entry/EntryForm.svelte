@@ -83,12 +83,14 @@
 
 </style>
 
-<form onsubmit={ onSubmit }>
-    <EntrySection { dictionary_id } bind:entry />
-    <div>
-        <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
-        <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
-    </div>
-    <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
-    <SubmitButton label={ submit_button_label } />
-</form>
+{#key entry.id}
+    <form onsubmit={ onSubmit }>
+        <EntrySection { dictionary_id } bind:entry />
+        <div>
+            <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
+            <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
+        </div>
+        <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
+        <SubmitButton label={ submit_button_label } />
+    </form>
+{/key}
