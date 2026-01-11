@@ -7,6 +7,7 @@ import LanguageForm from "@/renderer/components/features/language/LanguageForm.s
 import GrammaticalClassForm from "@/renderer/components/features/grammatical_class/GrammaticalClassForm.svelte";
 import GrammaticalGenreForm from "@/renderer/components/features/grammatical_genre/GrammaticalGenreForm.svelte";
 import EntryForm from "@/renderer/components/features/entry/EntryForm.svelte";
+import SettingsPage from "@/renderer/components/features/settings/SettingsPage.svelte";
 import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
 
 type ContentComponentMapping = Record<ContentType, Partial<Record<InspectorAction, Component<any>>>>;
@@ -44,7 +45,7 @@ export const INSPECTOR_REGISTRY: I_InspectorRegistry = {
     },
     'special-content': {
         [SpecialContentType.Help]: null as unknown as Component<any>,
-        [SpecialContentType.Settings]: null as unknown as Component<any>,
+        [SpecialContentType.Settings]: SettingsPage,
     }
 }
 
