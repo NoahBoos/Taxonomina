@@ -1,7 +1,13 @@
 <script lang="ts">
     import {SelectOptions} from "@/renderer/types/SelectOptions";
 
-    let { label, options, value = $bindable('') }: { label: string, options: SelectOptions, value: string | number } = $props();
+    interface Props {
+        label: string;
+        options: SelectOptions;
+        value: string | number;
+    }
+
+    let { label, options, value = $bindable('') } = $props();
     let id = crypto.randomUUID();
 </script>
 
