@@ -2,9 +2,12 @@
     import {ContentType} from "@/renderer/enums/ContentType";
     import {SpecialContentType} from "@/renderer/enums/SpecialContentType";
     import NavigatorTabButton from "@/renderer/components/navigator/NavigatorTabButton.svelte";
+    import {settings} from "@/renderer/stores/settingsStore";
     import {currentBrowserTabStore, resetCurrentBrowserTab, updateCurrentBrowserTab} from "@/renderer/stores/currentBrowserTabStore";
     import {resetCurrentInspectorState, setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
     import {SPECIAL_CONTENT_INSPECTOR_STATES} from "@/renderer/utils/registries/inspectorRegistry";
+
+    let help_button_visibility: boolean = $state($settings!.helpButtonVisibility);
 
     function onContentTabClick(tab: ContentType) {
         if (!ContentType.all.includes($currentBrowserTabStore as ContentType)) resetCurrentInspectorState();
@@ -15,6 +18,8 @@
         setCurrentInspectorState(SPECIAL_CONTENT_INSPECTOR_STATES[tab]);
         resetCurrentBrowserTab();
     }
+
+    $effect(() => { help_button_visibility = $settings!.helpButtonVisibility });
 </script>
 
 <style>
@@ -29,7 +34,9 @@
     </div>
     <div>
         {#each SpecialContentType.all as tab}
-            <NavigatorTabButton tab={tab} onClick={ () => { onSpecialContentTabClick(tab) }} />
+            {#if tab !== SpecialContentType.Help || help_button_visibility}
+                <NavigatorTabButton tab={tab} onClick={ () => { onSpecialContentTabClick(tab) }} />
+            {/if}
         {/each}
     </div>
 </div>
