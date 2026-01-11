@@ -2,8 +2,8 @@
     import {I_Entry} from "@/shared/interfaces/I_Entry";
     import {EntryService} from "@/renderer/services/EntryService";
     import Searchbar from "@/renderer/components/ui/forms/Searchbar.svelte";
-    import Dropdown from "@/renderer/components/ui/display/Dropdown.svelte";
-    import DropdownItem from "@/renderer/components/ui/interactive/DropdownItem.svelte";
+    import FloatingList from "@/renderer/components/ui/display/FloatingList.svelte";
+    import FloatingListItem from "@/renderer/components/ui/interactive/FloatingListItem.svelte";
     import Tag from "@/renderer/components/ui/display/Tag.svelte";
 
     interface Props {
@@ -59,11 +59,11 @@
 <div>
     <div>
         <Searchbar placeholder="Rechercher une traduction..." bind:query />
-        <Dropdown visible={ show_dropdown }>
+        <FloatingList visible={ show_dropdown }>
             {#each translation_suggestions as translation}
-                <DropdownItem label={ translation.lemma } onClick={ () => addTranslation(translation) } />
+                <FloatingListItem label={ translation.lemma } onClick={ () => addTranslation(translation) } />
             {/each}
-        </Dropdown>
+        </FloatingList>
     </div>
     <div>
         {#each selected_translations as translation}
