@@ -89,6 +89,6 @@
         <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
         <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
     </div>
-    <TranslationSection { dictionary_id } bind:selected_translations />
+    <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
     <SubmitButton label={ submit_button_label } />
 </form>

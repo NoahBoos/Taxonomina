@@ -9,9 +9,10 @@
     interface Props {
         dictionary_id: number;
         selected_translations: I_Entry[];
+        entry?: I_Entry;
     }
 
-    let { dictionary_id, selected_translations = $bindable([]) }: Props = $props();
+    let { dictionary_id, selected_translations = $bindable([]), entry = $bindable() }: Props = $props();
 
     let query = $state('');
     let translation_suggestions = $state<I_Entry[]>([]);
@@ -32,17 +33,19 @@
     $effect(() => {
         const _query = query;
         const timer = setTimeout(async () => {
-           if (_query.trim().length > 1) {
-               is_searching = true;
+            if (_query.trim().length > 1) {
+                is_searching = true;
 
-               translation_suggestions = (await EntryService.ReadAll(dictionary_id)).filter((looped_translation: I_Entry) => {
-                   return looped_translation.lemma.toLowerCase().includes(_query.toLowerCase()) && !selected_translations.some(translation => translation.id === looped_translation.id);
-               }).sort((a, b) => a.lemma.localeCompare(b.lemma)).slice(0, 10);
+                translation_suggestions = (await EntryService.ReadAll(dictionary_id)).filter((looped_translation: I_Entry) => {
+                    return looped_translation.lemma.toLowerCase().includes(_query.toLowerCase())
+                        && !selected_translations.some(translation => translation.id === looped_translation.id)
+                        && looped_translation.id !== entry?.id;
+                }).sort((a, b) => a.lemma.localeCompare(b.lemma)).slice(0, 10);
 
-               is_searching = false;
-           } else {
-               translation_suggestions = [];
-           }
+                is_searching = false;
+            } else {
+                translation_suggestions = [];
+            }
         }, 200);
 
         return () => clearTimeout(timer);
