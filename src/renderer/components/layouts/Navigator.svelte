@@ -28,7 +28,7 @@
 
 </style>
 
-<div class="flex flex-col">
+<div class="flex flex-col bg-base-20">
     <DictionaryInformationButton />
     <div>
         {#each ContentType.all as tab}

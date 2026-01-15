@@ -8,11 +8,13 @@
 
 </style>
 
-<div>
-    {#each ContentType.all as tab}
-        {#if tab === $currentBrowserTabStore}
-            {@const BrowserComponent = BROWSER_REGISTRY[tab]}
-            <BrowserComponent />
-        {/if}
-    {/each}
-</div>
+{#if $currentBrowserTabStore != null}
+    <div class="bg-base-30">
+        {#each ContentType.all as tab}
+            {#if tab === $currentBrowserTabStore}
+                {@const BrowserComponent = BROWSER_REGISTRY[tab]}
+                <BrowserComponent />
+            {/if}
+        {/each}
+    </div>
+{/if}
