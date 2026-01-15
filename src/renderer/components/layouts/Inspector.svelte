@@ -19,6 +19,6 @@
 
 </style>
 
-<div class="bg-base-30">
+<div class="flex-1 bg-base-30">
     <InspectorComponent />
 </div>
