@@ -21,6 +21,10 @@
     #app {
         @apply flex flex-row w-full h-screen overflow-hidden;
     }
+
+    #app :global(> *) {
+        @apply h-screen;
+    }
 </style>
 
 <div id="app">
