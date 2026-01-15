@@ -28,14 +28,14 @@
 
 </style>
 
-<div>
+<div class="flex flex-col">
     <DictionaryInformationButton />
     <div>
         {#each ContentType.all as tab}
             <NavigatorTabButton tab={ tab } onClick={ () => { onContentTabClick(tab) }} />
         {/each}
     </div>
-    <div>
+    <div class="mt-auto">
         {#each SpecialContentType.all as tab}
             {#if tab !== SpecialContentType.Help || help_button_visibility}
                 <NavigatorTabButton tab={tab} onClick={ () => { onSpecialContentTabClick(tab) }} />
