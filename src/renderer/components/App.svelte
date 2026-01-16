@@ -17,13 +17,25 @@
     });
 </script>
 
-<style>
+<style lang="postcss">
+    @reference '../styles/styles.css';
+
     #app {
         @apply flex flex-row w-full h-screen overflow-hidden;
     }
 
     #app :global(> *) {
         @apply h-screen;
+    }
+
+    #app :global(*:focus) {
+        -webkit-appearance: none;
+        @apply outline-none;
+    }
+
+    #app :global(*:focus-visible) {
+        -webkit-appearance: none;
+        @apply outline-none ring-4 ring-primary-500;
     }
 </style>
 
