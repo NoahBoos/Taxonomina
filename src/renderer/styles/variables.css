@@ -150,6 +150,18 @@
         --color-base-90: #e0e0e0;
         --color-base-100: #dadada;
 
+        --color-primary-50: #f5f2ff;
+        --color-primary-100: #ece8ff;
+        --color-primary-200: #dcd4ff;
+        --color-primary-300: #c2b2ff;
+        --color-primary-400: #b399ff;
+        --color-primary-500: #8855fd;
+        --color-primary-600: #7b32f5;
+        --color-primary-700: #6c20e1;
+        --color-primary-800: #5a1abd;
+        --color-primary-900: #4b189a;
+        --color-primary-950: #2d0c69;
+
         --color-gray-50: #f6f7f8;
         --color-gray-100: #ebecee;
         --color-gray-200: #d9dce0;
