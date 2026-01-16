@@ -14,7 +14,11 @@
     @reference '../../styles/styles.css';
 
     .browser-searchbar {
-        @apply text-base-100 px-2 py-1 border-2 rounded-md border-primary-300 bg-transparent w-full h-fit transition-colors duration-250 ease-out;
+        @apply text-base-100 placeholder-base-90 px-2 py-1 border-2 rounded-md border-base-40 bg-base-10 w-full h-full transition-colors duration-250 ease-out;
+    }
+
+    .browser-searchbar:hover {
+        @apply text-base-90 bg-base-25 border-primary-400;
     }
 </style>
 
