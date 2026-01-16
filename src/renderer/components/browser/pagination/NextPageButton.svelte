@@ -17,6 +17,6 @@
     }
 </style>
 
-<button onclick={() => currentPage = PaginationUtils.next(currentPage, totalPages)} class="next-page-button">
+<button onclick={() => currentPage = PaginationUtils.next(currentPage, totalPages)} class="next-page-button  { currentPage === totalPages ? 'opacity-0' : '' }">
     <ChevronRight />
 </button>

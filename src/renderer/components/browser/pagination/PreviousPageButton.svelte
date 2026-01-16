@@ -17,6 +17,6 @@
     }
 </style>
 
-<button onclick={() => currentPage = PaginationUtils.previous(currentPage)} class="previous-page-button">
+<button onclick={() => currentPage = PaginationUtils.previous(currentPage)} class="previous-page-button { currentPage === 1 ? 'opacity-0' : '' }">
     <ChevronLeft />
 </button>
