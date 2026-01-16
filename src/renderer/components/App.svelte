@@ -28,6 +28,10 @@
         @apply h-screen;
     }
 
+    #app :global(> :not(:last-child)) {
+        @apply border-r-2 border-base-50;
+    }
+
     #app :global(*:focus) {
         -webkit-appearance: none;
         @apply outline-none;
