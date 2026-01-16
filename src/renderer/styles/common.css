@@ -1,0 +1,4 @@
+[data-scrollbar-visibility="false"] *::-webkit-scrollbar {
+    display: none;
+    scrollbar-width: none;
+}
