@@ -8,9 +8,9 @@
 
 <div>
     {#if totalPages === 0}
-        <p>Aucun élément à afficher.</p>
+        <p class="text-center">Aucun élément à afficher.</p>
     {:else}
-        <p>{ currentPage } / { totalPages }</p>
-        <p>{ elementsPerPage } éléments affichés.</p>
+        <p class="text-center">{ currentPage } / { totalPages }</p>
+        <p class="text-center">{ elementsPerPage } éléments affichés.</p>
     {/if}
 </div>
