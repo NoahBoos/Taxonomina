@@ -21,7 +21,7 @@
     }
 
     .current-dictionary-name {
-        @apply text-base text-left pb-2 mb-2 border-b-2 border-base-40 w-full transition-colors duration-250 ease-out;
+        @apply text-left pb-2 mb-2 border-b-2 border-base-40 w-full transition-colors duration-250 ease-out;
     }
 
     .current-dictionary-description {

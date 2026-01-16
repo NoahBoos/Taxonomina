@@ -25,7 +25,7 @@
     }
 
     #app :global(> *) {
-        @apply h-screen;
+        @apply text-base h-screen;
     }
 
     #app :global(> :not(:last-child)) {

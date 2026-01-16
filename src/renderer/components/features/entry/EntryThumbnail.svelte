@@ -14,7 +14,7 @@
     @reference '../../../styles/styles.css';
 
     .entry-thumbnail {
-        @apply text-base-100 text-left text-base p-2 border-2 border-primary-300 rounded-md w-full h-fit font-bold bg-transparent transition-colors duration-250 ease-out;
+        @apply text-base-100 text-left p-2 border-2 border-primary-300 rounded-md w-full h-fit font-bold bg-transparent transition-colors duration-250 ease-out;
     }
 
     .entry-thumbnail:hover {
