@@ -10,10 +10,16 @@
     }
 </script>
 
-<style>
+<style lang="postcss">
+    @reference '../../../styles/styles.css';
 
+    .entry-thumbnail {
+        @apply text-base-100 text-left text-base p-2 border-2 border-primary-300 rounded-md w-full h-fit font-bold bg-transparent transition-colors duration-250 ease-out;
+    }
+
+    .entry-thumbnail:hover {
+        @apply text-base-90 bg-primary-300 border-primary-400;
+    }
 </style>
 
-<div>
-    <button onclick={ openUpdateForm }>{ entry.lemma }</button>
-</div>
+<button onclick={ openUpdateForm } class="entry-thumbnail">{ entry.lemma }</button>
