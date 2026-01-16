@@ -10,7 +10,7 @@
 
 </style>
 
-<div class="flex-1 space-y-2 w-full overflow-y-auto overflow-x-visible">
+<div class="flex-1 space-y-2 px-4 w-full overflow-y-auto overflow-x-visible">
     {#each ContentType.all as tab }
         {#if tab === $currentBrowserTabStore}
             {#each items as item }
