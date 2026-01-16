@@ -51,7 +51,7 @@
         <AddContentButton onClick={ openCreateForm } />
     </div>
     <ContentList items={ paginatedLanguages } />
-    <div class="flex flex-row justify-between">
+    <div class="flex flex-row justify-between items-center">
         <PreviousPageButton bind:currentPage={ currentPage } />
         <PaginationInformation bind:currentPage={ currentPage } totalPages={ totalPages } elementsPerPage={ elementsPerPage } />
         <NextPageButton bind:currentPage={ currentPage } bind:totalPages={ totalPages } />
