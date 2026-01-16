@@ -45,13 +45,13 @@
 
 </style>
 
-<div>
-    <div>
+<div class="flex flex-col h-full gap-2">
+    <div class="flex flex-row gap-2">
         <ContentSearchBar bind:query={ query } bind:currentPage={ currentPage } />
         <AddContentButton onClick={ openCreateForm } />
     </div>
     <ContentList items={ paginatedLanguages } />
-    <div>
+    <div class="flex flex-row justify-between">
         <PreviousPageButton bind:currentPage={ currentPage } />
         <PaginationInformation bind:currentPage={ currentPage } totalPages={ totalPages } elementsPerPage={ elementsPerPage } />
         <NextPageButton bind:currentPage={ currentPage } bind:totalPages={ totalPages } />
