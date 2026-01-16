@@ -14,7 +14,7 @@
     @reference '../../../styles/styles.css';
 
     .language-thumbnail {
-        @apply text-base-100 text-left text-base p-2 border-2 border-primary-300 rounded-md w-full h-fit font-bold bg-transparent transition-colors duration-250 ease-out;
+        @apply text-base-100 text-left text-base flex flex-col items-start p-2 border-2 border-primary-300 rounded-md w-full h-fit font-bold bg-transparent transition-colors duration-250 ease-out;
     }
 
     .language-thumbnail:hover {
