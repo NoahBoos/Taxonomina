@@ -8,7 +8,7 @@
         onChange?: (...args: any[]) => void;
     }
 
-    let { label, options, value = $bindable(''), onChange } = $props();
+    let { label, options, value = $bindable(''), onChange }: Props = $props();
     let id = crypto.randomUUID();
 </script>
 
