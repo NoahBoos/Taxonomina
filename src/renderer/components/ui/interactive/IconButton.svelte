@@ -15,7 +15,7 @@
     @reference '../../../styles/styles.css';
 
     button {
-        @apply p-1 border-2 rounded-md border-primary-300 w-fit transition-colors duration-250 ease-out;
+        @apply p-1 border-2 rounded-md border-primary-300 w-fit h-fit transition-colors duration-250 ease-out;
     }
 
     button:hover {
