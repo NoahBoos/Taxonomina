@@ -15,7 +15,7 @@
 
 </style>
 
-<div>
+<div class="flex flex-row gap-4">
     <TextInput name="lemma" label="Lemme" placeholder="Chien, chat, pigeon..." bind:value={ entry.lemma } />
     <Select label="Langue" options={ languageOptions } bind:value={ entry.language_id } />
 </div>
