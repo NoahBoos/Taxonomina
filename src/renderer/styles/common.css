@@ -70,3 +70,11 @@
 h2 {
     @apply text-2xl text-center font-bold;
 }
+
+label {
+    @apply block font-bold;
+}
+
+.form-field-container {
+    @apply p-4 rounded-lg w-full bg-base-20;
+}
