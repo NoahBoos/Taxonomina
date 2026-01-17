@@ -14,7 +14,7 @@
 
     $effect(() => {
         GrammaticalGenreService.ReadAll(dictionary_id).then(data => {
-            available_genres = data;
+            available_genres = data.sort((a, b) => a.name.localeCompare(b.name));
         });
     });
 
