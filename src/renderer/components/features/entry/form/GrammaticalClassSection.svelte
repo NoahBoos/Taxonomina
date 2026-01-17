@@ -37,8 +37,11 @@
 
 </style>
 
-<div>
-    {#each available_classes as grammatical_class}
-        <Checkbox name={ 'gc-' + grammatical_class.id } label={ grammatical_class.name } checked={ isChecked(grammatical_class) } onChange={ () => toggle(grammatical_class) } />
-    {/each}
+<div class="form-field-container space-y-2">
+    <p class="font-bold">Classes grammaticales</p>
+    <div class="grid grid-cols-2">
+        {#each available_classes as grammatical_class}
+            <Checkbox name={ 'gc-' + grammatical_class.id } label={ grammatical_class.name } checked={ isChecked(grammatical_class) } onChange={ () => toggle(grammatical_class) } variant="minimal" />
+        {/each}
+    </div>
 </div>
