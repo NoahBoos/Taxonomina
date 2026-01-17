@@ -33,12 +33,10 @@
     }
 
     #app :global(*:focus) {
-        -webkit-appearance: none;
         @apply outline-none;
     }
 
     #app :global(*:focus-visible) {
-        -webkit-appearance: none;
         @apply outline-none ring-4 ring-primary-500;
     }
 </style>
