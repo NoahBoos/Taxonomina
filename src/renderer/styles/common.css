@@ -71,6 +71,10 @@ h2 {
     @apply text-2xl text-center font-bold;
 }
 
+h3 {
+    @apply text-xl font-bold;
+}
+
 label {
     @apply block font-bold;
 }
