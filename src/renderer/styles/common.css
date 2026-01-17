@@ -66,3 +66,7 @@
     --text-8xl: 10rem;
     --text-9xl: 12rem;
 }
+
+h2 {
+    @apply text-2xl font-bold;
+}

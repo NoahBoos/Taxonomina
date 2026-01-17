@@ -39,9 +39,12 @@
 </style>
 
 <div class="flex flex-col h-full gap-4">
-    <div class="flex flex-row gap-2">
-        <ContentSearchBar bind:query={ query } bind:currentPage={ currentPage } />
-        <AddContentButton onClick={ openCreateForm } />
+    <div class="space-y-2">
+        <h2>Genres grammaticaux</h2>
+        <div class="flex flex-row gap-2">
+            <ContentSearchBar bind:query={ query } bind:currentPage={ currentPage } />
+            <AddContentButton onClick={ openCreateForm } />
+        </div>
     </div>
     <ContentList items={ paginatedGrammaticalGenres } />
     <div class="flex flex-row justify-between items-center">
