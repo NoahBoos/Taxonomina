@@ -41,7 +41,7 @@
 <div class="flex flex-col h-full gap-4">
     <div class="space-y-2">
         <h2>Entrées</h2>
-        <div class="flex flex-row gap-2">
+        <div class="flex flex-row items-center gap-2">
             <ContentSearchBar bind:query={ query } bind:currentPage={ currentPage } />
             <AddContentButton onClick={ openCreateForm } />
         </div>
