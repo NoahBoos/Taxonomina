@@ -50,7 +50,16 @@
 
 </style>
 
-<form onsubmit={ onSubmit }>
-    <TextInput name="name" label="Nom" placeholder="Féminin, masculin, neutre..." bind:value={ grammatical_genre.name } />
-    <SubmitButton label={ submit_button_label } />
-</form>
+{#key grammatical_genre.id}
+    <div class="flex flex-col gap-4 mx-auto w-[85%]">
+        {#if grammatical_genre.id === 0}
+            <h2>Créer un nouveau genre grammatical</h2>
+        {:else}
+            <h2>Modifier un genre grammatical : { grammatical_genre.name }</h2>
+        {/if}
+        <form onsubmit={ onSubmit } class="flex flex-col gap-4">
+            <TextInput name="name" label="Nom" placeholder="Féminin, masculin, neutre..." bind:value={ grammatical_genre.name } />
+            <SubmitButton label={ submit_button_label } />
+        </form>
+    </div>
+{/key}

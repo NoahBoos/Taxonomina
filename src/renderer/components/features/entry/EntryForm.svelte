@@ -100,14 +100,21 @@
 </style>
 
 {#key entry.id}
-    <form onsubmit={ onSubmit }>
-        <EntrySection { dictionary_id } bind:entry />
-        <div>
-            <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
-            <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
-        </div>
-        <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
-        <DefinitionSection bind:selected_definitions />
-        <SubmitButton label={ submit_button_label } />
-    </form>
+    <div class="flex flex-col gap-4 mx-auto w-[85%]">
+        {#if entry.id === 0}
+            <h2>Créer une nouvelle entrée</h2>
+        {:else}
+            <h2>Modifier une entrée : { entry.lemma }</h2>
+        {/if}
+        <form onsubmit={ onSubmit } class="flex flex-col gap-4">
+            <EntrySection { dictionary_id } bind:entry />
+            <div class="flex flex-row gap-4">
+                <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
+                <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
+            </div>
+            <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
+            <DefinitionSection bind:selected_definitions />
+            <SubmitButton label={ submit_button_label } />
+        </form>
+    </div>
 {/key}

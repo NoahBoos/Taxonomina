@@ -50,7 +50,16 @@
 
 </style>
 
-<form onsubmit={ onSubmit }>
-    <TextInput name="name" label="Nom" placeholder="Adjectif, mot, verbe... ?" bind:value={ grammatical_class.name } />
-    <SubmitButton label={ submit_button_label } />
-</form>
+{#key grammatical_class.id}
+    <div class="flex flex-col gap-4 mx-auto w-[85%]">
+        {#if grammatical_class.id === 0}
+            <h2>Créer une nouvelle classe grammaticale</h2>
+        {:else}
+            <h2>Modifier une classe grammaticale : { grammatical_class.name }</h2>
+        {/if}
+        <form onsubmit={ onSubmit } class="flex flex-col gap-4">
+            <TextInput name="name" label="Nom" placeholder="Adjectif, mot, verbe... ?" bind:value={ grammatical_class.name } />
+            <SubmitButton label={ submit_button_label } />
+        </form>
+    </div>
+{/key}
