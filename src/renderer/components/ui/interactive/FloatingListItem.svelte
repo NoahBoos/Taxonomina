@@ -7,8 +7,16 @@
     let { label, onClick }: Props = $props();
 </script>
 
-<style>
+<style lang="postcss">
+    @reference '../../../styles/styles.css';
 
+    button {
+        @apply text-left p-2 w-full max-h-9;
+    }
+
+    button:hover {
+        @apply bg-base-20;
+    }
 </style>
 
 <li>
