@@ -2,9 +2,11 @@
     interface Props {
         placeholder: string;
         query: string;
+        onfocus?: () => void;
+        onblur?: () => void;
     }
 
-    let { placeholder, query = $bindable('') }: Props = $props();
+    let { placeholder, query = $bindable(''), onfocus, onblur }: Props = $props();
     let id = crypto.randomUUID();
 </script>
 
@@ -20,4 +22,4 @@
     }
 </style>
 
-<input type="text" { id } { placeholder } bind:value={ query } />
+<input type="text" { id } { placeholder } bind:value={ query } { onfocus } { onblur } />
