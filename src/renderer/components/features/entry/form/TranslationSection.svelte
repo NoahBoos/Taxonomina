@@ -17,8 +17,9 @@
     let query = $state('');
     let translation_suggestions = $state<I_Entry[]>([]);
 
+    let is_searchbar_focused = $state(false);
     let is_searching = $state(false);
-    let show_dropdown = $derived(query.length > 0 && translation_suggestions.length > 0);
+    let show_dropdown = $derived(is_searchbar_focused && query.length > 0 && translation_suggestions.length > 0);
 
     function addTranslation(translation: I_Entry) {
         if (!selected_translations.some(t => t.id === translation.id)) selected_translations.push(translation);
@@ -56,18 +57,24 @@
 
 </style>
 
-<div>
+<div class="space-y-2">
+    <h3>Traductions</h3>
     <div>
-        <Searchbar placeholder="Rechercher une traduction..." bind:query />
+        <Searchbar placeholder="Rechercher une traduction..." bind:query onfocus={() => is_searchbar_focused = true} onblur={ () => setTimeout(() => is_searchbar_focused = false, 150)} />
         <FloatingList visible={ show_dropdown }>
             {#each translation_suggestions as translation}
                 <FloatingListItem label={ translation.lemma } onClick={ () => addTranslation(translation) } />
             {/each}
         </FloatingList>
     </div>
-    <div>
-        {#each selected_translations as translation}
-            <Tag label={ translation.lemma } onRemove={ () => removeTranslation(translation) } />
-        {/each}
-    </div>
+    {#if selected_translations.length === 0 }
+        <p>Aucune traduction n'existe pour cette entrée.</p>
+        <p>Commencer une recherche dans la barre de recherche dédiée plus-haut pour ajouter une première traduction.</p>
+    {:else}
+        <div class="flex flex-row flex-wrap gap-2">
+            {#each selected_translations as translation}
+                <Tag label={ translation.lemma } onRemove={ () => removeTranslation(translation) } />
+            {/each}
+        </div>
+    {/if}
 </div>
