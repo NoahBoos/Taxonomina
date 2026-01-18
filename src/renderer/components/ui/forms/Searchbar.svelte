@@ -8,10 +8,16 @@
     let id = crypto.randomUUID();
 </script>
 
-<style>
+<style lang="postcss">
+    @reference '../../../styles/styles.css';
 
+    input {
+        @apply px-2 py-1 border-2 rounded-lg border-base-40 bg-base-10 w-full transition-colors duration-250 ease-out;
+    }
+
+    input:hover {
+        @apply border-primary-300 bg-base-20;
+    }
 </style>
 
-<div>
-    <input type="text" { id } { placeholder } bind:value={ query } />
-</div>
+<input type="text" { id } { placeholder } bind:value={ query } />
