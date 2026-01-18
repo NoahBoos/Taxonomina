@@ -5,6 +5,7 @@
     import FloatingList from "@/renderer/components/ui/display/FloatingList.svelte";
     import FloatingListItem from "@/renderer/components/ui/interactive/FloatingListItem.svelte";
     import Tag from "@/renderer/components/ui/display/Tag.svelte";
+    import {Languages} from "@lucide/svelte";
 
     interface Props {
         dictionary_id: number;
@@ -58,7 +59,10 @@
 </style>
 
 <div class="space-y-2">
-    <h3>Traductions</h3>
+    <div class="flex flex-row items-center gap-2">
+        <Languages />
+        <h3>Traductions</h3>
+    </div>
     <div>
         <Searchbar placeholder="Rechercher une traduction..." bind:query onfocus={() => is_searchbar_focused = true} onblur={ () => setTimeout(() => is_searchbar_focused = false, 150)} />
         <FloatingList visible={ show_dropdown }>

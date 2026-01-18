@@ -16,6 +16,7 @@
     import DefinitionSection from "@/renderer/components/features/entry/form/DefinitionSection.svelte";
     import {I_Definition} from "@/shared/interfaces/I_Definition";
     import {DefinitionService} from "@/renderer/services/DefinitionService";
+    import { BookOpen, Tags } from "@lucide/svelte";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -108,6 +109,10 @@
         {/if}
         <form onsubmit={ onSubmit } class="flex flex-col gap-4">
             <EntrySection { dictionary_id } bind:entry />
+            <div class="flex flex-row items-center gap-2">
+                <Tags />
+                <h3>Catégorisations</h3>
+            </div>
             <div class="flex flex-row gap-4">
                 <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
                 <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />

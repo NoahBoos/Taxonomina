@@ -1,7 +1,7 @@
 <script lang="ts">
     import {I_Definition} from "@/shared/interfaces/I_Definition";
     import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
-    import {Minus, Plus} from "@lucide/svelte";
+    import {Minus, Plus, TextQuote} from "@lucide/svelte";
     import ActionableTextInput from "@/renderer/components/ui/forms/ActionableTextInput.svelte";
 
     interface Props {
@@ -26,7 +26,10 @@
 
 <div class="space-y-2">
     <div class="flex flex-row justify-between items-center">
-        <h3>Définition</h3>
+        <div class="flex flex-row items-center gap-2">
+            <TextQuote />
+            <h3>Définition</h3>
+        </div>
         <IconButton icon={ Plus } onClick={ () => addDefinition() } />
     </div>
     {#if selected_definitions.length === 0}
