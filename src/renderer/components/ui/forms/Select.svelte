@@ -5,11 +5,22 @@
         label: string;
         options: SelectOptions;
         value: string | number;
-        onChange?: (...args: any[]) => void;
+        onChange?: (value: string | number) => void;
     }
 
     let { label, options, value = $bindable(''), onChange }: Props = $props();
     let id = crypto.randomUUID();
+
+    let internal_value = $derived(String(value));
+
+    function handleOnChange(event: Event) {
+        const target = event.target as HTMLSelectElement;
+        const rawValue = target.value;
+        const numericValue = Number(rawValue);
+        value = (!isNaN(numericValue)) && rawValue !== '' ? numericValue : rawValue;
+
+        if (onChange) onChange(value);
+    }
 </script>
 
 <style lang="postcss">
@@ -26,7 +37,7 @@
 
 <div class="form-field-container space-y-2">
     <label for={ id }>{ label }</label>
-    <select { id } bind:value={ value } onchange={ onChange }>
+    <select { id } bind:value={ internal_value } onchange={ handleOnChange }>
         {#each Object.entries(options) as [option_value, option_label]}
             <option value={ option_value }>{ option_label }</option>
         {/each}
