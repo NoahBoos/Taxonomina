@@ -9,7 +9,7 @@ export function RegisterDictionaryIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:dictionary:readAllButOne", (event, rawDictionary: I_Dictionary) => {
-        const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
+        const dictionary: Dictionary = Dictionary.hydrate(rawDictionary);
         return DictionaryRepository.ReadAllButOne(dictionary);
     })
 
@@ -18,17 +18,17 @@ export function RegisterDictionaryIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, rawDictionary: I_Dictionary) => {
-        const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
+        const dictionary: Dictionary = Dictionary.hydrate(rawDictionary);
         return DictionaryRepository.Create(dictionary);
     });
 
     ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, rawDictionary: I_Dictionary) => {
-        const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
+        const dictionary: Dictionary = Dictionary.hydrate(rawDictionary);
         return DictionaryRepository.Update(dictionary);
     });
 
     ipcMain.handle("txnmAPI:repositories:dictionary:delete", (event, rawDictionary: I_Dictionary) => {
-        const dictionary: Dictionary = Dictionary.Hydrate(rawDictionary);
+        const dictionary: Dictionary = Dictionary.hydrate(rawDictionary);
         return DictionaryRepository.Delete(dictionary);
     });
 }

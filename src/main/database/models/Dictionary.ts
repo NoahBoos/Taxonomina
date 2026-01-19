@@ -1,43 +1,25 @@
 import {I_Dictionary} from "../../../shared/interfaces/I_Dictionary";
 
 export class Dictionary {
-    private readonly id: number;
-    private name: string;
-    private description: string;
-
-    constructor(id: number, name: string, description: string) {
+    constructor(
+        public readonly id: number,
+        private _name: string,
+        public description: string
+    ) {
         this.id = id;
-        this.name = name;
+        this.name = _name;
         this.description = description;
     }
 
-    public GetId(): number {
-        return this.id;
+    public get name(): string {
+        return this._name;
     }
 
-    public GetName(): string {
-        return this.name;
-    }
-    public SetName(name: string) {
-        this.name = name;
+    public set name(value: string) {
+        this._name = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
     }
 
-    public GetDescription(): string {
-        return this.description;
-    }
-    public SetDescription(description: string) {
-        this.description = description;
-    }
-
-    public GetQueryObject() {
-        return {
-            dictionary_id: this.id,
-            name: this.name,
-            description: this.description
-        };
-    }
-
-    public ToJSON(): I_Dictionary {
+    public toJSON(): I_Dictionary {
         return {
             id: this.id,
             name: this.name,
@@ -45,19 +27,24 @@ export class Dictionary {
         }
     }
 
-    public static Hydrate(raw: any): Dictionary {
+    public toDatabaseObject() {
+        return {
+            dictionary_id: this.id,
+            name: this.name,
+            description: this.description
+        };
+    }
+
+    public static hydrate(raw: I_Dictionary): Dictionary {
         return new Dictionary(raw.id, raw.name, raw.description);
     }
 
-    public Validate(): boolean {
-        if (!this.name.trim()) {
+    public validate(): boolean {
+        if (this.name.length === 0) {
+            console.warn("Un dictionnaire ne peut être vide.");
             return false;
         }
 
         return true;
-    }
-
-    public Normalize(): void {
-        this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
     }
 }

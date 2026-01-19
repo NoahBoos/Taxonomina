@@ -18,7 +18,7 @@ export class DictionaryRepository {
             FROM dictionaries
             WHERE id != @dictionary_id
         `);
-        return statement.all(dictionaryToIgnore.GetQueryObject()) as I_Dictionary[];
+        return statement.all(dictionaryToIgnore.toDatabaseObject()) as I_Dictionary[];
     }
 
     public static ReadOne(id: number): I_Dictionary | undefined {
@@ -35,9 +35,9 @@ export class DictionaryRepository {
            INSERT INTO dictionaries (name, description)
            VALUES (@name, @description)
         `);
-        const result: RunResult = statement.run(dictionary.GetQueryObject());
+        const result: RunResult = statement.run(dictionary.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new Dictionary(Number(result.lastInsertRowid), dictionary.GetName(), dictionary.GetDescription()).ToJSON()];
+            return [true, new Dictionary(Number(result.lastInsertRowid), dictionary.name, dictionary.description).toJSON()];
         } else return [false, undefined];
     }
 
@@ -48,9 +48,9 @@ export class DictionaryRepository {
                 description = @description
             WHERE id = @dictionary_id
         `);
-        const result: RunResult = statement.run(dictionary.GetQueryObject());
+        const result: RunResult = statement.run(dictionary.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new Dictionary(dictionary.GetId(), dictionary.GetName(), dictionary.GetDescription()).ToJSON()];
+            return [true, new Dictionary(dictionary.id, dictionary.name, dictionary.description).toJSON()];
         } else return [false, undefined];
     }
 
@@ -60,7 +60,7 @@ export class DictionaryRepository {
             FROM dictionaries
             WHERE id = @dictionary_id
         `);
-        const result: RunResult = statement.run(dictionary.GetQueryObject());
+        const result: RunResult = statement.run(dictionary.toDatabaseObject());
         return result.changes > 0;
     }
 }
