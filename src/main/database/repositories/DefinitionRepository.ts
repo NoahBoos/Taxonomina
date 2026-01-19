@@ -40,7 +40,7 @@ export class DefinitionRepository {
         `);
         const result: RunResult = statement.run({
             translation_id: translation.GetQueryObject().entry_id,
-            definition_id: definition.GetQueryObject().definition_id
+            definition_id: definition.toDatabaseObject().definition_id
         });
         return result.changes > 0;
     }
@@ -51,7 +51,7 @@ export class DefinitionRepository {
             WHERE definition_id = @definition_id AND entry_id = @translation_id
         `);
         const result: RunResult = statement.run({
-            definition_id: definition.GetQueryObject().definition_id,
+            definition_id: definition.toDatabaseObject().definition_id,
             translation_id: translation.GetQueryObject().entry_id
         });
         return result.changes > 0;
@@ -62,9 +62,9 @@ export class DefinitionRepository {
             INSERT INTO definitions (definition)
             VALUES (@definition)
         `);
-        const result: RunResult = statement.run(definition.GetQueryObject());
+        const result: RunResult = statement.run(definition.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new Definition(Number(result.lastInsertRowid), definition.GetDefinition()).ToJSON()];
+            return [true, new Definition(Number(result.lastInsertRowid), definition.definition).toJSON()];
         } else return [false, undefined];
     }
 
@@ -74,9 +74,9 @@ export class DefinitionRepository {
             SET definition = @definition
             WHERE id = @definition_id
         `);
-        const result: RunResult = statement.run(definition.GetQueryObject());
+        const result: RunResult = statement.run(definition.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new Definition(definition.GetId(), definition.GetDefinition()).ToJSON()];
+            return [true, new Definition(definition.id, definition.definition).toJSON()];
         } else return [false, undefined];
     }
 
@@ -86,7 +86,7 @@ export class DefinitionRepository {
             FROM definitions
             WHERE id = @definition_id
         `);
-        const result: RunResult = statement.run(definition.GetQueryObject());
+        const result: RunResult = statement.run(definition.toDatabaseObject());
         return result.changes > 0;
     }
 }

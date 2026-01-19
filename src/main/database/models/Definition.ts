@@ -1,56 +1,45 @@
 import {I_Definition} from "../../../shared/interfaces/I_Definition";
 
 export class Definition {
-    private readonly id: number;
-    private definition: string;
-
-    constructor(id: number, definition: string) {
-        this.id = id;
-        this.definition = definition;
+    constructor(
+        public readonly id: number,
+        private _definition: string
+    ) {
+        this.definition = _definition;
     }
 
-    public GetId(): number {
-        return this.id;
+    public get definition(): string {
+        return this._definition;
     }
 
-    public GetDefinition(): string {
-        return this.definition;
-    }
-    public SetDefinition(definition: string) {
-        this.definition = definition;
+    public set definition(value: string) {
+        this._definition = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
     }
 
-    public GetQueryObject() {
-        return {
-            definition_id: this.id,
-            definition: this.definition
-        }
-    }
-
-    public ToJSON(): I_Definition {
+    public toJSON(): I_Definition {
         return {
             id: this.id,
             definition: this.definition
         }
     }
 
-    public static Hydrate(raw: any): Definition {
-        return new Definition(
-            raw.id,
-            raw.definition
-        )
+    public toDatabaseObject() {
+        return {
+            definition_id: this.id,
+            definition: this.definition
+        }
     }
 
-    public Validate() {
-        if (!this.definition.trim()) {
-            console.warn("Une définition ne peut être vide, processus d'ajout des définitions annulé.")
+    public static hydrate(raw: I_Definition): Definition {
+        return new Definition(raw.id, raw.definition);
+    }
+
+    public validate(): boolean {
+        if (this.definition.length === 0) {
+            console.warn("Une définition ne peut être vide.");
             return false;
         }
 
         return true;
-    }
-
-    public Normalize() {
-        this.definition = this.definition.charAt(0).toUpperCase() + this.definition.slice(1)
     }
 }

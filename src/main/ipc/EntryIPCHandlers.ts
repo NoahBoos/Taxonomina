@@ -20,7 +20,7 @@ export function RegisterEntryIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:entry:readAllByLocalTranslation", (event, rawDefinition: I_Definition) => {
-        const definition: Definition = Definition.Hydrate(rawDefinition);
+        const definition: Definition = Definition.hydrate(rawDefinition);
         return EntryRepository.ReadAllByLocalTranslation(definition);
     })
 

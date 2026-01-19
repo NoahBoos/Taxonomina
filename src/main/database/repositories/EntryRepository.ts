@@ -35,7 +35,7 @@ export class EntryRepository {
                 ON entry.id = ed.entry_id    
             WHERE ed.definition_id = @definition_id
         `);
-        return statement.all(definition.GetQueryObject()) as I_Entry[];
+        return statement.all(definition.toDatabaseObject()) as I_Entry[];
     }
 
     public static ReadOne(id: number): I_Entry | undefined {
