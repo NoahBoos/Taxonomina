@@ -13,17 +13,17 @@ export function RegisterLanguageIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:language:create", (event, rawLanguage: I_Language) => {
-        const language: Language = Language.Hydrate(rawLanguage);
+        const language: Language = Language.hydrate(rawLanguage);
         return LanguageRepository.Create(language);
     });
 
     ipcMain.handle("txnmAPI:repositories:language:update", (event, rawLanguage: I_Language) => {
-        const language: Language = Language.Hydrate(rawLanguage);
+        const language: Language = Language.hydrate(rawLanguage);
         return LanguageRepository.Update(language);
     });
 
     ipcMain.handle("txnmAPI:repositories:language:delete", (event, rawLanguage: I_Language) => {
-        const language: Language = Language.Hydrate(rawLanguage);
+        const language: Language = Language.hydrate(rawLanguage);
         return LanguageRepository.Delete(language);
     });
 }

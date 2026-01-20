@@ -1,90 +1,55 @@
 import {I_Language} from "../../../shared/interfaces/I_Language";
 
 export class Language {
-    private readonly id: number;
-    private dictionary_id: number;
-    private iso_639_1: string;
-    private iso_639_3: string;
-    private is_conlang: boolean;
-    private name_native: string;
-    private name_local: string;
-    private direction: string;
-
-    constructor(id: number, dictionary_id: number, iso_639_1: string, iso_639_3: string, is_conlang: boolean, name_native: string, name_local: string, direction: string) {
-        this.id = id;
-        this.dictionary_id = dictionary_id;
-        this.iso_639_1 = iso_639_1;
-        this.iso_639_3 = iso_639_3;
-        this.is_conlang = is_conlang;
-        this.name_native = name_native;
-        this.name_local = name_local;
-        this.direction = direction;
+    constructor(
+        public readonly id: number,
+        public readonly dictionary_id: number,
+        private _iso_639_1: string,
+        private _iso_639_3: string,
+        public is_conlang: boolean,
+        private _name_native: string,
+        private _name_local: string,
+        public direction: string
+    ) {
+        this.iso_639_1 = _iso_639_1;
+        this.iso_639_3 = _iso_639_3;
+        this.name_native = _name_native;
+        this.name_local = _name_local;
     }
 
-    public GetId(): number {
-        return this.id;
+    public get iso_639_1(): string {
+        return this._iso_639_1;
     }
 
-    public GetDictionaryId(): number {
-        return this.dictionary_id;
+    public set iso_639_1(value: string | null | undefined) {
+        this._iso_639_1 = value ? value.trim().toLowerCase() : "";
     }
 
-    public GetIso639_1(): string {
-        return this.iso_639_1;
-    }
-    public SetIso639_1(iso_639_1: string) {
-        this.iso_639_1 = iso_639_1;
+    public get iso_639_3(): string {
+        return this._iso_639_3;
     }
 
-    public GetIso639_3(): string {
-        return this.iso_639_3;
-    }
-    public SetIso639_3(iso_639_3: string) {
-        this.iso_639_3 = iso_639_3;
+    public set iso_639_3(value: string | null | undefined) {
+        this._iso_639_3 = value ? value.trim().toLowerCase() : "";
     }
 
-    public GetIsConlang(): boolean {
-        return this.is_conlang;
-    }
-    public SetIsConlang(is_conlang: boolean) {
-        this.is_conlang = is_conlang;
+    public get name_native(): string {
+        return this._name_native;
     }
 
-    public GetNameNative(): string {
-        return this.name_native;
-    }
-    public SetNameNative(name_native: string) {
-        this.name_native = name_native;
+    public set name_native(value: string) {
+        this._name_native = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
     }
 
-    public GetNameLocal(): string {
-        return this.name_local;
-    }
-    public SetNameLocal(name_local: string) {
-        this.name_local = name_local;
+    public get name_local(): string {
+        return this._name_local;
     }
 
-    public GetDirection(): string {
-        return this.direction;
-    }
-    public SetDirection(direction: string) {
-        this.direction = direction;
+    public set name_local(value: string) {
+        this._name_local = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
     }
 
-    public GetQueryObject() {
-        return {
-            language_id: this.id,
-            dictionary_id: this.dictionary_id,
-            iso_639_1: this.iso_639_1,
-            iso_639_3: this.iso_639_3,
-            is_conlang: this.is_conlang ? 1 : 0,
-            name_native: this.name_native,
-            name_local: this.name_local,
-            direction: this.direction,
-        }
-    }
-
-    public ToJSON(): I_Language {
+    public toJSON(): I_Language {
         return {
             id: this.id,
             dictionary_id: this.dictionary_id,
@@ -97,7 +62,20 @@ export class Language {
         }
     }
 
-    public static Hydrate(raw: any): Language {
+    public toDatabaseObject() {
+        return {
+            language_id: this.id,
+            dictionary_id: this.dictionary_id,
+            iso_639_1: this.iso_639_1,
+            iso_639_3: this.iso_639_3,
+            is_conlang: this.is_conlang ? 1 : 0,
+            name_native: this.name_native,
+            name_local: this.name_local,
+            direction: this.direction,
+        }
+    }
+
+    public static hydrate(raw: I_Language): Language {
         return new Language(
             raw.id,
             raw.dictionary_id,
@@ -110,26 +88,21 @@ export class Language {
         );
     }
 
-    public Validate(): boolean {
-        if (this.iso_639_1?.trim() && this.iso_639_1?.trim().length !== 2) {
+    public validate(): boolean {
+        if (this.iso_639_1.length > 0 && this.iso_639_1.length !== 2) {
+            console.warn("S'il existe, le code ISO 639-1 ne peut pas être d'une longueur autre que deux caractères. Laissez vide si vous avez fait une erreur.");
             return false;
-        } else if (this.iso_639_3.trim().length !== 3) {
+        } else if (this.iso_639_3.length > 0 && this.iso_639_3.length !== 3) {
+            console.warn("S'il existe, le code ISO 639-3 ne peut pas être d'une longueur autre que trois caractères. Laissez vide si vous avez fait une erreur.");
             return false;
-        } else if (!this.name_native.trim()) {
+        } else if (this.name_native.length === 0) {
+            console.warn("Le nom natif d'une langue ne peut pas être vide.");
             return false;
-        } else if (!this.name_local.trim()) {
+        } else if (this.name_local.length === 0) {
+            console.warn("Le nom local d'une langue ne peut pas être vide.");
             return false;
         }
 
         return true;
-    }
-
-    public Normalize(): void {
-        this.iso_639_1 = this.iso_639_1.trim().toLowerCase();
-        this.iso_639_3 = this.iso_639_3.trim().toLowerCase();
-        this.name_native = this.name_native.trim();
-        this.name_native = this.name_native.charAt(0).toUpperCase() + this.name_native.slice(1);
-        this.name_local = this.name_local.trim();
-        this.name_local = this.name_local.charAt(0).toUpperCase() + this.name_local.slice(1);
     }
 }

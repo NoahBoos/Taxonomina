@@ -1,7 +1,6 @@
 import {Language} from "../models/Language";
 import {Database} from "../Database";
 import {RunResult} from "better-sqlite3";
-import {Dictionary} from "../models/Dictionary";
 import {I_Language} from "../../../shared/interfaces/I_Language";
 
 export class LanguageRepository {
@@ -28,9 +27,9 @@ export class LanguageRepository {
             INSERT INTO languages (dictionary_id, iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
             values (@dictionary_id, @iso_639_1, @iso_639_3, @is_conlang, @name_native, @name_local, @direction)
         `);
-        const result: RunResult = statement.run(language.GetQueryObject());
+        const result: RunResult = statement.run(language.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new Language(Number(result.lastInsertRowid), language.GetDictionaryId(), language.GetIso639_1(), language.GetIso639_3(), language.GetIsConlang(), language.GetNameNative(), language.GetNameLocal(), language.GetDirection()).ToJSON()];
+            return [true, new Language(Number(result.lastInsertRowid), language.dictionary_id, language.iso_639_1, language.iso_639_3, language.is_conlang, language.name_native, language.name_local, language.direction).toJSON()];
         } else return [false, undefined];
     }
 
@@ -45,9 +44,9 @@ export class LanguageRepository {
                 direction = @direction
             WHERE id = @language_id
         `);
-        const result: RunResult = statement.run(language.GetQueryObject());
+        const result: RunResult = statement.run(language.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new Language(language.GetId(), language.GetDictionaryId(), language.GetIso639_1(), language.GetIso639_3(), language.GetIsConlang(), language.GetNameNative(), language.GetNameLocal(), language.GetDirection()).ToJSON()];
+            return [true, new Language(language.id, language.dictionary_id, language.iso_639_1, language.iso_639_3, language.is_conlang, language.name_native, language.name_local, language.direction).toJSON()];
         } else return [false, undefined];
     }
 
@@ -57,7 +56,7 @@ export class LanguageRepository {
             FROM languages
             WHERE id = @language_id
         `)
-        const result: RunResult = statement.run(language.GetQueryObject());
+        const result: RunResult = statement.run(language.toDatabaseObject());
         return result.changes > 0;
     }
 }
