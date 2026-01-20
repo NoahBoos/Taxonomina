@@ -1,50 +1,24 @@
 import {I_Entry} from "../../../shared/interfaces/I_Entry";
 
 export class Entry {
-    private readonly id: number;
-    private readonly dictionary_id: number;
-    private language_id: number;
-    private lemma: string;
-
-    constructor(id: number, dictionary_id: number, language_id: number, lemma: string) {
-        this.id = id;
-        this.dictionary_id = dictionary_id;
-        this.language_id = language_id;
-        this.lemma = lemma;
+    constructor(
+        public readonly id: number,
+        public readonly dictionary_id: number,
+        public language_id: number,
+        private _lemma: string
+    ) {
+        this.lemma = _lemma;
     }
 
-    public GetId(): number {
-        return this.id;
+    public get lemma(): string {
+        return this._lemma;
     }
 
-    public GetDictionaryId(): number {
-        return this.dictionary_id;
+    public set lemma(value: string) {
+        this._lemma = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
     }
 
-    public GetLanguageId(): number {
-        return this.language_id;
-    }
-    public SetLanguageId(language_id: number) {
-        this.language_id = language_id;
-    }
-
-    public GetLemma(): string {
-        return this.lemma;
-    }
-    public SetLemma(lemma: string) {
-        this.lemma = lemma;
-    }
-
-    public GetQueryObject() {
-        return {
-            entry_id: this.id,
-            dictionary_id: this.dictionary_id,
-            language_id: this.language_id,
-            lemma: this.lemma,
-        }
-    }
-
-    public ToJSON(): I_Entry {
+    public toJSON(): I_Entry {
         return {
             id: this.id,
             dictionary_id: this.dictionary_id,
@@ -53,7 +27,16 @@ export class Entry {
         }
     }
 
-    public static Hydrate(raw: any) {
+    public toDatabaseObject() {
+        return {
+            entry_id: this.id,
+            dictionary_id: this.dictionary_id,
+            language_id: this.language_id,
+            lemma: this.lemma,
+        }
+    }
+
+    public static hydrate(raw: I_Entry) {
         return new Entry(
             raw.id,
             raw.dictionary_id,
@@ -62,19 +45,18 @@ export class Entry {
         );
     }
 
-    public Validate() {
+    public validate() {
         if (this.dictionary_id === 0) {
+            console.warn("Une entrée ne peut pas appartenir à aucun dictionnaire.");
             return false;
         } else if (this.language_id === 0) {
+            console.warn("Une entrée ne peut pas appartenir à aucune langue.");
             return false;
-        } else if (!this.lemma.trim()) {
+        } else if (this.lemma.length === 0) {
+            console.warn("Le lemme d'une entrée ne peut pas être vide.");
             return false;
         }
 
         return true;
-    }
-
-    public Normalize(): void {
-        this.lemma = this.lemma.charAt(0).toUpperCase() + this.lemma.slice(1);
     }
 }

@@ -11,7 +11,7 @@ export function RegisterGrammaticalClassIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalClass:readAllByEntry", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         return GrammaticalClassRepository.ReadAllByEntry(entry);
     });
 

@@ -11,7 +11,7 @@ export function RegisterDefinitionIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:definition:readAllByEntry", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         return DefinitionRepository.ReadAllByEntry(entry);
     });
 
@@ -21,13 +21,13 @@ export function RegisterDefinitionIPCHandlers() {
 
     ipcMain.handle("txnmAPI:repositories:definition:bindToTranslation", (event, rawDefinition: I_Definition, rawTranslation: I_Entry) => {
         const definition: Definition = Definition.hydrate(rawDefinition);
-        const translation: Entry = Entry.Hydrate(rawTranslation);
+        const translation: Entry = Entry.hydrate(rawTranslation);
         return DefinitionRepository.BindToTranslation(definition, translation);
     })
 
     ipcMain.handle("txnmAPI:repositories:definition:unbindFromTranslation", (event, rawDefinition: I_Definition, rawTranslation: I_Entry) => {
         const definition: Definition = Definition.hydrate(rawDefinition);
-        const translation: Entry = Entry.Hydrate(rawTranslation);
+        const translation: Entry = Entry.hydrate(rawTranslation);
         return DefinitionRepository.UnbindFromTranslation(definition, translation);
     })
 

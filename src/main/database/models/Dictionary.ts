@@ -6,9 +6,7 @@ export class Dictionary {
         private _name: string,
         public description: string
     ) {
-        this.id = id;
         this.name = _name;
-        this.description = description;
     }
 
     public get name(): string {

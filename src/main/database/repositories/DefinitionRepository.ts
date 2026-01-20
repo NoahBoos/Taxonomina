@@ -21,7 +21,7 @@ export class DefinitionRepository {
                   ON entry_definition.definition_id = definition.id
             WHERE entry_definition.entry_id = @entry_id
         `);
-        return statement.all(entry.GetQueryObject()) as I_Definition[];
+        return statement.all(entry.toDatabaseObject()) as I_Definition[];
     }
 
     public static ReadOne(id: number): I_Definition | undefined {
@@ -39,7 +39,7 @@ export class DefinitionRepository {
             VALUES (@translation_id, @definition_id)
         `);
         const result: RunResult = statement.run({
-            translation_id: translation.GetQueryObject().entry_id,
+            translation_id: translation.toDatabaseObject().entry_id,
             definition_id: definition.toDatabaseObject().definition_id
         });
         return result.changes > 0;
@@ -52,7 +52,7 @@ export class DefinitionRepository {
         `);
         const result: RunResult = statement.run({
             definition_id: definition.toDatabaseObject().definition_id,
-            translation_id: translation.GetQueryObject().entry_id
+            translation_id: translation.toDatabaseObject().entry_id
         });
         return result.changes > 0;
     }

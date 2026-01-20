@@ -15,7 +15,7 @@ export function RegisterEntryIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:entry:readAllByGlobalTranslation", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         return EntryRepository.ReadAllByGlobalTranslation(entry);
     });
 
@@ -29,53 +29,53 @@ export function RegisterEntryIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalClass", (event, rawEntry: I_Entry, rawClass: I_GrammaticalClass) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         const grammaticalClass: GrammaticalClass = GrammaticalClass.Hydrate(rawClass);
         return EntryRepository.BindToGrammaticalClass(entry, grammaticalClass);
     })
 
     ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalClass", (event, rawEntry: I_Entry, rawClass: I_GrammaticalClass) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         const grammaticalClass: GrammaticalClass = GrammaticalClass.Hydrate(rawClass);
         return EntryRepository.UnbindFromGrammaticalClass(entry, grammaticalClass);
     })
 
     ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalGenre", (event, rawEntry: I_Entry, rawGenre: I_GrammaticalGenre) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         const genre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGenre);
         return EntryRepository.BindToGrammaticalGenre(entry, genre);
     })
 
     ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalGenre", (event, rawEntry: I_Entry, rawGenre: I_GrammaticalGenre) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         const genre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGenre);
         return EntryRepository.UnbindFromGrammaticalGenre(entry, genre);
     })
 
     ipcMain.handle("txnmAPI:repositories:entry:bindToTranslation", (event, rawEntry: I_Entry, rawTranslation: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
-        const translation: Entry = Entry.Hydrate(rawTranslation);
+        const entry: Entry = Entry.hydrate(rawEntry);
+        const translation: Entry = Entry.hydrate(rawTranslation);
         return EntryRepository.BindToTranslation(entry, translation);
     })
 
     ipcMain.handle("txnmAPI:repositories:entry:unbindFromTranslation", (event, rawEntry: I_Entry, rawTranslation: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
-        const translation: Entry = Entry.Hydrate(rawTranslation);
+        const entry: Entry = Entry.hydrate(rawEntry);
+        const translation: Entry = Entry.hydrate(rawTranslation);
         return EntryRepository.UnbindFromTranslation(entry, translation);
     })
 
     ipcMain.handle("txnmAPI:repositories:entry:create", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         return EntryRepository.Create(entry);
     });
 
     ipcMain.handle("txnmAPI:repositories:entry:update", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         return EntryRepository.Update(entry);
     });
 
     ipcMain.handle("txnmAPI:repositories:entry:delete", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         return EntryRepository.Delete(entry);
     });
 }

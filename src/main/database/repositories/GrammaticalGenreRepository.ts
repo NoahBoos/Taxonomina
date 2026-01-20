@@ -23,7 +23,7 @@ export class GrammaticalGenreRepository {
                 ON gramGenre.id = entry_gramGenre.grammatical_genre_id
             WHERE entry_gramGenre.entry_id = @entry_id
         `);
-        return statement.all(entry.GetQueryObject()) as I_GrammaticalGenre[];
+        return statement.all(entry.toDatabaseObject()) as I_GrammaticalGenre[];
     }
 
     public static ReadOne(id: number): I_GrammaticalGenre | undefined {

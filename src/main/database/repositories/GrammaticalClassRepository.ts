@@ -23,7 +23,7 @@ export class GrammaticalClassRepository {
                 ON gramCat.id = entry_gramCat.grammatical_class_id
             WHERE entry_gramCat.entry_id = @entry_id
         `);
-        return statement.all(entry.GetQueryObject()) as I_GrammaticalClass[];
+        return statement.all(entry.toDatabaseObject()) as I_GrammaticalClass[];
     }
 
     public static ReadOne(id: number): I_GrammaticalClass | undefined {

@@ -11,7 +11,7 @@ export function RegisterGrammaticalGenreIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAllByEntry", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.Hydrate(rawEntry);
+        const entry: Entry = Entry.hydrate(rawEntry);
         return GrammaticalGenreRepository.ReadAllByEntry(entry);
     });
 
