@@ -30,13 +30,13 @@ export function RegisterEntryIPCHandlers() {
 
     ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalClass", (event, rawEntry: I_Entry, rawClass: I_GrammaticalClass) => {
         const entry: Entry = Entry.hydrate(rawEntry);
-        const grammaticalClass: GrammaticalClass = GrammaticalClass.Hydrate(rawClass);
+        const grammaticalClass: GrammaticalClass = GrammaticalClass.hydrate(rawClass);
         return EntryRepository.BindToGrammaticalClass(entry, grammaticalClass);
     })
 
     ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalClass", (event, rawEntry: I_Entry, rawClass: I_GrammaticalClass) => {
         const entry: Entry = Entry.hydrate(rawEntry);
-        const grammaticalClass: GrammaticalClass = GrammaticalClass.Hydrate(rawClass);
+        const grammaticalClass: GrammaticalClass = GrammaticalClass.hydrate(rawClass);
         return EntryRepository.UnbindFromGrammaticalClass(entry, grammaticalClass);
     })
 

@@ -40,9 +40,9 @@ export class GrammaticalClassRepository {
             INSERT INTO grammatical_classes (dictionary_id, name)
             VALUES (@dictionary_id, @name)
         `);
-        const result: RunResult = statement.run(grammaticalClass.GetQueryObject());
+        const result: RunResult = statement.run(grammaticalClass.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalClass(Number(result.lastInsertRowid), grammaticalClass.GetDictionaryId(), grammaticalClass.GetName()).ToJSON()];
+            return [true, new GrammaticalClass(Number(result.lastInsertRowid), grammaticalClass.id, grammaticalClass.name).toJSON()];
         } else return [false, undefined];
     }
 
@@ -52,9 +52,9 @@ export class GrammaticalClassRepository {
             SET name = @name
             WHERE id = @grammatical_class_id
         `);
-        const result: RunResult = statement.run(grammaticalClass.GetQueryObject());
+        const result: RunResult = statement.run(grammaticalClass.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalClass(Number(result.lastInsertRowid), grammaticalClass.GetDictionaryId(), grammaticalClass.GetName()).ToJSON()];
+            return [true, new GrammaticalClass(Number(result.lastInsertRowid), grammaticalClass.id, grammaticalClass.name).toJSON()];
         } else return [false, undefined];
     }
 
@@ -64,7 +64,7 @@ export class GrammaticalClassRepository {
             FROM grammatical_classes
             WHERE id = @grammatical_class_id
         `);
-        const result: RunResult = statement.run(grammaticalClass.GetQueryObject());
+        const result: RunResult = statement.run(grammaticalClass.toDatabaseObject());
         return result.changes > 0;
     }
 }

@@ -20,17 +20,17 @@ export function RegisterGrammaticalClassIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalClass:create", (event, rawGrammaticalClass: I_GrammaticalClass) => {
-        const gramCat: GrammaticalClass = GrammaticalClass.Hydrate(rawGrammaticalClass)
+        const gramCat: GrammaticalClass = GrammaticalClass.hydrate(rawGrammaticalClass)
         return GrammaticalClassRepository.Create(gramCat);
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalClass:update", (event, rawGrammaticalClass: I_GrammaticalClass) => {
-        const gramCat: GrammaticalClass = GrammaticalClass.Hydrate(rawGrammaticalClass)
+        const gramCat: GrammaticalClass = GrammaticalClass.hydrate(rawGrammaticalClass)
         return GrammaticalClassRepository.Update(gramCat);
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalClass:delete", (event, rawGrammaticalClass: I_GrammaticalClass) => {
-        const gramCat: GrammaticalClass = GrammaticalClass.Hydrate(rawGrammaticalClass)
+        const gramCat: GrammaticalClass = GrammaticalClass.hydrate(rawGrammaticalClass)
         return GrammaticalClassRepository.Delete(gramCat);
     });
 }
