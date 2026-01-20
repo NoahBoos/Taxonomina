@@ -20,17 +20,17 @@ export function RegisterGrammaticalGenreIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalGenre:create", (event, rawGramGenre: I_GrammaticalGenre) => {
-        const gramGenre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGramGenre)
+        const gramGenre: GrammaticalGenre = GrammaticalGenre.hydrate(rawGramGenre)
         return GrammaticalGenreRepository.Create(gramGenre);
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalGenre:update", (event, rawGramGenre: I_GrammaticalGenre) => {
-        const gramGenre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGramGenre)
+        const gramGenre: GrammaticalGenre = GrammaticalGenre.hydrate(rawGramGenre)
         return GrammaticalGenreRepository.Update(gramGenre);
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalGenre:delete", (event, rawGramGenre: I_GrammaticalGenre) => {
-        const gramGenre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGramGenre)
+        const gramGenre: GrammaticalGenre = GrammaticalGenre.hydrate(rawGramGenre)
         return GrammaticalGenreRepository.Delete(gramGenre);
     });
 }

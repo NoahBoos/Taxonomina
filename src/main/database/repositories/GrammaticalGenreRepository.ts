@@ -40,9 +40,9 @@ export class GrammaticalGenreRepository {
             INSERT INTO grammatical_genres (dictionary_id, name)
             VALUES (@dictionary_id, @name)
         `);
-        const result: RunResult = statement.run(genre.GetQueryObject());
+        const result: RunResult = statement.run(genre.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetDictionaryId(), genre.GetName()).ToJSON()];
+            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.id, genre.name).toJSON()];
         } else return [false, undefined];
     }
 
@@ -52,9 +52,9 @@ export class GrammaticalGenreRepository {
             SET name = @name
             WHERE id = @grammatical_genre_id
         `);
-        const result: RunResult = statement.run(genre.GetQueryObject());
+        const result: RunResult = statement.run(genre.toDatabaseObject());
         if (result.changes > 0) {
-            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.GetDictionaryId(), genre.GetName()).ToJSON()];
+            return [true, new GrammaticalGenre(Number(result.lastInsertRowid), genre.id, genre.name).toJSON()];
         } else return [false, undefined];
     }
 
@@ -64,7 +64,7 @@ export class GrammaticalGenreRepository {
             FROM grammatical_genres
             WHERE id = @grammatical_genre_id
         `);
-        const result: RunResult = statement.run(genre.GetQueryObject());
+        const result: RunResult = statement.run(genre.toDatabaseObject());
         return result.changes > 0;
     }
 }

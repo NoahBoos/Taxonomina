@@ -1,40 +1,23 @@
 import {I_GrammaticalGenre} from "../../../shared/interfaces/I_GrammaticalGenre";
 
 export class GrammaticalGenre {
-    private readonly id: number;
-    private dictionary_id: number;
-    private name: string;
-
-    constructor(id: number, dictionary_id: number, name: string) {
-        this.id = id;
-        this.dictionary_id = dictionary_id;
-        this.name = name;
+    constructor(
+        public readonly id: number,
+        public readonly dictionary_id: number,
+        private _name: string
+    ) {
+        this.name = _name;
     }
 
-    public GetId(): number {
-        return this.id;
+    public get name(): string {
+        return this._name;
     }
 
-    public GetDictionaryId(): number {
-        return this.dictionary_id;
+    public set name(value: string) {
+        this._name = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
     }
 
-    public GetName(): string {
-        return this.name;
-    }
-    public SetName(name: string) {
-        this.name = name;
-    }
-
-    public GetQueryObject() {
-        return {
-            grammatical_genre_id: this.id,
-            dictionary_id: this.dictionary_id,
-            name: this.name,
-        }
-    }
-
-    public ToJSON(): I_GrammaticalGenre {
+    public toJSON(): I_GrammaticalGenre {
         return {
             id: this.id,
             dictionary_id: this.dictionary_id,
@@ -42,7 +25,15 @@ export class GrammaticalGenre {
         }
     }
 
-    public static Hydrate(raw: any): GrammaticalGenre {
+    public toDatabaseObject() {
+        return {
+            grammatical_genre_id: this.id,
+            dictionary_id: this.dictionary_id,
+            name: this.name,
+        }
+    }
+
+    public static hydrate(raw: I_GrammaticalGenre): GrammaticalGenre {
         return new GrammaticalGenre(
             raw.id,
             raw.dictionary_id,
@@ -50,15 +41,12 @@ export class GrammaticalGenre {
         );
     }
 
-    public Validate(): boolean {
-        if (!this.name.trim()) {
+    public validate(): boolean {
+        if (this.name.length === 0) {
+            console.warn("Le nom d'un genre grammatical ne peut pas être vide.");
             return false;
         }
 
         return true;
-    }
-
-    public Normalize(): void {
-        this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
     }
 }

@@ -42,13 +42,13 @@ export function RegisterEntryIPCHandlers() {
 
     ipcMain.handle("txnmAPI:repositories:entry:bindToGrammaticalGenre", (event, rawEntry: I_Entry, rawGenre: I_GrammaticalGenre) => {
         const entry: Entry = Entry.hydrate(rawEntry);
-        const genre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGenre);
+        const genre: GrammaticalGenre = GrammaticalGenre.hydrate(rawGenre);
         return EntryRepository.BindToGrammaticalGenre(entry, genre);
     })
 
     ipcMain.handle("txnmAPI:repositories:entry:unbindFromGrammaticalGenre", (event, rawEntry: I_Entry, rawGenre: I_GrammaticalGenre) => {
         const entry: Entry = Entry.hydrate(rawEntry);
-        const genre: GrammaticalGenre = GrammaticalGenre.Hydrate(rawGenre);
+        const genre: GrammaticalGenre = GrammaticalGenre.hydrate(rawGenre);
         return EntryRepository.UnbindFromGrammaticalGenre(entry, genre);
     })
 

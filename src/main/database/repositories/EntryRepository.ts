@@ -78,7 +78,7 @@ export class EntryRepository {
         `);
         const result: RunResult = statement.run({
             entry_id: entry.toDatabaseObject().entry_id,
-            grammatical_genre_id: genre.GetQueryObject().grammatical_genre_id
+            grammatical_genre_id: genre.toDatabaseObject().grammatical_genre_id
         });
         return result.changes > 0;
     }
@@ -90,7 +90,7 @@ export class EntryRepository {
         `);
         const result: RunResult = statement.run({
             entry_id: entry.toDatabaseObject().entry_id,
-            grammatical_genre_id: genre.GetQueryObject().grammatical_genre_id
+            grammatical_genre_id: genre.toDatabaseObject().grammatical_genre_id
         });
         return result.changes > 0;
     }
