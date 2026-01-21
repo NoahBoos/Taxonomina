@@ -42,7 +42,6 @@ export class Database {
 
     private static CreateDatabaseTables() {
         this.instance.exec(`
-            -- Tables principales
             CREATE TABLE IF NOT EXISTS dictionaries (
                 id INTEGER PRIMARY KEY,
                 name VARCHAR NOT NULL,
@@ -74,8 +73,7 @@ export class Database {
                 id INTEGER PRIMARY KEY,
                 definition TEXT NOT NULL
             );
-            
-            -- Tables dépendantes
+        
             CREATE TABLE IF NOT EXISTS entries (
                 id INTEGER PRIMARY KEY,
                 dictionary_id INTEGER NOT NULL,
@@ -140,7 +138,6 @@ export class Database {
 
     private static CreateDatabaseIndexes() {
         this.instance.exec(`
-            -- Index pour accélérer les JOIN fréquents
             CREATE INDEX IF NOT EXISTS idx_languages_dictionary_id ON languages(dictionary_id);
             CREATE INDEX IF NOT EXISTS idx_entries_dictionary_id ON entries(dictionary_id);
             CREATE INDEX IF NOT EXISTS idx_grammatical_classes_dictionary_id ON grammatical_classes(dictionary_id);
