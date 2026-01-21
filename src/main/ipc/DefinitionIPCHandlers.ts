@@ -1,48 +1,37 @@
 import {ipcMain} from "electron";
-import {Definition} from "../database/models/Definition";
 import {DefinitionRepository} from "../database/repositories/DefinitionRepository";
-import {Entry} from "../database/models/Entry";
 import {I_Definition} from "../../shared/interfaces/I_Definition";
-import {I_Entry} from "../../shared/interfaces/I_Entry";
 
 export function RegisterDefinitionIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:definition:readAll", () => {
-        return DefinitionRepository.ReadAll();
+        return DefinitionRepository.readAll();
     });
 
-    ipcMain.handle("txnmAPI:repositories:definition:readAllByEntry", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.hydrate(rawEntry);
-        return DefinitionRepository.ReadAllByEntry(entry);
+    ipcMain.handle("txnmAPI:repositories:definition:readAllByEntry", (_, entry_id: number) => {
+        return DefinitionRepository.readAllByEntry(entry_id);
     });
 
-    ipcMain.handle("txnmAPI:repositories:definition:readOne", (event, definitionId: number) => {
-        return DefinitionRepository.ReadOne(definitionId);
+    ipcMain.handle("txnmAPI:repositories:definition:readOne", (_, definition_id: number) => {
+        return DefinitionRepository.readOne(definition_id);
     });
 
-    ipcMain.handle("txnmAPI:repositories:definition:bindToTranslation", (event, rawDefinition: I_Definition, rawTranslation: I_Entry) => {
-        const definition: Definition = Definition.hydrate(rawDefinition);
-        const translation: Entry = Entry.hydrate(rawTranslation);
-        return DefinitionRepository.BindToTranslation(definition, translation);
+    ipcMain.handle("txnmAPI:repositories:definition:create", (_, definition: I_Definition) => {
+        return DefinitionRepository.create(definition);
+    });
+
+    ipcMain.handle("txnmAPI:repositories:definition:update", (_, definition: I_Definition) => {
+        return DefinitionRepository.update(definition);
+    });
+
+    ipcMain.handle("txnmAPI:repositories:definition:delete", (_, definition_id: number) => {
+        return DefinitionRepository.delete(definition_id);
+    });
+
+    ipcMain.handle("txnmAPI:repositories:definition:bindToTranslation", (_, definition_id: number, translation_id: number) => {
+        return DefinitionRepository.bindToTranslation(definition_id, translation_id);
     })
 
-    ipcMain.handle("txnmAPI:repositories:definition:unbindFromTranslation", (event, rawDefinition: I_Definition, rawTranslation: I_Entry) => {
-        const definition: Definition = Definition.hydrate(rawDefinition);
-        const translation: Entry = Entry.hydrate(rawTranslation);
-        return DefinitionRepository.UnbindFromTranslation(definition, translation);
+    ipcMain.handle("txnmAPI:repositories:definition:unbindFromTranslation", (_, definition_id: number, translation_id: number) => {
+        return DefinitionRepository.unbindFromTranslation(definition_id, translation_id);
     })
-
-    ipcMain.handle("txnmAPI:repositories:definition:create", (event, rawDefinition: I_Definition) => {
-        const definition: Definition = Definition.hydrate(rawDefinition)
-        return DefinitionRepository.Create(definition);
-    });
-
-    ipcMain.handle("txnmAPI:repositories:definition:update", (event, rawDefinition: I_Definition) => {
-        const definition: Definition = Definition.hydrate(rawDefinition)
-        return DefinitionRepository.Update(definition);
-    });
-
-    ipcMain.handle("txnmAPI:repositories:definition:delete", (event, rawDefinition: I_Definition) => {
-        const definition: Definition = Definition.hydrate(rawDefinition)
-        return DefinitionRepository.Delete(definition);
-    });
 }

@@ -16,7 +16,7 @@
     import DefinitionSection from "@/renderer/components/features/entry/form/DefinitionSection.svelte";
     import {I_Definition} from "@/shared/interfaces/I_Definition";
     import {DefinitionService} from "@/renderer/services/DefinitionService";
-    import { BookOpen, Tags } from "@lucide/svelte";
+    import { Tags } from "@lucide/svelte";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -39,7 +39,7 @@
                 selected_grammatical_classes = await GrammaticalClassService.ReadAllByEntry(data);
                 selected_grammatical_genres = await GrammaticalGenreService.ReadAllByEntry(data);
                 selected_translations = await EntryService.ReadAllByGlobalTranslation(data);
-                selected_definitions = await DefinitionService.ReadAllByEntry(data);
+                selected_definitions = await DefinitionService.readAllByEntry(data.id);
             }
         } else {
             entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' };
@@ -65,14 +65,14 @@
                     await GrammaticalClassService.ReadAllByEntry(savedEntry),
                     await GrammaticalGenreService.ReadAllByEntry(savedEntry),
                     await EntryService.ReadAllByGlobalTranslation(savedEntry),
-                    await DefinitionService.ReadAllByEntry(savedEntry)
+                    await DefinitionService.readAllByEntry(savedEntry.id)
                 ]);
                 oldGrammaticalClasses.forEach(gc => EntryService.UnbindFromGrammaticalClass(savedEntry, gc));
                 oldGrammaticalGenres.forEach(gg => EntryService.UnbindFromGrammaticalGenre(savedEntry, gg));
                 oldTranslations.forEach(e => EntryService.UnbindFromTranslation(savedEntry, e));
                 for (const d of oldDefinitions) {
-                    await DefinitionService.UnbindFromTranslation(d, savedEntry);
-                    if (selectedDefinitions.every(sd => sd.id !== d.id)) await DefinitionService.Delete(d);
+                    await DefinitionService.unbindFromTranslation(d.id, savedEntry.id);
+                    if (selectedDefinitions.every(sd => sd.id !== d.id)) await DefinitionService.delete(d.id);
                 }
             }
 
@@ -80,9 +80,9 @@
             selectedGrammaticalGenres.forEach(gg => EntryService.BindToGrammaticalGenre(savedEntry, gg));
             selectedTranslations.forEach(e => EntryService.BindToTranslation(savedEntry, e));
             for (const d of selectedDefinitions) {
-                const [success, savedDefinition] = await DefinitionService.Save(d);
+                const [success, savedDefinition] = await DefinitionService.save(d);
                 if (!success || !savedDefinition) throw new Error(`Failed to save the definition \"${d.definition}\".`);
-                await DefinitionService.BindToTranslation(savedDefinition, savedEntry);
+                await DefinitionService.bindToTranslation(savedDefinition.id, savedEntry.id);
             }
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);

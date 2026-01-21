@@ -22,14 +22,14 @@ contextBridge.exposeInMainWorld("txnmAPI", {
     },
     repositories: {
         definition: {
-            ReadAll: (): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),
-            ReadAllByEntry: (rawEntry: I_Entry): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAllByEntry", rawEntry),
-            ReadOne: (definitionId: number) => ipcRenderer.invoke("txnmAPI:repositories:definition:readOne", definitionId),
-            BindToTranslation: (rawDefinition: I_Definition, rawTranslation: I_Entry) => ipcRenderer.invoke("txnmAPI:repositories:definition:bindToTranslation", rawDefinition, rawTranslation),
-            UnbindFromTranslation: (rawDefinition: I_Definition, rawTranslation: I_Entry) => ipcRenderer.invoke("txnmAPI:repositories:definition:unbindFromTranslation", rawDefinition, rawTranslation),
-            Create: (rawDefinition: I_Definition): Promise<[boolean, I_Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:create", rawDefinition),
-            Update: (rawDefinition: I_Definition): Promise<[boolean, I_Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:update", rawDefinition),
-            Delete: (rawDefinition: I_Definition): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:delete", rawDefinition),
+            readAll: (): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),
+            readAllByEntry: (entry_id: number): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAllByEntry", entry_id),
+            readOne: (definition_id: number): Promise<I_Definition> => ipcRenderer.invoke("txnmAPI:repositories:definition:readOne", definition_id),
+            create: (definition: I_Definition): Promise<[boolean, I_Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:create", definition),
+            update: (definition: I_Definition): Promise<[boolean, I_Definition | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:definition:update", definition),
+            delete: (definition_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:delete", definition_id),
+            bindToTranslation: (definition: I_Definition, translation: I_Entry): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:bindToTranslation", definition, translation),
+            unbindFromTranslation: (definition: I_Definition, translation: I_Entry): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:unbindFromTranslation", definition, translation),
         },
         dictionary: {
             ReadAll: (): Promise<I_Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAll"),

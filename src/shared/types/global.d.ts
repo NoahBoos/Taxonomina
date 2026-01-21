@@ -25,14 +25,14 @@ declare global {
             }
             repositories: {
                 definition: {
-                    ReadAll: () => Promise<I_Definition[]>,
-                    ReadAllByEntry: (rawEntry: Entry) => Promise<I_Definition[]>,
-                    ReadOne: (definitionId: number) => Promise<I_Definition>,
-                    BindToTranslation: (rawDefinition: I_Definition, rawTranslation: Entry) => Promise<boolean>,
-                    UnbindFromTranslation: (rawDefinition: I_Definition, rawTranslation: Entry) => Promise<boolean>,
-                    Create: (rawDefinition: I_Definition) => Promise<[boolean, I_Definition | undefined]>,
-                    Update: (rawDefinition: I_Definition) => Promise<[boolean, I_Definition | undefined]>,
-                    Delete: (rawDefinition: I_Definition) => Promise<boolean>,
+                    readAll: () => Promise<I_Definition[]>,
+                    readAllByEntry: (entry_id: number) => Promise<I_Definition[]>,
+                    readOne: (definition_id: number) => Promise<I_Definition>,
+                    create: (definition: I_Definition) => Promise<[boolean, I_Definition | undefined]>,
+                    update: (definition: I_Definition) => Promise<[boolean, I_Definition | undefined]>,
+                    delete: (definition_id: number) => Promise<boolean>,
+                    bindToTranslation: (definition_id: number, translation_id: number) => Promise<boolean>,
+                    unbindFromTranslation: (definition_id: number, translation_id: number) => Promise<boolean>,
                 },
                 dictionary: {
                     ReadAll: () => Promise<I_Dictionary[]>,
