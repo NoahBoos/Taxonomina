@@ -37,7 +37,7 @@
         <p>Cliquez sur le bouton "Plus" en-haut à droite de la section pour ajouter une première définition.</p>
     {:else}
         {#each selected_definitions as definition}
-            <ActionableTextInput name={ 'definition-' + definition.id } label={'Définition ' + (selected_definitions.indexOf(definition) + 1) } placeholder="Entrez votre définition." value={ definition.definition } icon={ Minus } onClick={ () => removeDefinition(definition) } />
+            <ActionableTextInput name={ 'definition-' + definition.id } label={'Définition ' + (selected_definitions.indexOf(definition) + 1) } placeholder="Entrez votre définition." bind:value={ definition.definition } icon={ Minus } onClick={ () => removeDefinition(definition) } />
         {/each}
     {/if}
 </div>
