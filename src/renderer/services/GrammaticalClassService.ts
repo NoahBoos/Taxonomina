@@ -3,26 +3,26 @@ import {I_Entry} from "@/shared/interfaces/I_Entry";
 
 export class GrammaticalClassService {
     public static async ReadAll(dictionary_id: number): Promise<I_GrammaticalClass[]> {
-        return await window.txnmAPI.repositories.grammaticalClass.ReadAll(dictionary_id);
+        return await window.txnmAPI.repositories.grammaticalClass.readAll(dictionary_id);
     }
 
     public static async ReadAllByEntry(entry: I_Entry): Promise<I_GrammaticalClass[]> {
-        return await window.txnmAPI.repositories.grammaticalClass.ReadAllByEntry(entry);
+        return await window.txnmAPI.repositories.grammaticalClass.readAllByEntry(entry.id);
     }
 
     public static async ReadOne(gramCatId: number): Promise<I_GrammaticalClass> {
-        return await window.txnmAPI.repositories.grammaticalClass.ReadOne(gramCatId);
+        return await window.txnmAPI.repositories.grammaticalClass.readOne(gramCatId);
     }
 
     public static async Save(gramCat: I_GrammaticalClass): Promise<[boolean, I_GrammaticalClass | undefined]> {
         let [success, savedGramCat] = gramCat.id == 0
-            ? await window.txnmAPI.repositories.grammaticalClass.Create(gramCat)
-            : await window.txnmAPI.repositories.grammaticalClass.Update(gramCat);
+            ? await window.txnmAPI.repositories.grammaticalClass.create(gramCat)
+            : await window.txnmAPI.repositories.grammaticalClass.update(gramCat);
         return [success, savedGramCat];
     }
 
     public static async Delete(gramCat: I_GrammaticalClass): Promise<boolean> {
-        return await window.txnmAPI.repositories.grammaticalClass.Delete(gramCat);
+        return await window.txnmAPI.repositories.grammaticalClass.delete(gramCat.id);
     }
 
     // public static async FilterBySearch(dictionary_id: number, query: string): Promise<GrammaticalClass[]> {

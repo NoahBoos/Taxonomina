@@ -1,70 +1,78 @@
-import {GrammaticalClass} from "../models/GrammaticalClass";
-import {Database} from "../Database";
-import {RunResult} from "better-sqlite3";
-import {Entry} from "../models/Entry";
-import {Dictionary} from "../models/Dictionary";
-import {I_GrammaticalClass} from "../../../shared/interfaces/I_GrammaticalClass";
+import { I_GrammaticalClass } from "../../../shared/interfaces/I_GrammaticalClass";
+import { Database } from "../Database";
+import { RunResult, Statement } from "better-sqlite3";
+import { GrammaticalClass } from "../models/GrammaticalClass";
 
 export class GrammaticalClassRepository {
-    public static ReadAll(dictionary_id: number): I_GrammaticalClass[] {
-        const statement = Database.GetDatabase().prepare(`
-            SELECT *
-            FROM grammatical_classes
+    public static readAll(dictionary_id: number): I_GrammaticalClass[] {
+        const statement: Statement<{ dictionary_id: number }, I_GrammaticalClass> = Database.GetDatabase().prepare(`
+            SELECT * 
+            FROM grammatical_classes 
             WHERE dictionary_id = @dictionary_id
         `);
-        return statement.all({"dictionary_id": dictionary_id}) as I_GrammaticalClass[];
+
+        return statement.all({ dictionary_id });
     }
 
-    public static ReadAllByEntry(entry: Entry): I_GrammaticalClass[] {
-        const statement = Database.GetDatabase().prepare(`
-            SELECT gramCat.*
-            FROM grammatical_classes AS gramCat
-            JOIN entry_grammatical_class AS entry_gramCat
-                ON gramCat.id = entry_gramCat.grammatical_class_id
-            WHERE entry_gramCat.entry_id = @entry_id
-        `);
-        return statement.all(entry.toDatabaseObject()) as I_GrammaticalClass[];
-    }
-
-    public static ReadOne(id: number): I_GrammaticalClass | undefined {
-        const statement = Database.GetDatabase().prepare(`
+    public static readAllByEntry(entry_id: number): I_GrammaticalClass[] {
+        const statement: Statement<{ entry_id: number }, I_GrammaticalClass> = Database.GetDatabase().prepare(`
             SELECT *
             FROM grammatical_classes
-            WHERE id = @grammatical_class_id
+            JOIN entry_grammatical_class ON entry_grammatical_class.grammatical_class_id = grammatical_classes.id
+            WHERE entry_grammatical_class.entry_id = @entry_id;
         `);
-        return statement.get({grammatical_class_id: id}) as I_GrammaticalClass ?? undefined;
+
+        return statement.all({ entry_id });
     }
 
-    public static Create(grammaticalClass: GrammaticalClass): [boolean, I_GrammaticalClass | undefined] {
-        const statement = Database.GetDatabase().prepare(`
-            INSERT INTO grammatical_classes (dictionary_id, name)
-            VALUES (@dictionary_id, @name)
-        `);
-        const result: RunResult = statement.run(grammaticalClass.toDatabaseObject());
-        if (result.changes > 0) {
-            return [true, new GrammaticalClass(Number(result.lastInsertRowid), grammaticalClass.id, grammaticalClass.name).toJSON()];
-        } else return [false, undefined];
-    }
-
-    public static Update(grammaticalClass: GrammaticalClass): [boolean, I_GrammaticalClass | undefined] {
-        const statement = Database.GetDatabase().prepare(`
-            UPDATE grammatical_classes
-            SET name = @name
-            WHERE id = @grammatical_class_id
-        `);
-        const result: RunResult = statement.run(grammaticalClass.toDatabaseObject());
-        if (result.changes > 0) {
-            return [true, new GrammaticalClass(Number(result.lastInsertRowid), grammaticalClass.id, grammaticalClass.name).toJSON()];
-        } else return [false, undefined];
-    }
-
-    public static Delete(grammaticalClass: GrammaticalClass): boolean {
-        const statement = Database.GetDatabase().prepare(`
-            DELETE
+    public static readOne(grammatical_class_id: number): I_GrammaticalClass | undefined {
+        const statement: Statement<{ id: number }, I_GrammaticalClass> = Database.GetDatabase().prepare(`
+            SELECT *
             FROM grammatical_classes
-            WHERE id = @grammatical_class_id
+            WHERE id = @id;
         `);
-        const result: RunResult = statement.run(grammaticalClass.toDatabaseObject());
+
+        return statement.get({ id: grammatical_class_id });
+    }
+
+    public static create(grammatical_class: I_GrammaticalClass): [boolean, I_GrammaticalClass | undefined] {
+        const _grammatical_class: GrammaticalClass = GrammaticalClass.hydrate(grammatical_class);
+        if (!_grammatical_class.validate()) return [false, undefined];
+
+        const statement: Statement<{ dictionary_id: number, name: string }, number> = Database.GetDatabase().prepare(`
+            INSERT INTO grammatical_classes (dictionary_id, name) VALUES (@dictionary_id, @name);
+        `);
+
+        const result: RunResult = statement.run({ dictionary_id: _grammatical_class.dictionary_id, name: _grammatical_class.name });
+
+        if (result.changes > 0) {
+            return [true, new GrammaticalClass(Number(result.lastInsertRowid), _grammatical_class.dictionary_id, _grammatical_class.name).toJSON()];
+        } else return [false, undefined];
+    }
+
+    public static update(grammatical_class: I_GrammaticalClass): [boolean, I_GrammaticalClass | undefined] {
+        const _grammatical_class: GrammaticalClass = GrammaticalClass.hydrate(grammatical_class);
+        if (!_grammatical_class.validate()) return [false, undefined];
+
+        const statement: Statement<{ id: number, dictionary_id: number, name: string }, number> = Database.GetDatabase().prepare(`
+            UPDATE grammatical_classes SET dictionary_id = @dictionary_id, name = @name
+            WHERE id = @id;
+        `);
+
+        const result: RunResult = statement.run({ id: _grammatical_class.id, dictionary_id: _grammatical_class.dictionary_id, name: _grammatical_class.name });
+
+        if (result.changes > 0) {
+            return [true, _grammatical_class.toJSON()];
+        } else return [false, undefined];
+    }
+
+    public static delete(grammatical_class_id: number): boolean {
+        const statement: Statement<{ grammatical_class_id: number }, number> = Database.GetDatabase().prepare(`
+            DELETE FROM grammatical_classes WHERE id = @grammatical_class_id;
+        `)
+
+        const result: RunResult = statement.run({ grammatical_class_id });
+
         return result.changes > 0;
     }
 }

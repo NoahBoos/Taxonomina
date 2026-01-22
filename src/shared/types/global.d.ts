@@ -57,12 +57,12 @@ declare global {
                     Delete: (rawEntry: I_Entry) => Promise<boolean>,
                 },
                 grammaticalClass: {
-                    ReadAll: (dictionary_id: number) => Promise<I_GrammaticalClass[]>,
-                    ReadAllByEntry: (rawEntry: I_Entry) => Promise<I_GrammaticalClass[]>,
-                    ReadOne: (grammaticalCategoryId) => Promise<I_GrammaticalClass>,
-                    Create: (rawGramCat: I_GrammaticalClass) => Promise<[boolean, I_GrammaticalClass | undefined]>,
-                    Update: (rawGramCat: I_GrammaticalClass) => Promise<[boolean, I_GrammaticalClass | undefined]>,
-                    Delete: (rawGramCat: I_GrammaticalClass) => Promise<boolean>,
+                    readAll: (dictionary_id: number) => Promise<I_GrammaticalClass[]>,
+                    readAllByEntry: (entry_id: number) => Promise<I_GrammaticalClass[]>,
+                    readOne: (grammatical_category_id: number) => Promise<I_GrammaticalClass>,
+                    create: (grammatical_class: I_GrammaticalClass) => Promise<[boolean, I_GrammaticalClass | undefined]>,
+                    update: (grammatical_class: I_GrammaticalClass) => Promise<[boolean, I_GrammaticalClass | undefined]>,
+                    delete: (grammatical_class_id: number) => Promise<boolean>,
                 },
                 grammaticalGenre: {
                     ReadAll: (dictionary_id: number) => Promise<I_GrammaticalGenre[]>,

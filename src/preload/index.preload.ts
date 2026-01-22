@@ -54,12 +54,12 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             Delete: (rawEntry: I_Entry): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:entry:delete", rawEntry),
         },
         grammaticalClass: {
-            ReadAll: (dictionary_id: number): Promise<I_GrammaticalClass[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:readAll", dictionary_id),
-            ReadAllByEntry: (rawEntry: I_Entry): Promise<I_GrammaticalClass[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:readAllByEntry", rawEntry),
-            ReadOne: (grammaticalClassId: number) => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:readOne", grammaticalClassId),
-            Create: (rawGrammaticalClass: I_GrammaticalClass): Promise<[boolean, I_GrammaticalClass | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:create", rawGrammaticalClass),
-            Update: (rawGrammaticalClass: I_GrammaticalClass): Promise<[boolean, I_GrammaticalClass | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:update", rawGrammaticalClass),
-            Delete: (rawGrammaticalClass: I_GrammaticalClass): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:delete", rawGrammaticalClass),
+            readAll: (dictionary_id: number): Promise<I_GrammaticalClass[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:readAll", dictionary_id),
+            readAllByEntry: (entry_id: number): Promise<I_GrammaticalClass[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:readAllByEntry", entry_id),
+            readOne: (grammatical_class_id: number): Promise<I_GrammaticalClass | undefined> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:readOne", grammatical_class_id),
+            create: (grammatical_class: I_GrammaticalClass): Promise<[boolean, I_GrammaticalClass | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:create", grammatical_class),
+            update: (grammatical_class: I_GrammaticalClass): Promise<[boolean, I_GrammaticalClass | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:update", grammatical_class),
+            delete: (grammatical_class_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalClass:delete", grammatical_class_id),
         },
         grammaticalGenre: {
             ReadAll: (dictionary_id: number): Promise<I_GrammaticalGenre[]> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:readAll", dictionary_id),
