@@ -32,12 +32,11 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             unbindFromTranslation: (definition: I_Definition, translation: I_Entry): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:unbindFromTranslation", definition, translation),
         },
         dictionary: {
-            ReadAll: (): Promise<I_Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAll"),
-            ReadAllButOne: (rawDictionary: I_Dictionary): Promise<I_Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAllButOne", rawDictionary),
-            ReadOne: (dictionaryId: number) => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readOne", dictionaryId),
-            Create: (rawDictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", rawDictionary),
-            Update: (rawDictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:update", rawDictionary),
-            Delete: (rawDictionary: I_Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:delete", rawDictionary),
+            readAll: (): Promise<I_Dictionary[]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readAll"),
+            readOne: (dictionary_id: number): Promise<I_Dictionary | undefined> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readOne", dictionary_id),
+            create: (dictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", dictionary),
+            update: (dictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:update", dictionary),
+            delete: (dictionary_id: I_Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:delete", dictionary_id),
         },
         entry: {
             ReadAll: (dictionary_id: number): Promise<I_Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAll", dictionary_id),

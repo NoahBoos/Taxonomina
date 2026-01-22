@@ -35,12 +35,11 @@ declare global {
                     unbindFromTranslation: (definition_id: number, translation_id: number) => Promise<boolean>,
                 },
                 dictionary: {
-                    ReadAll: () => Promise<I_Dictionary[]>,
-                    ReadAllButOne: (rawDictionary) => Promise<I_Dictionary[]>,
-                    ReadOne: (dictionaryId) => Promise<I_Dictionary>,
-                    Create: (rawDictionary: I_Dictionary) => Promise<[boolean, I_Dictionary | undefined]>,
-                    Update: (rawDictionary: I_Dictionary) => Promise<[boolean, I_Dictionary | undefined]>,
-                    Delete: (rawDictionary: I_Dictionary) => Promise<boolean>,
+                    readAll: () => Promise<I_Dictionary[]>,
+                    readOne: (dictionary_id) => Promise<I_Dictionary>,
+                    create: (dictionary: I_Dictionary) => Promise<[boolean, I_Dictionary | undefined]>,
+                    update: (dictionary: I_Dictionary) => Promise<[boolean, I_Dictionary | undefined]>,
+                    delete: (dictionary: I_Dictionary) => Promise<boolean>,
                 },
                 entry: {
                     ReadAll: (dictionary_id: number) => Promise<I_Entry[]>,

@@ -1,66 +1,67 @@
-import {Dictionary} from "../models/Dictionary";
-import {Database} from "../Database";
-import {RunResult} from "better-sqlite3";
-import {I_Dictionary} from "../../../shared/interfaces/I_Dictionary";
+import { RunResult, Statement } from "better-sqlite3";
+import { I_Dictionary } from "../../../shared/interfaces/I_Dictionary";
+import { Database } from "../Database";
+import { Dictionary } from "../models/Dictionary";
 
 export class DictionaryRepository {
-    public static ReadAll(): I_Dictionary[] {
-        const statement = Database.GetDatabase().prepare(`
+    public static readAll(): I_Dictionary[] {
+        const statement: Statement<[], I_Dictionary> = Database.GetDatabase().prepare(`
             SELECT * 
-            FROM dictionaries
+            FROM dictionaries;
         `);
-        return statement.all() as I_Dictionary[];
+
+        return statement.all();
     }
 
-    public static ReadAllButOne(dictionaryToIgnore: Dictionary): I_Dictionary[] {
-        const statement = Database.GetDatabase().prepare(`
-            SELECT *
-            FROM dictionaries
-            WHERE id != @dictionary_id
+    public static readOne(dictionary_id: number): I_Dictionary | undefined {
+        const statement: Statement<{ dictionary_id: number }, I_Dictionary> = Database.GetDatabase().prepare(`
+            SELECT * 
+            FROM dictionaries 
+            WHERE id = @dictionary_id;
         `);
-        return statement.all(dictionaryToIgnore.toDatabaseObject()) as I_Dictionary[];
+
+        return statement.get({ dictionary_id });
     }
 
-    public static ReadOne(id: number): I_Dictionary | undefined {
-        const statement = Database.GetDatabase().prepare(`
-            SELECT *
-            FROM dictionaries
-            WHERE id = @dictionary_id
-        `);
-        return statement.get({dictionary_id: id}) as I_Dictionary ?? undefined;
-    }
+    public static create(dictionary: I_Dictionary): [boolean, I_Dictionary | undefined] {
+        const _dictionary: Dictionary = Dictionary.hydrate(dictionary);
+        if (!_dictionary.validate()) return [false, undefined];
 
-    public static Create(dictionary: Dictionary): [boolean, I_Dictionary | undefined] {
-        const statement = Database.GetDatabase().prepare(`
-           INSERT INTO dictionaries (name, description)
-           VALUES (@name, @description)
+        const statement: Statement<{ name: string, description: string }, number> = Database.GetDatabase().prepare(`
+            INSERT INTO dictionaries (name, description) VALUES (@name, @description);
         `);
-        const result: RunResult = statement.run(dictionary.toDatabaseObject());
+
+        const result: RunResult = statement.run({ name: _dictionary.name, description: _dictionary.description });
+
         if (result.changes > 0) {
-            return [true, new Dictionary(Number(result.lastInsertRowid), dictionary.name, dictionary.description).toJSON()];
+            return [true, new Dictionary(Number(result.lastInsertRowid), _dictionary.name, _dictionary.description).toJSON()];
         } else return [false, undefined];
     }
 
-    public static Update(dictionary: Dictionary): [boolean, I_Dictionary | undefined] {
-        const statement = Database.GetDatabase().prepare(`
-            UPDATE dictionaries
-            SET name = @name, 
-                description = @description
-            WHERE id = @dictionary_id
+    public static update(dictionary: I_Dictionary): [boolean, I_Dictionary | undefined] {
+        const _dictionary: Dictionary = Dictionary.hydrate(dictionary);
+        if (!_dictionary.validate()) return [false, undefined];
+
+        const statement: Statement<{ id: number, name: string, description: string }, number> = Database.GetDatabase().prepare(`
+            UPDATE dictionaries 
+            SET name = @name, description = @description
+            WHERE id = @id;
         `);
-        const result: RunResult = statement.run(dictionary.toDatabaseObject());
+
+        const result: RunResult = statement.run({ id: _dictionary.id, name: _dictionary.name, description: _dictionary.description });
+
         if (result.changes > 0) {
-            return [true, new Dictionary(dictionary.id, dictionary.name, dictionary.description).toJSON()];
+            return [true, _dictionary.toJSON()];
         } else return [false, undefined];
     }
 
-    public static Delete(dictionary: Dictionary): boolean {
-        const statement = Database.GetDatabase().prepare(`
-            DELETE 
-            FROM dictionaries
-            WHERE id = @dictionary_id
+    public static delete(dictionary_id: number): boolean {
+        const statement: Statement<{ id: number }, number> = Database.GetDatabase().prepare(`
+            DELETE FROM dictionaries WHERE id = @id;
         `);
-        const result: RunResult = statement.run(dictionary.toDatabaseObject());
+
+        const result: RunResult = statement.run({ id: dictionary_id });
+
         return result.changes > 0;
     }
 }

@@ -1,34 +1,25 @@
 import {ipcMain} from "electron";
 import {DictionaryRepository} from "../database/repositories/DictionaryRepository";
-import {Dictionary} from "../database/models/Dictionary";
 import {I_Dictionary} from "../../shared/interfaces/I_Dictionary";
 
 export function RegisterDictionaryIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:dictionary:readAll", () => {
-        return DictionaryRepository.ReadAll();
+        return DictionaryRepository.readAll();
     });
 
-    ipcMain.handle("txnmAPI:repositories:dictionary:readAllButOne", (event, rawDictionary: I_Dictionary) => {
-        const dictionary: Dictionary = Dictionary.hydrate(rawDictionary);
-        return DictionaryRepository.ReadAllButOne(dictionary);
-    })
-
-    ipcMain.handle("txnmAPI:repositories:dictionary:readOne", (event, dictionaryId: number) => {
-        return DictionaryRepository.ReadOne(dictionaryId);
+    ipcMain.handle("txnmAPI:repositories:dictionary:readOne", (event, dictionary_id: number) => {
+        return DictionaryRepository.readOne(dictionary_id);
     });
 
-    ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, rawDictionary: I_Dictionary) => {
-        const dictionary: Dictionary = Dictionary.hydrate(rawDictionary);
-        return DictionaryRepository.Create(dictionary);
+    ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, dictionary: I_Dictionary) => {
+        return DictionaryRepository.create(dictionary);
     });
 
-    ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, rawDictionary: I_Dictionary) => {
-        const dictionary: Dictionary = Dictionary.hydrate(rawDictionary);
-        return DictionaryRepository.Update(dictionary);
+    ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, dictionary: I_Dictionary) => {
+        return DictionaryRepository.update(dictionary);
     });
 
-    ipcMain.handle("txnmAPI:repositories:dictionary:delete", (event, rawDictionary: I_Dictionary) => {
-        const dictionary: Dictionary = Dictionary.hydrate(rawDictionary);
-        return DictionaryRepository.Delete(dictionary);
+    ipcMain.handle("txnmAPI:repositories:dictionary:delete", (event, dictionary_id: number) => {
+        return DictionaryRepository.delete(dictionary_id);
     });
 }

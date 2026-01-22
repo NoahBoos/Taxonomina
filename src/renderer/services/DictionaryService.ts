@@ -5,7 +5,7 @@ import {I_Dictionary} from "@/shared/interfaces/I_Dictionary";
 export class DictionaryService {
     public static async GetCurrentDictionary(): Promise<I_Dictionary> {
         let settings: I_TaxonominaSettings = await window.txnmAPI.settings.Expose();
-        return await window.txnmAPI.repositories.dictionary.ReadOne(settings.currentDictionary);
+        return await window.txnmAPI.repositories.dictionary.readOne(settings.currentDictionary);
     }
 
     public static async SetCurrentDictionary(dictionary: I_Dictionary): Promise<void> {
@@ -14,21 +14,17 @@ export class DictionaryService {
     }
 
     public static async GetAllDictionaries(): Promise<I_Dictionary[]> {
-        return await window.txnmAPI.repositories.dictionary.ReadAll();
-    }
-
-    public static async GetAllDictionariesButOne(dictionaryToIgnore: I_Dictionary): Promise<I_Dictionary[]> {
-        return await window.txnmAPI.repositories.dictionary.ReadAllButOne(dictionaryToIgnore);
+        return await window.txnmAPI.repositories.dictionary.readAll();
     }
 
     public static async Delete(dictionary: I_Dictionary): Promise<boolean> {
-        return await window.txnmAPI.repositories.dictionary.Delete(dictionary);
+        return await window.txnmAPI.repositories.dictionary.delete(dictionary);
     }
 
     public static async Save(dictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> {
         let [success, savedDictionary] = dictionary.id == 0
-            ? await window.txnmAPI.repositories.dictionary.Create(dictionary)
-            : await window.txnmAPI.repositories.dictionary.Update(dictionary);
+            ? await window.txnmAPI.repositories.dictionary.create(dictionary)
+            : await window.txnmAPI.repositories.dictionary.update(dictionary);
         return [success, savedDictionary];
     }
 
