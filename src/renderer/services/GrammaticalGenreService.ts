@@ -3,26 +3,26 @@ import {I_Entry} from "@/shared/interfaces/I_Entry";
 
 export class GrammaticalGenreService {
     public static async ReadAll(dictionary_id: number): Promise<I_GrammaticalGenre[]> {
-        return await window.txnmAPI.repositories.grammaticalGenre.ReadAll(dictionary_id);
+        return await window.txnmAPI.repositories.grammaticalGenre.readAll(dictionary_id);
     }
 
     public static async ReadAllByEntry(entry: I_Entry): Promise<I_GrammaticalGenre[]> {
-        return await window.txnmAPI.repositories.grammaticalGenre.ReadAllByEntry(entry);
+        return await window.txnmAPI.repositories.grammaticalGenre.readAllByEntry(entry.id);
     }
 
     public static async ReadOne(gramGenreId: number): Promise<I_GrammaticalGenre> {
-        return await window.txnmAPI.repositories.grammaticalGenre.ReadOne(gramGenreId);
+        return await window.txnmAPI.repositories.grammaticalGenre.readOne(gramGenreId);
     }
 
     public static async Save(gramGenre: I_GrammaticalGenre): Promise<[boolean, I_GrammaticalGenre | undefined]> {
         let [success, savedGenre] = gramGenre.id == 0
-            ? await window.txnmAPI.repositories.grammaticalGenre.Create(gramGenre)
-            : await window.txnmAPI.repositories.grammaticalGenre.Update(gramGenre);
+            ? await window.txnmAPI.repositories.grammaticalGenre.create(gramGenre)
+            : await window.txnmAPI.repositories.grammaticalGenre.update(gramGenre);
         return [success, savedGenre];
     }
 
     public static async Delete(gramGenre: I_GrammaticalGenre): Promise<boolean> {
-        return await window.txnmAPI.repositories.grammaticalGenre.Delete(gramGenre);
+        return await window.txnmAPI.repositories.grammaticalGenre.delete(gramGenre.id);
     }
 
     // public static async FilterBySearch(dictionary_id: number, query: string): Promise<GrammaticalGenre[]> {

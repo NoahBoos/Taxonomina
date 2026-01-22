@@ -6,31 +6,27 @@ import {I_Entry} from "../../shared/interfaces/I_Entry";
 import {I_GrammaticalGenre} from "../../shared/interfaces/I_GrammaticalGenre";
 
 export function RegisterGrammaticalGenreIPCHandlers() {
-    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAll", (event, dictionary_id: number) => {
-        return GrammaticalGenreRepository.ReadAll(dictionary_id);
+    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAll", (_, dictionary_id: number) => {
+        return GrammaticalGenreRepository.readAll(dictionary_id);
     });
 
-    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAllByEntry", (event, rawEntry: I_Entry) => {
-        const entry: Entry = Entry.hydrate(rawEntry);
-        return GrammaticalGenreRepository.ReadAllByEntry(entry);
+    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAllByEntry", (_, entry_id: number) => {
+        return GrammaticalGenreRepository.readAllByEntry(entry_id);
     });
 
-    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readOne", (event, gramGenreId: number) => {
-        return GrammaticalGenreRepository.ReadOne(gramGenreId);
+    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readOne", (_, grammatical_genre_id: number) => {
+        return GrammaticalGenreRepository.readOne(grammatical_genre_id);
     });
 
-    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:create", (event, rawGramGenre: I_GrammaticalGenre) => {
-        const gramGenre: GrammaticalGenre = GrammaticalGenre.hydrate(rawGramGenre)
-        return GrammaticalGenreRepository.Create(gramGenre);
+    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:create", (_, grammatical_genre: I_GrammaticalGenre) => {
+        return GrammaticalGenreRepository.create(grammatical_genre);
     });
 
-    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:update", (event, rawGramGenre: I_GrammaticalGenre) => {
-        const gramGenre: GrammaticalGenre = GrammaticalGenre.hydrate(rawGramGenre)
-        return GrammaticalGenreRepository.Update(gramGenre);
+    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:update", (_, grammatical_genre: I_GrammaticalGenre) => {
+        return GrammaticalGenreRepository.update(grammatical_genre);
     });
 
-    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:delete", (event, rawGramGenre: I_GrammaticalGenre) => {
-        const gramGenre: GrammaticalGenre = GrammaticalGenre.hydrate(rawGramGenre)
-        return GrammaticalGenreRepository.Delete(gramGenre);
+    ipcMain.handle("txnmAPI:repositories:grammaticalGenre:delete", (_, grammatical_genre_id: number) => {
+        return GrammaticalGenreRepository.delete(grammatical_genre_id);
     });
 }
