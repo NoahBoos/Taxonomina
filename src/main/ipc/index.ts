@@ -1,11 +1,11 @@
-import {registerDefinitionIPCHandlers} from "./DefinitionIPCHandlers";
-import {registerDictionaryIPCHandlers} from "./DictionaryIPCHandlers";
-import {registerEntryIPCHandlers} from "./EntryIPCHandlers";
-import {registerGrammaticalClassIPCHandlers} from "./GrammaticalClassIPCHandlers";
-import {registerGrammaticalGenreIPCHandlers} from "./GrammaticalGenreIPCHandlers";
-import {registerLanguageIPCHandlers} from "./LanguageIPCHandlers";
-import {registerSettingsIPCHandlers} from "./SettingsIPCHandlers";
-import {registerDatabaseIPCHandlers} from "./DatabaseIPCHandlers";
+import {registerDefinitionIPCHandlers} from "./definitionIPCHandlers";
+import {registerDictionaryIPCHandlers} from "./dictionaryIPCHandlers";
+import {registerEntryIPCHandlers} from "./entryIPCHandlers";
+import {registerGrammaticalClassIPCHandlers} from "./grammaticalClassIPCHandlers";
+import {registerGrammaticalGenreIPCHandlers} from "./grammaticalGenreIPCHandlers";
+import {registerLanguageIPCHandlers} from "./languageIPCHandlers";
+import {registerSettingsIPCHandlers} from "./settingsIPCHandlers";
+import {registerDatabaseIPCHandlers} from "./databaseIPCHandlers";
 
 export function registerAllIPCHandlers() {
     registerDatabaseIPCHandlers();
