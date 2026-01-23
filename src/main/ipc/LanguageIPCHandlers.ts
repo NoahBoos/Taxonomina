@@ -3,7 +3,7 @@ import {Language} from "../database/models/Language";
 import {LanguageRepository} from "../database/repositories/LanguageRepository";
 import {I_Language} from "../../shared/interfaces/I_Language";
 
-export function RegisterLanguageIPCHandlers() {
+export function registerLanguageIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:language:readAll", (_, dictionary_id: number) => {
         return LanguageRepository.readAll(dictionary_id);
     });

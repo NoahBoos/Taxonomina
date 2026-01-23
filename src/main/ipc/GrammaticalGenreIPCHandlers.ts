@@ -5,7 +5,7 @@ import {Entry} from "../database/models/Entry";
 import {I_Entry} from "../../shared/interfaces/I_Entry";
 import {I_GrammaticalGenre} from "../../shared/interfaces/I_GrammaticalGenre";
 
-export function RegisterGrammaticalGenreIPCHandlers() {
+export function registerGrammaticalGenreIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:grammaticalGenre:readAll", (_, dictionary_id: number) => {
         return GrammaticalGenreRepository.readAll(dictionary_id);
     });

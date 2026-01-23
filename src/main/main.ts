@@ -4,7 +4,7 @@ import {app, BrowserWindow} from "electron";
 import {Database} from "./database/Database";
 import {SettingManager} from "./utils/SettingManager";
 import {I_TaxonominaSettings} from "../shared/interfaces/I_TaxonominaSettings";
-import {RegisterAllIPCHandlers} from "./ipc";
+import {registerAllIPCHandlers} from "./ipc";
 
 export let settings: I_TaxonominaSettings;
 async function InitializeSetting() {
@@ -38,4 +38,4 @@ app.whenReady().then(() => {
     })
 })
 
-RegisterAllIPCHandlers();
+registerAllIPCHandlers();

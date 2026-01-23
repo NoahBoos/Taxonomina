@@ -2,7 +2,7 @@ import {ipcMain} from "electron";
 import {DictionaryRepository} from "../database/repositories/DictionaryRepository";
 import {I_Dictionary} from "../../shared/interfaces/I_Dictionary";
 
-export function RegisterDictionaryIPCHandlers() {
+export function registerDictionaryIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:dictionary:readAll", () => {
         return DictionaryRepository.readAll();
     });

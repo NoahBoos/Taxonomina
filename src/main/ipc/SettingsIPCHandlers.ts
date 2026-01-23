@@ -3,7 +3,7 @@ import {SettingManager} from "../utils/SettingManager";
 import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 import {settings} from "../main";
 
-export function RegisterSettingsIPCHandlers() {
+export function registerSettingsIPCHandlers() {
     ipcMain.handle("txnmAPI:settings:expose", () => {
         return settings;
     });

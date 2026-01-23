@@ -9,7 +9,7 @@ import {I_GrammaticalClass} from "../../shared/interfaces/I_GrammaticalClass";
 import {I_GrammaticalGenre} from "../../shared/interfaces/I_GrammaticalGenre";
 import {I_Definition} from "../../shared/interfaces/I_Definition";
 
-export function RegisterEntryIPCHandlers() {
+export function registerEntryIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:entry:readAll", (_, dictionary_id: number) => {
         return EntryRepository.readAll(dictionary_id);
     });

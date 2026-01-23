@@ -1,19 +1,19 @@
-import {RegisterDefinitionIPCHandlers} from "./DefinitionIPCHandlers";
-import {RegisterDictionaryIPCHandlers} from "./DictionaryIPCHandlers";
-import {RegisterEntryIPCHandlers} from "./EntryIPCHandlers";
-import {RegisterGrammaticalClassIPCHandlers} from "./GrammaticalClassIPCHandlers";
-import {RegisterGrammaticalGenreIPCHandlers} from "./GrammaticalGenreIPCHandlers";
-import {RegisterLanguageIPCHandlers} from "./LanguageIPCHandlers";
-import {RegisterSettingsIPCHandlers} from "./SettingsIPCHandlers";
-import {RegisterDatabaseIPCHandlers} from "./DatabaseIPCHandlers";
+import {registerDefinitionIPCHandlers} from "./DefinitionIPCHandlers";
+import {registerDictionaryIPCHandlers} from "./DictionaryIPCHandlers";
+import {registerEntryIPCHandlers} from "./EntryIPCHandlers";
+import {registerGrammaticalClassIPCHandlers} from "./GrammaticalClassIPCHandlers";
+import {registerGrammaticalGenreIPCHandlers} from "./GrammaticalGenreIPCHandlers";
+import {registerLanguageIPCHandlers} from "./LanguageIPCHandlers";
+import {registerSettingsIPCHandlers} from "./SettingsIPCHandlers";
+import {registerDatabaseIPCHandlers} from "./DatabaseIPCHandlers";
 
-export function RegisterAllIPCHandlers() {
-    RegisterDatabaseIPCHandlers();
-    RegisterDefinitionIPCHandlers();
-    RegisterDictionaryIPCHandlers();
-    RegisterEntryIPCHandlers();
-    RegisterGrammaticalClassIPCHandlers();
-    RegisterGrammaticalGenreIPCHandlers();
-    RegisterLanguageIPCHandlers();
-    RegisterSettingsIPCHandlers();
+export function registerAllIPCHandlers() {
+    registerDatabaseIPCHandlers();
+    registerDefinitionIPCHandlers();
+    registerDictionaryIPCHandlers();
+    registerEntryIPCHandlers();
+    registerGrammaticalClassIPCHandlers();
+    registerGrammaticalGenreIPCHandlers();
+    registerLanguageIPCHandlers();
+    registerSettingsIPCHandlers();
 }

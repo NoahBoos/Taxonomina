@@ -1,7 +1,7 @@
 import {ipcMain} from "electron";
 import {Database} from "../database/Database";
 
-export function RegisterDatabaseIPCHandlers() {
+export function registerDatabaseIPCHandlers() {
     ipcMain.handle("txnmAPI:database:beginTransaction", () => {
         return Database.BeginTransaction();
     });

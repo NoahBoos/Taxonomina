@@ -2,7 +2,7 @@ import {ipcMain} from "electron";
 import {DefinitionRepository} from "../database/repositories/DefinitionRepository";
 import {I_Definition} from "../../shared/interfaces/I_Definition";
 
-export function RegisterDefinitionIPCHandlers() {
+export function registerDefinitionIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:definition:readAll", () => {
         return DefinitionRepository.readAll();
     });

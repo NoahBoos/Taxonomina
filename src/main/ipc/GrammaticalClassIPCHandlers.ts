@@ -5,7 +5,7 @@ import {Entry} from "../database/models/Entry";
 import {I_Entry} from "../../shared/interfaces/I_Entry";
 import {I_GrammaticalClass} from "../../shared/interfaces/I_GrammaticalClass";
 
-export function RegisterGrammaticalClassIPCHandlers() {
+export function registerGrammaticalClassIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:grammaticalClass:readAll", (_, dictionary_id: number) => {
         return GrammaticalClassRepository.readAll(dictionary_id);
     });
