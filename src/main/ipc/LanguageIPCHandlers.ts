@@ -20,7 +20,7 @@ export function RegisterLanguageIPCHandlers() {
         return LanguageRepository.update(language);
     });
 
-    ipcMain.handle("txnmAPI:repositories:language:delete", (_, language: I_Language) => {
-        return LanguageRepository.delete(language.id);
+    ipcMain.handle("txnmAPI:repositories:language:delete", (_, language_id: number) => {
+        return LanguageRepository.delete(language_id);
     });
 }

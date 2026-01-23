@@ -7,19 +7,19 @@ export function RegisterDictionaryIPCHandlers() {
         return DictionaryRepository.readAll();
     });
 
-    ipcMain.handle("txnmAPI:repositories:dictionary:readOne", (event, dictionary_id: number) => {
+    ipcMain.handle("txnmAPI:repositories:dictionary:readOne", (_, dictionary_id: number) => {
         return DictionaryRepository.readOne(dictionary_id);
     });
 
-    ipcMain.handle("txnmAPI:repositories:dictionary:create", (event, dictionary: I_Dictionary) => {
+    ipcMain.handle("txnmAPI:repositories:dictionary:create", (_, dictionary: I_Dictionary) => {
         return DictionaryRepository.create(dictionary);
     });
 
-    ipcMain.handle("txnmAPI:repositories:dictionary:update", (event, dictionary: I_Dictionary) => {
+    ipcMain.handle("txnmAPI:repositories:dictionary:update", (_, dictionary: I_Dictionary) => {
         return DictionaryRepository.update(dictionary);
     });
 
-    ipcMain.handle("txnmAPI:repositories:dictionary:delete", (event, dictionary_id: number) => {
+    ipcMain.handle("txnmAPI:repositories:dictionary:delete", (_, dictionary_id: number) => {
         return DictionaryRepository.delete(dictionary_id);
     });
 }
