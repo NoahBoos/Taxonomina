@@ -73,11 +73,11 @@ declare global {
                     delete: (grammatical_genre_id: number) => Promise<boolean>,
                 }
                 language: {
-                    ReadAll: (dictionary_id: number) => Promise<I_Language[]>,
-                    ReadOne: (languageId: number) => Promise<I_Language>,
-                    Create: (rawLanguage: I_Language) => Promise<[boolean, I_Language | undefined]>,
-                    Update: (rawLanguage: I_Language) => Promise<[boolean, I_Language | undefined]>,
-                    Delete: (rawLanguage: I_Language) => Promise<boolean>
+                    readAll: (dictionary_id: number) => Promise<I_Language[]>,
+                    readOne: (language_id: number) => Promise<I_Language>,
+                    create: (language: I_Language) => Promise<[boolean, I_Language | undefined]>,
+                    update: (language: I_Language) => Promise<[boolean, I_Language | undefined]>,
+                    delete: (language_id: number) => Promise<boolean>
                 }
             }
         }

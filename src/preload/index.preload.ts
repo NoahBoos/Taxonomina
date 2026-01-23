@@ -70,11 +70,11 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             delete: (grammatical_genre_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:grammaticalGenre:delete", grammatical_genre_id),
         },
         language: {
-            ReadAll: (dictionary_id: number): Promise<I_Language[]> => ipcRenderer.invoke("txnmAPI:repositories:language:readAll", dictionary_id),
-            ReadOne: (languageId: number) => ipcRenderer.invoke("txnmAPI:repositories:language:readOne", languageId),
-            Create: (rawLanguage: I_Language): Promise<[boolean, I_Language | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:language:create", rawLanguage),
-            Update: (rawLanguage: I_Language): Promise<[boolean, I_Language | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:language:update", rawLanguage),
-            Delete: (rawLanguage: I_Language): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:language:delete", rawLanguage)
+            readAll: (dictionary_id: number): Promise<I_Language[]> => ipcRenderer.invoke("txnmAPI:repositories:language:readAll", dictionary_id),
+            readOne: (language_id: number): Promise<I_Language[]> => ipcRenderer.invoke("txnmAPI:repositories:language:readOne", language_id),
+            create: (language: I_Language): Promise<[boolean, I_Language | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:language:create", language),
+            update: (language: I_Language): Promise<[boolean, I_Language | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:language:update", language),
+            delete: (language_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:language:delete", language_id)
         }
     },
 })
