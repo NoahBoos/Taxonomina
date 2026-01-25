@@ -5,8 +5,8 @@ export class LanguageService {
         return await window.txnmAPI.repositories.language.readAll(dictionary_id);
     }
 
-    public static async readOne(languageId: number): Promise<I_Language> {
-        return await window.txnmAPI.repositories.language.readOne(languageId);
+    public static async readOne(language_id: number): Promise<I_Language> {
+        return await window.txnmAPI.repositories.language.readOne(language_id);
     }
 
     public static async save(language: I_Language): Promise<[boolean, I_Language | undefined]> {
@@ -16,7 +16,7 @@ export class LanguageService {
         return [success, savedLanguage];
     }
 
-    public static async delete(language: I_Language) {
-        return await window.txnmAPI.repositories.language.delete(language.id);
+    public static async delete(language_id: number) {
+        return await window.txnmAPI.repositories.language.delete(language_id);
     }
 }
