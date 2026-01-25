@@ -38,7 +38,7 @@
                 Object.assign(entry, data);
                 selected_grammatical_classes = await GrammaticalClassService.readAllByEntry(data);
                 selected_grammatical_genres = await GrammaticalGenreService.readAllByEntry(data);
-                selected_translations = await EntryService.readAllByGlobalTranslation(data);
+                selected_translations = await EntryService.readAllByGlobalTranslation(data.id);
                 selected_definitions = await DefinitionService.readAllByEntry(data.id);
             }
         } else {
@@ -64,21 +64,21 @@
                 let [oldGrammaticalClasses, oldGrammaticalGenres, oldTranslations, oldDefinitions] = await Promise.all([
                     await GrammaticalClassService.readAllByEntry(savedEntry),
                     await GrammaticalGenreService.readAllByEntry(savedEntry),
-                    await EntryService.readAllByGlobalTranslation(savedEntry),
+                    await EntryService.readAllByGlobalTranslation(savedEntry.id),
                     await DefinitionService.readAllByEntry(savedEntry.id)
                 ]);
-                oldGrammaticalClasses.forEach(gc => EntryService.unbindFromGrammaticalClass(savedEntry, gc));
-                oldGrammaticalGenres.forEach(gg => EntryService.unbindFromGrammaticalGenre(savedEntry, gg));
-                oldTranslations.forEach(e => EntryService.unbindFromTranslation(savedEntry, e));
+                oldGrammaticalClasses.forEach(gc => EntryService.unbindFromGrammaticalClass(savedEntry.id, gc.id));
+                oldGrammaticalGenres.forEach(gg => EntryService.unbindFromGrammaticalGenre(savedEntry.id, gg.id));
+                oldTranslations.forEach(e => EntryService.unbindFromTranslation(savedEntry.id, e.id));
                 for (const d of oldDefinitions) {
                     await DefinitionService.unbindFromTranslation(d.id, savedEntry.id);
                     if (selectedDefinitions.every(sd => sd.id !== d.id)) await DefinitionService.delete(d.id);
                 }
             }
 
-            selectedGrammaticalClasses.forEach(gc => EntryService.bindToGrammaticalClass(savedEntry, gc));
-            selectedGrammaticalGenres.forEach(gg => EntryService.bindToGrammaticalGenre(savedEntry, gg));
-            selectedTranslations.forEach(e => EntryService.bindToTranslation(savedEntry, e));
+            selectedGrammaticalClasses.forEach(gc => EntryService.bindToGrammaticalClass(savedEntry.id, gc.id));
+            selectedGrammaticalGenres.forEach(gg => EntryService.bindToGrammaticalGenre(savedEntry.id, gg.id));
+            selectedTranslations.forEach(e => EntryService.bindToTranslation(savedEntry.id, e.id));
             for (const d of selectedDefinitions) {
                 const [success, savedDefinition] = await DefinitionService.save(d);
                 if (!success || !savedDefinition) throw new Error(`Failed to save the definition \"${d.definition}\".`);
