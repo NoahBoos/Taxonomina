@@ -1,6 +1,6 @@
 <script lang="ts">
     import {ChevronLeft} from "@lucide/svelte";
-    import {PaginationUtils} from "@/renderer/utils/pagination";
+    import {PaginationUtils} from "@/renderer/utils/PaginationUtils";
 
     let { currentPage = $bindable(1) } = $props();
 </script>

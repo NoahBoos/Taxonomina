@@ -1,6 +1,6 @@
 <script lang="ts">
     import {currentBrowserTabStore} from "@/renderer/stores/currentBrowserTabStore";
-    import {PaginationUtils} from "@/renderer/utils/pagination";
+    import {PaginationUtils} from "@/renderer/utils/PaginationUtils";
     import {ContentType} from "@/renderer/enums/ContentType";
 
     let { query = $bindable(''), currentPage = $bindable(1) }: { query: string, currentPage: number } = $props();
