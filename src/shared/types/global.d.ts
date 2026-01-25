@@ -19,7 +19,6 @@ declare global {
             },
             settings: {
                 Expose: () => Promise<I_TaxonominaSettings>,
-                Save: () => Promise<void>,
                 Load: () => Promise<I_TaxonominaSettings>,
                 Update: (key: keyof I_TaxonominaSettings, value: any) => Promise<void>,
             }

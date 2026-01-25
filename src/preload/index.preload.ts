@@ -16,7 +16,6 @@ contextBridge.exposeInMainWorld("txnmAPI", {
     },
     settings: {
         Expose: () => ipcRenderer.invoke("txnmAPI:settings:expose"),
-        Save: () => ipcRenderer.invoke("txnmAPI:settings:save"),
         Load: () => ipcRenderer.invoke("txnmAPI:settings:load"),
         Update: (key: keyof I_TaxonominaSettings, value: any): Promise<any> => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
     },

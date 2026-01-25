@@ -8,10 +8,6 @@ export function registerSettingsIPCHandlers() {
         return settings;
     });
 
-    ipcMain.handle("txnmAPI:settings:save", async () => {
-        return await SettingManager.SaveSetting(settings);
-    });
-
     ipcMain.handle("txnmAPI:settings:load", async () => {
         return await SettingManager.LoadSettings();
     });
