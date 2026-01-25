@@ -5,6 +5,6 @@ import {DictionaryService} from "@/renderer/services/DictionaryService";
 export const currentDictionary: Writable<I_Dictionary | null> = writable(null);
 
 export async function refreshCurrentDictionary() {
-    const dictionary = await DictionaryService.getCurrentDictionary();
+    const dictionary = await DictionaryService.readCurrentDictionary();
     currentDictionary.set(dictionary);
 }
