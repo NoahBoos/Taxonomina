@@ -1,9 +1,0 @@
-@layer components {
-    [data-role="thumbnail"] {
-        @apply w-full h-fit;
-    }
-
-    [data-role="thumbnail"][data-context="dictionary"] {
-        @apply horizontal justify-between items-center gap-2;
-    }
-}
