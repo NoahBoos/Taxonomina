@@ -56,7 +56,7 @@ export class GrammaticalGenreRepository {
 
         const statement: Statement<{ id: number, dictionary_id: number, name: string }, number> = Database.GetDatabase().prepare(`
             UPDATE grammatical_genres SET name = @name
-            WHERE id = @grammatical_genre_id;
+            WHERE id = @id;
         `);
 
         const result: RunResult = statement.run({ id: _grammatical_genre.id, dictionary_id: _grammatical_genre.dictionary_id, name: _grammatical_genre.name });
