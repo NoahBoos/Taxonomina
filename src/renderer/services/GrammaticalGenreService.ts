@@ -1,5 +1,4 @@
 import {I_GrammaticalGenre} from "@/shared/interfaces/I_GrammaticalGenre";
-import {I_Entry} from "@/shared/interfaces/I_Entry";
 
 export class GrammaticalGenreService {
     public static async readAll(dictionary_id: number): Promise<I_GrammaticalGenre[]> {

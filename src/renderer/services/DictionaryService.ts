@@ -1,8 +1,6 @@
-import {I_TaxonominaSettings} from "../../shared/interfaces/I_TaxonominaSettings";
 import {I_Dictionary} from "@/shared/interfaces/I_Dictionary";
 import { settings } from "@/renderer/stores/settingsStore";
 import { get } from "svelte/store";
-// import {SetSettings} from "../pages/index/index.renderer";
 
 export class DictionaryService {
     public static async readAll(): Promise<I_Dictionary[]> {

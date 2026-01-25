@@ -1,8 +1,5 @@
 import {ipcMain} from "electron";
-import {GrammaticalGenre} from "../database/models/GrammaticalGenre";
 import {GrammaticalGenreRepository} from "../database/repositories/GrammaticalGenreRepository";
-import {Entry} from "../database/models/Entry";
-import {I_Entry} from "../../shared/interfaces/I_Entry";
 import {I_GrammaticalGenre} from "../../shared/interfaces/I_GrammaticalGenre";
 
 export function registerGrammaticalGenreIPCHandlers() {

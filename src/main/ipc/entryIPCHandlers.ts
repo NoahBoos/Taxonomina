@@ -1,13 +1,6 @@
 import {ipcMain} from "electron";
-import {Entry} from "../database/models/Entry";
 import {EntryRepository} from "../database/repositories/EntryRepository";
-import {Definition} from "../database/models/Definition";
-import {GrammaticalClass} from "../database/models/GrammaticalClass";
-import {GrammaticalGenre} from "../database/models/GrammaticalGenre";
 import {I_Entry} from "../../shared/interfaces/I_Entry";
-import {I_GrammaticalClass} from "../../shared/interfaces/I_GrammaticalClass";
-import {I_GrammaticalGenre} from "../../shared/interfaces/I_GrammaticalGenre";
-import {I_Definition} from "../../shared/interfaces/I_Definition";
 
 export function registerEntryIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:entry:readAll", (_, dictionary_id: number) => {

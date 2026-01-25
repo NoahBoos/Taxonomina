@@ -1,7 +1,4 @@
 import {I_Entry} from "@/shared/interfaces/I_Entry";
-import {I_Definition} from "@/shared/interfaces/I_Definition";
-import {I_GrammaticalClass} from "@/shared/interfaces/I_GrammaticalClass";
-import {I_GrammaticalGenre} from "@/shared/interfaces/I_GrammaticalGenre";
 
 export class EntryService {
     public static async readAll(dictionary_id: number): Promise<I_Entry[]> {

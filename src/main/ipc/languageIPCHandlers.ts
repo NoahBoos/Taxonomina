@@ -1,5 +1,4 @@
 import {ipcMain} from "electron";
-import {Language} from "../database/models/Language";
 import {LanguageRepository} from "../database/repositories/LanguageRepository";
 import {I_Language} from "../../shared/interfaces/I_Language";
 

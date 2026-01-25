@@ -1,8 +1,6 @@
 import {GrammaticalGenre} from "../models/GrammaticalGenre";
 import {Database} from "../Database";
 import { RunResult, Statement } from "better-sqlite3";
-import {Entry} from "../models/Entry";
-import {Dictionary} from "../models/Dictionary";
 import {I_GrammaticalGenre} from "../../../shared/interfaces/I_GrammaticalGenre";
 
 export class GrammaticalGenreRepository {

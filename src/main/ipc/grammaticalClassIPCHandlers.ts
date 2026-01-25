@@ -1,8 +1,5 @@
 import {ipcMain} from "electron";
-import {GrammaticalClass} from "../database/models/GrammaticalClass";
 import {GrammaticalClassRepository} from "../database/repositories/GrammaticalClassRepository";
-import {Entry} from "../database/models/Entry";
-import {I_Entry} from "../../shared/interfaces/I_Entry";
 import {I_GrammaticalClass} from "../../shared/interfaces/I_GrammaticalClass";
 
 export function registerGrammaticalClassIPCHandlers() {
