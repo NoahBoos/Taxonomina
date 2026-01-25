@@ -16,7 +16,7 @@ export class LanguageService {
         return [success, savedLanguage];
     }
 
-    public static async delete(language_id: number) {
+    public static async delete(language_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.language.delete(language_id);
     }
 }

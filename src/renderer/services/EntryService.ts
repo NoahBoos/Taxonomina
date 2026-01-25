@@ -31,27 +31,27 @@ export class EntryService {
         return await window.txnmAPI.repositories.entry.delete(entry_id);
     }
 
-    public static async bindToGrammaticalClass(entry_id: number, grammatical_class_id: number) {
+    public static async bindToGrammaticalClass(entry_id: number, grammatical_class_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.entry.bindToGrammaticalClass(entry_id, grammatical_class_id);
     }
 
-    public static async unbindFromGrammaticalClass(entry_id: number, grammatical_class_id: number) {
+    public static async unbindFromGrammaticalClass(entry_id: number, grammatical_class_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.entry.unbindFromGrammaticalClass(entry_id, grammatical_class_id);
     }
 
-    public static async bindToGrammaticalGenre(entry_id: number, grammatical_genre_id: number) {
+    public static async bindToGrammaticalGenre(entry_id: number, grammatical_genre_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.entry.bindToGrammaticalGenre(entry_id, grammatical_genre_id);
     }
 
-    public static async unbindFromGrammaticalGenre(entry_id: number, grammatical_genre_id: number) {
+    public static async unbindFromGrammaticalGenre(entry_id: number, grammatical_genre_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.entry.unbindFromGrammaticalGenre(entry_id, grammatical_genre_id);
     }
 
-    public static async bindToTranslation(entry_id: number, translation_id: number) {
+    public static async bindToTranslation(entry_id: number, translation_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.entry.bindToTranslation(entry_id, translation_id);
     }
 
-    public static async unbindFromTranslation(entry_id: number, translation_id: number) {
+    public static async unbindFromTranslation(entry_id: number, translation_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.entry.unbindFromTranslation(entry_id, translation_id);
     }
 }

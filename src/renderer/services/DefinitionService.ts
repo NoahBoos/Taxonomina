@@ -24,11 +24,11 @@ export class DefinitionService {
         return await window.txnmAPI.repositories.definition.delete(definition_id);
     }
 
-    public static async bindToTranslation(definition_id: number, translation_id: number) {
+    public static async bindToTranslation(definition_id: number, translation_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.definition.bindToTranslation(definition_id, translation_id);
     }
 
-    public static async unbindFromTranslation(definition_id: number, translation_id: number) {
+    public static async unbindFromTranslation(definition_id: number, translation_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.definition.unbindFromTranslation(definition_id, translation_id);
     }
 }

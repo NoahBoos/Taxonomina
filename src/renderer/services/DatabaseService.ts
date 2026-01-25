@@ -1,13 +1,13 @@
 export class DatabaseService {
-    public static async beginTransaction() {
+    public static async beginTransaction(): Promise<void> {
         await window.txnmAPI.database.BeginTransaction();
     }
 
-    public static async commitTransaction() {
+    public static async commitTransaction(): Promise<void> {
         await window.txnmAPI.database.CommitTransaction();
     }
 
-    public static async rollbackTransaction() {
+    public static async rollbackTransaction(): Promise<void> {
         await window.txnmAPI.database.RollbackTransaction();
     }
 }
