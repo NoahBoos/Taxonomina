@@ -1,6 +1,6 @@
 <script lang="ts">
     import {BrowserContentTab} from "@/renderer/types/BrowserContentTab";
-    import {getTabIcon, getTabLabel} from "@/renderer/utils/tab";
+    import { NavigatorTabUtils } from "@/renderer/utils/NavigatorTabUtils";
 
     interface Props {
         tab: BrowserContentTab;
@@ -9,8 +9,8 @@
 
     let { tab, onClick }: Props = $props();
 
-    let label = $derived(getTabLabel(tab));
-    let IconComponent = $derived.by(() => getTabIcon(tab));
+    let label = $derived(NavigatorTabUtils.getTabLabel(tab));
+    let IconComponent = $derived.by(() => NavigatorTabUtils.getTabIcon(tab));
 </script>
 
 <style lang="postcss">
