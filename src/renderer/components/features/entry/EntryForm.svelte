@@ -36,7 +36,7 @@
             const data = await EntryService.readOne(inspectorState.id);
             if (data) {
                 Object.assign(entry, data);
-                selected_grammatical_classes = await GrammaticalClassService.readAllByEntry(data);
+                selected_grammatical_classes = await GrammaticalClassService.readAllByEntry(data.id);
                 selected_grammatical_genres = await GrammaticalGenreService.readAllByEntry(data);
                 selected_translations = await EntryService.readAllByGlobalTranslation(data.id);
                 selected_definitions = await DefinitionService.readAllByEntry(data.id);
@@ -62,7 +62,7 @@
 
             if (entryToSave.id !== 0) {
                 let [oldGrammaticalClasses, oldGrammaticalGenres, oldTranslations, oldDefinitions] = await Promise.all([
-                    await GrammaticalClassService.readAllByEntry(savedEntry),
+                    await GrammaticalClassService.readAllByEntry(savedEntry.id),
                     await GrammaticalGenreService.readAllByEntry(savedEntry),
                     await EntryService.readAllByGlobalTranslation(savedEntry.id),
                     await DefinitionService.readAllByEntry(savedEntry.id)
