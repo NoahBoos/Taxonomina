@@ -13,7 +13,7 @@
     let available_classes = $state<I_GrammaticalClass[]>([]);
 
     $effect(() => {
-        GrammaticalClassService.ReadAll(dictionary_id).then(data => {
+        GrammaticalClassService.readAll(dictionary_id).then(data => {
             available_classes = data.sort((a, b) => a.name.localeCompare(b.name));
         });
     });

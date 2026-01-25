@@ -23,7 +23,7 @@
     let paginatedEntries: I_Entry[] = $derived(filteredEntries.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) entries = (await EntryService.ReadAll(dictionary_id));
+        if (dictionary_id) entries = (await EntryService.readAll(dictionary_id));
         else entries = [];
     }
 

@@ -30,7 +30,7 @@
         let inspectorState = $currentInspectorStateStore;
 
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
-            const data = await LanguageService.ReadOne(inspectorState.id);
+            const data = await LanguageService.readOne(inspectorState.id);
             if (data) Object.assign(language, data);
         } else {
             language = {
@@ -53,7 +53,7 @@
 
         try {
             const languageToSave = $state.snapshot(language);
-            const [success, savedLanguage] = await LanguageService.Save(languageToSave);
+            const [success, savedLanguage] = await LanguageService.save(languageToSave);
             if (!success || !savedLanguage) throw new Error("Failed to save the language.");
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);

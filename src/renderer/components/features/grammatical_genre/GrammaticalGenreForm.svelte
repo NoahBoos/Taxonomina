@@ -18,7 +18,7 @@
         let inspectorState = $currentInspectorStateStore;
 
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
-            const data = await GrammaticalGenreService.ReadOne(inspectorState.id);
+            const data = await GrammaticalGenreService.readOne(inspectorState.id);
             if (data) Object.assign(grammatical_genre, data);
         } else {
             grammatical_genre = { id: 0, dictionary_id: dictionary_id, name: '' };
@@ -32,7 +32,7 @@
 
         try {
             const grammaticalGenreToSave = $state.snapshot(grammatical_genre);
-            const [success, savedGrammaticalGenre] = await GrammaticalGenreService.Save(grammaticalGenreToSave);
+            const [success, savedGrammaticalGenre] = await GrammaticalGenreService.save(grammaticalGenreToSave);
             if (!success || !savedGrammaticalGenre) throw new Error("Failed to save the grammatical genre.");
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);

@@ -13,7 +13,7 @@
     let available_genres = $state<I_GrammaticalGenre[]>([]);
 
     $effect(() => {
-        GrammaticalGenreService.ReadAll(dictionary_id).then(data => {
+        GrammaticalGenreService.readAll(dictionary_id).then(data => {
             available_genres = data.sort((a, b) => a.name.localeCompare(b.name));
         });
     });

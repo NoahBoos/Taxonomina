@@ -30,7 +30,7 @@
     let paginatedLanguages: I_Language[] = $derived(filteredLanguages.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) languages = (await LanguageService.ReadAll(dictionary_id));
+        if (dictionary_id) languages = (await LanguageService.readAll(dictionary_id));
         else languages = [];
     }
 

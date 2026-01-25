@@ -12,7 +12,7 @@ export const DIRECTIONS: SelectOptions = {
 }
 
 export const LANGUAGES = async (dictionaryId: number): Promise<SelectOptions> => {
-    const languages: I_Language[] = await LanguageService.ReadAll(dictionaryId);
+    const languages: I_Language[] = await LanguageService.readAll(dictionaryId);
     const options: SelectOptions = {};
 
     languages.forEach((language: I_Language) => {

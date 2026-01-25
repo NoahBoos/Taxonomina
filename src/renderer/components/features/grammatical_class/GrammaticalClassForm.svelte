@@ -18,7 +18,7 @@
         let inspectorState = $currentInspectorStateStore;
 
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
-            const data = await GrammaticalClassService.ReadOne(inspectorState.id);
+            const data = await GrammaticalClassService.readOne(inspectorState.id);
             if (data) Object.assign(grammatical_class, data);
         } else {
             grammatical_class = { id: 0, dictionary_id: dictionary_id, name: '' };
@@ -32,7 +32,7 @@
 
         try {
             const grammaticalClassToSave = $state.snapshot(grammatical_class);
-            const [success, savedGrammaticalGenre] = await GrammaticalClassService.Save(grammaticalClassToSave);
+            const [success, savedGrammaticalGenre] = await GrammaticalClassService.save(grammaticalClassToSave);
             if (!success || !savedGrammaticalGenre) throw new Error("Failed to save the grammatical class.");
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);

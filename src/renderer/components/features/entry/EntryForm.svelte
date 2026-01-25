@@ -33,12 +33,12 @@
         let inspectorState = $currentInspectorStateStore;
 
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
-            const data = await EntryService.ReadOne(inspectorState.id);
+            const data = await EntryService.readOne(inspectorState.id);
             if (data) {
                 Object.assign(entry, data);
-                selected_grammatical_classes = await GrammaticalClassService.ReadAllByEntry(data);
-                selected_grammatical_genres = await GrammaticalGenreService.ReadAllByEntry(data);
-                selected_translations = await EntryService.ReadAllByGlobalTranslation(data);
+                selected_grammatical_classes = await GrammaticalClassService.readAllByEntry(data);
+                selected_grammatical_genres = await GrammaticalGenreService.readAllByEntry(data);
+                selected_translations = await EntryService.readAllByGlobalTranslation(data);
                 selected_definitions = await DefinitionService.readAllByEntry(data.id);
             }
         } else {
@@ -57,28 +57,28 @@
             const selectedGrammaticalGenres = $state.snapshot(selected_grammatical_genres);
             const selectedTranslations = $state.snapshot(selected_translations);
             const selectedDefinitions = $state.snapshot(selected_definitions);
-            const [success, savedEntry] = await EntryService.Save(entryToSave);
+            const [success, savedEntry] = await EntryService.save(entryToSave);
             if (!success || !savedEntry) throw new Error("Failed to save the entry.");
 
             if (entryToSave.id !== 0) {
                 let [oldGrammaticalClasses, oldGrammaticalGenres, oldTranslations, oldDefinitions] = await Promise.all([
-                    await GrammaticalClassService.ReadAllByEntry(savedEntry),
-                    await GrammaticalGenreService.ReadAllByEntry(savedEntry),
-                    await EntryService.ReadAllByGlobalTranslation(savedEntry),
+                    await GrammaticalClassService.readAllByEntry(savedEntry),
+                    await GrammaticalGenreService.readAllByEntry(savedEntry),
+                    await EntryService.readAllByGlobalTranslation(savedEntry),
                     await DefinitionService.readAllByEntry(savedEntry.id)
                 ]);
-                oldGrammaticalClasses.forEach(gc => EntryService.UnbindFromGrammaticalClass(savedEntry, gc));
-                oldGrammaticalGenres.forEach(gg => EntryService.UnbindFromGrammaticalGenre(savedEntry, gg));
-                oldTranslations.forEach(e => EntryService.UnbindFromTranslation(savedEntry, e));
+                oldGrammaticalClasses.forEach(gc => EntryService.unbindFromGrammaticalClass(savedEntry, gc));
+                oldGrammaticalGenres.forEach(gg => EntryService.unbindFromGrammaticalGenre(savedEntry, gg));
+                oldTranslations.forEach(e => EntryService.unbindFromTranslation(savedEntry, e));
                 for (const d of oldDefinitions) {
                     await DefinitionService.unbindFromTranslation(d.id, savedEntry.id);
                     if (selectedDefinitions.every(sd => sd.id !== d.id)) await DefinitionService.delete(d.id);
                 }
             }
 
-            selectedGrammaticalClasses.forEach(gc => EntryService.BindToGrammaticalClass(savedEntry, gc));
-            selectedGrammaticalGenres.forEach(gg => EntryService.BindToGrammaticalGenre(savedEntry, gg));
-            selectedTranslations.forEach(e => EntryService.BindToTranslation(savedEntry, e));
+            selectedGrammaticalClasses.forEach(gc => EntryService.bindToGrammaticalClass(savedEntry, gc));
+            selectedGrammaticalGenres.forEach(gg => EntryService.bindToGrammaticalGenre(savedEntry, gg));
+            selectedTranslations.forEach(e => EntryService.bindToTranslation(savedEntry, e));
             for (const d of selectedDefinitions) {
                 const [success, savedDefinition] = await DefinitionService.save(d);
                 if (!success || !savedDefinition) throw new Error(`Failed to save the definition \"${d.definition}\".`);

@@ -38,7 +38,7 @@
             if (_query.trim().length > 1) {
                 is_searching = true;
 
-                translation_suggestions = (await EntryService.ReadAll(dictionary_id)).filter((looped_translation: I_Entry) => {
+                translation_suggestions = (await EntryService.readAll(dictionary_id)).filter((looped_translation: I_Entry) => {
                     return looped_translation.lemma.toLowerCase().includes(_query.toLowerCase())
                         && !selected_translations.some(translation => translation.id === looped_translation.id)
                         && looped_translation.id !== entry?.id;
