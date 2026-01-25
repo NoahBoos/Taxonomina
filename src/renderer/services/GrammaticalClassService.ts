@@ -24,21 +24,4 @@ export class GrammaticalClassService {
     public static async Delete(gramCat: I_GrammaticalClass): Promise<boolean> {
         return await window.txnmAPI.repositories.grammaticalClass.delete(gramCat.id);
     }
-
-    // public static async FilterBySearch(dictionary_id: number, query: string): Promise<GrammaticalClass[]> {
-    //     const grammaticalCategories: GrammaticalClass[] = await GrammaticalClassService.ReadAll(dictionary_id);
-    //     return grammaticalCategories.filter(gc => {
-    //         return gc.GetName().toLowerCase().includes(query.toLowerCase());
-    //     });
-    // }
-    //
-    // public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalClass | undefined]> {
-    //     const settings: I_TaxonominaSettings = await window.txnmAPI.settings.Load();
-    //     const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
-    //     const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
-    //     let grammaticalCategory: GrammaticalClass = new GrammaticalClass(id, settings.currentDictionary, name);
-    //     if (!grammaticalCategory.Validate()) return [false, undefined];
-    //     grammaticalCategory.Normalize();
-    //     return await GrammaticalClassService.Save(grammaticalCategory);
-    // }
 }

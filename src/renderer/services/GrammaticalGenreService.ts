@@ -24,21 +24,4 @@ export class GrammaticalGenreService {
     public static async Delete(gramGenre: I_GrammaticalGenre): Promise<boolean> {
         return await window.txnmAPI.repositories.grammaticalGenre.delete(gramGenre.id);
     }
-
-    // public static async FilterBySearch(dictionary_id: number, query: string): Promise<GrammaticalGenre[]> {
-    //     const grammaticalGenres: GrammaticalGenre[] = await GrammaticalGenreService.ReadAll(dictionary_id);
-    //     return grammaticalGenres.filter(gc => {
-    //         return gc.GetName().toLowerCase().includes(query.toLowerCase());
-    //     });
-    // }
-    //
-    // public static async ProcessForm(form: Element): Promise<[boolean, GrammaticalGenre | undefined]> {
-    //     const settings: I_TaxonominaSettings = await window.txnmAPI.settings.Load();
-    //     const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
-    //     const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
-    //     let grammaticalGenre: GrammaticalGenre = new GrammaticalGenre(id, settings.currentDictionary, name);
-    //     if (!grammaticalGenre.Validate()) return [false, undefined];
-    //     grammaticalGenre.Normalize();
-    //     return await GrammaticalGenreService.Save(grammaticalGenre);
-    // }
 }

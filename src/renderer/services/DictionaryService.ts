@@ -27,14 +27,4 @@ export class DictionaryService {
             : await window.txnmAPI.repositories.dictionary.update(dictionary);
         return [success, savedDictionary];
     }
-
-    // public static async ProcessForm(form: Element): Promise<[boolean, I_Dictionary | undefined]> {
-    //     const id: number = Number(form.querySelector<HTMLInputElement>("#id")!.value);
-    //     const name: string = form.querySelector<HTMLInputElement>("#name")!.value;
-    //     const description: string = form.querySelector<HTMLInputElement>("#description")!.value;
-    //     let dictionary: I_Dictionary = new I_Dictionary(id, name, description);
-    //     if (!dictionary.Validate()) return [false, undefined];
-    //     dictionary.Normalize();
-    //     return await DictionaryService.Save(dictionary);
-    // }
 }
