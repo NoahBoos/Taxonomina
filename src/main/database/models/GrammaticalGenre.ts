@@ -25,14 +25,6 @@ export class GrammaticalGenre {
         }
     }
 
-    public toDatabaseObject() {
-        return {
-            grammatical_genre_id: this.id,
-            dictionary_id: this.dictionary_id,
-            name: this.name,
-        }
-    }
-
     public static hydrate(raw: I_GrammaticalGenre): GrammaticalGenre {
         return new GrammaticalGenre(
             raw.id,

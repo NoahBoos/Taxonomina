@@ -27,15 +27,6 @@ export class Entry {
         }
     }
 
-    public toDatabaseObject() {
-        return {
-            entry_id: this.id,
-            dictionary_id: this.dictionary_id,
-            language_id: this.language_id,
-            lemma: this.lemma,
-        }
-    }
-
     public static hydrate(raw: I_Entry) {
         return new Entry(
             raw.id,

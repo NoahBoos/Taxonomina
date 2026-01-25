@@ -23,13 +23,6 @@ export class Definition {
         }
     }
 
-    public toDatabaseObject() {
-        return {
-            definition_id: this.id,
-            definition: this.definition
-        }
-    }
-
     public static hydrate(raw: I_Definition): Definition {
         return new Definition(raw.id, raw.definition);
     }

@@ -62,19 +62,6 @@ export class Language {
         }
     }
 
-    public toDatabaseObject() {
-        return {
-            language_id: this.id,
-            dictionary_id: this.dictionary_id,
-            iso_639_1: this.iso_639_1,
-            iso_639_3: this.iso_639_3,
-            is_conlang: this.is_conlang ? 1 : 0,
-            name_native: this.name_native,
-            name_local: this.name_local,
-            direction: this.direction,
-        }
-    }
-
     public static hydrate(raw: I_Language): Language {
         return new Language(
             raw.id,

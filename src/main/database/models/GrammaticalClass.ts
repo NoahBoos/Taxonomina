@@ -25,14 +25,6 @@ export class GrammaticalClass {
         }
     }
 
-    public toDatabaseObject() {
-        return {
-            grammatical_class_id: this.id,
-            dictionary_id: this.dictionary_id,
-            name: this.name,
-        }
-    }
-
     public static hydrate(raw: I_GrammaticalClass): GrammaticalClass {
         return new GrammaticalClass(
             raw.id,

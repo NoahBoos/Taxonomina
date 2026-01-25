@@ -25,14 +25,6 @@ export class Dictionary {
         }
     }
 
-    public toDatabaseObject() {
-        return {
-            dictionary_id: this.id,
-            name: this.name,
-            description: this.description
-        };
-    }
-
     public static hydrate(raw: I_Dictionary): Dictionary {
         return new Dictionary(raw.id, raw.name, raw.description);
     }
