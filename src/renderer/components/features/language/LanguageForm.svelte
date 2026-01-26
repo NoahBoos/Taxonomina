@@ -9,6 +9,7 @@
     import {DIRECTIONS} from "@/renderer/utils/selectOptionPresets";
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
+    import { refreshLanguages } from "@/renderer/stores/languagesStore";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -55,6 +56,8 @@
             const languageToSave = $state.snapshot(language);
             const [success, savedLanguage] = await LanguageService.save(languageToSave);
             if (!success || !savedLanguage) throw new Error("Failed to save the language.");
+
+            await refreshLanguages();
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {

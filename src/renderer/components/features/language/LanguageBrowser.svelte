@@ -2,7 +2,6 @@
     import {setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
     import {settings} from '@/renderer/stores/settingsStore';
     import {I_Language} from "@/shared/interfaces/I_Language";
-    import {LanguageService} from "@/renderer/services/LanguageService";
     import ContentList from "@/renderer/components/browser/ContentList.svelte";
     import ContentSearchBar from "@/renderer/components/browser/ContentSearchBar.svelte";
     import PreviousPageButton from "@/renderer/components/browser/pagination/PreviousPageButton.svelte";
@@ -10,15 +9,14 @@
     import NextPageButton from "@/renderer/components/browser/pagination/NextPageButton.svelte";
     import AddContentButton from "@/renderer/components/browser/AddContentButton.svelte";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
+    import { languagesStore, refreshLanguages } from "@/renderer/stores/languagesStore";
 
-    let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
     let currentPage: number = $state(1);
 
-    let languages: I_Language[] = $state([]);
     let query: string = $state('');
     let filteredLanguages: I_Language[] = $derived(
-        languages.filter(language =>
+        $languagesStore.filter(language =>
             language.iso_639_1.toLowerCase().includes(query.toLowerCase())
             || language.iso_639_3.toLowerCase().includes(query.toLowerCase())
             || language.name_native.toLowerCase().includes(query.toLowerCase())
@@ -30,8 +28,7 @@
     let paginatedLanguages: I_Language[] = $derived(filteredLanguages.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) languages = (await LanguageService.readAll(dictionary_id));
-        else languages = [];
+        await refreshLanguages();
     }
 
     function openCreateForm() {
