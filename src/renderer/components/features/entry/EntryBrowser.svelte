@@ -1,7 +1,6 @@
 <script lang="ts">
     import {settings} from '@/renderer/stores/settingsStore';
     import {I_Entry} from "@/shared/interfaces/I_Entry";
-    import {EntryService} from "@/renderer/services/EntryService";
     import PreviousPageButton from "@/renderer/components/browser/pagination/PreviousPageButton.svelte";
     import ContentList from "@/renderer/components/browser/ContentList.svelte";
     import NextPageButton from "@/renderer/components/browser/pagination/NextPageButton.svelte";
@@ -10,21 +9,19 @@
     import {setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
     import AddContentButton from "@/renderer/components/browser/AddContentButton.svelte";
+    import { entriesStore, refreshEntries } from "@/renderer/stores/entriesStore";
 
-    let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
     let currentPage: number = $state(1);
 
-    let entries: I_Entry[] = $state([]);
     let query: string = $state('');
-    let filteredEntries: I_Entry[] = $derived(entries.filter(entry => entry.lemma.toLowerCase().includes(query.toLowerCase())));
+    let filteredEntries: I_Entry[] = $derived($entriesStore.filter(entry => entry.lemma.toLowerCase().includes(query.toLowerCase())));
 
     let totalPages: number = $derived(Math.ceil(filteredEntries.length / elementsPerPage));
     let paginatedEntries: I_Entry[] = $derived(filteredEntries.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) entries = (await EntryService.readAll(dictionary_id));
-        else entries = [];
+        await refreshEntries();
     }
 
     function openCreateForm() {

@@ -17,6 +17,7 @@
     import {I_Definition} from "@/shared/interfaces/I_Definition";
     import {DefinitionService} from "@/renderer/services/DefinitionService";
     import { Tags } from "@lucide/svelte";
+    import { refreshEntries } from "@/renderer/stores/entriesStore";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -84,6 +85,8 @@
                 if (!success || !savedDefinition) throw new Error(`Failed to save the definition \"${d.definition}\".`);
                 await DefinitionService.bindToTranslation(savedDefinition.id, savedEntry.id);
             }
+
+            await refreshEntries();
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {
