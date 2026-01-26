@@ -6,6 +6,7 @@
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
     import TextInput from "@/renderer/components/ui/forms/TextInput.svelte";
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
+    import { refreshGrammaticalClasses } from "@/renderer/stores/grammaticalClassesStore";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -34,6 +35,8 @@
             const grammaticalClassToSave = $state.snapshot(grammatical_class);
             const [success, savedGrammaticalGenre] = await GrammaticalClassService.save(grammaticalClassToSave);
             if (!success || !savedGrammaticalGenre) throw new Error("Failed to save the grammatical class.");
+
+            await refreshGrammaticalClasses();
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {

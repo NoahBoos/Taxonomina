@@ -1,7 +1,6 @@
 <script lang="ts">
     import {settings} from '@/renderer/stores/settingsStore';
     import {I_GrammaticalClass} from "@/shared/interfaces/I_GrammaticalClass";
-    import {GrammaticalClassService} from "@/renderer/services/GrammaticalClassService";
     import PreviousPageButton from "@/renderer/components/browser/pagination/PreviousPageButton.svelte";
     import ContentList from "@/renderer/components/browser/ContentList.svelte";
     import NextPageButton from "@/renderer/components/browser/pagination/NextPageButton.svelte";
@@ -10,21 +9,19 @@
     import AddContentButton from "@/renderer/components/browser/AddContentButton.svelte";
     import {setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
+    import { grammaticalClassesStore, refreshGrammaticalClasses } from "@/renderer/stores/grammaticalClassesStore";
 
-    let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
     let currentPage: number = $state(1);
 
-    let grammaticalClasses: I_GrammaticalClass[] = $state([]);
     let query: string = $state('');
-    let filteredGrammaticalClasses: I_GrammaticalClass[] = $derived(grammaticalClasses.filter(gc => gc.name.toLowerCase().includes(query.toLowerCase())));
+    let filteredGrammaticalClasses: I_GrammaticalClass[] = $derived($grammaticalClassesStore.filter(gc => gc.name.toLowerCase().includes(query.toLowerCase())));
 
     let totalPages: number = $derived(Math.ceil(filteredGrammaticalClasses.length / elementsPerPage));
     let paginatedGrammaticalClasses: I_GrammaticalClass[] = $derived(filteredGrammaticalClasses.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) grammaticalClasses = (await GrammaticalClassService.readAll(dictionary_id));
-        else grammaticalClasses = [];
+        await refreshGrammaticalClasses();
     }
 
     function openCreateForm() {
