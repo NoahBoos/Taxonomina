@@ -6,6 +6,7 @@
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
     import TextInput from "@/renderer/components/ui/forms/TextInput.svelte";
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
+    import { refreshGrammaticalGenres } from "@/renderer/stores/grammaticalGenresStore";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -34,6 +35,8 @@
             const grammaticalGenreToSave = $state.snapshot(grammatical_genre);
             const [success, savedGrammaticalGenre] = await GrammaticalGenreService.save(grammaticalGenreToSave);
             if (!success || !savedGrammaticalGenre) throw new Error("Failed to save the grammatical genre.");
+
+            await refreshGrammaticalGenres();
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {

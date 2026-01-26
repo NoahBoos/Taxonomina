@@ -1,7 +1,6 @@
 <script lang="ts">
     import {settings} from '@/renderer/stores/settingsStore';
     import {I_GrammaticalGenre} from "@/shared/interfaces/I_GrammaticalGenre";
-    import {GrammaticalGenreService} from "@/renderer/services/GrammaticalGenreService";
     import ContentSearchBar from "@/renderer/components/browser/ContentSearchBar.svelte";
     import ContentList from "@/renderer/components/browser/ContentList.svelte";
     import PreviousPageButton from "@/renderer/components/browser/pagination/PreviousPageButton.svelte";
@@ -10,21 +9,19 @@
     import {setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
     import AddContentButton from "@/renderer/components/browser/AddContentButton.svelte";
+    import { grammaticalGenresStore, refreshGrammaticalGenres } from "@/renderer/stores/grammaticalGenresStore";
 
-    let dictionary_id: number | undefined = $derived($settings?.currentDictionary);
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
     let currentPage: number = $state(1);
 
-    let grammaticalGenres: I_GrammaticalGenre[] = $state([]);
     let query: string = $state('');
-    let filteredGrammaticalGenres: I_GrammaticalGenre[] = $derived(grammaticalGenres.filter(genre => genre.name.toLowerCase().includes(query.toLowerCase())));
+    let filteredGrammaticalGenres: I_GrammaticalGenre[] = $derived($grammaticalGenresStore.filter(genre => genre.name.toLowerCase().includes(query.toLowerCase())));
 
     let totalPages: number = $derived(Math.ceil(filteredGrammaticalGenres.length / elementsPerPage));
     let paginatedGrammaticalGenres: I_GrammaticalGenre[] = $derived(filteredGrammaticalGenres.slice((currentPage - 1) * elementsPerPage, currentPage * elementsPerPage));
 
     async function refresh() {
-        if (dictionary_id) grammaticalGenres = (await GrammaticalGenreService.readAll(dictionary_id));
-        else grammaticalGenres = [];
+        await refreshGrammaticalGenres();
     }
 
     function openCreateForm() {
