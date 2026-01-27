@@ -13,23 +13,19 @@
     @reference '../../../styles/styles.css';
 
     div {
-        @apply flex flex-row items-center gap-2 px-2 py-1 border-2 rounded-lg border-base-40 bg-base-10 size-fit transition-colors duration-250 ease-out;
+        @apply flex flex-row items-center gap-2 px-2 py-1 border-2 rounded-lg border-base-40 bg-base-10 transition duration-250 ease-out;
     }
 
     div:hover {
         @apply border-primary-300 bg-base-20;
-
-        button {
-            @apply block;
-        }
-    }
-
-    div:not(:hover) button {
-        @apply hidden;
     }
 
     button {
-        @apply size-fit;
+        @apply w-0 h-5 opacity-0 overflow-hidden transition-all duration-250 ease-out;
+    }
+
+    div:hover button {
+        @apply w-4 opacity-100;
     }
 </style>
 
