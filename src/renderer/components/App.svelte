@@ -21,15 +21,11 @@
     @reference '../styles/styles.css';
 
     #app {
-        @apply flex flex-row w-full h-screen overflow-hidden;
+        @apply flex flex-row p-2 gap-2 w-full h-screen bg-base-00 overflow-hidden;
     }
 
     #app :global(> *) {
-        @apply text-base text-base-100 h-screen;
-    }
-
-    #app :global(> :not(:last-child)) {
-        @apply border-r-2 border-base-50;
+        @apply text-base text-base-100 h-full border-transparent rounded-md shadow-md;
     }
 
     #app :global(*:focus) {
