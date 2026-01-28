@@ -9,7 +9,7 @@
 </style>
 
 {#if $currentBrowserTabStore != null}
-    <div class="p-4 w-[20%] bg-base-30">
+    <div class="p-4 w-[20%] bg-base-25">
         {#each ContentType.all as tab}
             {#if tab === $currentBrowserTabStore}
                 {@const BrowserComponent = BROWSER_REGISTRY[tab]}
