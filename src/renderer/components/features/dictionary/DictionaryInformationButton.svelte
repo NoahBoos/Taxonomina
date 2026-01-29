@@ -1,8 +1,13 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import {currentDictionary, refreshCurrentDictionary} from "@/renderer/stores/currentDictionaryStore";
+    import { toggleShowDictionary } from "@/renderer/stores/showDictionaryStore";
 
     onMount(() => { refreshCurrentDictionary() });
+
+    function openDictionaryModal(): void {
+        toggleShowDictionary(true);
+    }
 </script>
 
 <style lang="postcss">
@@ -29,7 +34,7 @@
     }
 </style>
 
-<button type="button" id="dictionary-information-button">
+<button type="button" id="dictionary-information-button" onclick={ openDictionaryModal }>
     <span class="current-dictionary-name">{ $currentDictionary?.name }</span>
     <span class="current-dictionary-description">{ $currentDictionary?.description }</span>
 </button>
