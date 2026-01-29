@@ -6,8 +6,7 @@
     import {currentBrowserTabStore, resetCurrentBrowserTab, updateCurrentBrowserTab} from "@/renderer/stores/currentBrowserTabStore";
     import {resetCurrentInspectorState, setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
     import {SPECIAL_CONTENT_INSPECTOR_STATES} from "@/renderer/utils/registries/inspectorRegistry";
-    import DictionaryInformationButton
-        from "@/renderer/components/features/dictionary/DictionaryInformationButton.svelte";
+    import DictionaryInformationButton from "@/renderer/components/features/dictionary/DictionaryInformationButton.svelte";
 
     let help_button_visibility: boolean = $state($settings!.helpButtonVisibility);
 
