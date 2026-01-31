@@ -1,13 +1,14 @@
 <script lang="ts">
     import { toggleShowDictionary } from "@/renderer/stores/showDictionaryStore";
     import DictionaryList from "@/renderer/components/features/dictionary/DictionaryList.svelte";
-    import { dictionaryModalStateStore } from "@/renderer/stores/dictionaryModalStateStore";
+    import { dictionaryModalStateStore, setToList } from "@/renderer/stores/dictionaryModalStateStore";
     import DictionarySaveForm from "@/renderer/components/features/dictionary/DictionarySaveForm.svelte";
     import DictionaryDeleteForm
         from "@/renderer/components/features/dictionary/DictionaryDeleteForm.svelte";
 
     function closeDictionaryModal(): void {
         toggleShowDictionary(false);
+        setToList();
     }
 </script>
 

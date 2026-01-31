@@ -1,9 +1,12 @@
 <script lang="ts">
-    import { dictionaryModalStateStore } from "@/renderer/stores/dictionaryModalStateStore";
+    import { dictionaryModalStateStore, setToList } from "@/renderer/stores/dictionaryModalStateStore";
     import { DictionaryService } from "@/renderer/services/DictionaryService";
     import { I_Dictionary } from "@/shared/interfaces/I_Dictionary";
     import { onMount } from "svelte";
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
+    import { Undo2, X } from "@lucide/svelte";
+    import { toggleShowDictionary } from "@/renderer/stores/showDictionaryStore";
+    import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
 
     let dictionary: I_Dictionary = { id: 0, name: "", description: "" };
 
@@ -25,7 +28,10 @@
 </style>
 
 <div>
-    <h2>Supprimer { dictionary.name } ?</h2>
+    <div class="flex flex-row items-center justify-between mb-4">
+        <h2>Supprimer { dictionary.name } ?</h2>
+        <IconButton icon={ Undo2 } onClick={() => { setToList(); }} />
+    </div>
     <p>En supprimant { dictionary.name }, ce dictionnaire et l'entièreté des données suivantes seront supprimées :</p>
     <ul>
         <li>Ses langues.</li>

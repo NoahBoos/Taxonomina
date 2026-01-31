@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { dictionaryModalStateStore } from "@/renderer/stores/dictionaryModalStateStore";
+    import { dictionaryModalStateStore, setToList } from "@/renderer/stores/dictionaryModalStateStore";
     import { I_Dictionary } from "@/shared/interfaces/I_Dictionary";
     import { DictionaryService } from "@/renderer/services/DictionaryService";
     import { onMount } from "svelte";
     import TextInput from "@/renderer/components/ui/forms/TextInput.svelte";
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
+    import { Undo2, X } from "@lucide/svelte";
+    import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
 
     let dictionary: I_Dictionary = { id: 0, name: "", description: "" };
 
@@ -25,11 +27,14 @@
 </style>
 
 <div>
-    {#if dictionary.id === 0}
-        <h2>Créer un nouveau dictionnaire</h2>
-    {:else}
-        <h2>Modifier un dictionnaire : { dictionary.name }</h2>
-    {/if}
+    <div class="flex flex-row items-center justify-between mb-4">
+        {#if dictionary.id === 0}
+            <h2>Créer un nouveau dictionnaire</h2>
+        {:else}
+            <h2>Modifier un dictionnaire : { dictionary.name }</h2>
+        {/if}
+        <IconButton icon={ Undo2 } onClick={() => { setToList(); }} />
+    </div>
     <form onsubmit={ onSubmit }>
         <TextInput name="name" label="Nom" placeholder="Mon dictionnaire" bind:value={ dictionary.name } />
         <TextInput name="description" label="Description" placeholder="C'est mon superbe dictionnaire !" bind:value={ dictionary.description } />
