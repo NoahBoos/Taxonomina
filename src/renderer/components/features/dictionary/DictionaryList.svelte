@@ -35,7 +35,7 @@
     </h2>
     <div class="space-y-4">
         <div class="flex flex-row justify-between">
-            <Searchbar bind:query placeholder="Rechercher un dictionnaire..." />
+            <Searchbar bind:query placeholder="Rechercher un dictionnaire..." variant="fit" />
             <button onclick={ () => { console.log("Ajout d'un dictionnaire."); } } class="add-dictionary-button">
                 <Plus /> Créer un dictionnaire
             </button>

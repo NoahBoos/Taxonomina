@@ -4,9 +4,10 @@
         query: string;
         onfocus?: () => void;
         onblur?: () => void;
+        variant?: 'default' | 'fit';
     }
 
-    let { placeholder, query = $bindable(''), onfocus, onblur }: Props = $props();
+    let { placeholder, query = $bindable(''), onfocus, onblur, variant = 'default' }: Props = $props();
     let id = crypto.randomUUID();
 </script>
 
@@ -14,7 +15,7 @@
     @reference '../../../styles/styles.css';
 
     input {
-        @apply px-2 py-1 border-2 rounded-lg border-base-40 bg-base-10 w-full transition-colors duration-250 ease-out;
+        @apply px-2 py-1 border-2 rounded-lg border-base-40 bg-base-10 transition-colors duration-250 ease-out;
     }
 
     input:hover {
@@ -22,4 +23,4 @@
     }
 </style>
 
-<input type="text" { id } { placeholder } bind:value={ query } { onfocus } { onblur } />
+<input type="text" { id } { placeholder } bind:value={ query } { onfocus } { onblur } class="{ variant === 'default' ? 'w-full' : 'w-fit' }" />
