@@ -35,7 +35,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             readOne: (dictionary_id: number): Promise<I_Dictionary | undefined> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:readOne", dictionary_id),
             create: (dictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:create", dictionary),
             update: (dictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:update", dictionary),
-            delete: (dictionary_id: I_Dictionary): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:delete", dictionary_id),
+            delete: (dictionary_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:dictionary:delete", dictionary_id),
         },
         entry: {
             readAll: (dictionary_id: number): Promise<I_Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAll", dictionary_id),

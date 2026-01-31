@@ -22,7 +22,7 @@ export class DictionaryService {
         return [success, savedDictionary];
     }
 
-    public static async delete(dictionary: I_Dictionary): Promise<boolean> {
-        return await window.txnmAPI.repositories.dictionary.delete(dictionary);
+    public static async delete(dictionary_id: number): Promise<boolean> {
+        return await window.txnmAPI.repositories.dictionary.delete(dictionary_id);
     }
 }
