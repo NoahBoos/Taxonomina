@@ -1,5 +1,10 @@
 <script lang="ts">
     import { toggleShowDictionary } from "@/renderer/stores/showDictionaryStore";
+    import DictionaryList from "@/renderer/components/features/dictionary/DictionaryList.svelte";
+    import { dictionaryModalStateStore } from "@/renderer/stores/dictionaryModalStateStore";
+    import DictionarySaveForm from "@/renderer/components/features/dictionary/DictionarySaveForm.svelte";
+    import DictionaryDeleteForm
+        from "@/renderer/components/features/dictionary/DictionaryDeleteForm.svelte";
 
     function closeDictionaryModal(): void {
         toggleShowDictionary(false);
@@ -27,6 +32,12 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <div id="modal-container" on:click|self={ closeDictionaryModal }>
     <div id="modal">
-        <p>Test</p>
+        {#if $dictionaryModalStateStore.state === "list"}
+            <DictionaryList />
+        {:else if $dictionaryModalStateStore.state === "save"}
+            <DictionarySaveForm />
+        {:else if $dictionaryModalStateStore.state === "delete"}
+            <DictionaryDeleteForm />
+        {/if}
     </div>
 </div>
