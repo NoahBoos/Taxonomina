@@ -1,8 +1,10 @@
 <script lang="ts">
     import {settings} from "@/renderer/stores/settingsStore";
+    import {showDictionaryStore} from "@/renderer/stores/showDictionaryStore";
     import Navigator from "@/renderer/components/layouts/Navigator.svelte";
     import Inspector from "@/renderer/components/layouts/Inspector.svelte";
     import Browser from "@/renderer/components/layouts/Browser.svelte";
+    import DictionaryModal from "@/renderer/components/features/dictionary/DictionaryModal.svelte";
 
     $effect(() => {
         const theme = $settings!.selectedTheme ?? 'default';
@@ -41,4 +43,7 @@
     <Navigator />
     <Browser />
     <Inspector />
+    {#if $showDictionaryStore}
+        <DictionaryModal />
+    {/if}
 </div>
