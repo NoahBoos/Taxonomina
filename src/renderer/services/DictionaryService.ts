@@ -15,6 +15,10 @@ export class DictionaryService {
         return await window.txnmAPI.repositories.dictionary.readOne(dictionary_id);
     }
 
+    public static async setCurrentDictionary(id: number): Promise<void> {
+        return await window.txnmAPI.settings.Update("currentDictionary", id);
+    }
+
     public static async save(dictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> {
         let [success, savedDictionary] = dictionary.id == 0
             ? await window.txnmAPI.repositories.dictionary.create(dictionary)
