@@ -23,4 +23,4 @@
     }
 </style>
 
-<input type="text" { id } { placeholder } bind:value={ query } { onfocus } { onblur } class="{ variant === 'default' ? 'w-full' : 'w-fit' }" />
+<input type="text" { id } { placeholder } bind:value={ query } { onfocus } { onblur } class="{ variant === 'default' ? 'w-full' : '' }" size="{ variant === 'fit' ? placeholder.length : undefined }" />
