@@ -15,9 +15,14 @@
 
 </style>
 
-<div class="flex flex-row p-2 justify-between border-2 rounded-lg border-base-50 bg-base-40">
+<div class="flex flex-row p-2 justify-between border-2 rounded-lg { dictionary.id === $currentDictionary?.id ? 'border-primary-500 bg-primary-600/25' : 'border-base-50 bg-base-40' }">
     <div class="flex flex-col">
-        <p class="text-lg">{ dictionary.name }</p>
+        <div class="flex flex-row gap-2">
+            <p class="text-lg">{ dictionary.name }</p>
+            {#if dictionary.id === $currentDictionary?.id}
+                <p class="px-2 border-2 border-primary-500 rounded-lg bg-primary-600">Actif</p>
+            {/if}
+        </div>
         <p>{ dictionary.description }</p>
     </div>
     <div class="flex flex-row gap-2 items-center">
