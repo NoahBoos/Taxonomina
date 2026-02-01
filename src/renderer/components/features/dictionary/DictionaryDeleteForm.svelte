@@ -6,6 +6,7 @@
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
     import { Undo2 } from "@lucide/svelte";
     import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
+    import { toggleShowDictionary } from "@/renderer/stores/showDictionaryStore";
 
     let dictionary: I_Dictionary = { id: 0, name: "", description: "" };
 
@@ -14,9 +15,10 @@
         if ($dictionaryModalStateStore.id !== 0) dictionary = await DictionaryService.readOne($dictionaryModalStateStore.id);
     }
 
-    async function onSubmit(): Promise<void> {
+    async function onClick(): Promise<void> {
         if ($dictionaryModalStateStore.state === "list" || $dictionaryModalStateStore.state === "save") return;
         await DictionaryService.delete($dictionaryModalStateStore.id);
+        setToList();
     }
 
     onMount(initialize);
@@ -41,7 +43,5 @@
         </ul>
         <p>En cliquant sur ce bouton, vous acceptez de perdre ce dictionnaire pour l'éternité (et l'éternité, c'est super long...)</p>
     </div>
-    <form onsubmit={ onSubmit }>
-        <SubmitButton label="Supprimer" />
-    </form>
+    <button type="button" onclick={ onClick } class="block font-semibold px-4 py-2 mx-auto border-2 rounded-md border-base-40 bg-base-10 w-fit transition-colors duration-250 ease-out hover:border-primary-300 hover:bg-base-20">Supprimer</button>
 </div>
