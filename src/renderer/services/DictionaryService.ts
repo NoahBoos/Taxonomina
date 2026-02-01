@@ -1,6 +1,8 @@
 import {I_Dictionary} from "@/shared/interfaces/I_Dictionary";
-import { settings } from "@/renderer/stores/settingsStore";
+import { settings, updateSetting } from "@/renderer/stores/settingsStore";
 import { get } from "svelte/store";
+import { refreshDictionaries } from "@/renderer/stores/dictionariesStore";
+import { refreshCurrentDictionary } from "@/renderer/stores/currentDictionaryStore";
 
 export class DictionaryService {
     public static async readAll(): Promise<I_Dictionary[]> {
@@ -16,7 +18,9 @@ export class DictionaryService {
     }
 
     public static async setCurrentDictionary(id: number): Promise<void> {
-        return await window.txnmAPI.settings.Update("currentDictionary", id);
+        await updateSetting("currentDictionary", id);
+        await refreshDictionaries();
+        await refreshCurrentDictionary();
     }
 
     public static async save(dictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> {
