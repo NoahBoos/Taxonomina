@@ -35,7 +35,7 @@
         {/if}
         <IconButton icon={ Undo2 } onClick={() => { setToList(); }} />
     </div>
-    <form onsubmit={ onSubmit }>
+    <form onsubmit={ onSubmit } class="flex flex-col gap-4">
         <TextInput name="name" label="Nom" placeholder="Mon dictionnaire" bind:value={ dictionary.name } />
         <TextInput name="description" label="Description" placeholder="C'est mon superbe dictionnaire !" bind:value={ dictionary.description } />
         <SubmitButton label={ dictionary.id === 0 ? "Créer" : "Modifier" } />

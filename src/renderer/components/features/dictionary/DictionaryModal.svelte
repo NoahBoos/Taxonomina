@@ -20,7 +20,7 @@
     }
 
     #modal {
-        @apply w-[60%] h-[60%] p-4 border-transparent rounded-md shadow-md bg-base-30;
+        @apply w-[60%] h-fit p-4 border-transparent rounded-md shadow-md bg-base-30;
     }
 </style>
 

@@ -16,8 +16,6 @@
     ));
 
     onMount(() => { refreshDictionaries(); });
-
-    $effect(() => { console.log(filteredDictionaries) });
 </script>
 
 <style lang="postcss">
@@ -44,7 +42,7 @@
                 <Plus /> Créer un dictionnaire
             </button>
         </div>
-        <div class="space-y-2">
+        <div class="space-y-2 overflow-y-auto overflow-x-hidden h-78">
             {#if filteredDictionaries.length === 0}
                 <p>Aucun dictionnaire trouvé{ query ? ' pour la recherche "' + query + '"' : '' }.</p>
             {:else}
