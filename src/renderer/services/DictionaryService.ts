@@ -3,6 +3,8 @@ import { settings, updateSetting } from "@/renderer/stores/settingsStore";
 import { get } from "svelte/store";
 import { refreshDictionaries } from "@/renderer/stores/dictionariesStore";
 import { refreshCurrentDictionary } from "@/renderer/stores/currentDictionaryStore";
+import { resetCurrentInspectorState } from "@/renderer/stores/currentInspectorStateStore";
+import { resetCurrentBrowserTab } from "@/renderer/stores/currentBrowserTabStore";
 
 export class DictionaryService {
     public static async readAll(): Promise<I_Dictionary[]> {
@@ -21,6 +23,8 @@ export class DictionaryService {
         await updateSetting("currentDictionary", id);
         await refreshDictionaries();
         await refreshCurrentDictionary();
+        resetCurrentInspectorState();
+        resetCurrentBrowserTab();
     }
 
     public static async save(dictionary: I_Dictionary): Promise<[boolean, I_Dictionary | undefined]> {
