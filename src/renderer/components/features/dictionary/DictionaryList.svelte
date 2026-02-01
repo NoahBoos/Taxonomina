@@ -44,7 +44,7 @@
         </div>
         <div class="space-y-2 overflow-y-auto overflow-x-hidden h-78">
             {#if filteredDictionaries.length === 0}
-                <p>Aucun dictionnaire trouvé{ query ? ' pour la recherche "' + query + '"' : '' }.</p>
+                <p class="text-center">Aucun dictionnaire trouvé{ query ? ' pour la recherche "' + query + '"' : '' }.</p>
             {:else}
                 {#each filteredDictionaries as dictionary}
                     <DictionaryDetail dictionary={ dictionary } />
