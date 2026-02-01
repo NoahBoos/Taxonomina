@@ -13,7 +13,7 @@
     let filteredDictionaries: I_Dictionary[] = $derived($dictionariesStore.filter(dictionary =>
         dictionary.name.toLowerCase().includes(query.toLowerCase()) ||
         dictionary.description?.toLowerCase().includes(query.toLowerCase())
-    ));
+    ).sort((a, b) => a.name.localeCompare(b.name)));
 
     onMount(() => { refreshDictionaries(); });
 </script>
