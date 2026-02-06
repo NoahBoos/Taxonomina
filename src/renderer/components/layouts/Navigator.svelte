@@ -3,21 +3,24 @@
     import {SpecialContentType} from "@/renderer/enums/SpecialContentType";
     import NavigatorTabButton from "@/renderer/components/navigator/NavigatorTabButton.svelte";
     import {settings} from "@/renderer/stores/settingsStore";
-    import {currentBrowserTabStore, resetCurrentBrowserTab, updateCurrentBrowserTab} from "@/renderer/stores/currentBrowserTabStore";
-    import {resetCurrentInspectorState, setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
+    import {resetCurrentBrowserTab, updateCurrentBrowserTab} from "@/renderer/stores/currentBrowserTabStore";
+    import { currentInspectorStateStore, resetCurrentInspectorState, setCurrentInspectorState } from "@/renderer/stores/currentInspectorStateStore";
     import {SPECIAL_CONTENT_INSPECTOR_STATES} from "@/renderer/utils/registries/inspectorRegistry";
     import DictionaryInformationButton from "@/renderer/components/features/dictionary/DictionaryInformationButton.svelte";
 
     let help_button_visibility: boolean = $state($settings!.helpButtonVisibility);
 
     function onContentTabClick(tab: ContentType) {
-        if (!ContentType.all.includes($currentBrowserTabStore as ContentType)) resetCurrentInspectorState();
         updateCurrentBrowserTab(tab);
     }
 
     function onSpecialContentTabClick(tab: SpecialContentType) {
-        setCurrentInspectorState(SPECIAL_CONTENT_INSPECTOR_STATES[tab]);
-        resetCurrentBrowserTab();
+        if ($currentInspectorStateStore === SPECIAL_CONTENT_INSPECTOR_STATES[tab]) {
+            resetCurrentInspectorState();
+        } else {
+            setCurrentInspectorState(SPECIAL_CONTENT_INSPECTOR_STATES[tab]);
+            resetCurrentBrowserTab();
+        }
     }
 
     $effect(() => { help_button_visibility = $settings!.helpButtonVisibility });
