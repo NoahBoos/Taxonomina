@@ -1,6 +1,10 @@
 <script lang="ts">
     import {BrowserContentTab} from "@/renderer/types/BrowserContentTab";
     import { NavigatorTabUtils } from "@/renderer/utils/NavigatorTabUtils";
+    import { currentBrowserTabStore } from "@/renderer/stores/currentBrowserTabStore";
+    import { currentInspectorStateStore } from "@/renderer/stores/currentInspectorStateStore";
+    import { SpecialContentType } from "@/renderer/enums/SpecialContentType";
+    import { SPECIAL_CONTENT_INSPECTOR_STATES } from "@/renderer/utils/registries/inspectorRegistry";
 
     interface Props {
         tab: BrowserContentTab;
@@ -11,6 +15,11 @@
 
     let label = $derived(NavigatorTabUtils.getTabLabel(tab));
     let IconComponent = $derived.by(() => NavigatorTabUtils.getTabIcon(tab));
+
+    let is_selected: boolean = $derived(
+        ($currentBrowserTabStore && tab === $currentBrowserTabStore)
+        || ($currentInspectorStateStore === SPECIAL_CONTENT_INSPECTOR_STATES[tab as SpecialContentType])
+    );
 </script>
 
 <style lang="postcss">
@@ -21,10 +30,14 @@
     }
 
     .tab-button:hover {
-        @apply text-base-90 hover:bg-base-30 border-primary-400;
+        @apply hover:bg-accent-400/15 border-accent-500;
+    }
+
+    .selected {
+        @apply border-primary-500 bg-primary-400/15;
     }
 </style>
 
-<button onclick={ onClick } class="tab-button">
+<button onclick={ onClick } class="tab-button { is_selected ? 'selected' : '' }">
     <IconComponent /> { label }
 </button>

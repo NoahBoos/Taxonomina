@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import {currentDictionary, refreshCurrentDictionary} from "@/renderer/stores/currentDictionaryStore";
-    import { toggleShowDictionary } from "@/renderer/stores/showDictionaryStore";
+    import { showDictionaryStore, toggleShowDictionary } from "@/renderer/stores/showDictionaryStore";
 
     onMount(() => { refreshCurrentDictionary() });
 
@@ -18,10 +18,18 @@
     }
 
     #dictionary-information-button:hover {
-        @apply text-base-90 bg-base-30 border-primary-400;
+        @apply text-base-90 bg-accent-400/15 border-accent-500;
 
         > .current-dictionary-name {
-            @apply border-primary-400;
+            @apply border-accent-500;
+        }
+    }
+
+    #dictionary-information-button.selected {
+        @apply border-primary-500 bg-primary-400/15;
+
+        > .current-dictionary-name {
+            @apply border-primary-500;
         }
     }
 
@@ -34,7 +42,7 @@
     }
 </style>
 
-<button type="button" id="dictionary-information-button" onclick={ openDictionaryModal }>
+<button type="button" id="dictionary-information-button" onclick={ openDictionaryModal } class="{ $showDictionaryStore === true ? 'selected' : '' }">
     <span class="current-dictionary-name">{ $currentDictionary?.name }</span>
     <span class="current-dictionary-description">{ $currentDictionary?.description }</span>
 </button>
