@@ -9,11 +9,11 @@
     @reference '../../../styles/styles.css';
 
     .next-page-button {
-        @apply text-base-100 p-2 border-2 rounded-md border-primary-300 w-fit h-fit transition-colors duration-250 ease-out;
+        @apply text-base-100 p-2 border-2 rounded-md border-base-40 bg-base-10 w-fit h-fit transition-colors duration-250 ease-out;
     }
 
     .next-page-button:hover {
-        @apply text-base-90 border-primary-400 bg-primary-500;
+        @apply border-accent-500 bg-accent-400/15;
     }
 </style>
 
