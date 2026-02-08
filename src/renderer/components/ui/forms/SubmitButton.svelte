@@ -6,11 +6,11 @@
     @reference '../../../styles/styles.css';
 
     button {
-        @apply block font-semibold px-4 py-2 mx-auto border-2 rounded-md border-base-40 bg-base-10 w-fit transition-colors duration-250 ease-out;
+        @apply block font-semibold px-4 py-2 mx-auto border-2 rounded-md border-primary-500 bg-transparent w-fit transition-colors duration-250 ease-out;
     }
 
     button:hover {
-        @apply border-primary-300 bg-base-20;
+        @apply bg-accent-400/15 border-accent-500;
     }
 </style>
 
