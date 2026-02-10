@@ -18,7 +18,7 @@
     }
 
     .browser-searchbar:hover {
-        @apply text-base-90 bg-base-25 border-primary-400;
+        @apply border-accent-500 bg-base-20;
     }
 </style>
 
