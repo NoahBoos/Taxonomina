@@ -16,7 +16,7 @@
 
 </style>
 
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
     <div class="flex flex-row items-center gap-2">
         <BookOpen />
         <h3>Informations de base</h3>
