@@ -31,11 +31,11 @@
     }
 
     #app :global(*:focus) {
-        @apply outline-none;
+        @apply outline-none border-2 border-primary-500 bg-base-20;
     }
 
     #app :global(*:focus-visible) {
-        @apply outline-none ring-4 ring-primary-500;
+        @apply outline-none border-2 border-primary-500 bg-base-20;
     }
 </style>
 
