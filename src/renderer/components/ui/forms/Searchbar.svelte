@@ -19,7 +19,7 @@
     }
 
     input:hover {
-        @apply border-primary-300 bg-base-20;
+        @apply border-accent-500 bg-base-20;
     }
 </style>
 

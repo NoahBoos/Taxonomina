@@ -15,11 +15,11 @@
     @reference '../../../styles/styles.css';
 
     button {
-        @apply p-1 border-2 rounded-md border-primary-300 w-fit h-fit transition-colors duration-250 ease-out;
+        @apply p-1 border-2 rounded-md border-base-40 bg-base-10 w-fit h-fit transition-colors duration-250 ease-out;
     }
 
     button:hover {
-        @apply text-base-90 border-primary-400 bg-primary-500;
+        @apply bg-accent-400/15 border-accent-500;
     }
 </style>
 
