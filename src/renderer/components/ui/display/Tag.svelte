@@ -13,11 +13,11 @@
     @reference '../../../styles/styles.css';
 
     div {
-        @apply flex flex-row items-center gap-2 px-2 py-1 border-2 rounded-lg border-base-40 bg-base-10 transition duration-250 ease-out;
+        @apply flex flex-row items-center px-2 py-1 border-2 rounded-lg border-base-40 bg-base-10 transition duration-250 ease-out;
     }
 
     div:hover {
-        @apply border-primary-300 bg-base-20;
+        @apply gap-2 border-primary-300 bg-base-20;
     }
 
     button {
