@@ -23,7 +23,7 @@
     @reference '../styles/styles.css';
 
     #app {
-        @apply flex flex-row p-2 gap-2 w-full h-screen bg-base-00 overflow-hidden;
+        @apply flex flex-row p-4 gap-4 w-full h-screen bg-base-00 overflow-hidden;
     }
 
     #app :global(> *) {
