@@ -33,6 +33,9 @@
 
     #app :global(> *) {
         @apply text-base text-base-100 h-full border-transparent rounded-md shadow-md;
+    }
+
+    #app :global(> *:not(#modal-container)) {
         background-image: url('../assets/noise-sized-0.8-density-40.png');
         background-repeat: repeat;
         background-position: 0 0;
