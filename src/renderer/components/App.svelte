@@ -30,12 +30,12 @@
         @apply text-base text-base-100 h-full border-transparent rounded-md shadow-md;
     }
 
-    #app :global(*:focus) {
-        @apply outline-none border-2 border-primary-500 bg-base-20;
+    #app :global(*:focus):not(:hover) {
+        @apply outline-none border-2 border-primary-500;
     }
 
-    #app :global(*:focus-visible) {
-        @apply outline-none border-2 border-primary-500 bg-base-20;
+    #app :global(*:focus-visible):not(:hover) {
+        @apply outline-none border-2 border-primary-500;
     }
 </style>
 
