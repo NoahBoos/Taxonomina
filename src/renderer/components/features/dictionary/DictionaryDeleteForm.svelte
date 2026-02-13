@@ -43,5 +43,5 @@
         </ul>
         <p>En cliquant sur ce bouton, vous acceptez de perdre ce dictionnaire pour l'éternité (et l'éternité, c'est super long...)</p>
     </div>
-    <button type="button" onclick={ onClick } class="block font-semibold px-4 py-2 mx-auto border-2 rounded-md border-base-40 bg-base-10 w-fit transition-colors duration-250 ease-out hover:border-primary-300 hover:bg-base-20">Supprimer</button>
+    <button type="button" onclick={ onClick } class="block font-semibold px-4 py-2 mx-auto border-2 rounded-md border-primary-500 bg-transparent w-fit transition-colors duration-250 ease-out hover:bg-accent-400/15 hover:border-accent-500">Supprimer</button>
 </div>

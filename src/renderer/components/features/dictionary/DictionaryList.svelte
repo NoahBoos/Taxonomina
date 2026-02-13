@@ -22,11 +22,11 @@
     @reference '../../../styles/styles.css';
 
     .add-dictionary-button {
-        @apply flex flex-row gap-2 text-base-100 px-2 py-1 border-2 rounded-md border-primary-300 w-fit transition-colors duration-250 ease-out;
+        @apply flex flex-row gap-2 text-base-100 px-2 py-1 border-2 rounded-md border-primary-500 bg-transparent w-fit transition-colors duration-250 ease-out;
     }
 
     .add-dictionary-button:hover {
-        @apply text-base-90 border-primary-400 bg-primary-500;
+        @apply bg-accent-400/15 border-accent-500;
     }
 </style>
 
