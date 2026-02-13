@@ -3,10 +3,8 @@
     import { DictionaryService } from "@/renderer/services/DictionaryService";
     import { I_Dictionary } from "@/shared/interfaces/I_Dictionary";
     import { onMount } from "svelte";
-    import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
     import { Undo2 } from "@lucide/svelte";
     import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
-    import { toggleShowDictionary } from "@/renderer/stores/showDictionaryStore";
 
     let dictionary: I_Dictionary = { id: 0, name: "", description: "" };
 
