@@ -30,7 +30,7 @@
 
 </style>
 
-<div class="flex flex-col w-[17.5%] p-4 gap-4 bg-base-20">
+<div id="navigator" class="flex flex-col w-[17.5%] p-4 gap-4 bg-base-20">
     <DictionaryInformationButton />
     <div class="space-y-2">
         {#each ContentType.all as tab}

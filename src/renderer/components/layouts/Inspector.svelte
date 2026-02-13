@@ -19,6 +19,6 @@
 
 </style>
 
-<div class="flex-1 p-4 bg-base-30 overflow-y-auto overflow-x-visible">
+<div id="inspector" class="flex-1 p-4 bg-base-30 overflow-y-auto overflow-x-visible">
     <InspectorComponent />
 </div>
