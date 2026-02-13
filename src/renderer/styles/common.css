@@ -82,3 +82,11 @@ label {
 .form-field-container {
     @apply p-4 rounded-lg w-full bg-base-20;
 }
+
+#app, #navigator, #browser, #inspector, #modal {
+    background-image: url('../assets/noise-sized-0.8-density-40.png');
+    background-repeat: repeat;
+    background-position: 0 0;
+    background-size: 512px 512px;
+    background-blend-mode: hard-light;
+}

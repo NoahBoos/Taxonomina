@@ -24,23 +24,10 @@
 
     #app {
         @apply flex flex-row p-4 gap-4 w-full h-screen bg-base-00 overflow-hidden;
-        background-image: url('../assets/noise-sized-0.8-density-40.png');
-        background-repeat: repeat;
-        background-position: 0 0;
-        background-size: 512px 512px;
-        background-blend-mode: hard-light;
     }
 
     #app :global(> *) {
         @apply text-base text-base-100 h-full border-transparent rounded-md shadow-md;
-    }
-
-    #app :global(> *:not(#modal-container)) {
-        background-image: url('../assets/noise-sized-0.8-density-40.png');
-        background-repeat: repeat;
-        background-position: 0 0;
-        background-size: 512px 512px;
-        background-blend-mode: hard-light;
     }
 
     #app :global(*:focus) {
