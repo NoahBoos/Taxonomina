@@ -16,7 +16,7 @@
 </style>
 
 <div class="flex flex-row p-2 justify-between border-2 rounded-lg { dictionary.id === $currentDictionary?.id ? 'border-primary-500 bg-primary-400/25' : 'border-base-50 bg-base-40/25' }">
-    <div class="flex flex-col">
+    <div class="flex flex-col justify-center">
         <div class="flex flex-row gap-2">
             <p class="text-lg">{ dictionary.name }</p>
             {#if dictionary.id === $currentDictionary?.id}
