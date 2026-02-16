@@ -1,4 +1,6 @@
 import {I_Language} from "../../../shared/interfaces/I_Language";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
+import { LANGUAGE_ERROR_REGISTRY } from "../../../shared/errors/registries/languageErrorRegistry";
 
 export class Language {
     constructor(
@@ -75,21 +77,26 @@ export class Language {
         );
     }
 
-    public validate(): boolean {
+    public validate(): [boolean, TaxonominaError<ErrorDomain>[]] {
+        let errors: TaxonominaError<ErrorDomain>[] = [];
+
         if (this.iso_639_1.length > 0 && this.iso_639_1.length !== 2) {
-            console.warn("S'il existe, le code ISO 639-1 ne peut pas être d'une longueur autre que deux caractères. Laissez vide si vous avez fait une erreur.");
-            return false;
-        } else if (this.iso_639_3.length > 0 && this.iso_639_3.length !== 3) {
-            console.warn("S'il existe, le code ISO 639-3 ne peut pas être d'une longueur autre que trois caractères. Laissez vide si vous avez fait une erreur.");
-            return false;
-        } else if (this.name_native.length === 0) {
-            console.warn("Le nom natif d'une langue ne peut pas être vide.");
-            return false;
-        } else if (this.name_local.length === 0) {
-            console.warn("Le nom local d'une langue ne peut pas être vide.");
-            return false;
+            errors.push(LANGUAGE_ERROR_REGISTRY.E0202);
+        }
+        if (this.iso_639_3.length > 0 && this.iso_639_3.length !== 3) {
+            errors.push(LANGUAGE_ERROR_REGISTRY.E0203);
+        }
+        if (this.name_native.length === 0) {
+            errors.push(LANGUAGE_ERROR_REGISTRY.E0204);
+        }
+        if (this.name_local.length === 0) {
+            errors.push(LANGUAGE_ERROR_REGISTRY.E0205);
         }
 
-        return true;
+        if (errors.length === 0) {
+            return [true, errors];
+        } else {
+            return [false, errors];
+        }
     }
 }

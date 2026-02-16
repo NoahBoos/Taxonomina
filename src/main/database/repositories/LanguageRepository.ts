@@ -2,6 +2,7 @@ import {Language} from "../models/Language";
 import {Database} from "../Database";
 import {RunResult, Statement} from "better-sqlite3";
 import {I_Language} from "../../../shared/interfaces/I_Language";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
 
 export class LanguageRepository {
     public static readAll(dictionary_id: number): I_Language[] {
@@ -24,9 +25,10 @@ export class LanguageRepository {
         return statement.get({ id: language_id });
     }
 
-    public static create(language: I_Language): [boolean, I_Language | undefined] {
+    public static create(language: I_Language): [boolean, I_Language | undefined, TaxonominaError<ErrorDomain>[]] {
         const _language: Language = Language.hydrate(language);
-        if (!_language.validate()) return [false, undefined];
+        let [validation_success, errors] = _language.validate();
+        if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ dictionary_id: number, iso_639_1: string, iso_639_3: string, is_conlang: number, name_native: string, name_local: string, direction: string }, number> = Database.GetDatabase().prepare(`
             INSERT INTO languages (dictionary_id, iso_639_1, iso_639_3, is_conlang, name_native, name_local, direction)
@@ -36,13 +38,14 @@ export class LanguageRepository {
         const result: RunResult = statement.run({ dictionary_id: _language.dictionary_id, iso_639_1: _language.iso_639_1, iso_639_3: _language.iso_639_3, is_conlang: _language.is_conlang ? 1 : 0, name_native: _language.name_native, name_local: _language.name_local, direction: _language.direction });
 
         if (result.changes > 0) {
-            return [true, new Language(Number(result.lastInsertRowid), language.dictionary_id, language.iso_639_1, language.iso_639_3, language.is_conlang, language.name_native, language.name_local, language.direction).toJSON()];
-        } else return [false, undefined];
+            return [true, new Language(Number(result.lastInsertRowid), language.dictionary_id, language.iso_639_1, language.iso_639_3, language.is_conlang, language.name_native, language.name_local, language.direction).toJSON(), []];
+        } else return [false, undefined, errors];
     }
 
-    public static update(language: I_Language): [boolean, I_Language | undefined] {
+    public static update(language: I_Language): [boolean, I_Language | undefined, TaxonominaError<ErrorDomain>[]] {
         const _language: Language = Language.hydrate(language);
-        if (!_language.validate()) return [false, undefined];
+        let [validation_success, errors] = _language.validate();
+        if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ id: number, dictionary_id: number, iso_639_1: string, iso_639_3: string, is_conlang: number, name_native: string, name_local: string, direction: string }, number> = Database.GetDatabase().prepare(`
             UPDATE languages
@@ -53,8 +56,8 @@ export class LanguageRepository {
         const result: RunResult = statement.run({ id: _language.id, dictionary_id: _language.dictionary_id, iso_639_1: _language.iso_639_1, iso_639_3: _language.iso_639_3, is_conlang: _language.is_conlang ? 1 : 0, name_native: _language.name_native, name_local: _language.name_local, direction: _language.direction });
 
         if (result.changes > 0) {
-            return [true, _language.toJSON()];
-        } else return [false, undefined];
+            return [true, _language.toJSON(), []];
+        } else return [false, undefined, errors];
     }
 
     public static delete(language_id: number): boolean {

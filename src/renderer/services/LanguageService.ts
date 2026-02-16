@@ -1,4 +1,5 @@
 import {I_Language} from "@/shared/interfaces/I_Language";
+import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
 
 export class LanguageService {
     public static async readAll(dictionary_id: number): Promise<I_Language[]> {
@@ -9,11 +10,11 @@ export class LanguageService {
         return await window.txnmAPI.repositories.language.readOne(language_id);
     }
 
-    public static async save(language: I_Language): Promise<[boolean, I_Language | undefined]> {
-        let [success, savedLanguage] = language.id == 0
+    public static async save(language: I_Language): Promise<[boolean, I_Language | undefined, TaxonominaError<ErrorDomain>[]]> {
+        let [success, savedLanguage, errors] = language.id == 0
             ? await window.txnmAPI.repositories.language.create(language)
             : await window.txnmAPI.repositories.language.update(language);
-        return [success, savedLanguage];
+        return [success, savedLanguage, errors];
     }
 
     public static async delete(language_id: number): Promise<boolean> {

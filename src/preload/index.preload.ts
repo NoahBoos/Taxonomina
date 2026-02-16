@@ -6,6 +6,7 @@ import {I_GrammaticalClass} from "../shared/interfaces/I_GrammaticalClass";
 import {I_GrammaticalGenre} from "../shared/interfaces/I_GrammaticalGenre";
 import {I_Definition} from "../shared/interfaces/I_Definition";
 import {I_Entry} from "../shared/interfaces/I_Entry";
+import { ErrorDomain, TaxonominaError } from "../shared/errors/types";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -71,8 +72,8 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         language: {
             readAll: (dictionary_id: number): Promise<I_Language[]> => ipcRenderer.invoke("txnmAPI:repositories:language:readAll", dictionary_id),
             readOne: (language_id: number): Promise<I_Language[]> => ipcRenderer.invoke("txnmAPI:repositories:language:readOne", language_id),
-            create: (language: I_Language): Promise<[boolean, I_Language | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:language:create", language),
-            update: (language: I_Language): Promise<[boolean, I_Language | undefined]> => ipcRenderer.invoke("txnmAPI:repositories:language:update", language),
+            create: (language: I_Language): Promise<[boolean, I_Language | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:language:create", language),
+            update: (language: I_Language): Promise<[boolean, I_Language | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:language:update", language),
             delete: (language_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:language:delete", language_id)
         }
     },

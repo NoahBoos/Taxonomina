@@ -5,6 +5,7 @@ import {I_GrammaticalClass} from "../interfaces/I_GrammaticalClass";
 import {I_GrammaticalGenre} from "../interfaces/I_GrammaticalGenre";
 import {I_Definition} from "../interfaces/I_Definition";
 import {I_Entry} from "../interfaces/I_Entry";
+import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
 
 export {};
 
@@ -74,8 +75,8 @@ declare global {
                 language: {
                     readAll: (dictionary_id: number) => Promise<I_Language[]>,
                     readOne: (language_id: number) => Promise<I_Language>,
-                    create: (language: I_Language) => Promise<[boolean, I_Language | undefined]>,
-                    update: (language: I_Language) => Promise<[boolean, I_Language | undefined]>,
+                    create: (language: I_Language) => Promise<[boolean, I_Language | undefined, TaxonominaError<ErrorDomain>[]]>,
+                    update: (language: I_Language) => Promise<[boolean, I_Language | undefined, TaxonominaError<ErrorDomain>[]]>,
                     delete: (language_id: number) => Promise<boolean>
                 }
             }

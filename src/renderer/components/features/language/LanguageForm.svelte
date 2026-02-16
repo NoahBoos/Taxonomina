@@ -10,6 +10,8 @@
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
     import { refreshLanguages } from "@/renderer/stores/languagesStore";
+    import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
+    import { languageFormErrorsStore, resetLanguageFormErrors, setLanguageFormErrors } from "@/renderer/stores/languageFormErrors";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -54,20 +56,26 @@
 
         try {
             const languageToSave = $state.snapshot(language);
-            const [success, savedLanguage] = await LanguageService.save(languageToSave);
-            if (!success || !savedLanguage) throw new Error("Failed to save the language.");
+            const [success, savedLanguage, errors] = await LanguageService.save(languageToSave);
+            if (!success || !savedLanguage) throw new Error("Failed to save the language.", { cause: errors });
 
             await refreshLanguages();
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {
-            console.error("An error occurred while saving the language :", error);
+            if (error instanceof Error) {
+                let errors = error.cause as TaxonominaError<ErrorDomain>[];
+                setLanguageFormErrors(errors);
+            }
         } finally {
             is_submitting = false;
         }
     }
 
-    $effect(() => { loadLanguage(); });
+    $effect(() => {
+        loadLanguage();
+        resetLanguageFormErrors();
+    });
 </script>
 
 <style>
@@ -80,6 +88,9 @@
             <h2>Créer une nouvelle langue</h2>
         {:else}
             <h2>Modifier une langue : { language.name_native }</h2>
+        {/if}
+        {#if $languageFormErrorsStore.length > 0 }
+            <p>Il y a des erreurs à corriger. ;></p>
         {/if}
         <form onsubmit={ onSubmit } class="flex flex-col gap-4">
             <div class="flex flex-row gap-4">
