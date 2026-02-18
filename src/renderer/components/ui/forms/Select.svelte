@@ -1,14 +1,16 @@
 <script lang="ts">
     import {SelectOptions} from "@/renderer/types/SelectOptions";
+    import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
 
     interface Props {
         label: string;
         options: SelectOptions;
         value: string | number;
         onChange?: (value: string | number) => void;
+        errors?: TaxonominaError<ErrorDomain>[];
     }
 
-    let { label, options, value = $bindable(''), onChange }: Props = $props();
+    let { label, options, value = $bindable(''), onChange, errors = [] }: Props = $props();
     let id = crypto.randomUUID();
 
     let internal_value = $derived(String(value));
@@ -35,11 +37,18 @@
     }
 </style>
 
-<div class="form-field-container space-y-2">
+<div class="form-field-container space-y-2 { errors.length > 0 ? 'form-field-container--errors' : '' }">
     <label for={ id }>{ label }</label>
     <select { id } bind:value={ internal_value } onchange={ handleOnChange }>
         {#each Object.entries(options) as [option_value, option_label]}
             <option value={ option_value }>{ option_label }</option>
         {/each}
     </select>
+    {#if errors.length > 0}
+        <div>
+            {#each errors as error}
+                <p>{ error.code } : { error.message }</p>
+            {/each}
+        </div>
+    {/if}
 </div>

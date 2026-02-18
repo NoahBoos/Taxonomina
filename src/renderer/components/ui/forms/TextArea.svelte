@@ -1,5 +1,16 @@
 <script lang="ts">
-    let { name, label, rows, placeholder, value = $bindable() }: { name: string, label: string, rows: number, placeholder: string, value: string } = $props();
+    import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
+
+    interface Props {
+        name: string,
+        label: string,
+        rows: number,
+        placeholder: string,
+        value: string,
+        errors: TaxonominaError<ErrorDomain>[]
+    }
+
+    let { name, label, rows, placeholder, value = $bindable(), errors = [] }: Props = $props();
     let id = crypto.randomUUID();
 </script>
 

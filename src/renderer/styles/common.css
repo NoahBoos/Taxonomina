@@ -83,6 +83,10 @@ label {
     @apply p-4 rounded-lg w-full bg-base-20;
 }
 
+.form-field-container--errors {
+    @apply border-2 border-red-600 bg-red-400/15;
+}
+
 #app, #navigator, #browser, #inspector, #modal {
     background-image: url('../assets/noise-sized-0.8-density-40.png');
     background-repeat: repeat;
