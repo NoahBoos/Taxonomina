@@ -7,6 +7,11 @@ export type ErrorDomain =
     | 'grammatical_class'
     | 'grammatical_genre';
 
+export type ErrorTarget =
+    | { type: 'system' }
+    | { type: 'form' }
+    | { type: 'form_field'; field_name: string };
+
 export type ErrorSeverity = 'error' | 'warning';
 
 export type ErrorCode<D extends ErrorDomain> =
@@ -22,6 +27,7 @@ export type ErrorCode<D extends ErrorDomain> =
 export type TaxonominaError<D extends ErrorDomain> = {
     code: ErrorCode<D>;
     domain: D;
+    target: ErrorTarget;
     severity: ErrorSeverity;
     message: string;
 }
