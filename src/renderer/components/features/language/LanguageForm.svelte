@@ -11,7 +11,7 @@
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
     import { refreshLanguages } from "@/renderer/stores/languagesStore";
     import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
-    import { languageFormErrorsStore, resetLanguageFormErrors, setLanguageFormErrors } from "@/renderer/stores/languageFormErrorStore";
+    import { languageFormErrorsStore, resetLanguageFormErrors, setLanguageFormErrors } from "@/renderer/stores/languageFormErrorsStore";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
