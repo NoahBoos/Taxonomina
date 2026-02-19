@@ -43,9 +43,11 @@ export class Entry {
 
         if (this.dictionary_id === 0) {
             errors.push(ENTRY_ERROR_REGISTRY.E0301);
-        } else if (this.language_id === 0) {
+        }
+        if (this.language_id === 0) {
             errors.push(ENTRY_ERROR_REGISTRY.E0302);
-        } else if (this.lemma.length === 0) {
+        }
+        if (this.lemma.length === 0) {
             errors.push(ENTRY_ERROR_REGISTRY.E0303);
         }
 

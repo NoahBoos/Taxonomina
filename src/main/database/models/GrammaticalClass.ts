@@ -40,7 +40,8 @@ export class GrammaticalClass {
 
         if (this.dictionary_id === 0) {
             errors.push(GRAMMATICAL_CLASS_ERROR_REGISTRY.E0501);
-        } else if (this.name.length === 0) {
+        }
+        if (this.name.length === 0) {
             errors.push(GRAMMATICAL_CLASS_ERROR_REGISTRY.E0502);
         }
 
