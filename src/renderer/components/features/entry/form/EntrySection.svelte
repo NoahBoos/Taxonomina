@@ -5,9 +5,13 @@
     import {SelectOptions} from "@/renderer/types/SelectOptions";
     import {LANGUAGES} from "@/renderer/utils/selectOptionPresets";
     import {BookOpen} from "@lucide/svelte";
+    import { entryFormErrorsStore } from "@/renderer/stores/entryFormErrorsStore";
 
     let { dictionary_id, entry = $bindable() }: { dictionary_id: number, entry: I_Entry } = $props();
     let languageOptions = $state<SelectOptions>({});
+
+    let lemma_errors = $derived($entryFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'lemma'));
+    let language_id_errors = $derived($entryFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'language_id'));
 
     $effect(() => { LANGUAGES(dictionary_id).then(options => languageOptions = options); })
 </script>
@@ -22,7 +26,7 @@
         <h3>Informations de base</h3>
     </div>
     <div class="flex flex-row gap-4">
-        <TextInput name="lemma" label="Lemme" placeholder="Chien, chat, pigeon..." bind:value={ entry.lemma } />
-        <Select label="Langue" options={ languageOptions } bind:value={ entry.language_id } />
+        <TextInput name="lemma" label="Lemme" placeholder="Chien, chat, pigeon..." bind:value={ entry.lemma } errors={ lemma_errors } />
+        <Select label="Langue" options={ languageOptions } bind:value={ entry.language_id } errors={ language_id_errors } />
     </div>
 </div>

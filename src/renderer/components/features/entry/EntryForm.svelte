@@ -18,6 +18,8 @@
     import {DefinitionService} from "@/renderer/services/DefinitionService";
     import { Tags } from "@lucide/svelte";
     import { refreshEntries } from "@/renderer/stores/entriesStore";
+    import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
+    import { resetEntryFormErrors, setEntryFormErrors } from "@/renderer/stores/entryFormErrorsStore";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -58,8 +60,8 @@
             const selectedGrammaticalGenres = $state.snapshot(selected_grammatical_genres);
             const selectedTranslations = $state.snapshot(selected_translations);
             const selectedDefinitions = $state.snapshot(selected_definitions);
-            const [success, savedEntry] = await EntryService.save(entryToSave);
-            if (!success || !savedEntry) throw new Error("Failed to save the entry.");
+            const [success, savedEntry, errors] = await EntryService.save(entryToSave);
+            if (!success || !savedEntry) throw new Error("Failed to save the entry.", { cause: errors });
 
             if (entryToSave.id !== 0) {
                 let [oldGrammaticalClasses, oldGrammaticalGenres, oldTranslations, oldDefinitions] = await Promise.all([
@@ -90,13 +92,19 @@
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {
-            console.error("An error occurred while saving the entry :", error);
+            if (error instanceof Error) {
+                let errors = error.cause as TaxonominaError<ErrorDomain>[];
+                setEntryFormErrors(errors);
+            }
         } finally {
             is_submitting = false;
         }
     }
 
-    $effect(() => { loadEntry() });
+    $effect(() => {
+        loadEntry();
+        resetEntryFormErrors();
+    });
 </script>
 
 <style>

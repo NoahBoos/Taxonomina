@@ -1,4 +1,5 @@
 import {I_Entry} from "@/shared/interfaces/I_Entry";
+import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
 
 export class EntryService {
     public static async readAll(dictionary_id: number): Promise<I_Entry[]> {
@@ -17,11 +18,11 @@ export class EntryService {
         return await window.txnmAPI.repositories.entry.readOne(entry_id);
     }
 
-    public static async save(entry: I_Entry): Promise<[boolean, I_Entry | undefined]> {
-        let [success, savedEntry] = entry.id == 0
+    public static async save(entry: I_Entry): Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]> {
+        let [success, savedEntry, errors] = entry.id == 0
             ? await window.txnmAPI.repositories.entry.create(entry)
             : await window.txnmAPI.repositories.entry.update(entry);
-        return [success, savedEntry];
+        return [success, savedEntry, errors];
     }
 
     public static async delete(entry_id: number): Promise<boolean> {
