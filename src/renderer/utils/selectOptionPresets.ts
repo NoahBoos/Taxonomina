@@ -15,6 +15,8 @@ export const LANGUAGES = async (dictionaryId: number): Promise<SelectOptions> =>
     const languages: I_Language[] = await LanguageService.readAll(dictionaryId);
     const options: SelectOptions = {};
 
+    options[0] = "-- Sélectionnez une langue --";
+
     languages.forEach((language: I_Language) => {
         options[language.id] = `${language.name_native} / ${language.name_local}`
     });
