@@ -2,6 +2,7 @@ import {I_Definition} from "../../../shared/interfaces/I_Definition";
 import {Database} from "../Database";
 import { RunResult, Statement } from "better-sqlite3";
 import { Definition } from "../models/Definition";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
 
 export class DefinitionRepository {
     public static readAll(): I_Definition[] {
@@ -34,9 +35,10 @@ export class DefinitionRepository {
         return statement.get({ definition_id });
     }
 
-    public static create(definition: I_Definition): [boolean, I_Definition | undefined] {
+    public static create(definition: I_Definition): [boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]] {
         const _definition: Definition = Definition.hydrate(definition);
-        if (!_definition.validate()) return [false, undefined];
+        let [validation_success, errors] = _definition.validate();
+        if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ definition: string }, number> = Database.GetDatabase().prepare(`
             INSERT INTO definitions (definition) VALUES (@definition);
@@ -45,13 +47,14 @@ export class DefinitionRepository {
         const result: RunResult = statement.run({ definition: _definition.definition });
 
         if (result.changes > 0) {
-            return [true, new Definition(Number(result.lastInsertRowid), _definition.definition).toJSON()];
-        } else return [false, undefined];
+            return [true, new Definition(Number(result.lastInsertRowid), _definition.definition).toJSON(), []];
+        } else return [false, undefined, []];
     }
 
-    public static update(definition: I_Definition): [boolean, I_Definition | undefined] {
+    public static update(definition: I_Definition): [boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]] {
         const _definition: Definition = Definition.hydrate(definition);
-        if (!_definition.validate()) return [false, undefined];
+        let [validation_success, errors] = _definition.validate();
+        if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ id: number, definition: string }, number> = Database.GetDatabase().prepare(`
             UPDATE definitions SET definition = @definition
@@ -61,8 +64,8 @@ export class DefinitionRepository {
         const result: RunResult = statement.run({ id: _definition.id, definition: _definition.definition });
 
         if (result.changes > 0) {
-            return [true, _definition.toJSON()];
-        } else return [false, undefined];
+            return [true, _definition.toJSON(), []];
+        } else return [false, undefined, []];
     }
 
     public static delete(definition_id: number): boolean {

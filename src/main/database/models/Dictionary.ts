@@ -1,4 +1,6 @@
 import {I_Dictionary} from "../../../shared/interfaces/I_Dictionary";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
+import { DICTIONARY_ERROR_REGISTRY } from "../../../shared/errors/registries/dictionaryErrorRegistry";
 
 export class Dictionary {
     constructor(
@@ -29,12 +31,13 @@ export class Dictionary {
         return new Dictionary(raw.id, raw.name, raw.description);
     }
 
-    public validate(): boolean {
+    public validate(): [boolean, TaxonominaError<ErrorDomain>[]] {
+        let errors: TaxonominaError<ErrorDomain>[] = [];
+
         if (this.name.length === 0) {
-            console.warn("Un dictionnaire ne peut être vide.");
-            return false;
+            errors.push(DICTIONARY_ERROR_REGISTRY.E0100);
         }
 
-        return true;
+        return [errors.length === 0, errors];
     }
 }

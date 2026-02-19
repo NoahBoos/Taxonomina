@@ -2,6 +2,7 @@ import { RunResult, Statement } from "better-sqlite3";
 import { I_Dictionary } from "../../../shared/interfaces/I_Dictionary";
 import { Database } from "../Database";
 import { Dictionary } from "../models/Dictionary";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
 
 export class DictionaryRepository {
     public static readAll(): I_Dictionary[] {
@@ -23,9 +24,10 @@ export class DictionaryRepository {
         return statement.get({ dictionary_id });
     }
 
-    public static create(dictionary: I_Dictionary): [boolean, I_Dictionary | undefined] {
+    public static create(dictionary: I_Dictionary): [boolean, I_Dictionary | undefined, TaxonominaError<ErrorDomain>[]] {
         const _dictionary: Dictionary = Dictionary.hydrate(dictionary);
-        if (!_dictionary.validate()) return [false, undefined];
+        let [validation_success, errors] = _dictionary.validate();
+        if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ name: string, description: string }, number> = Database.GetDatabase().prepare(`
             INSERT INTO dictionaries (name, description) VALUES (@name, @description);
@@ -34,13 +36,14 @@ export class DictionaryRepository {
         const result: RunResult = statement.run({ name: _dictionary.name, description: _dictionary.description });
 
         if (result.changes > 0) {
-            return [true, new Dictionary(Number(result.lastInsertRowid), _dictionary.name, _dictionary.description).toJSON()];
-        } else return [false, undefined];
+            return [true, new Dictionary(Number(result.lastInsertRowid), _dictionary.name, _dictionary.description).toJSON(), []];
+        } else return [false, undefined, errors];
     }
 
-    public static update(dictionary: I_Dictionary): [boolean, I_Dictionary | undefined] {
+    public static update(dictionary: I_Dictionary): [boolean, I_Dictionary | undefined, TaxonominaError<ErrorDomain>[]] {
         const _dictionary: Dictionary = Dictionary.hydrate(dictionary);
-        if (!_dictionary.validate()) return [false, undefined];
+        let [validation_success, errors] = _dictionary.validate();
+        if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ id: number, name: string, description: string }, number> = Database.GetDatabase().prepare(`
             UPDATE dictionaries 
@@ -51,8 +54,8 @@ export class DictionaryRepository {
         const result: RunResult = statement.run({ id: _dictionary.id, name: _dictionary.name, description: _dictionary.description });
 
         if (result.changes > 0) {
-            return [true, _dictionary.toJSON()];
-        } else return [false, undefined];
+            return [true, _dictionary.toJSON(), []];
+        } else return [false, undefined, errors];
     }
 
     public static delete(dictionary_id: number): boolean {

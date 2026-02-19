@@ -1,4 +1,6 @@
 import {I_Entry} from "../../../shared/interfaces/I_Entry";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
+import { ENTRY_ERROR_REGISTRY } from "../../../shared/errors/registries/entryErrorRegistry";
 
 export class Entry {
     constructor(
@@ -36,18 +38,17 @@ export class Entry {
         );
     }
 
-    public validate() {
+    public validate(): [boolean, TaxonominaError<ErrorDomain>[]] {
+        let errors: TaxonominaError<ErrorDomain>[] = [];
+
         if (this.dictionary_id === 0) {
-            console.warn("Une entrée ne peut pas appartenir à aucun dictionnaire.");
-            return false;
+            errors.push(ENTRY_ERROR_REGISTRY.E0301);
         } else if (this.language_id === 0) {
-            console.warn("Une entrée ne peut pas appartenir à aucune langue.");
-            return false;
+            errors.push(ENTRY_ERROR_REGISTRY.E0302);
         } else if (this.lemma.length === 0) {
-            console.warn("Le lemme d'une entrée ne peut pas être vide.");
-            return false;
+            errors.push(ENTRY_ERROR_REGISTRY.E0303);
         }
 
-        return true;
+        return [errors.length === 0, errors];
     }
 }

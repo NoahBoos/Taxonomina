@@ -1,4 +1,6 @@
 import {I_GrammaticalGenre} from "../../../shared/interfaces/I_GrammaticalGenre";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
+import { GRAMMATICAL_GENRE_ERROR_REGISTRY } from "../../../shared/errors/registries/grammaticalGenreErrorRegistry";
 
 export class GrammaticalGenre {
     constructor(
@@ -33,12 +35,16 @@ export class GrammaticalGenre {
         );
     }
 
-    public validate(): boolean {
+    public validate(): [boolean, TaxonominaError<ErrorDomain>[]] {
+        let errors: TaxonominaError<ErrorDomain>[] = [];
+
+        if (this.dictionary_id === 0) {
+            errors.push(GRAMMATICAL_GENRE_ERROR_REGISTRY.E0601);
+        }
         if (this.name.length === 0) {
-            console.warn("Le nom d'un genre grammatical ne peut pas être vide.");
-            return false;
+            errors.push(GRAMMATICAL_GENRE_ERROR_REGISTRY.E0602);
         }
 
-        return true;
+        return [errors.length === 0, errors];
     }
 }

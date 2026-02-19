@@ -1,4 +1,6 @@
 import {I_Definition} from "../../../shared/interfaces/I_Definition";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
+import { DEFINITION_ERROR_REGISTRY } from "../../../shared/errors/registries/definitionErrorRegistry";
 
 export class Definition {
     constructor(
@@ -27,12 +29,13 @@ export class Definition {
         return new Definition(raw.id, raw.definition);
     }
 
-    public validate(): boolean {
+    public validate(): [boolean, TaxonominaError<ErrorDomain>[]] {
+        let errors: TaxonominaError<ErrorDomain>[] = [];
+
         if (this.definition.length === 0) {
-            console.warn("Une définition ne peut être vide.");
-            return false;
+            errors.push(DEFINITION_ERROR_REGISTRY.E0402);
         }
 
-        return true;
+        return [errors.length === 0, errors];
     }
 }

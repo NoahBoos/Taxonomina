@@ -2,6 +2,7 @@ import {Entry} from "../models/Entry";
 import {Database} from "../Database";
 import {RunResult, Statement} from "better-sqlite3";
 import {I_Entry} from "../../../shared/interfaces/I_Entry";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
 
 export class EntryRepository {
     public static readAll(dictionary_id: number): I_Entry[] {
@@ -48,9 +49,10 @@ export class EntryRepository {
         return statement.get({ id: entry_id });
     }
 
-    public static create(entry: I_Entry): [boolean, I_Entry | undefined] {
+    public static create(entry: I_Entry): [boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]] {
         const _entry: Entry = Entry.hydrate(entry);
-        if (!_entry.validate()) return [false, undefined];
+        let [validation_success, errors] = _entry.validate();
+        if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ dictionary_id: number, language_id: number, lemma: string }, number> = Database.GetDatabase().prepare(`
             INSERT INTO entries (dictionary_id, language_id, lemma) VALUES (@dictionary_id, @language_id, @lemma);
@@ -59,13 +61,14 @@ export class EntryRepository {
         const result: RunResult = statement.run({ dictionary_id: _entry.dictionary_id, language_id: _entry.language_id, lemma: _entry.lemma });
 
         if (result.changes > 0) {
-            return [true, new Entry(Number(result.lastInsertRowid), _entry.dictionary_id, _entry.language_id, _entry.lemma).toJSON()]
-        } else return [false, undefined]
+            return [true, new Entry(Number(result.lastInsertRowid), _entry.dictionary_id, _entry.language_id, _entry.lemma).toJSON(), []];
+        } else return [false, undefined, errors];
     }
 
-    public static update(entry: I_Entry): [boolean, I_Entry | undefined] {
+    public static update(entry: I_Entry): [boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]] {
         const _entry: Entry = Entry.hydrate(entry);
-        if (!_entry.validate()) return [false, undefined];
+        let [validation_success, errors] = _entry.validate();
+        if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ entry_id: number, dictionary_id: number, language_id: number, lemma: string }, number> = Database.GetDatabase().prepare(`
             UPDATE entries
@@ -76,8 +79,8 @@ export class EntryRepository {
         const result: RunResult = statement.run({ entry_id: _entry.id, dictionary_id: _entry.dictionary_id, language_id: _entry.language_id, lemma: _entry.lemma });
 
         if (result.changes > 0) {
-            return [true, _entry.toJSON()]
-        } else return [false, undefined]
+            return [true, _entry.toJSON(), []];
+        } else return [false, undefined, errors];
     }
 
     public static delete(entry_id: number): boolean {

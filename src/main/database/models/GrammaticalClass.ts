@@ -1,4 +1,6 @@
 import {I_GrammaticalClass} from "../../../shared/interfaces/I_GrammaticalClass";
+import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
+import { GRAMMATICAL_CLASS_ERROR_REGISTRY } from "../../../shared/errors/registries/grammaticalClassErrorRegistry";
 
 export class GrammaticalClass {
     constructor(
@@ -33,15 +35,15 @@ export class GrammaticalClass {
         );
     }
 
-    public validate(): boolean {
+    public validate(): [boolean, TaxonominaError<ErrorDomain>[]] {
+        let errors: TaxonominaError<ErrorDomain>[] = [];
+
         if (this.dictionary_id === 0) {
-            console.warn("Une catégorie grammaticale ne peut pas appartenir à aucun dictionnaire.");
-            return false;
+            errors.push(GRAMMATICAL_CLASS_ERROR_REGISTRY.E0501);
         } else if (this.name.length === 0) {
-            console.warn("Le nom d'une catégorie grammaticale ne peut pas être vide.");
-            return false;
+            errors.push(GRAMMATICAL_CLASS_ERROR_REGISTRY.E0502);
         }
 
-        return true;
+        return [errors.length === 0, errors];
     }
 }
