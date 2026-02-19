@@ -29,6 +29,11 @@
     let is_submitting: boolean = $state(false);
     let submit_button_label: string = $derived(language.id === 0 ? "Créer" : "Modifier");
 
+    const name_native_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'name_native'));
+    const name_local_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'name_local'));
+    const iso_639_1_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'iso_639_1'));
+    const iso_639_3_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'iso_639_3'));
+
     async function loadLanguage() {
         let inspectorState = $currentInspectorStateStore;
 
@@ -89,18 +94,15 @@
         {:else}
             <h2>Modifier une langue : { language.name_native }</h2>
         {/if}
-        {#if $languageFormErrorsStore.length > 0 }
-            <p>Il y a des erreurs à corriger. ;></p>
-        {/if}
         <form onsubmit={ onSubmit } class="flex flex-col gap-4">
             <div class="flex flex-row gap-4">
-                <TextInput name="name_native" label="Nom natif" placeholder="Entrez le nom de la langue dans cette dernière." bind:value={ language.name_native }/>
-                <TextInput name="name_local" label="Nom local" placeholder="Entrez le nom de la langue dans votre langue." bind:value={ language.name_local } />
+                <TextInput name="name_native" label="Nom natif" placeholder="Entrez le nom de la langue dans cette dernière." bind:value={ language.name_native } errors={ name_native_errors } />
+                <TextInput name="name_local" label="Nom local" placeholder="Entrez le nom de la langue dans votre langue." bind:value={ language.name_local } errors={ name_local_errors } />
             </div>
             <Checkbox name="is_conlang" label="Est-ce que cette langue est une langue construite ?" bind:checked={ language.is_conlang } />
             <div class="flex flex-row gap-4">
-                <TextInput name="iso_639_1" label="ISO 639-1" placeholder="Entrez le code ISO 639-1 de la langue." bind:value={ language.iso_639_1 } />
-                <TextInput name="iso_639_3" label="ISO 639-3" placeholder="Entrez le code ISO 639-3 de la langue." bind:value={ language.iso_639_3 } />
+                <TextInput name="iso_639_1" label="ISO 639-1" placeholder="Entrez le code ISO 639-1 de la langue." bind:value={ language.iso_639_1 } errors={ iso_639_1_errors } />
+                <TextInput name="iso_639_3" label="ISO 639-3" placeholder="Entrez le code ISO 639-3 de la langue." bind:value={ language.iso_639_3 } errors={ iso_639_3_errors } />
             </div>
             <Select label="Sens de lecture de la langue" options={ DIRECTIONS } value={ language.direction } />
             <SubmitButton label={ submit_button_label } />
