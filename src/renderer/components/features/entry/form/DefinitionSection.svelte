@@ -3,6 +3,7 @@
     import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
     import {Minus, Plus, TextQuote} from "@lucide/svelte";
     import ActionableTextInput from "@/renderer/components/ui/forms/ActionableTextInput.svelte";
+    import { definitionFormErrorsStore } from "@/renderer/stores/definitionFormErrorsStore";
 
     interface Props {
         selected_definitions: I_Definition[];
@@ -37,7 +38,7 @@
         <p>Cliquez sur le bouton "Plus" en-haut à droite de la section pour ajouter une première définition.</p>
     {:else}
         {#each selected_definitions as definition}
-            <ActionableTextInput name={ definition.clientKey } label={'Définition ' + (selected_definitions.indexOf(definition) + 1) } placeholder="Entrez votre définition." bind:value={ definition.definition } icon={ Minus } onClick={ () => removeDefinition(definition) } />
+            <ActionableTextInput name={ definition.clientKey } label={'Définition ' + (selected_definitions.indexOf(definition) + 1) } placeholder="Entrez votre définition." bind:value={ definition.definition } icon={ Minus } onClick={ () => removeDefinition(definition) } errors={ $definitionFormErrorsStore.filter(e => e.target.type === 'form_field' && e.target.field_name === definition.clientKey) } />
         {/each}
     {/if}
 </div>
