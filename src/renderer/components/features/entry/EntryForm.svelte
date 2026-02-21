@@ -59,6 +59,7 @@
             const selectedGrammaticalClasses = $state.snapshot(selected_grammatical_classes);
             const selectedGrammaticalGenres = $state.snapshot(selected_grammatical_genres);
             const selectedTranslations = $state.snapshot(selected_translations);
+            selected_definitions = selected_definitions.filter(d => d.definition.trim() !== '' && d.definition.trim() !== ' ');
             const selectedDefinitions = $state.snapshot(selected_definitions);
             const [success, savedEntry, errors] = await EntryService.save(entryToSave);
             if (!success || !savedEntry) throw new Error("Failed to save the entry.", { cause: errors });
