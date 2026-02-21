@@ -20,6 +20,8 @@
     import { refreshEntries } from "@/renderer/stores/entriesStore";
     import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
     import { resetEntryFormErrors, setEntryFormErrors } from "@/renderer/stores/entryFormErrorsStore";
+    import { resetDefinitionFormErrors, setDefinitionFormErrors } from "@/renderer/stores/definitionFormErrorsStore";
+    import { FormValidationError } from "@/shared/errors/FormValidationError";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -62,7 +64,7 @@
             selected_definitions = selected_definitions.filter(d => d.definition.trim() !== '' && d.definition.trim() !== ' ');
             const selectedDefinitions = $state.snapshot(selected_definitions);
             const [success, savedEntry, errors] = await EntryService.save(entryToSave);
-            if (!success || !savedEntry) throw new Error("Failed to save the entry.", { cause: errors });
+            if (!success || !savedEntry) throw new FormValidationError("Failed to save the entry.", 'entry', errors);
 
             if (entryToSave.id !== 0) {
                 let [oldGrammaticalClasses, oldGrammaticalGenres, oldTranslations, oldDefinitions] = await Promise.all([
@@ -83,19 +85,32 @@
             selectedGrammaticalClasses.forEach(gc => EntryService.bindToGrammaticalClass(savedEntry.id, gc.id));
             selectedGrammaticalGenres.forEach(gg => EntryService.bindToGrammaticalGenre(savedEntry.id, gg.id));
             selectedTranslations.forEach(e => EntryService.bindToTranslation(savedEntry.id, e.id));
+            let definitionErrors: TaxonominaError<ErrorDomain>[] = [];
             for (const d of selectedDefinitions) {
-                const [success, savedDefinition] = await DefinitionService.save(d);
-                if (!success || !savedDefinition) throw new Error(`Failed to save the definition \"${d.definition}\".`);
-                await DefinitionService.bindToTranslation(savedDefinition.id, savedEntry.id);
+                const [success, savedDefinition, errors] = await DefinitionService.save(d);
+
+                if (!success) {
+                    errors.forEach(e => definitionErrors.push(e));
+                    continue;
+                }
+
+                if (!definitionErrors.some(e => e.target.type === 'form_field' && e.target.field_name === d.clientKey)) {
+                    await DefinitionService.bindToTranslation(savedDefinition!.id, savedEntry.id);
+                }
             }
+            if (definitionErrors.length !== 0) throw new FormValidationError('Failed to save the definitions', 'definitions', definitionErrors);
 
             await refreshEntries();
 
             setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
         } catch (error) {
-            if (error instanceof Error) {
-                let errors = error.cause as TaxonominaError<ErrorDomain>[];
-                setEntryFormErrors(errors);
+            if (error instanceof FormValidationError) {
+                let errors = error.errors;
+                if (error.cause === 'entry') {
+                    setEntryFormErrors(errors);
+                } else if (error.cause === 'definitions') {
+                    setDefinitionFormErrors(errors);
+                }
             }
         } finally {
             is_submitting = false;
@@ -105,6 +120,7 @@
     $effect(() => {
         loadEntry();
         resetEntryFormErrors();
+        resetDefinitionFormErrors();
     });
 </script>
 
