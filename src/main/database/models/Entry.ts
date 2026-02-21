@@ -45,10 +45,10 @@ export class Entry {
             errors.push(ENTRY_ERROR_REGISTRY.E0301);
         }
         if (this.language_id === 0) {
-            errors.push(ENTRY_ERROR_REGISTRY.E0302);
+            errors.push(ENTRY_ERROR_REGISTRY.E0303);
         }
         if (this.lemma.length === 0) {
-            errors.push(ENTRY_ERROR_REGISTRY.E0303);
+            errors.push(ENTRY_ERROR_REGISTRY.E0302);
         }
 
         return [errors.length === 0, errors];
