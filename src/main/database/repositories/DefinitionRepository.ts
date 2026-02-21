@@ -54,7 +54,7 @@ export class DefinitionRepository {
 
         if (result.changes > 0) {
             return [true, new Definition(Number(result.lastInsertRowid), _definition.definition).toJSON(), []];
-        } else return [false, undefined, []];
+        } else return [false, undefined, errors];
     }
 
     public static update(definition: I_Definition): [boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]] {
@@ -71,7 +71,7 @@ export class DefinitionRepository {
 
         if (result.changes > 0) {
             return [true, _definition.toJSON(), []];
-        } else return [false, undefined, []];
+        } else return [false, undefined, errors];
     }
 
     public static delete(definition_id: number): boolean {
