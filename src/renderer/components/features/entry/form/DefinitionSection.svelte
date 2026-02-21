@@ -11,7 +11,7 @@
     let { selected_definitions = $bindable([]) }: Props = $props();
 
     function addDefinition() {
-        let definition: I_Definition = { id: 0, definition: "" };
+        let definition: I_Definition = { id: 0, definition: "", clientKey: `definition:${crypto.randomUUID()}` };
         selected_definitions.push(definition);
     }
 
@@ -37,7 +37,7 @@
         <p>Cliquez sur le bouton "Plus" en-haut à droite de la section pour ajouter une première définition.</p>
     {:else}
         {#each selected_definitions as definition}
-            <ActionableTextInput name={ 'definition-' + definition.id } label={'Définition ' + (selected_definitions.indexOf(definition) + 1) } placeholder="Entrez votre définition." bind:value={ definition.definition } icon={ Minus } onClick={ () => removeDefinition(definition) } />
+            <ActionableTextInput name={ definition.clientKey } label={'Définition ' + (selected_definitions.indexOf(definition) + 1) } placeholder="Entrez votre définition." bind:value={ definition.definition } icon={ Minus } onClick={ () => removeDefinition(definition) } />
         {/each}
     {/if}
 </div>

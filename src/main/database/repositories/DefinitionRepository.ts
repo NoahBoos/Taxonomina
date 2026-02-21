@@ -11,7 +11,9 @@ export class DefinitionRepository {
             FROM definitions;
         `);
 
-        return statement.all();
+        let definitions: I_Definition[] = statement.all();
+        definitions.forEach(d => d.clientKey = `definition:${ d.id }`);
+        return definitions;
     }
 
     public static readAllByEntry(entry_id: number): I_Definition[] {
@@ -22,7 +24,9 @@ export class DefinitionRepository {
             WHERE entry_definition.entry_id = @entry_id;
         `)
 
-        return statement.all({ entry_id });
+        let definitions: I_Definition[] = statement.all({ entry_id });
+        definitions.forEach(d => d.clientKey = `definition:${ d.id }`);
+        return definitions;
     }
 
     public static readOne(definition_id: number): I_Definition | undefined {
@@ -32,12 +36,14 @@ export class DefinitionRepository {
             WHERE id = @definition_id;
         `)
 
-        return statement.get({ definition_id });
+        let definition: I_Definition | undefined = statement.get({ definition_id });
+        if (definition) definition.clientKey = `definition:${ definition_id }`;
+        return definition;
     }
 
     public static create(definition: I_Definition): [boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]] {
         const _definition: Definition = Definition.hydrate(definition);
-        let [validation_success, errors] = _definition.validate();
+        let [validation_success, errors] = _definition.validate(definition.clientKey);
         if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ definition: string }, number> = Database.GetDatabase().prepare(`
@@ -53,7 +59,7 @@ export class DefinitionRepository {
 
     public static update(definition: I_Definition): [boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]] {
         const _definition: Definition = Definition.hydrate(definition);
-        let [validation_success, errors] = _definition.validate();
+        let [validation_success, errors] = _definition.validate(definition.clientKey);
         if (!validation_success) return [false, undefined, errors];
 
         const statement: Statement<{ id: number, definition: string }, number> = Database.GetDatabase().prepare(`

@@ -21,7 +21,8 @@ export class Definition {
     public toJSON(): I_Definition {
         return {
             id: this.id,
-            definition: this.definition
+            definition: this.definition,
+            clientKey: `definition:${this.id}`
         }
     }
 
@@ -29,11 +30,14 @@ export class Definition {
         return new Definition(raw.id, raw.definition);
     }
 
-    public validate(): [boolean, TaxonominaError<ErrorDomain>[]] {
+    public validate(clientKey: string): [boolean, TaxonominaError<ErrorDomain>[]] {
         let errors: TaxonominaError<ErrorDomain>[] = [];
 
         if (this.definition.length === 0) {
-            errors.push(DEFINITION_ERROR_REGISTRY.E0402);
+            errors.push({
+                ...DEFINITION_ERROR_REGISTRY.E0402,
+                target: { type: 'form_field', field_name: clientKey }
+            });
         }
 
         return [errors.length === 0, errors];
