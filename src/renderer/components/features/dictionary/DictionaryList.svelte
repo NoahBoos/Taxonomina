@@ -42,7 +42,7 @@
                 <Plus /> Créer un dictionnaire
             </button>
         </div>
-        <div class="space-y-2 overflow-y-auto overflow-x-hidden h-78">
+        <div class="h-78 { filteredDictionaries.length === 0 ? 'flex flex-row justify-center items-center' : 'space-y-2 overflow-y-auto overflow-x-hidden' }">
             {#if filteredDictionaries.length === 0}
                 <p class="text-center">Aucun dictionnaire trouvé{ query ? ' pour la recherche "' + query + '"' : '' }.</p>
             {:else}
