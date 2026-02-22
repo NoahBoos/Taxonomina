@@ -1,3 +1,21 @@
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('../assets/fonts/NotoSans[wdth,wght].ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('../assets/fonts/NotoSans-Italic[wdth,wght].ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+}
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+}
+
 [data-scrollbar-visibility="false"] *::-webkit-scrollbar {
     display: none;
     scrollbar-width: none;
