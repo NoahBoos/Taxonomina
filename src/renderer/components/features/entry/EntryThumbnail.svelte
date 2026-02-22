@@ -9,7 +9,7 @@
     let is_selected: boolean = $derived($currentInspectorStateStore.category === 'content' && $currentInspectorStateStore.type === ContentType.Entry && $currentInspectorStateStore.id !== undefined && $currentInspectorStateStore.id === entry.id);
 
     function openUpdateForm() {
-        setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.UPDATE(entry.id));
+        setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.READ_ONE(entry.id));
     }
 </script>
 

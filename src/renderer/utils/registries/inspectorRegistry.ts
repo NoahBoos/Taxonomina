@@ -9,6 +9,7 @@ import GrammaticalGenreForm from "@/renderer/components/features/grammatical_gen
 import EntryForm from "@/renderer/components/features/entry/EntryForm.svelte";
 import SettingsPage from "@/renderer/components/features/settings/SettingsPage.svelte";
 import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
+import EntryReadOne from "@/renderer/components/features/entry/EntryReadOne.svelte";
 
 type ContentComponentMapping = Record<ContentType, Partial<Record<InspectorAction, Component<any>>>>;
 type SpecialContentComponentMapping = Record<SpecialContentType, Component<any>>;
@@ -23,7 +24,7 @@ export const INSPECTOR_REGISTRY: I_InspectorRegistry = {
     'idle': Idle,
     'content': {
         [ContentType.Entry]: {
-            [InspectorAction.READ_ONE]: null as unknown as Component<any>,
+            [InspectorAction.READ_ONE]: EntryReadOne,
             [InspectorAction.CREATE]: EntryForm,
             [InspectorAction.UPDATE]: EntryForm,
         },
