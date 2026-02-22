@@ -3,14 +3,31 @@
     import { currentInspectorStateStore, setCurrentInspectorState } from "@/renderer/stores/currentInspectorStateStore";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
     import { ContentType } from "@/renderer/enums/ContentType";
+    import { I_Language } from "@/shared/interfaces/I_Language";
+    import { LanguageService } from "@/renderer/services/LanguageService";
 
-    let { item: entry }: { item: I_Entry } = $props();
+    interface Props {
+        item: I_Entry;
+        variant?: 'browser' | 'inspector';
+    }
+
+    let { item: entry, variant = 'browser' }: Props = $props();
+
+    let language: I_Language | undefined = $state(undefined);
 
     let is_selected: boolean = $derived($currentInspectorStateStore.category === 'content' && $currentInspectorStateStore.type === ContentType.Entry && $currentInspectorStateStore.id !== undefined && $currentInspectorStateStore.id === entry.id);
 
     function openUpdateForm() {
         setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.READ_ONE(entry.id));
     }
+
+    async function loadLanguage() {
+        language = await LanguageService.readOne(entry.language_id)
+    }
+
+    $effect(() => {
+       loadLanguage();
+    });
 </script>
 
 <style lang="postcss">
@@ -29,4 +46,9 @@
     }
 </style>
 
-<button onclick={ openUpdateForm } class="entry-thumbnail { is_selected ? 'selected' : '' }">{ entry.lemma }</button>
+<button onclick={ openUpdateForm } class="entry-thumbnail { is_selected ? 'selected' : '' } { variant === 'browser' ? '' : 'flex flex-col items-start' }">
+    {#if variant === 'inspector' && language}
+        <span class="text-sm">{ language.name_native }</span>
+    {/if}
+    <span>{ entry.lemma }</span>
+</button>
