@@ -66,9 +66,9 @@
         </div>
         <div class="space-y-4 divide-y-2 divide-base-40">
             <ul class="space-y-2 pb-4">
-                {#if language.is_conlang }
                 <li>Code ISO 639-1 : { language.iso_639_1 }</li>
                 <li>Code ISO 639-1 : { language.iso_639_3 }</li>
+                {#if language.is_conlang }
                     <li>Cette langue est une langue construite.</li>
                 {/if}
                 <li>Sens de lecture : { language.direction === 'ltr' ? 'Gauche à droite' : language.direction === 'rtl' ? 'Droite à gauche' : 'Inconnu' }</li>
