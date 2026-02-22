@@ -66,7 +66,7 @@
 
             await refreshLanguages();
 
-            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
+            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.LANGUAGE.READ_ONE(savedLanguage.id));
         } catch (error) {
             if (error instanceof Error) {
                 let errors = error.cause as TaxonominaError<ErrorDomain>[];

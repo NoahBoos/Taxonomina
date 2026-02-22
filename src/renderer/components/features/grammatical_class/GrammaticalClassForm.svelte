@@ -40,12 +40,12 @@
 
         try {
             const grammaticalClassToSave = $state.snapshot(grammatical_class);
-            const [success, savedGrammaticalGenre, errors] = await GrammaticalClassService.save(grammaticalClassToSave);
-            if (!success || !savedGrammaticalGenre) throw new Error("Failed to save the grammatical class.", { cause: errors });
+            const [success, savedGrammaticalClass, errors] = await GrammaticalClassService.save(grammaticalClassToSave);
+            if (!success || !savedGrammaticalClass) throw new Error("Failed to save the grammatical class.", { cause: errors });
 
             await refreshGrammaticalClasses();
 
-            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
+            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_CLASS.READ_ONE(savedGrammaticalClass.id));
         } catch (error) {
             if (error instanceof Error) {
                 let errors = error.cause as TaxonominaError<ErrorDomain>[];

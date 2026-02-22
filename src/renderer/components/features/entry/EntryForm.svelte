@@ -102,7 +102,7 @@
 
             await refreshEntries();
 
-            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
+            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.READ_ONE(savedEntry.id));
         } catch (error) {
             if (error instanceof FormValidationError) {
                 let errors = error.errors;

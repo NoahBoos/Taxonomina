@@ -45,7 +45,7 @@
 
             await refreshGrammaticalGenres();
 
-            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.IDLE);
+            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_GENRE.READ_ONE(savedGrammaticalGenre.id));
         } catch (error) {
             if (error instanceof Error) {
                 let errors = error.cause as TaxonominaError<ErrorDomain>[];
