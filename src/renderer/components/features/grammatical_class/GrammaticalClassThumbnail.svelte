@@ -9,7 +9,7 @@
     let is_selected: boolean = $derived($currentInspectorStateStore.category === 'content' && $currentInspectorStateStore.type === ContentType.GrammaticalClass && $currentInspectorStateStore.id !== undefined && $currentInspectorStateStore.id === grammatical_class.id);
 
     function openUpdateForm() {
-        setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_CLASS.UPDATE(grammatical_class.id));
+        setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_CLASS.READ_ONE(grammatical_class.id));
     }
 </script>
 
