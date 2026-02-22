@@ -1,9 +1,0 @@
-@layer components {
-    h2 {
-        @apply mb-3 text-2xl font-bold;
-    }
-
-    h3 {
-        @apply mb-2 text-lg font-bold;
-    }
-}

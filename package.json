@@ -1,14 +1,16 @@
 {
   "name": "taxonomina",
-  "version": "0.2.2-alpha",
-  "main": "dist/main.js",
+  "version": "0.3.0-alpha",
+  "main": "dist/main/main/main.js",
   "scripts": {
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:preload": "tsc -p tsconfig.preload.json",
+    "build:renderer": "vite build",
+    "build": "npm run build:main && npm run build:preload && npm run build:renderer",
     "start": "npm run build && electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "build": "tsc && vite build && node build.js && postcss src/styles.css -o dist/styles.css",
-    "watch": "tsc --watch"
+    "publish": "electron-forge publish"
   },
   "repository": {
     "type": "git",
@@ -31,16 +33,20 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.9.0",
     "@electron-forge/plugin-fuses": "^7.9.0",
     "@electron/fuses": "^1.8.0",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@types/better-sqlite3": "^7.6.13",
     "@types/electron": "^1.4.38",
-    "@types/node": "^24.5.2",
+    "@types/node": "^24.10.4",
     "electron": "^38.1.2",
     "postcss-cli": "^11.0.1",
     "postcss-nesting": "^13.0.2",
-    "typescript": "^5.9.2"
+    "svelte": "^5.46.1",
+    "svelte-check": "^4.3.5",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.1.13",
+    "@lucide/svelte": "^0.562.0",
+    "@tailwindcss/vite": "^4.1.18",
     "better-sqlite3": "^12.4.1",
     "electron-squirrel-startup": "^1.0.1",
     "postcss": "^8.5.6",

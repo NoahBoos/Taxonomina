@@ -1,7 +1,0 @@
-@utility horizontal {
-    @apply flex flex-row;
-}
-
-@utility vertical {
-    @apply flex flex-col;
-}

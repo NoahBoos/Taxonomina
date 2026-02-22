@@ -1,0 +1,114 @@
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('../assets/fonts/NotoSans[wdth,wght].ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('../assets/fonts/NotoSans-Italic[wdth,wght].ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+}
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+[data-scrollbar-visibility="false"] *::-webkit-scrollbar {
+    display: none;
+    scrollbar-width: none;
+}
+
+[data-font-size="small"] {
+    --text-xs: 0.5rem;
+    --text-sm: 0.75rem;
+    --text-base: 0.875rem;
+    --text-lg: 1rem;
+    --text-xl: 1.125rem;
+    --text-2xl: 1.25rem;
+    --text-3xl: 1.5rem;
+    --text-4xl: 1.875rem;
+    --text-5xl: 2.25rem;
+    --text-6xl: 3rem;
+    --text-7xl: 3.75rem;
+    --text-8xl: 4.5rem;
+    --text-9xl: 6rem;
+}
+
+[data-font-size="base"] {
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    --text-5xl: 3rem;
+    --text-6xl: 3.75rem;
+    --text-7xl: 4.5rem;
+    --text-8xl: 6rem;
+    --text-9xl: 8rem;
+}
+
+[data-font-size="medium"] {
+    --text-xs: 0.875rem;
+    --text-sm: 1rem;
+    --text-base: 1.125rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 1.875rem;
+    --text-3xl: 2.25rem;
+    --text-4xl: 3rem;
+    --text-5xl: 3.75rem;
+    --text-6xl: 4.5rem;
+    --text-7xl: 6rem;
+    --text-8xl: 8rem;
+    --text-9xl: 10rem;
+}
+
+[data-font-size="large"] {
+    --text-xs: 1rem;
+    --text-sm: 1.125rem;
+    --text-base: 1.25rem;
+    --text-lg: 1.5rem;
+    --text-xl: 1.875rem;
+    --text-2xl: 2.25rem;
+    --text-3xl: 3rem;
+    --text-4xl: 3.75rem;
+    --text-5xl: 4.5rem;
+    --text-6xl: 6rem;
+    --text-7xl: 8rem;
+    --text-8xl: 10rem;
+    --text-9xl: 12rem;
+}
+
+h2 {
+    @apply text-2xl text-center font-bold;
+}
+
+h3 {
+    @apply text-xl font-bold;
+}
+
+label {
+    @apply block font-bold;
+}
+
+.form-field-container {
+    @apply p-4 rounded-lg w-full bg-base-20;
+}
+
+.form-field-container--errors {
+    @apply border-2 border-red-600 bg-red-400/15;
+}
+
+#app, #navigator, #browser, #inspector, #modal {
+    background-image: url('../assets/noise-sized-0.8-density-40.png');
+    background-repeat: repeat;
+    background-position: 0 0;
+    background-size: 512px 512px;
+    background-blend-mode: hard-light;
+}
