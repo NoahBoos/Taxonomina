@@ -17,7 +17,7 @@
         id: 0,
         dictionary_id: dictionary_id,
         name_native: '',
-        name_local: '',
+        name_localized: '',
         is_conlang: false,
         iso_639_1: '',
         iso_639_3: '',
@@ -35,7 +35,7 @@
                 id: 0,
                 dictionary_id: dictionary_id,
                 name_native: '',
-                name_local: '',
+                name_localized: '',
                 is_conlang: false,
                 iso_639_1: '',
                 iso_639_3: '',
@@ -58,7 +58,7 @@
         <p>La classe grammaticale demandée n'a pas été trouvé.</p>
     {:else}
         <div class="flex flex-row items-center relative">
-            <h2 class="mx-auto">{ language.name_native } / { language.name_local }</h2>
+            <h2 class="mx-auto">{ language.name_native } / { language.name_localized }</h2>
             <div class="space-x-2 absolute top-0 right-0">
                 <IconButton icon={ Pencil } onClick={ () => setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.LANGUAGE.UPDATE(language.id)) } />
                 <IconButton icon={ X } onClick={ () => resetCurrentInspectorState() } />

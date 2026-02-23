@@ -20,7 +20,7 @@
             language.iso_639_1.toLowerCase().includes(query.toLowerCase())
             || language.iso_639_3.toLowerCase().includes(query.toLowerCase())
             || language.name_native.toLowerCase().includes(query.toLowerCase())
-            || language.name_local.toLowerCase().includes(query.toLowerCase())
+            || language.name_localized.toLowerCase().includes(query.toLowerCase())
         )
     );
 

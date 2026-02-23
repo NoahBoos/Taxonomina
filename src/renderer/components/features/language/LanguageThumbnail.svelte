@@ -32,12 +32,12 @@
         @apply font-bold;
     }
 
-    .language-name-local {
+    .language-name-localized {
         @apply text-sm font-bold;
     }
 </style>
 
 <button onclick={ openUpdateForm } class="language-thumbnail { is_selected ? 'selected' : ''}">
     <span class="language-name-native">{ language.name_native }</span>
-    <span class="language-name-local">{ language.name_local }</span>
+    <span class="language-name-localized">{ language.name_localized }</span>
 </button>

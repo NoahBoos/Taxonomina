@@ -5,6 +5,6 @@ export interface I_Language {
     iso_639_3: string;
     is_conlang: boolean;
     name_native: string;
-    name_local: string;
+    name_localized: string;
     direction: string;
 }

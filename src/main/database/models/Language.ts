@@ -10,13 +10,13 @@ export class Language {
         private _iso_639_3: string,
         public is_conlang: boolean,
         private _name_native: string,
-        private _name_local: string,
+        private _name_localized: string,
         public direction: string
     ) {
         this.iso_639_1 = _iso_639_1;
         this.iso_639_3 = _iso_639_3;
         this.name_native = _name_native;
-        this.name_local = _name_local;
+        this.name_localized = _name_localized;
     }
 
     public get iso_639_1(): string {
@@ -43,12 +43,12 @@ export class Language {
         this._name_native = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
     }
 
-    public get name_local(): string {
-        return this._name_local;
+    public get name_localized(): string {
+        return this._name_localized;
     }
 
-    public set name_local(value: string) {
-        this._name_local = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
+    public set name_localized(value: string) {
+        this._name_localized = value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
     }
 
     public toJSON(): I_Language {
@@ -59,7 +59,7 @@ export class Language {
             iso_639_3: this.iso_639_3,
             is_conlang: this.is_conlang,
             name_native: this.name_native,
-            name_local: this.name_local,
+            name_localized: this.name_localized,
             direction: this.direction
         }
     }
@@ -72,7 +72,7 @@ export class Language {
             raw.iso_639_3,
             raw.is_conlang,
             raw.name_native,
-            raw.name_local,
+            raw.name_localized,
             raw.direction
         );
     }
@@ -89,7 +89,7 @@ export class Language {
         if (this.name_native.length === 0) {
             errors.push(LANGUAGE_ERROR_REGISTRY.E0204);
         }
-        if (this.name_local.length === 0) {
+        if (this.name_localized.length === 0) {
             errors.push(LANGUAGE_ERROR_REGISTRY.E0205);
         }
 

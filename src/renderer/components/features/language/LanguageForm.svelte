@@ -19,7 +19,7 @@
         id: 0,
         dictionary_id: dictionary_id,
         name_native: '',
-        name_local: '',
+        name_localized: '',
         is_conlang: false,
         iso_639_1: '',
         iso_639_3: '',
@@ -30,7 +30,7 @@
     let submit_button_label: string = $derived(language.id === 0 ? "Créer" : "Modifier");
 
     const name_native_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'name_native'));
-    const name_local_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'name_local'));
+    const name_localized_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'name_localized'));
     const iso_639_1_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'iso_639_1'));
     const iso_639_3_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'iso_639_3'));
 
@@ -45,7 +45,7 @@
                 id: 0,
                 dictionary_id: dictionary_id,
                 name_native: '',
-                name_local: '',
+                name_localized: '',
                 is_conlang: false,
                 iso_639_1: '',
                 iso_639_3: '',
@@ -97,7 +97,7 @@
         <form onsubmit={ onSubmit } class="flex flex-col gap-4">
             <div class="flex flex-row gap-4">
                 <TextInput name="name_native" label="Nom natif" placeholder="Entrez le nom de la langue dans cette dernière." bind:value={ language.name_native } errors={ name_native_errors } />
-                <TextInput name="name_local" label="Nom local" placeholder="Entrez le nom de la langue dans votre langue." bind:value={ language.name_local } errors={ name_local_errors } />
+                <TextInput name="name_localized" label="Nom local" placeholder="Entrez le nom de la langue dans votre langue." bind:value={ language.name_localized } errors={ name_localized_errors } />
             </div>
             <Checkbox name="is_conlang" label="Est-ce que cette langue est une langue construite ?" bind:checked={ language.is_conlang } />
             <div class="flex flex-row gap-4">
