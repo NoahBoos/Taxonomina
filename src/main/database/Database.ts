@@ -16,7 +16,7 @@ export class Database {
                 this.instance.pragma("foreign_key = ON");
                 this.instance.pragma("journal_mode = WAL");
 
-                const transaction = this.instance.transaction(() => {
+                const initialTransaction = this.instance.transaction(() => {
                     this.CreateDatabaseTables();
                     this.CreateDatabaseIndexes();
                     if (!settings.isDatabaseInitialized) {
@@ -26,7 +26,12 @@ export class Database {
                     }
                 });
 
-                transaction();
+                const updateTransaction = this.instance.transaction(() => {
+                    this.UpdateDatabaseTables();
+                });
+
+                initialTransaction();
+                updateTransaction();
                 console.log("La BDD est créée avec succès.");
             } catch (error) {
                 console.error("Une erreur est survenu lors de la création de la BDD : ", error);
@@ -132,7 +137,11 @@ export class Database {
                 FOREIGN KEY (grammatical_genre_id) REFERENCES grammatical_genres(id)
                     ON UPDATE CASCADE ON DELETE CASCADE
             );
+        `);
+    }
 
+    private static UpdateDatabaseTables() {
+        this.instance.exec(`
             ALTER TABLE languages RENAME COLUMN 'name_local' TO 'name_localized';
         `);
     }
