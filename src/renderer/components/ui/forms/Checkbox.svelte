@@ -26,7 +26,7 @@
     }
 </style>
 
-<div class="{ variant === 'default' ? 'form-field-container' : '' } flex flex-row gap-2 { variant === 'default' && errors.length > 0 ? 'form-field-container--errors' : '' }">
+<div class="{ variant === 'default' ? 'form-field-container' : '' } flex flex-row items-center gap-2 { variant === 'default' && errors.length > 0 ? 'form-field-container--errors' : '' }">
     <input type="checkbox" { id } { name } bind:checked={ checked } onchange={ onChange } />
     <label for={ id }>{ label }</label>
 </div>
