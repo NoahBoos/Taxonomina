@@ -39,7 +39,7 @@
 
 <div class="form-field-container space-y-2">
     <p class="font-bold">Genres grammaticaux</p>
-    <div class="grid grid-cols-2">
+    <div class="grid grid-cols-2 gap-1">
         {#each available_genres as grammatical_genre}
             <Checkbox name={ 'gg-' + grammatical_genre.id } label={ grammatical_genre.name } checked={ isChecked(grammatical_genre) } onChange={ () => toggle(grammatical_genre) } variant="minimal" />
         {/each}
