@@ -13,6 +13,7 @@
         resetDictionaryFormErrors,
         setDictionaryFormErrors
     } from "@/renderer/stores/dictionaryFormErrorsStore";
+    import { currentDictionary, setCurrentDictionary } from "@/renderer/stores/currentDictionaryStore";
 
     let dictionary: I_Dictionary = $state<I_Dictionary>({ id: 0, name: "", description: "" });
 
@@ -37,6 +38,9 @@
             if (!success || !savedDictionary) throw new FormValidationError("Failed to save the dictionary.", 'dictionary', errors);
 
             await refreshDictionaries();
+            if ($currentDictionary!.id === savedDictionary.id) {
+                await setCurrentDictionary(savedDictionary.id);
+            }
 
             setToList();
         } catch (error) {
