@@ -1,6 +1,6 @@
 {
   "name": "taxonomina",
-  "version": "0.3.0-alpha",
+  "version": "0.3.1-alpha",
   "main": "dist/main/main/main.js",
   "scripts": {
     "build:main": "tsc -p tsconfig.main.json",
