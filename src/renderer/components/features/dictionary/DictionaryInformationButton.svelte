@@ -34,7 +34,7 @@
     }
 
     .current-dictionary-name {
-        @apply text-left pb-2 mb-2 border-b-2 border-base-40 w-full transition-colors duration-250 ease-out;
+        @apply text-left w-full transition-colors duration-250 ease-out;
     }
 
     .current-dictionary-description {
@@ -43,6 +43,8 @@
 </style>
 
 <button type="button" id="dictionary-information-button" onclick={ openDictionaryModal } class="{ $showDictionaryStore === true ? 'selected' : '' }">
-    <span class="current-dictionary-name">{ $currentDictionary?.name }</span>
-    <span class="current-dictionary-description">{ $currentDictionary?.description }</span>
+    <span class="current-dictionary-name { $currentDictionary?.description ? 'pb-2 border-b-2 border-base-40' : '' }">{ $currentDictionary?.name }</span>
+    {#if $currentDictionary?.description}
+        <span class="current-dictionary-description">{ $currentDictionary?.description }</span>
+    {/if}
 </button>
