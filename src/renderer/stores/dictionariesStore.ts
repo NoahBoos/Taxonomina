@@ -5,5 +5,8 @@ import { DictionaryService } from "@/renderer/services/DictionaryService";
 export const dictionariesStore: Writable<I_Dictionary[]> = writable([]);
 
 export async function refreshDictionaries(): Promise<void> {
-    dictionariesStore.set(await DictionaryService.readAll());
+    let dictionaries: I_Dictionary[] = await DictionaryService.readAll();
+    dictionaries.sort((a, b) => a.name.localeCompare(b.name));
+
+    dictionariesStore.set(dictionaries);
 }

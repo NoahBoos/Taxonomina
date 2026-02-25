@@ -8,6 +8,11 @@ export const grammaticalGenresStore: Writable<I_GrammaticalGenre[]> = writable([
 export async function refreshGrammaticalGenres(): Promise<void>  {
     const dictionary_id: number | undefined = get(settings)?.currentDictionary;
 
-    if (dictionary_id) grammaticalGenresStore.set(await GrammaticalGenreService.readAll(dictionary_id));
+    if (dictionary_id) {
+        let grammatical_genres: I_GrammaticalGenre[] = await GrammaticalGenreService.readAll(dictionary_id);
+        grammatical_genres.sort((a, b) => a.name.localeCompare(b.name));
+
+        grammaticalGenresStore.set(grammatical_genres);
+    }
     else grammaticalGenresStore.set([]);
 }
