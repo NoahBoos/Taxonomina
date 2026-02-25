@@ -18,6 +18,7 @@
     let grammatical_class: I_GrammaticalClass = $state<I_GrammaticalClass>({ id: 0, dictionary_id: dictionary_id, name: '' });
 
     let is_submitting: boolean = $state(false);
+    let submit_mode: 'save' | 'save-and-new' = $state('save');
     let submit_button_label: string = $derived(grammatical_class.id === 0 ? "Créer" : "Modifier");
 
     let name_errors = $derived($grammaticalClassFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'name'));
@@ -45,7 +46,11 @@
 
             await refreshGrammaticalClasses();
 
-            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_CLASS.READ_ONE(savedGrammaticalClass.id));
+            if (submit_mode === 'save') {
+                setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_CLASS.READ_ONE(savedGrammaticalClass.id));
+            } else if (submit_mode === 'save-and-new') {
+                setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_CLASS.CREATE);
+            }
         } catch (error) {
             if (error instanceof Error) {
                 let errors = error.cause as TaxonominaError<ErrorDomain>[];
@@ -75,7 +80,12 @@
         {/if}
         <form onsubmit={ onSubmit } class="flex flex-col gap-4">
             <TextInput name="name" label="Nom" placeholder="Adjectif, mot, verbe... ?" bind:value={ grammatical_class.name } errors={ name_errors } />
-            <SubmitButton label={ submit_button_label } />
+            <div class="flex flex-row gap-2 mx-auto">
+                <SubmitButton onClick={ () => { submit_mode = 'save' } } label={ submit_button_label } variant="uncentered" />
+                {#if grammatical_class.id === 0}
+                    <SubmitButton onClick={ () => { submit_mode = 'save-and-new' } } label="Créer et nouvelle classe" variant="uncentered" />
+                {/if}
+            </div>
         </form>
     </div>
 {/key}

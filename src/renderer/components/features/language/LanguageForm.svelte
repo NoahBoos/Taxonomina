@@ -27,6 +27,7 @@
     });
 
     let is_submitting: boolean = $state(false);
+    let submit_mode: 'save' | 'save-and-new' = $state('save');
     let submit_button_label: string = $derived(language.id === 0 ? "Créer" : "Modifier");
 
     const name_native_errors = $derived($languageFormErrorsStore.filter((e) => e.target.type === 'form_field' && e.target.field_name === 'name_native'));
@@ -66,7 +67,11 @@
 
             await refreshLanguages();
 
-            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.LANGUAGE.READ_ONE(savedLanguage.id));
+            if (submit_mode === 'save') {
+                setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.LANGUAGE.READ_ONE(savedLanguage.id));
+            } else if (submit_mode === 'save-and-new') {
+                setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.LANGUAGE.CREATE);
+            }
         } catch (error) {
             if (error instanceof Error) {
                 let errors = error.cause as TaxonominaError<ErrorDomain>[];
@@ -105,7 +110,12 @@
                 <TextInput name="iso_639_3" label="ISO 639-3" placeholder="Entrez le code ISO 639-3 de la langue." bind:value={ language.iso_639_3 } errors={ iso_639_3_errors } />
             </div>
             <Select label="Sens de lecture de la langue" options={ DIRECTIONS } value={ language.direction } />
-            <SubmitButton label={ submit_button_label } />
+            <div class="flex flex-row gap-2 mx-auto">
+                <SubmitButton onClick={ () => { submit_mode = 'save' } } label={ submit_button_label } variant="uncentered" />
+                {#if language.id === 0}
+                    <SubmitButton onClick={ () => { submit_mode = 'save-and-new' } } label="Créer et nouvelle langue" variant="uncentered" />
+                {/if}
+            </div>
         </form>
     </div>
 {/key}

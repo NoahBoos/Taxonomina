@@ -32,6 +32,7 @@
     let selected_definitions = $state<I_Definition[]>([]);
 
     let is_submitting: boolean = $state(false);
+    let submit_mode: 'save' | 'save-and-new' = $state('save');
     let submit_button_label: string = $derived(entry.id === 0 ? 'Créer' : 'Modifier');
 
     async function loadEntry() {
@@ -102,7 +103,11 @@
 
             await refreshEntries();
 
-            setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.READ_ONE(savedEntry.id));
+            if (submit_mode === 'save') {
+                setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.READ_ONE(savedEntry.id));
+            } else if (submit_mode === 'save-and-new') {
+                setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.CREATE);
+            }
         } catch (error) {
             if (error instanceof FormValidationError) {
                 let errors = error.errors;
@@ -149,7 +154,12 @@
             </div>
             <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
             <DefinitionSection bind:selected_definitions />
-            <SubmitButton label={ submit_button_label } />
+            <div class="flex flex-row gap-2 mx-auto">
+                <SubmitButton onClick={ () => { submit_mode = 'save' } } label={ submit_button_label } variant="uncentered" />
+                {#if entry.id === 0}
+                    <SubmitButton onClick={ () => { submit_mode = 'save-and-new' } } label="Créer et nouvelle entrée" variant="uncentered" />
+                {/if}
+            </div>
         </form>
     </div>
 {/key}
