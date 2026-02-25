@@ -10,6 +10,7 @@
     import {setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
     import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
     import { grammaticalClassesStore, refreshGrammaticalClasses } from "@/renderer/stores/grammaticalClassesStore";
+    import { ContentType } from "@/renderer/enums/ContentType";
 
     const elementsPerPage: number = $derived($settings?.elementsPerPage ?? 25);
     let currentPage: number = $state(1);
@@ -40,7 +41,7 @@
         <h2>Classes grammaticales</h2>
         <div class="flex flex-row items-center gap-2">
             <ContentSearchBar bind:query={ query } bind:currentPage={ currentPage } />
-            <AddContentButton onClick={ openCreateForm } />
+            <AddContentButton onClick={ openCreateForm } contentType={ ContentType.GrammaticalClass } />
         </div>
     </div>
     <ContentList items={ paginatedGrammaticalClasses } />

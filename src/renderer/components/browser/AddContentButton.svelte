@@ -2,10 +2,16 @@
     import { Plus } from "@lucide/svelte";
     import { currentInspectorStateStore } from "@/renderer/stores/currentInspectorStateStore";
     import { InspectorAction } from "@/renderer/enums/InspectorAction";
+    import { ContentType } from "@/renderer/enums/ContentType";
 
-    let { onClick }: { onClick: () => void } = $props();
+    interface Props {
+        onClick: () => void;
+        contentType: ContentType;
+    }
 
-    let is_selected: boolean =  $derived($currentInspectorStateStore.category === 'content' && $currentInspectorStateStore.action === InspectorAction.CREATE);
+    let { onClick, contentType }: Props = $props();
+
+    let is_selected: boolean =  $derived($currentInspectorStateStore.category === 'content' && $currentInspectorStateStore.type === contentType && $currentInspectorStateStore.action === InspectorAction.CREATE);
 </script>
 
 <style lang="postcss">
