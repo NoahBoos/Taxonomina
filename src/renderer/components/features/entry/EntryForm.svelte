@@ -147,10 +147,8 @@
                     <Tags />
                     <h3>Catégorisations</h3>
                 </div>
-                <div class="flex flex-row gap-4">
-                    <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
-                    <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
-                </div>
+                <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
+                <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
             </div>
             <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
             <DefinitionSection bind:selected_definitions />
