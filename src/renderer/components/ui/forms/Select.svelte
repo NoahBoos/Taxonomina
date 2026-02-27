@@ -1,17 +1,34 @@
 <script lang="ts">
     import {SelectOptions} from "@/renderer/types/SelectOptions";
     import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
+    import { Lock, LockOpen } from "@lucide/svelte";
+    import { lockedFieldValuesStore } from "@/renderer/stores/lockedFieldValuesStore";
+    import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
 
     interface Props {
+        name: string;
         label: string;
         options: SelectOptions;
         value: string | number;
         onChange?: (value: string | number) => void;
+        is_lockable?: boolean;
         errors?: TaxonominaError<ErrorDomain>[];
     }
 
-    let { label, options, value = $bindable(''), onChange, errors = [] }: Props = $props();
+    let { name, label, options, value = $bindable(''), onChange, is_lockable = false, errors = [] }: Props = $props();
     let id = crypto.randomUUID();
+
+    let is_locked = $state(false);
+
+    function toggleLock() {
+        if (is_locked) {
+            delete $lockedFieldValuesStore[name];
+            is_locked = false;
+        } else {
+            $lockedFieldValuesStore[name] = value;
+            is_locked = true;
+        }
+    }
 
     let internal_value = $derived(String(value));
 
@@ -23,6 +40,15 @@
 
         if (onChange) onChange(value);
     }
+
+    $effect(() => {
+        if (!is_lockable) return;
+
+        if (name in $lockedFieldValuesStore) {
+            value = $lockedFieldValuesStore[name];
+            is_locked = true;
+        }
+    });
 </script>
 
 <style lang="postcss">
@@ -37,9 +63,14 @@
     }
 </style>
 
-<div class="form-field-container space-y-2 { errors.length > 0 ? 'form-field-container--errors' : '' }">
-    <label for={ id }>{ label }</label>
-    <select { id } bind:value={ internal_value } onchange={ handleOnChange }>
+<div class="form-field-container flex flex-col gap-2 { errors.length > 0 ? 'form-field-container--errors' : '' }">
+    <div class="flex-1 flex flex-row justify-between items-center">
+        <label for={ id }>{ label }</label>
+        {#if is_lockable}
+            <IconButton icon={ is_locked ? LockOpen : Lock } onClick={ toggleLock } />
+        {/if}
+    </div>
+    <select { id } bind:value={ internal_value } onchange={ handleOnChange } disabled={ is_locked } >
         {#each Object.entries(options) as [option_value, option_label]}
             <option value={ option_value }>{ option_label }</option>
         {/each}

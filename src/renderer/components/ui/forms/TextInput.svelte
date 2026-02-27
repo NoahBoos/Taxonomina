@@ -1,16 +1,41 @@
 <script lang="ts">
     import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
+    import { Lock, LockOpen } from "@lucide/svelte";
+    import { lockedFieldValuesStore } from "@/renderer/stores/lockedFieldValuesStore";
+    import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
 
     interface Props {
         name: string;
         label: string;
         placeholder: string;
         value?: string | number;
+        is_lockable?: boolean;
         errors?: TaxonominaError<ErrorDomain>[];
     }
 
-    let { name, label, placeholder, value = $bindable(''), errors = [] }: Props = $props();
+    let { name, label, placeholder, value = $bindable(''), is_lockable = false, errors = [] }: Props = $props();
     let id = crypto.randomUUID();
+
+    let is_locked = $state(false);
+
+    function toggleLock() {
+        if (is_locked) {
+            delete $lockedFieldValuesStore[name];
+            is_locked = false;
+        } else {
+            $lockedFieldValuesStore[name] = value;
+            is_locked = true;
+        }
+    }
+
+    $effect(() => {
+        if (!is_lockable) return;
+
+        if (name in $lockedFieldValuesStore) {
+            value = $lockedFieldValuesStore[name];
+            is_locked = true;
+        }
+    });
 </script>
 
 <style lang="postcss">
@@ -25,9 +50,14 @@
     }
 </style>
 
-<div class="form-field-container space-y-2 { errors.length > 0 ? 'form-field-container--errors' : '' }">
-    <label for={ id }>{ label }</label>
-    <input type="text" { id } { name } { placeholder } bind:value={ value } />
+<div class="form-field-container flex flex-col gap-2 { errors.length > 0 ? 'form-field-container--errors' : '' }">
+    <div class="flex-1 flex flex-row justify-between items-center">
+        <label for={ id }>{ label }</label>
+        {#if is_lockable}
+            <IconButton icon={ is_locked ? LockOpen : Lock } onClick={ toggleLock } />
+        {/if}
+    </div>
+    <input type="text" { id } { name } { placeholder } bind:value={ value } readonly={ is_locked } />
     {#if errors.length > 0}
         <div>
             {#each errors as error}

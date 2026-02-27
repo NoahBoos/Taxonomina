@@ -109,7 +109,7 @@
                 <TextInput name="iso_639_1" label="ISO 639-1" placeholder="Entrez le code ISO 639-1 de la langue." bind:value={ language.iso_639_1 } errors={ iso_639_1_errors } />
                 <TextInput name="iso_639_3" label="ISO 639-3" placeholder="Entrez le code ISO 639-3 de la langue." bind:value={ language.iso_639_3 } errors={ iso_639_3_errors } />
             </div>
-            <Select label="Sens de lecture de la langue" options={ DIRECTIONS } value={ language.direction } />
+            <Select name="language.direction" label="Sens de lecture de la langue" options={ DIRECTIONS } value={ language.direction } />
             <div class="flex flex-row gap-2 mx-auto">
                 <SubmitButton onClick={ () => { submit_mode = 'save' } } label={ submit_button_label } variant="uncentered" />
                 {#if language.id === 0}

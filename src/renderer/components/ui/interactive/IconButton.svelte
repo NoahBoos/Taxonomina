@@ -23,6 +23,6 @@
     }
 </style>
 
-<button type="button" onclick={ onClick }>
+<button type="button" onclick={ onClick } >
     <IconComponent />
 </button>
