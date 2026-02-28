@@ -64,7 +64,7 @@
     <div class="flex flex-row justify-between items-center">
         <p class="font-bold">Classes grammaticales</p>
         {#if is_lockable}
-            <IconButton icon={ is_locked ? LockOpen : Lock } text={ is_locked ? 'Déverrouiller' : 'Verrouiller' } onClick={ toggleLock } />
+            <IconButton icon={ is_locked ? LockOpen : Lock } text={ is_locked ? 'Déverrouiller' : 'Verrouiller' } variant={ is_locked ? 'active' : 'default' } onClick={ toggleLock } />
         {/if}
     </div>
     {#if available_classes.length > 0}

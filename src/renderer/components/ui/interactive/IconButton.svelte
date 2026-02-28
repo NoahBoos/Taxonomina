@@ -4,10 +4,21 @@
     interface Props {
         icon: Component;
         text?: string;
+        variant?: 'default' | 'active';
         onClick: () => void;
     }
 
-    let { icon, text = undefined, onClick }: Props = $props();
+    let { icon, text = undefined, variant = 'default', onClick }: Props = $props();
+
+    let variant_class = $derived.by(() => {
+        switch (variant) {
+            case 'active':
+                return 'icon-button--active';
+            case 'default':
+            default:
+                return 'icon-button--default';
+        }
+    });
 
     let IconComponent = $derived.by(() => icon);
 </script>
@@ -16,7 +27,15 @@
     @reference '../../../styles/styles.css';
 
     button {
-        @apply py-1 border-2 rounded-md border-base-40 bg-base-10 w-fit h-fit transition-colors duration-250 ease-out;
+        @apply py-1 border-2 rounded-md w-fit h-fit transition-colors duration-250 ease-out;
+    }
+
+    .icon-button--active {
+        @apply bg-primary-400/15 border-primary-500;
+    }
+
+    .icon-button--default {
+        @apply bg-base-10 border-base-40;
     }
 
     button:hover {
@@ -24,7 +43,7 @@
     }
 </style>
 
-<button type="button" onclick={ onClick } class="flex flex-row gap-2 { text ? 'px-2' : 'px-1' }" >
+<button type="button" onclick={ onClick } class="inline-flex flex-row gap-2 { text ? 'px-2' : 'px-1' } { variant_class }" >
     <IconComponent />
     {#if text}
         <span>{ text }</span>

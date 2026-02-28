@@ -67,7 +67,7 @@
     <div class="flex-1 flex flex-row justify-between items-center">
         <label for={ id }>{ label }</label>
         {#if is_lockable}
-            <IconButton icon={ is_locked ? LockOpen : Lock } text={ is_locked ? 'Déverrouiller' : 'Verrouiller' } onClick={ toggleLock } />
+            <IconButton icon={ is_locked ? LockOpen : Lock } text={ is_locked ? 'Déverrouiller' : 'Verrouiller' } variant={ is_locked ? 'active' : 'default' } onClick={ toggleLock } />
         {/if}
     </div>
     <select { id } bind:value={ internal_value } onchange={ handleOnChange } disabled={ is_locked } >
