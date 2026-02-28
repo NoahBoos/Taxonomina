@@ -104,12 +104,12 @@
                 <TextInput name="name_native" label="Nom natif" placeholder="Entrez le nom de la langue dans cette dernière." bind:value={ language.name_native } errors={ name_native_errors } />
                 <TextInput name="name_localized" label="Nom local" placeholder="Entrez le nom de la langue dans votre langue." bind:value={ language.name_localized } errors={ name_localized_errors } />
             </div>
-            <Checkbox name="is_conlang" label="Est-ce que cette langue est une langue construite ?" bind:checked={ language.is_conlang } />
+            <Checkbox name="is_conlang" label="Est-ce que cette langue est une langue construite ?" bind:checked={ language.is_conlang } is_lockable={ language.id === 0 } />
             <div class="flex flex-row gap-4">
                 <TextInput name="iso_639_1" label="ISO 639-1" placeholder="Entrez le code ISO 639-1 de la langue." bind:value={ language.iso_639_1 } errors={ iso_639_1_errors } />
                 <TextInput name="iso_639_3" label="ISO 639-3" placeholder="Entrez le code ISO 639-3 de la langue." bind:value={ language.iso_639_3 } errors={ iso_639_3_errors } />
             </div>
-            <Select name="language.direction" label="Sens de lecture de la langue" options={ DIRECTIONS } value={ language.direction } />
+            <Select name="language.direction" label="Sens de lecture de la langue" options={ DIRECTIONS } value={ language.direction } is_lockable={ language.id === 0 } />
             <div class="flex flex-row gap-2 mx-auto">
                 <SubmitButton onClick={ () => { submit_mode = 'save' } } label={ submit_button_label } variant="uncentered" />
                 {#if language.id === 0}

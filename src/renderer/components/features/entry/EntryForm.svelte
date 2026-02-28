@@ -147,8 +147,8 @@
                     <Tags />
                     <h3>Catégorisations</h3>
                 </div>
-                <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes />
-                <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres />
+                <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes is_lockable={ entry.id === 0 } />
+                <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres is_lockable={ entry.id === 0 } />
             </div>
             <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
             <DefinitionSection bind:selected_definitions />

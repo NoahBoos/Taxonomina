@@ -27,6 +27,6 @@
     </div>
     <div class="flex flex-row gap-2">
         <TextInput name="lemma" label="Lemme" placeholder="Chien, chat, pigeon..." bind:value={ entry.lemma } errors={ lemma_errors } />
-        <Select name="entry.language_id" label="Langue" options={ languageOptions } bind:value={ entry.language_id } errors={ language_id_errors }  />
+        <Select name="entry.language_id" label="Langue" options={ languageOptions } bind:value={ entry.language_id } errors={ language_id_errors } is_lockable={ entry.id === 0 } />
     </div>
 </div>
