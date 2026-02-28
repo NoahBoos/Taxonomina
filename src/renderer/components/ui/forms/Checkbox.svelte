@@ -8,13 +8,14 @@
         name: string;
         label: string;
         checked?: boolean;
+        disabled?: boolean;
         onChange?: (...args: any[]) => void;
         variant?: 'default' | 'minimal';
         is_lockable?: boolean;
         errors?: TaxonominaError<ErrorDomain>[];
     }
 
-    let { name, label, checked = $bindable(false), onChange, variant = 'default', is_lockable = false, errors = [] }: Props = $props();
+    let { name, label, checked = $bindable(false), disabled = $bindable(false), onChange, variant = 'default', is_lockable = false, errors = [] }: Props = $props();
     let id = crypto.randomUUID();
 
     let is_locked = $state(false);
@@ -52,7 +53,7 @@
 </style>
 
 <div class="{ variant === 'default' ? 'form-field-container' : '' } flex flex-row items-center gap-2 { variant === 'default' && errors.length > 0 ? 'form-field-container--errors' : '' }">
-    <input type="checkbox" { id } { name } bind:checked={ checked } onchange={ onChange } disabled={ is_locked } />
+    <input type="checkbox" { id } { name } bind:checked={ checked } onchange={ onChange } disabled={ disabled || is_locked } />
     <label for={ id } class="flex-1">{ label }</label>
     {#if is_lockable}
         <IconButton icon={ is_locked ? LockOpen : Lock } onClick={ toggleLock } />
