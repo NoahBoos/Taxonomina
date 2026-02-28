@@ -71,7 +71,7 @@
     {#if available_genres.length > 0}
         <div class="grid grid-cols-4 gap-1">
             {#each available_genres as grammatical_genre}
-                <Checkbox name={ 'gg-' + grammatical_genre.id } label={ grammatical_genre.name } checked={ isChecked(grammatical_genre) } onChange={ () => toggle(grammatical_genre) } variant="minimal" />
+                <Checkbox name={ 'gg-' + grammatical_genre.id } label={ grammatical_genre.name } checked={ isChecked(grammatical_genre) } onChange={ () => toggle(grammatical_genre) } variant="minimal" disabled={ is_locked } />
             {/each}
         </div>
     {:else}
