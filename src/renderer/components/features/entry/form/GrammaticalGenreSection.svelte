@@ -65,7 +65,7 @@
     <div class="flex flex-row justify-between items-center">
         <p class="font-bold">Genres grammaticaux</p>
         {#if is_lockable}
-            <IconButton icon={ is_locked ? LockOpen : Lock } onClick={ toggleLock } />
+            <IconButton icon={ is_locked ? LockOpen : Lock } text={ is_locked ? 'Déverrouiller' : 'Verrouiller' } onClick={ toggleLock } />
         {/if}
     </div>
     {#if available_genres.length > 0}
