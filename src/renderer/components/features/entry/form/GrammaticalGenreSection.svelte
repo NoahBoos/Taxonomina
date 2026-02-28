@@ -2,21 +2,20 @@
     import {I_GrammaticalGenre} from "@/shared/interfaces/I_GrammaticalGenre";
     import {GrammaticalGenreService} from "@/renderer/services/GrammaticalGenreService";
     import Checkbox from "@/renderer/components/ui/forms/Checkbox.svelte";
+    import { lockedFieldValuesStore } from "@/renderer/stores/lockedFieldValuesStore";
+    import { I_GrammaticalClass } from "@/shared/interfaces/I_GrammaticalClass";
+    import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
+    import { LockOpen, Lock } from "@lucide/svelte";
 
     interface Props {
         dictionary_id: number;
         selected_grammatical_genres: I_GrammaticalGenre[];
+        is_lockable?: boolean;
     }
 
-    let { dictionary_id, selected_grammatical_genres = $bindable([]) }: Props = $props();
+    let { dictionary_id, selected_grammatical_genres = $bindable([]), is_lockable = false }: Props = $props();
 
     let available_genres = $state<I_GrammaticalGenre[]>([]);
-
-    $effect(() => {
-        GrammaticalGenreService.readAll(dictionary_id).then(data => {
-            available_genres = data.sort((a, b) => a.name.localeCompare(b.name));
-        });
-    });
 
     function toggle(target: I_GrammaticalGenre) {
         const isAlreadySelected = selected_grammatical_genres.some(item => item.id === target.id);
@@ -31,6 +30,31 @@
     function isChecked(target: I_GrammaticalGenre) {
         return selected_grammatical_genres.some(item => item.id === target.id);
     }
+
+    let is_locked = $state(false);
+
+    function toggleLock() {
+        if (is_locked) {
+            delete $lockedFieldValuesStore['grammatical-genres'];
+            is_locked = false;
+        } else {
+            $lockedFieldValuesStore['grammatical-genres'] = selected_grammatical_genres;
+            is_locked = true;
+        }
+    }
+
+    $effect(() => {
+        GrammaticalGenreService.readAll(dictionary_id).then(data => {
+            available_genres = data.sort((a, b) => a.name.localeCompare(b.name));
+        });
+
+        if (!is_lockable) return;
+
+        if ('grammatical_genres' in $lockedFieldValuesStore) {
+            selected_grammatical_genres = $lockedFieldValuesStore['grammatical-genres'].map((item: I_GrammaticalClass) => item);
+            is_locked = true;
+        }
+    });
 </script>
 
 <style>
@@ -38,7 +62,12 @@
 </style>
 
 <div class="form-field-container space-y-2">
-    <p class="font-bold">Genres grammaticaux</p>
+    <div class="flex flex-row justify-between items-center">
+        <p class="font-bold">Genres grammaticaux</p>
+        {#if is_lockable}
+            <IconButton icon={ is_locked ? LockOpen : Lock } onClick={ toggleLock } />
+        {/if}
+    </div>
     {#if available_genres.length > 0}
         <div class="grid grid-cols-4 gap-1">
             {#each available_genres as grammatical_genre}
