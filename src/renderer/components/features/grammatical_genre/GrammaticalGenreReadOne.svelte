@@ -41,7 +41,7 @@
     {:else}
         <div class="flex flex-row items-center relative">
             <h2 class="mx-auto">{ grammatical_genre.name }</h2>
-            <div class="space-x-2 absolute top-0 right-0">
+            <div class="space-x-1 absolute top-0 right-0">
                 <IconButton icon={ Pencil } onClick={ () => setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.GRAMMATICAL_GENRE.UPDATE(grammatical_genre.id)) } />
                 <IconButton icon={ X } onClick={ () => resetCurrentInspectorState() } />
             </div>
