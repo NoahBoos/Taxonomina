@@ -50,7 +50,7 @@
 
         if (!is_lockable) return;
 
-        if ('grammatical_genres' in $lockedFieldValuesStore) {
+        if ('grammatical-genres' in $lockedFieldValuesStore) {
             selected_grammatical_genres = $lockedFieldValuesStore['grammatical-genres'].map((item: I_GrammaticalClass) => item);
             is_locked = true;
         }
