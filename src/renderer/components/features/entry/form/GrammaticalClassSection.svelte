@@ -40,6 +40,7 @@
             });
             is_locked = false;
         } else {
+            if (selected_grammatical_classes.length === 0) return;
             const snapshot = $state.snapshot(selected_grammatical_classes);
             lockedFieldValuesStore.update((current) => ({ ...current, ['grammatical-classes']: snapshot }));
             is_locked = true;

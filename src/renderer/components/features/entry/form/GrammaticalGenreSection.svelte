@@ -41,6 +41,7 @@
             });
             is_locked = false;
         } else {
+            if (selected_grammatical_genres.length === 0) return;
             const snapshot = $state.snapshot(selected_grammatical_genres);
             lockedFieldValuesStore.update((current) => ({ ...current, ['grammatical-genres']: snapshot }));
             is_locked = true;
