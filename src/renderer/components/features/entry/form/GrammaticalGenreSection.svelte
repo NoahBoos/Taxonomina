@@ -3,7 +3,6 @@
     import {GrammaticalGenreService} from "@/renderer/services/GrammaticalGenreService";
     import Checkbox from "@/renderer/components/ui/forms/Checkbox.svelte";
     import { lockedFieldValuesStore } from "@/renderer/stores/lockedFieldValuesStore";
-    import { I_GrammaticalClass } from "@/shared/interfaces/I_GrammaticalClass";
     import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
     import { LockOpen, Lock } from "@lucide/svelte";
 
@@ -52,13 +51,20 @@
         GrammaticalGenreService.readAll(dictionary_id).then(data => {
             available_genres = data.sort((a, b) => a.name.localeCompare(b.name));
         });
+    });
 
+    $effect(() => {
         if (!is_lockable) return;
 
-        if ('grammatical-genres' in $lockedFieldValuesStore) {
-            selected_grammatical_genres = $lockedFieldValuesStore['grammatical-genres'].map((item: I_GrammaticalClass) => item);
-            is_locked = true;
-        }
+        const lockedData = $lockedFieldValuesStore['grammatical-genres'] as I_GrammaticalGenre[] | undefined;
+
+        is_locked = !!lockedData;
+
+        if (!is_locked) return;
+        if (!lockedData) return;
+        if (selected_grammatical_genres.length !== 0) return;
+
+        selected_grammatical_genres = lockedData.map((gg) => gg);
     });
 </script>
 

@@ -51,13 +51,20 @@
         GrammaticalClassService.readAll(dictionary_id).then(data => {
             available_classes = data.sort((a, b) => a.name.localeCompare(b.name));
         });
+    });
 
+    $effect(() => {
         if (!is_lockable) return;
 
-        if ('grammatical-classes' in $lockedFieldValuesStore) {
-            selected_grammatical_classes = $lockedFieldValuesStore['grammatical-classes'].map((item: I_GrammaticalClass) => item);
-            is_locked = true;
-        }
+        const lockedData = $lockedFieldValuesStore['grammatical-classes'] as I_GrammaticalClass[] | undefined;
+
+        is_locked = !!lockedData;
+
+        if (!is_locked) return;
+        if (!lockedData) return;
+        if (selected_grammatical_classes.length !== 0) return;
+
+        selected_grammatical_classes = lockedData.map((gc) => gc);
     });
 </script>
 
