@@ -49,6 +49,10 @@
             }
         } else {
             entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' };
+            selected_grammatical_classes = [];
+            selected_grammatical_genres = [];
+            selected_translations = [];
+            selected_definitions = [];
         }
     }
 
