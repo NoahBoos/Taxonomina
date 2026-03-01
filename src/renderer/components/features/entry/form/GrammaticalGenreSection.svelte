@@ -35,10 +35,14 @@
 
     function toggleLock() {
         if (is_locked) {
-            delete $lockedFieldValuesStore['grammatical-genres'];
+            lockedFieldValuesStore.update((current) => {
+                const { ['grammatical-genres']: _removed, ...rest } = current;
+                return rest;
+            });
             is_locked = false;
         } else {
-            $lockedFieldValuesStore['grammatical-genres'] = selected_grammatical_genres;
+            const snapshot = $state.snapshot(selected_grammatical_genres);
+            lockedFieldValuesStore.update((current) => ({ ...current, ['grammatical-genres']: snapshot }));
             is_locked = true;
         }
     }

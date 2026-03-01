@@ -34,10 +34,14 @@
 
     function toggleLock() {
         if (is_locked) {
-            delete $lockedFieldValuesStore['grammatical-classes'];
+            lockedFieldValuesStore.update((current) => {
+                const { ['grammatical-classes']: _removed, ...rest } = current;
+                return rest;
+            });
             is_locked = false;
         } else {
-            $lockedFieldValuesStore['grammatical-classes'] = selected_grammatical_classes;
+            const snapshot = $state.snapshot(selected_grammatical_classes);
+            lockedFieldValuesStore.update((current) => ({ ...current, ['grammatical-classes']: snapshot }));
             is_locked = true;
         }
     }
