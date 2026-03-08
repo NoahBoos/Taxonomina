@@ -15,10 +15,10 @@ export class GrammaticalClassService {
     }
 
     public static async save(grammatical_class: I_GrammaticalClass): Promise<[boolean, I_GrammaticalClass | undefined, TaxonominaError<ErrorDomain>[]]> {
-        let [success, saved_grammatical_class, errors] = grammatical_class.id == 0
+        let [success, savedClass, errors] = grammatical_class.id == 0
             ? await window.txnmAPI.repositories.grammaticalClass.create(grammatical_class)
             : await window.txnmAPI.repositories.grammaticalClass.update(grammatical_class);
-        return [success, saved_grammatical_class, errors];
+        return [success, savedClass, errors];
     }
 
     public static async delete(grammatical_class_id: number): Promise<boolean> {
