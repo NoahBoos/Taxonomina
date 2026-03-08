@@ -13,6 +13,7 @@ import EntryReadOne from "@/renderer/components/features/entry/EntryReadOne.svel
 import GrammaticalGenreReadOne from "@/renderer/components/features/grammatical_genre/GrammaticalGenreReadOne.svelte";
 import GrammaticalClassReadOne from "@/renderer/components/features/grammatical_class/GrammaticalClassReadOne.svelte";
 import LanguageReadOne from "@/renderer/components/features/language/LanguageReadOne.svelte";
+import CategoryReadOne from "@/renderer/components/features/category/CategoryReadOne.svelte";
 
 type ContentComponentMapping = Record<ContentType, Partial<Record<InspectorAction, Component<any>>>>;
 type SpecialContentComponentMapping = Record<SpecialContentType, Component<any>>;
@@ -27,7 +28,7 @@ export const INSPECTOR_REGISTRY: I_InspectorRegistry = {
     'idle': Idle,
     'content': {
         [ContentType.Category]: {
-            [InspectorAction.READ_ONE]: null as any as Component,
+            [InspectorAction.READ_ONE]: CategoryReadOne,
             [InspectorAction.CREATE]: null as any as Component,
             [InspectorAction.UPDATE]: null as any as Component,
         },
