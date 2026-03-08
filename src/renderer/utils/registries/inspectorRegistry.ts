@@ -26,6 +26,11 @@ interface I_InspectorRegistry {
 export const INSPECTOR_REGISTRY: I_InspectorRegistry = {
     'idle': Idle,
     'content': {
+        [ContentType.Category]: {
+            [InspectorAction.READ_ONE]: null as any as Component,
+            [InspectorAction.CREATE]: null as any as Component,
+            [InspectorAction.UPDATE]: null as any as Component,
+        },
         [ContentType.Entry]: {
             [InspectorAction.READ_ONE]: EntryReadOne,
             [InspectorAction.CREATE]: EntryForm,
