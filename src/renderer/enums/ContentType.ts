@@ -1,5 +1,12 @@
 import {Component} from "svelte";
-import { LucideDna, LucideEarth, LucideFolderTree, LucideStickyNote, LucideVenusAndMars } from '@lucide/svelte';
+import {
+    LucideDna,
+    LucideEarth,
+    LucideFolderTree, LucideLanguages,
+    LucideStickyNote,
+    LucideTags, LucideTickets,
+    LucideVenusAndMars, Mars, SpellCheck
+} from '@lucide/svelte';
 
 export enum ContentType {
     Language = 'language',
@@ -19,11 +26,11 @@ export namespace ContentType {
     ]
 
     export const icons: Record<ContentType, Component> = {
-        [ContentType.Language]: LucideEarth,
-        [ContentType.GrammaticalClass]: LucideDna,
-        [ContentType.GrammaticalGenre]: LucideVenusAndMars,
-        [ContentType.Entry]: LucideStickyNote,
-        [ContentType.Category]: LucideFolderTree,
+        [ContentType.Language]: LucideLanguages,
+        [ContentType.GrammaticalClass]: SpellCheck,
+        [ContentType.GrammaticalGenre]: Mars,
+        [ContentType.Entry]: LucideTickets,
+        [ContentType.Category]: LucideTags,
     }
 
     export const labels: Record<ContentType, string> = {
