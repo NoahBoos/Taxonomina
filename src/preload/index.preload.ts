@@ -7,6 +7,7 @@ import {I_GrammaticalGenre} from "../shared/interfaces/I_GrammaticalGenre";
 import {I_Definition} from "../shared/interfaces/I_Definition";
 import {I_Entry} from "../shared/interfaces/I_Entry";
 import { ErrorDomain, TaxonominaError } from "../shared/errors/types";
+import { I_Category } from "../shared/interfaces/I_Category";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -21,6 +22,14 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         Update: (key: keyof I_TaxonominaSettings, value: any): Promise<any> => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
     },
     repositories: {
+        category: {
+            readAll: (dictionary_id: number): Promise<I_Category[]> => ipcRenderer.invoke("txnmAPI:repositories:category:readAll", dictionary_id),
+            readAllByDefinition: (definition_id: number): Promise<I_Category[]> => ipcRenderer.invoke("txnmAPI:repositories:category:readAllByDefinition", definition_id),
+            readOne: (category_id: number): Promise<I_Category | undefined> => ipcRenderer.invoke("txnmAPI:repositories:category:readOne", category_id),
+            create: (category: I_Category): Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:category:create", category),
+            update: (category: I_Category): Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:category:update", category),
+            delete: (category_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:category:delete", category_id),
+        },
         definition: {
             readAll: (): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),
             readAllByEntry: (entry_id: number): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAllByEntry", entry_id),

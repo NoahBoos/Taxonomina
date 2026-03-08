@@ -8,7 +8,7 @@ export function registerGrammaticalClassIPCHandlers() {
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalClass:readAllByEntry", (_, entry_id: number) => {
-    return GrammaticalClassRepository.readAllByEntry(entry_id);
+        return GrammaticalClassRepository.readAllByEntry(entry_id);
     });
 
     ipcMain.handle("txnmAPI:repositories:grammaticalClass:readOne", (_, grammatical_class_id: number) => {
