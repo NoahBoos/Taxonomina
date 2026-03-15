@@ -3,6 +3,10 @@ import {Database} from "../Database";
 import {RunResult, Statement} from "better-sqlite3";
 import {I_Entry} from "../../../shared/interfaces/I_Entry";
 import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
+import { LanguageRepository } from "./LanguageRepository";
+import { DefinitionRepository } from "./DefinitionRepository";
+import { GrammaticalClassRepository } from "./GrammaticalClassRepository";
+import { GrammaticalGenreRepository } from "./GrammaticalGenreRepository";
 
 export class EntryRepository {
     public static readAll(dictionary_id: number): I_Entry[] {
@@ -39,14 +43,25 @@ export class EntryRepository {
         return statement.all({ definition_id });
     }
 
-    public static readOne(entry_id: number): I_Entry | undefined {
+    public static readOne(entry_id: number, lazy: boolean = false): I_Entry | undefined {
         const statement: Statement<{ id: number }, I_Entry> = Database.GetDatabase().prepare(`
             SELECT *
             FROM entries
             WHERE id = @id;
         `);
 
-        return statement.get({ id: entry_id });
+        let entry: I_Entry | undefined = statement.get({ id: entry_id });
+
+        if (lazy || entry === undefined) return entry;
+
+        entry.language = LanguageRepository.readOne(entry.language_id);
+        entry.grammatical_classes = GrammaticalClassRepository.readAllByEntry(entry_id);
+        entry.grammatical_genres = GrammaticalGenreRepository.readAllByEntry(entry_id);
+        entry.translations = EntryRepository.readAllByGlobalTranslation(entry_id);
+        entry.definitions = DefinitionRepository.readAllByEntry(entry_id);
+
+        console.log(entry);
+        return entry;
     }
 
     public static create(entry: I_Entry): [boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]] {
