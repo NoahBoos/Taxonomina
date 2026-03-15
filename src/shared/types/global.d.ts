@@ -36,7 +36,7 @@ declare global {
                 definition: {
                     readAll: () => Promise<I_Definition[]>,
                     readAllByEntry: (entry_id: number) => Promise<I_Definition[]>,
-                    readOne: (definition_id: number) => Promise<I_Definition>,
+                    readOne: (definition_id: number, lazy: boolean) => Promise<I_Definition>,
                     create: (definition: I_Definition) => Promise<[boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]]>,
                     update: (definition: I_Definition) => Promise<[boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]]>,
                     delete: (definition_id: number) => Promise<boolean>,
