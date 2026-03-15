@@ -17,7 +17,7 @@ export class GrammaticalClassRepository {
 
     public static readAllByEntry(entry_id: number): I_GrammaticalClass[] {
         const statement: Statement<{ entry_id: number }, I_GrammaticalClass> = Database.GetDatabase().prepare(`
-            SELECT *
+            SELECT grammatical_classes.*
             FROM grammatical_classes
             JOIN entry_grammatical_class ON entry_grammatical_class.grammatical_class_id = grammatical_classes.id
             WHERE entry_grammatical_class.entry_id = @entry_id;
