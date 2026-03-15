@@ -1,11 +1,13 @@
 import {I_Definition} from "../../../shared/interfaces/I_Definition";
 import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
 import { DEFINITION_ERROR_REGISTRY } from "../../../shared/errors/registries/definitionErrorRegistry";
+import { Category } from "./Category";
 
 export class Definition {
     constructor(
         public readonly id: number,
-        private _definition: string
+        private _definition: string,
+        public categories: Category[] | undefined = undefined,
     ) {
         this.definition = _definition;
     }
@@ -22,12 +24,17 @@ export class Definition {
         return {
             id: this.id,
             definition: this.definition,
+            categories: this.categories?.map(c => c.toJSON()),
             clientKey: `definition:${this.id}`
         }
     }
 
     public static hydrate(raw: I_Definition): Definition {
-        return new Definition(raw.id, raw.definition);
+        return new Definition(
+            raw.id,
+            raw.definition,
+            raw.categories ? raw.categories?.map(c => Category.hydrate(c)) : undefined
+        );
     }
 
     public validate(clientKey: string): [boolean, TaxonominaError<ErrorDomain>[]] {
