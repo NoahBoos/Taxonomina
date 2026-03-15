@@ -51,7 +51,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             readAll: (dictionary_id: number): Promise<I_Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAll", dictionary_id),
             readAllByGlobalTranslation: (entry_id: number): Promise<I_Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAllByGlobalTranslation", entry_id),
             readAllByLocalTranslation: (definition_id: number): Promise<I_Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAllByLocalTranslation", definition_id),
-            readOne: (entry_id: number) => ipcRenderer.invoke("txnmAPI:repositories:entry:readOne", entry_id),
+            readOne: (entry_id: number, lazy: boolean) => ipcRenderer.invoke("txnmAPI:repositories:entry:readOne", entry_id, lazy),
             create: (entry: I_Entry): Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:entry:create", entry),
             update: (entry: I_Entry): Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:entry:update", entry),
             delete: (entry_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:entry:delete", entry_id),

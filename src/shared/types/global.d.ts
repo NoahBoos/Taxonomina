@@ -54,7 +54,7 @@ declare global {
                     readAll: (dictionary_id: number) => Promise<I_Entry[]>,
                     readAllByGlobalTranslation: (entry_id: number) => Promise<I_Entry[]>,
                     readAllByLocalTranslation: (definition_id: number) => Promise<I_Entry[]>,
-                    readOne: (entry_id: number) => Promise<I_Entry>,
+                    readOne: (entry_id: number, lazy: boolean) => Promise<I_Entry>,
                     create: (entry: I_Entry) => Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]>,
                     update: (entry: I_Entry) => Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]>,
                     delete: (entry_id: number) => Promise<boolean>,
