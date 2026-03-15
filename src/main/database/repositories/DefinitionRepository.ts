@@ -3,6 +3,7 @@ import {Database} from "../Database";
 import { RunResult, Statement } from "better-sqlite3";
 import { Definition } from "../models/Definition";
 import { ErrorDomain, TaxonominaError } from "../../../shared/errors/types";
+import { CategoryRepository } from "./CategoryRepository";
 
 export class DefinitionRepository {
     public static readAll(): I_Definition[] {
@@ -29,7 +30,7 @@ export class DefinitionRepository {
         return definitions;
     }
 
-    public static readOne(definition_id: number): I_Definition | undefined {
+    public static readOne(definition_id: number, lazy: boolean = false): I_Definition | undefined {
         const statement: Statement<{ definition_id: number }, I_Definition> = Database.GetDatabase().prepare(`
             SELECT *
             FROM definitions
@@ -38,6 +39,11 @@ export class DefinitionRepository {
 
         let definition: I_Definition | undefined = statement.get({ definition_id });
         if (definition) definition.clientKey = `definition:${ definition_id }`;
+
+        if (lazy || definition === undefined) return definition;
+
+        definition.categories = CategoryRepository.readAllByDefinition(definition_id);
+
         return definition;
     }
 
