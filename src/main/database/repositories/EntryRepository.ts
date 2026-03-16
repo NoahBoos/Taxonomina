@@ -60,7 +60,6 @@ export class EntryRepository {
         entry.translations = EntryRepository.readAllByGlobalTranslation(entry_id);
         entry.definitions = DefinitionRepository.readAllByEntry(entry_id);
 
-        console.log(entry);
         return entry;
     }
 
