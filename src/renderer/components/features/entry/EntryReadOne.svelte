@@ -3,12 +3,6 @@
     import { settings } from "@/renderer/stores/settingsStore";
     import { currentInspectorStateStore, resetCurrentInspectorState, setCurrentInspectorState } from "@/renderer/stores/currentInspectorStateStore";
     import { EntryService } from "@/renderer/services/EntryService";
-    import { I_Definition } from "@/shared/interfaces/I_Definition";
-    import { GrammaticalClassService } from "@/renderer/services/GrammaticalClassService";
-    import { GrammaticalGenreService } from "@/renderer/services/GrammaticalGenreService";
-    import { DefinitionService } from "@/renderer/services/DefinitionService";
-    import { I_GrammaticalGenre } from "@/shared/interfaces/I_GrammaticalGenre";
-    import { I_GrammaticalClass } from "@/shared/interfaces/I_GrammaticalClass";
     import EntryThumbnail from "@/renderer/components/features/entry/EntryThumbnail.svelte";
     import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
     import { Pencil, X } from "@lucide/svelte";
@@ -16,26 +10,15 @@
 
     const dictionary_id: number = $settings!.currentDictionary;
 
-    let entry: I_Entry = $state<I_Entry>({ id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' });
-    let grammatical_classes: I_GrammaticalClass[] = $state([]);
-    let grammatical_genres: I_GrammaticalGenre[] = $state([]);
-    let translations: I_Entry[] = $state([]);
-    let definitions: I_Definition[] = $state([]);
+    let entry: I_Entry = $state<I_Entry>({ id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: undefined, grammatical_classes: undefined, grammatical_genres: undefined, language: undefined, translations: undefined });
 
     async function loadEntry() {
         let inspectorState = $currentInspectorStateStore;
 
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
-            const data = await EntryService.readOne(inspectorState.id);
-            if (data) {
-                Object.assign(entry, data);
-                grammatical_classes = await GrammaticalClassService.readAllByEntry(entry.id);
-                grammatical_genres = await GrammaticalGenreService.readAllByEntry(entry.id);
-                translations = await EntryService.readAllByGlobalTranslation(entry.id);
-                definitions = await DefinitionService.readAllByEntry(entry.id);
-            }
+            entry = await EntryService.readOne(inspectorState.id);
         } else {
-            entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' };
+            entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: undefined, grammatical_classes: undefined, grammatical_genres: undefined, language: undefined, translations: undefined };
         }
     }
 
@@ -62,11 +45,11 @@
             </div>
         </div>
         <div class="space-y-4 divide-y-2 divide-base-40">
-            {#if grammatical_classes.length > 0 }
+            {#if entry.grammatical_classes && entry.grammatical_classes.length > 0 }
                 <div class="space-y-2 pb-4">
                     <h3>Classes grammaticales</h3>
                     <div class="flex flex-row flex-wrap gap-2">
-                        {#each grammatical_classes as grammatical_class}
+                        {#each entry.grammatical_classes as grammatical_class}
                             {#key grammatical_class.id}
                                 <p class="w-fit h-fit px-2 bg-base-50 rounded-lg">{ grammatical_class.name }</p>
                             {/key}
@@ -74,11 +57,11 @@
                     </div>
                 </div>
             {/if}
-            {#if grammatical_genres.length > 0 }
+            {#if entry.grammatical_genres && entry.grammatical_genres.length > 0 }
                 <div class="space-y-2 pb-4">
                     <h3>Genres grammaticaux</h3>
                     <div class="flex flex-row flex-wrap gap-2">
-                        {#each grammatical_genres as grammatical_genre}
+                        {#each entry.grammatical_genres as grammatical_genre}
                             {#key grammatical_genre.id}
                                 <p class="w-fit h-fit px-2 bg-base-50 rounded-lg">{ grammatical_genre.name }</p>
                             {/key}
@@ -86,21 +69,21 @@
                     </div>
                 </div>
             {/if}
-            {#if definitions.length > 0 }
+            {#if entry.definitions && entry.definitions.length > 0 }
                 <div class="space-y-2 pb-4">
                     <h3>Définitions</h3>
-                    {#each definitions as definition, index}
+                    {#each entry.definitions as definition, index}
                         {#key definition.id}
                             <p>{ index + 1 }. { definition.definition }</p>
                         {/key}
                     {/each}
                 </div>
             {/if}
-            {#if translations.length > 0 }
+            {#if entry.translations && entry.translations.length > 0 }
                 <div class="space-y-2 pb-4">
                     <h3>Traductions</h3>
                     <div class="grid grid-cols-3 gap-2">
-                        {#each translations as translation}
+                        {#each entry.translations as translation}
                             {#key translation.id}
                                 <EntryThumbnail item={ translation } variant="inspector" />
                             {/key}
