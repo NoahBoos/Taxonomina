@@ -9,8 +9,8 @@ export interface I_Entry {
     language_id: number;
     lemma: string;
     language: I_Language | undefined;
-    grammatical_classes: I_GrammaticalClass[] | undefined;
-    grammatical_genres: I_GrammaticalGenre[] | undefined;
-    translations: I_Entry[] | undefined;
-    definitions: I_Definition[] | undefined;
+    grammatical_classes: I_GrammaticalClass[];
+    grammatical_genres: I_GrammaticalGenre[];
+    translations: I_Entry[];
+    definitions: I_Definition[];
 }

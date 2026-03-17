@@ -13,10 +13,10 @@ export class Entry {
         public language_id: number,
         private _lemma: string,
         public language: Language | undefined = undefined,
-        public grammatical_classes: GrammaticalClass[] | undefined = undefined,
-        public grammatical_genres: GrammaticalGenre [] | undefined = undefined,
-        public translations: Entry[] | undefined = undefined,
-        public definitions: Definition[] | undefined = undefined,
+        public grammatical_classes: GrammaticalClass[] = [],
+        public grammatical_genres: GrammaticalGenre [] = [],
+        public translations: Entry[] = [],
+        public definitions: Definition[] = [],
     ) {
         this.lemma = _lemma;
     }
@@ -36,10 +36,10 @@ export class Entry {
             language_id: this.language_id,
             lemma: this.lemma,
             language: this.language?.toJSON(),
-            grammatical_classes: this.grammatical_classes?.map(gc => gc.toJSON()),
-            grammatical_genres: this.grammatical_genres?.map(gg => gg.toJSON()),
-            translations: this.translations?.map(t => t.toJSON()),
-            definitions: this.definitions?.map(d => d.toJSON()),
+            grammatical_classes: this.grammatical_classes.map(gc => gc.toJSON()),
+            grammatical_genres: this.grammatical_genres.map(gg => gg.toJSON()),
+            translations: this.translations.map(t => t.toJSON()),
+            definitions: this.definitions.map(d => d.toJSON()),
         }
     }
 
@@ -50,10 +50,10 @@ export class Entry {
             raw.language_id,
             raw.lemma,
             raw.language ? Language.hydrate(raw.language) : undefined,
-            raw.grammatical_classes ? raw.grammatical_classes.map(gc => GrammaticalClass.hydrate(gc)) : undefined,
-            raw.grammatical_genres ? raw.grammatical_genres.map(gg => GrammaticalGenre.hydrate(gg)) : undefined,
-            raw.translations ? raw.translations.map(t => Entry.hydrate(t)) : undefined,
-            raw.definitions ? raw.definitions.map(d => Definition.hydrate(d)) : undefined
+            raw.grammatical_classes ? raw.grammatical_classes.map(gc => GrammaticalClass.hydrate(gc)) : [],
+            raw.grammatical_genres ? raw.grammatical_genres.map(gg => GrammaticalGenre.hydrate(gg)) : [],
+            raw.translations ? raw.translations.map(t => Entry.hydrate(t)) : [],
+            raw.definitions ? raw.definitions.map(d => Definition.hydrate(d)) : []
         );
     }
 
