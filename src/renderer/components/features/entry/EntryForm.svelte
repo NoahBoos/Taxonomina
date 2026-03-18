@@ -25,11 +25,8 @@
 
     const dictionary_id: number = $settings!.currentDictionary;
 
-    let entry = $state<I_Entry>({ id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' });
-    let selected_grammatical_classes = $state<I_GrammaticalClass[]>([]);
-    let selected_grammatical_genres = $state<I_GrammaticalGenre[]>([]);
-    let selected_translations = $state<I_Entry[]>([]);
-    let selected_definitions = $state<I_Definition[]>([]);
+    let entry = $state<I_Entry>({ id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: [], grammatical_classes: [], grammatical_genres: [], language: undefined, translations: [] });
+    let old_entry: I_Entry | undefined = $state(undefined);
 
     let is_submitting: boolean = $state(false);
     let submit_mode: 'save' | 'save-and-new' = $state('save');
@@ -39,20 +36,17 @@
         let inspectorState = $currentInspectorStateStore;
 
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
-            const data = await EntryService.readOne(inspectorState.id);
-            if (data) {
-                Object.assign(entry, data);
-                selected_grammatical_classes = await GrammaticalClassService.readAllByEntry(data.id);
-                selected_grammatical_genres = await GrammaticalGenreService.readAllByEntry(data.id);
-                selected_translations = await EntryService.readAllByGlobalTranslation(data.id);
-                selected_definitions = await DefinitionService.readAllByEntry(data.id);
-            }
+            let data = await EntryService.readOne(inspectorState.id);
+            entry = {
+                ...data,
+                grammatical_classes: data.grammatical_classes ?? [],
+                grammatical_genres: data.grammatical_genres ?? [],
+                translations: data.translations ?? [],
+                definitions: data.definitions ?? [],
+            };
+            old_entry = {...entry};
         } else {
-            entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '' };
-            selected_grammatical_classes = [];
-            selected_grammatical_genres = [];
-            selected_translations = [];
-            selected_definitions = [];
+            entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: [], grammatical_classes: [], grammatical_genres: [], language: undefined, translations: [] };
         }
     }
 
@@ -62,36 +56,26 @@
         is_submitting = true;
 
         try {
-            const entryToSave = $state.snapshot(entry);
-            const selectedGrammaticalClasses = $state.snapshot(selected_grammatical_classes);
-            const selectedGrammaticalGenres = $state.snapshot(selected_grammatical_genres);
-            const selectedTranslations = $state.snapshot(selected_translations);
-            selected_definitions = selected_definitions.filter(d => d.definition.trim() !== '' && d.definition.trim() !== ' ');
-            const selectedDefinitions = $state.snapshot(selected_definitions);
-            const [success, savedEntry, errors] = await EntryService.save(entryToSave);
+            const _entry = $state.snapshot(entry);
+            _entry.definitions = _entry.definitions?.filter(d => d.definition.trim() !== '' && d.definition.trim() !== ' ');
+            const [success, savedEntry, errors] = await EntryService.save(_entry);
             if (!success || !savedEntry) throw new FormValidationError("Failed to save the entry.", 'entry', errors);
 
-            if (entryToSave.id !== 0) {
-                let [oldGrammaticalClasses, oldGrammaticalGenres, oldTranslations, oldDefinitions] = await Promise.all([
-                    await GrammaticalClassService.readAllByEntry(savedEntry.id),
-                    await GrammaticalGenreService.readAllByEntry(savedEntry.id),
-                    await EntryService.readAllByGlobalTranslation(savedEntry.id),
-                    await DefinitionService.readAllByEntry(savedEntry.id)
-                ]);
-                oldGrammaticalClasses.forEach(gc => EntryService.unbindFromGrammaticalClass(savedEntry.id, gc.id));
-                oldGrammaticalGenres.forEach(gg => EntryService.unbindFromGrammaticalGenre(savedEntry.id, gg.id));
-                oldTranslations.forEach(e => EntryService.unbindFromTranslation(savedEntry.id, e.id));
-                for (const d of oldDefinitions) {
+            if (old_entry && old_entry.id !== 0) {
+                old_entry.grammatical_classes.forEach(gc => EntryService.unbindFromGrammaticalClass(savedEntry.id, gc.id));
+                old_entry.grammatical_genres.forEach(gg => EntryService.unbindFromGrammaticalGenre(savedEntry.id, gg.id));
+                old_entry.translations.forEach(e => EntryService.unbindFromTranslation(savedEntry.id, e.id));
+                for (const d of old_entry.definitions) {
                     await DefinitionService.unbindFromTranslation(d.id, savedEntry.id);
-                    if (selectedDefinitions.every(sd => sd.id !== d.id)) await DefinitionService.delete(d.id);
+                    if (_entry.definitions?.every(sd => sd.id !== d.id)) await DefinitionService.delete(d.id);
                 }
             }
 
-            selectedGrammaticalClasses.forEach(gc => EntryService.bindToGrammaticalClass(savedEntry.id, gc.id));
-            selectedGrammaticalGenres.forEach(gg => EntryService.bindToGrammaticalGenre(savedEntry.id, gg.id));
-            selectedTranslations.forEach(e => EntryService.bindToTranslation(savedEntry.id, e.id));
+            _entry.grammatical_classes?.forEach(gc => EntryService.bindToGrammaticalClass(savedEntry.id, gc.id));
+            _entry.grammatical_genres?.forEach(gg => EntryService.bindToGrammaticalGenre(savedEntry.id, gg.id));
+            _entry.translations?.forEach(e => EntryService.bindToTranslation(savedEntry.id, e.id));
             let definitionErrors: TaxonominaError<ErrorDomain>[] = [];
-            for (const d of selectedDefinitions) {
+            for (const d of _entry.definitions ?? [] as I_Definition[]) {
                 const [success, savedDefinition, errors] = await DefinitionService.save(d);
 
                 if (!success) {
@@ -151,11 +135,11 @@
                     <Tags />
                     <h3>Catégorisations</h3>
                 </div>
-                <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes is_lockable={ entry.id === 0 } />
-                <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres is_lockable={ entry.id === 0 } />
+                <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes={ entry.grammatical_classes } is_lockable={ entry.id === 0 } />
+                <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres={ entry.grammatical_genres } is_lockable={ entry.id === 0 } />
             </div>
-            <TranslationSection { dictionary_id } bind:selected_translations bind:entry />
-            <DefinitionSection bind:selected_definitions />
+            <TranslationSection { dictionary_id } bind:selected_translations={ entry.translations } bind:entry />
+            <DefinitionSection bind:selected_definitions={ entry.definitions } />
             <div class="flex flex-row gap-2 mx-auto">
                 <SubmitButton onClick={ () => { submit_mode = 'save' } } label={ submit_button_label } variant="uncentered" />
                 {#if entry.id === 0}
