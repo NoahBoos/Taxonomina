@@ -26,13 +26,9 @@
 </style>
 
 <div class="space-y-2">
-    <div class="flex flex-row justify-between items-center">
-        <div class="flex flex-row items-center gap-2">
-            <TextQuote />
-            <h3>Définition</h3>
-        </div>
-        <IconButton icon={ Plus } onClick={ () => addDefinition() } />
-    </div>
+    <button type="button" class="flex flex-row items-center gap-2 p-2 border-2 border-base-40 rounded-md bg-base-10 w-full transition-colors duration-250 ease-out hover:bg-accent-400/15 hover:border-accent-500" onclick={ () => addDefinition() }>
+        <Plus /> <span>Ajouter une nouvelle définition</span>
+    </button>
     {#if selected_definitions.length === 0}
         <p>Aucune définition n'existe pour cette entrée.</p>
         <p>Cliquez sur le bouton "Plus" en-haut à droite de la section pour ajouter une première définition.</p>

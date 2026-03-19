@@ -1,32 +1,31 @@
 <script lang="ts">
-    import {currentInspectorStateStore, setCurrentInspectorState} from "@/renderer/stores/currentInspectorStateStore";
-    import {settings} from "@/renderer/stores/settingsStore";
+    import { currentInspectorStateStore, setCurrentInspectorState } from "@/renderer/stores/currentInspectorStateStore";
+    import { settings } from "@/renderer/stores/settingsStore";
     import SubmitButton from "@/renderer/components/ui/forms/SubmitButton.svelte";
-    import {I_Entry} from "@/shared/interfaces/I_Entry";
-    import {EntryService} from "@/renderer/services/EntryService";
-    import {INSPECTOR_STATE_PRESETS} from "@/renderer/utils/inspectorStatePresets";
+    import { I_Entry } from "@/shared/interfaces/I_Entry";
+    import { EntryService } from "@/renderer/services/EntryService";
+    import { INSPECTOR_STATE_PRESETS } from "@/renderer/utils/inspectorStatePresets";
     import EntrySection from "@/renderer/components/features/entry/form/EntrySection.svelte";
     import GrammaticalClassSection from "@/renderer/components/features/entry/form/GrammaticalClassSection.svelte";
-    import {I_GrammaticalClass} from "@/shared/interfaces/I_GrammaticalClass";
-    import {GrammaticalClassService} from "@/renderer/services/GrammaticalClassService";
-    import {I_GrammaticalGenre} from "@/shared/interfaces/I_GrammaticalGenre";
-    import {GrammaticalGenreService} from "@/renderer/services/GrammaticalGenreService";
     import GrammaticalGenreSection from "@/renderer/components/features/entry/form/GrammaticalGenreSection.svelte";
     import TranslationSection from "@/renderer/components/features/entry/form/TranslationSection.svelte";
     import DefinitionSection from "@/renderer/components/features/entry/form/DefinitionSection.svelte";
-    import {I_Definition} from "@/shared/interfaces/I_Definition";
-    import {DefinitionService} from "@/renderer/services/DefinitionService";
+    import { I_Definition } from "@/shared/interfaces/I_Definition";
+    import { DefinitionService } from "@/renderer/services/DefinitionService";
     import { Tags } from "@lucide/svelte";
     import { refreshEntries } from "@/renderer/stores/entriesStore";
     import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
     import { resetEntryFormErrors, setEntryFormErrors } from "@/renderer/stores/entryFormErrorsStore";
     import { resetDefinitionFormErrors, setDefinitionFormErrors } from "@/renderer/stores/definitionFormErrorsStore";
     import { FormValidationError } from "@/shared/errors/FormValidationError";
+    import { EntryFormTabType } from "@/renderer/enums/EntryFormTabType";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
     let entry = $state<I_Entry>({ id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: [], grammatical_classes: [], grammatical_genres: [], language: undefined, translations: [] });
     let old_entry: I_Entry | undefined = $state(undefined);
+
+    let currentTab: EntryFormTabType = $state(EntryFormTabType.CATEGORIZATION);
 
     let is_submitting: boolean = $state(false);
     let submit_mode: 'save' | 'save-and-new' = $state('save');
@@ -122,24 +121,33 @@
 </style>
 
 {#key entry.id}
-    <div class="flex flex-col gap-4 mx-auto w-[85%]">
+    <div class="flex flex-col gap-4 mx-auto w-[85%] h-full">
         {#if entry.id === 0}
             <h2>Créer une nouvelle entrée</h2>
         {:else}
             <h2>Modifier une entrée : { entry.lemma }</h2>
         {/if}
-        <form onsubmit={ onSubmit } class="flex flex-col gap-4">
-            <EntrySection { dictionary_id } bind:entry />
-            <div class="space-y-2">
+        <form onsubmit={ onSubmit } class="h-full max-h-full flex flex-col justify-between gap-2">
+            <div class="flex flex-col gap-4">
+                <EntrySection { dictionary_id } bind:entry />
                 <div class="flex flex-row items-center gap-2">
-                    <Tags />
-                    <h3>Catégorisations</h3>
+                    {#each EntryFormTabType.all as tab}
+                        <button type="button" onclick={ () => { currentTab = tab; } } class="text-center text-base p-2 border-2 border-base-40 rounded-md bg-base-10 w-full transition-colors duration-250 ease-out hover:bg-accent-400/15 hover:border-accent-500 { currentTab === tab ? 'bg-primary-400/15 border-primary-500' : '' }">
+                            { EntryFormTabType.labels[tab] }
+                        </button>
+                    {/each}
                 </div>
-                <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes={ entry.grammatical_classes } is_lockable={ entry.id === 0 } />
-                <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres={ entry.grammatical_genres } is_lockable={ entry.id === 0 } />
+                {#if currentTab === EntryFormTabType.CATEGORIZATION}
+                    <div class="space-y-2">
+                        <GrammaticalClassSection { dictionary_id } bind:selected_grammatical_classes={ entry.grammatical_classes } is_lockable={ entry.id === 0 } />
+                        <GrammaticalGenreSection { dictionary_id } bind:selected_grammatical_genres={ entry.grammatical_genres } is_lockable={ entry.id === 0 } />
+                    </div>
+                {:else if currentTab === EntryFormTabType.DEFINITION}
+                    <DefinitionSection bind:selected_definitions={ entry.definitions } />
+                {:else if currentTab === EntryFormTabType.TRANSLATION}
+                    <TranslationSection { dictionary_id } bind:selected_translations={ entry.translations } bind:entry />
+                {/if}
             </div>
-            <TranslationSection { dictionary_id } bind:selected_translations={ entry.translations } bind:entry />
-            <DefinitionSection bind:selected_definitions={ entry.definitions } />
             <div class="flex flex-row gap-2 mx-auto">
                 <SubmitButton onClick={ () => { submit_mode = 'save' } } label={ submit_button_label } variant="uncentered" />
                 {#if entry.id === 0}
