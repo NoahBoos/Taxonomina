@@ -26,4 +26,12 @@ export function registerCategoryIPCHandlers() {
     ipcMain.handle("txnmAPI:repositories:category:delete", (_, category_id: number) => {
         return CategoryRepository.delete(category_id);
     });
+
+    ipcMain.handle("txnmAPI:repositories:category:bindToDefinition", (_, category_id: number, definition_id: number) => {
+        return CategoryRepository.bindToDefinition(category_id, definition_id);
+    });
+
+    ipcMain.handle("txnmAPI:repositories:category:unbindFromDefinition", (_, category_id: number, definition_id: number) => {
+        return CategoryRepository.unbindFromDefinition(category_id, definition_id);
+    });
 }

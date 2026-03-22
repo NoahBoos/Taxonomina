@@ -78,4 +78,24 @@ export class CategoryRepository {
 
         return result.changes > 0;
     }
+
+    public static bindToDefinition(category_id: number, definition_id: number): boolean {
+        const statement: Statement<{ category_id: number, definition_id: number }, number> = Database.GetDatabase().prepare(`
+            INSERT INTO category_definition (category_id, definition_id) VALUES (@category_id, @definition_id);
+        `);
+
+        const result: RunResult = statement.run({ category_id, definition_id });
+
+        return result.changes > 0;
+    }
+
+    public static unbindFromDefinition(category_id: number, definition_id: number): boolean {
+        const statement: Statement<{ category_id: number, definition_id: number }, number> = Database.GetDatabase().prepare(`
+            DELETE FROM category_definition WHERE category_id = @category_id AND definition_id = @definition_id;
+        `);
+
+        const result: RunResult = statement.run({ category_id, definition_id });
+
+        return result.changes > 0;
+    }
 }

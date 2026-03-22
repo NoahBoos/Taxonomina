@@ -32,6 +32,8 @@ declare global {
                     create: (category: I_Category) => Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]>,
                     update: (category: I_Category) => Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]>,
                     delete: (category_id: number) => Promise<boolean>,
+                    bindToDefinition: (category_id: number, definition_id: number) => Promise<boolean>,
+                    unbindFromDefinition: (category_id: number, definition_id: number) => Promise<boolean>,
                 },
                 definition: {
                     readAll: () => Promise<I_Definition[]>,

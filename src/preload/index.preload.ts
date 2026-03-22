@@ -29,6 +29,8 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             create: (category: I_Category): Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:category:create", category),
             update: (category: I_Category): Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:category:update", category),
             delete: (category_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:category:delete", category_id),
+            bindToDefinition: (category_id: number, definition_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:category:bindToDefinition", category_id, definition_id),
+            unbindFromDefinition: (category_id: number, definition_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:category:unbindFromDefinition", category_id, definition_id),
         },
         definition: {
             readAll: (): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),

@@ -24,4 +24,12 @@ export class CategoryService {
     public static async delete(category_id: number): Promise<boolean> {
         return await window.txnmAPI.repositories.category.delete(category_id);
     }
+
+    public static async bindToDefinition(category_id: number, definition_id: number): Promise<boolean> {
+        return await window.txnmAPI.repositories.category.bindToDefinition(category_id, definition_id);
+    }
+
+    public static async unbindFromDefinition(category_id: number, definition_id: number): Promise<boolean> {
+        return await window.txnmAPI.repositories.category.unbindFromDefinition(category_id, definition_id);
+    }
 }
