@@ -26,7 +26,10 @@ export class DefinitionRepository {
         `)
 
         let definitions: I_Definition[] = statement.all({ entry_id });
-        definitions.forEach(d => d.clientKey = `definition:${ d.id }`);
+        definitions.forEach(d => {
+            d.categories = CategoryRepository.readAllByDefinition(d.id);
+            d.clientKey = `definition:${ d.id }`;
+        });
         return definitions;
     }
 
