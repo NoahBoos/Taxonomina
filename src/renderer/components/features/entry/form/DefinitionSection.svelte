@@ -1,9 +1,7 @@
 <script lang="ts">
     import {I_Definition} from "@/shared/interfaces/I_Definition";
-    import IconButton from "@/renderer/components/ui/interactive/IconButton.svelte";
-    import {Minus, Plus, TextQuote} from "@lucide/svelte";
-    import ActionableTextInput from "@/renderer/components/ui/forms/ActionableTextInput.svelte";
-    import { definitionFormErrorsStore } from "@/renderer/stores/definitionFormErrorsStore";
+    import {Plus} from "@lucide/svelte";
+    import DefinitionInput from "@/renderer/components/features/definition/DefinitionInput.svelte";
 
     interface Props {
         selected_definitions: I_Definition[];
@@ -12,7 +10,7 @@
     let { selected_definitions = $bindable([]) }: Props = $props();
 
     function addDefinition() {
-        let definition: I_Definition = { id: 0, definition: "", clientKey: `definition:${crypto.randomUUID()}` };
+        let definition: I_Definition = { id: 0, definition: "", categories: [], clientKey: `definition:${crypto.randomUUID()}` };
         selected_definitions.push(definition);
     }
 
@@ -34,7 +32,7 @@
         <p>Cliquez sur le bouton "Plus" en-haut à droite de la section pour ajouter une première définition.</p>
     {:else}
         {#each selected_definitions as definition}
-            <ActionableTextInput name={ definition.clientKey } label={'Définition ' + (selected_definitions.indexOf(definition) + 1) } placeholder="Entrez votre définition." bind:value={ definition.definition } icon={ Minus } onClick={ () => removeDefinition(definition) } errors={ $definitionFormErrorsStore.filter(e => e.target.type === 'form_field' && e.target.field_name === definition.clientKey) } />
+            <DefinitionInput label={ 'Définition ' + (selected_definitions.indexOf(definition) + 1) } { definition } onRemove={ () => removeDefinition(definition) } />
         {/each}
     {/if}
 </div>

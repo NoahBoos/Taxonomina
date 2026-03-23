@@ -12,13 +12,13 @@
     import DefinitionSection from "@/renderer/components/features/entry/form/DefinitionSection.svelte";
     import { I_Definition } from "@/shared/interfaces/I_Definition";
     import { DefinitionService } from "@/renderer/services/DefinitionService";
-    import { Tags } from "@lucide/svelte";
     import { refreshEntries } from "@/renderer/stores/entriesStore";
     import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
     import { resetEntryFormErrors, setEntryFormErrors } from "@/renderer/stores/entryFormErrorsStore";
     import { resetDefinitionFormErrors, setDefinitionFormErrors } from "@/renderer/stores/definitionFormErrorsStore";
     import { FormValidationError } from "@/shared/errors/FormValidationError";
     import { EntryFormTabType } from "@/renderer/enums/EntryFormTabType";
+    import { CategoryService } from "@/renderer/services/CategoryService";
 
     const dictionary_id: number = $settings!.currentDictionary;
 
@@ -43,7 +43,6 @@
                 translations: data.translations ?? [],
                 definitions: data.definitions ?? [],
             };
-            old_entry = {...entry};
         } else {
             entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: [], grammatical_classes: [], grammatical_genres: [], language: undefined, translations: [] };
         }
@@ -57,15 +56,20 @@
         try {
             const _entry = $state.snapshot(entry);
             _entry.definitions = _entry.definitions?.filter(d => d.definition.trim() !== '' && d.definition.trim() !== ' ');
+            old_entry = _entry.id === 0 ? undefined : await EntryService.readOne(_entry.id);
             const [success, savedEntry, errors] = await EntryService.save(_entry);
             if (!success || !savedEntry) throw new FormValidationError("Failed to save the entry.", 'entry', errors);
 
             if (old_entry && old_entry.id !== 0) {
+                console.log(JSON.stringify(old_entry, null, 2));
                 old_entry.grammatical_classes.forEach(gc => EntryService.unbindFromGrammaticalClass(savedEntry.id, gc.id));
                 old_entry.grammatical_genres.forEach(gg => EntryService.unbindFromGrammaticalGenre(savedEntry.id, gg.id));
                 old_entry.translations.forEach(e => EntryService.unbindFromTranslation(savedEntry.id, e.id));
                 for (const d of old_entry.definitions) {
                     await DefinitionService.unbindFromTranslation(d.id, savedEntry.id);
+                    for (const c of d.categories ? d.categories : []) {
+                        await CategoryService.unbindFromDefinition(c.id, d.id);
+                    }
                     if (_entry.definitions?.every(sd => sd.id !== d.id)) await DefinitionService.delete(d.id);
                 }
             }
@@ -84,6 +88,9 @@
 
                 if (!definitionErrors.some(e => e.target.type === 'form_field' && e.target.field_name === d.clientKey)) {
                     await DefinitionService.bindToTranslation(savedDefinition!.id, savedEntry.id);
+                    for (const c of d.categories ?? []) {
+                        await CategoryService.bindToDefinition(c.id, savedDefinition!.id);
+                    }
                 }
             }
             if (definitionErrors.length !== 0) throw new FormValidationError('Failed to save the definitions', 'definitions', definitionErrors);
