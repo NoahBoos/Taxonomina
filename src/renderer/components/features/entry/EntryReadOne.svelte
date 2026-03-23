@@ -10,7 +10,7 @@
 
     const dictionary_id: number = $settings!.currentDictionary;
 
-    let entry: I_Entry = $state<I_Entry>({ id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: undefined, grammatical_classes: undefined, grammatical_genres: undefined, language: undefined, translations: undefined });
+    let entry: I_Entry = $state<I_Entry>({ id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: [], grammatical_classes: [], grammatical_genres: [], language: undefined, translations: [] });
 
     async function loadEntry() {
         let inspectorState = $currentInspectorStateStore;
@@ -18,7 +18,7 @@
         if (inspectorState.category === "content" && inspectorState.id !== undefined) {
             entry = await EntryService.readOne(inspectorState.id);
         } else {
-            entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: undefined, grammatical_classes: undefined, grammatical_genres: undefined, language: undefined, translations: undefined };
+            entry = { id: 0, dictionary_id: dictionary_id, language_id: 0, lemma: '', definitions: [], grammatical_classes: [], grammatical_genres: [], language: undefined, translations: [] };
         }
     }
 
