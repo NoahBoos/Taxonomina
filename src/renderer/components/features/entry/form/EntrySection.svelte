@@ -21,10 +21,6 @@
 </style>
 
 <div class="flex flex-col gap-2">
-    <div class="flex flex-row items-center gap-2">
-        <BookOpen />
-        <h3>Informations de base</h3>
-    </div>
     <div class="flex flex-row gap-2">
         <TextInput name="lemma" label="Lemme" placeholder="Chien, chat, pigeon..." bind:value={ entry.lemma } errors={ lemma_errors } />
         <Select name="entry.language_id" label="Langue" options={ languageOptions } bind:value={ entry.language_id } errors={ language_id_errors } is_lockable={ entry.id === 0 } />

@@ -11,8 +11,8 @@ export function registerDefinitionIPCHandlers() {
         return DefinitionRepository.readAllByEntry(entry_id);
     });
 
-    ipcMain.handle("txnmAPI:repositories:definition:readOne", (_, definition_id: number) => {
-        return DefinitionRepository.readOne(definition_id);
+    ipcMain.handle("txnmAPI:repositories:definition:readOne", (_, definition_id: number, lazy: boolean) => {
+        return DefinitionRepository.readOne(definition_id, lazy);
     });
 
     ipcMain.handle("txnmAPI:repositories:definition:create", (_, definition: I_Definition) => {

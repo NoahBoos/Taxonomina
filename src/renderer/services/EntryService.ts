@@ -14,8 +14,8 @@ export class EntryService {
         return await window.txnmAPI.repositories.entry.readAllByLocalTranslation(definition_id);
     }
 
-    public static async readOne(entry_id: number): Promise<I_Entry> {
-        return await window.txnmAPI.repositories.entry.readOne(entry_id);
+    public static async readOne(entry_id: number, lazy: boolean = false): Promise<I_Entry> {
+        return await window.txnmAPI.repositories.entry.readOne(entry_id, lazy);
     }
 
     public static async save(entry: I_Entry): Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]> {

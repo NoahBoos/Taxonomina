@@ -59,10 +59,6 @@
 </style>
 
 <div class="space-y-2">
-    <div class="flex flex-row items-center gap-2">
-        <Languages />
-        <h3>Traductions</h3>
-    </div>
     <div>
         <Searchbar placeholder="Rechercher une traduction..." bind:query onfocus={() => is_searchbar_focused = true} onblur={ () => setTimeout(() => is_searchbar_focused = false, 150)} />
         <FloatingList visible={ show_dropdown }>

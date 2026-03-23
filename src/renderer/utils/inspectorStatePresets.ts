@@ -8,6 +8,25 @@ export const INSPECTOR_STATE_PRESETS = {
         category: 'idle'
     } as const,
     CONTENT: {
+        CATEGORY: {
+            READ_ONE: (id: number): InspectorState => ({
+                category: 'content',
+                type: ContentType.Category,
+                action: InspectorAction.READ_ONE,
+                id: id
+            }),
+            CREATE: {
+                category: 'content',
+                type: ContentType.Category,
+                action: InspectorAction.CREATE
+            } as const,
+            UPDATE: (id: number): InspectorState =>( {
+                category: 'content',
+                type: ContentType.Category,
+                action: InspectorAction.UPDATE,
+                id: id
+            })
+        },
         ENTRY: {
             READ_ONE: (id: number): InspectorState => ({
                 category: 'content',

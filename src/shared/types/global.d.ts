@@ -6,6 +6,7 @@ import {I_GrammaticalGenre} from "../interfaces/I_GrammaticalGenre";
 import {I_Definition} from "../interfaces/I_Definition";
 import {I_Entry} from "../interfaces/I_Entry";
 import { ErrorDomain, TaxonominaError } from "@/shared/errors/types";
+import { I_Category } from "@/shared/interfaces/I_Category";
 
 export {};
 
@@ -24,10 +25,20 @@ declare global {
                 Update: (key: keyof I_TaxonominaSettings, value: any) => Promise<void>,
             }
             repositories: {
+                category: {
+                    readAll: (dictionary_id: number) => Promise<I_Category[]>,
+                    readAllByDefinition: (definition_id: number) => Promise<I_Category[]>,
+                    readOne: (category_id: number) => Promise<I_Category>,
+                    create: (category: I_Category) => Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]>,
+                    update: (category: I_Category) => Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]>,
+                    delete: (category_id: number) => Promise<boolean>,
+                    bindToDefinition: (category_id: number, definition_id: number) => Promise<boolean>,
+                    unbindFromDefinition: (category_id: number, definition_id: number) => Promise<boolean>,
+                },
                 definition: {
                     readAll: () => Promise<I_Definition[]>,
                     readAllByEntry: (entry_id: number) => Promise<I_Definition[]>,
-                    readOne: (definition_id: number) => Promise<I_Definition>,
+                    readOne: (definition_id: number, lazy: boolean) => Promise<I_Definition>,
                     create: (definition: I_Definition) => Promise<[boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]]>,
                     update: (definition: I_Definition) => Promise<[boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]]>,
                     delete: (definition_id: number) => Promise<boolean>,
@@ -45,7 +56,7 @@ declare global {
                     readAll: (dictionary_id: number) => Promise<I_Entry[]>,
                     readAllByGlobalTranslation: (entry_id: number) => Promise<I_Entry[]>,
                     readAllByLocalTranslation: (definition_id: number) => Promise<I_Entry[]>,
-                    readOne: (entry_id: number) => Promise<I_Entry>,
+                    readOne: (entry_id: number, lazy: boolean) => Promise<I_Entry>,
                     create: (entry: I_Entry) => Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]>,
                     update: (entry: I_Entry) => Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]>,
                     delete: (entry_id: number) => Promise<boolean>,
@@ -59,7 +70,7 @@ declare global {
                 grammaticalClass: {
                     readAll: (dictionary_id: number) => Promise<I_GrammaticalClass[]>,
                     readAllByEntry: (entry_id: number) => Promise<I_GrammaticalClass[]>,
-                    readOne: (grammatical_category_id: number) => Promise<I_GrammaticalClass>,
+                    readOne: (grammatical_class_id: number) => Promise<I_GrammaticalClass>,
                     create: (grammatical_class: I_GrammaticalClass) => Promise<[boolean, I_GrammaticalClass | undefined, TaxonominaError<ErrorDomain>[]]>,
                     update: (grammatical_class: I_GrammaticalClass) => Promise<[boolean, I_GrammaticalClass | undefined, TaxonominaError<ErrorDomain>[]]>,
                     delete: (grammatical_class_id: number) => Promise<boolean>,

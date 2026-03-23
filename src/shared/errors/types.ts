@@ -5,7 +5,8 @@ export type ErrorDomain =
     | 'entry'
     | 'definition'
     | 'grammatical_class'
-    | 'grammatical_genre';
+    | 'grammatical_genre'
+    | 'category';
 
 export type ErrorTarget =
     | { type: 'system' }
@@ -22,6 +23,7 @@ export type ErrorCode<D extends ErrorDomain> =
     D extends 'definition' ? `E04${string}` :
     D extends 'grammatical_class' ? `E05${string}` :
     D extends 'grammatical_genre' ? `E06${string}` :
+    D extends 'category' ? `E07${string}` :
     never;
 
 export type TaxonominaError<D extends ErrorDomain> = {

@@ -7,6 +7,7 @@ import {I_GrammaticalGenre} from "../shared/interfaces/I_GrammaticalGenre";
 import {I_Definition} from "../shared/interfaces/I_Definition";
 import {I_Entry} from "../shared/interfaces/I_Entry";
 import { ErrorDomain, TaxonominaError } from "../shared/errors/types";
+import { I_Category } from "../shared/interfaces/I_Category";
 
 contextBridge.exposeInMainWorld("txnmAPI", {
     LoadTemplateAsString: async (templatePath: string) => ipcRenderer.invoke("txnmAPI:loadTemplateAsString", templatePath),
@@ -21,10 +22,20 @@ contextBridge.exposeInMainWorld("txnmAPI", {
         Update: (key: keyof I_TaxonominaSettings, value: any): Promise<any> => ipcRenderer.invoke("txnmAPI:settings:update", key, value),
     },
     repositories: {
+        category: {
+            readAll: (dictionary_id: number): Promise<I_Category[]> => ipcRenderer.invoke("txnmAPI:repositories:category:readAll", dictionary_id),
+            readAllByDefinition: (definition_id: number): Promise<I_Category[]> => ipcRenderer.invoke("txnmAPI:repositories:category:readAllByDefinition", definition_id),
+            readOne: (category_id: number): Promise<I_Category | undefined> => ipcRenderer.invoke("txnmAPI:repositories:category:readOne", category_id),
+            create: (category: I_Category): Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:category:create", category),
+            update: (category: I_Category): Promise<[boolean, I_Category | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:category:update", category),
+            delete: (category_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:category:delete", category_id),
+            bindToDefinition: (category_id: number, definition_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:category:bindToDefinition", category_id, definition_id),
+            unbindFromDefinition: (category_id: number, definition_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:category:unbindFromDefinition", category_id, definition_id),
+        },
         definition: {
             readAll: (): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAll"),
             readAllByEntry: (entry_id: number): Promise<I_Definition[]> => ipcRenderer.invoke("txnmAPI:repositories:definition:readAllByEntry", entry_id),
-            readOne: (definition_id: number): Promise<I_Definition> => ipcRenderer.invoke("txnmAPI:repositories:definition:readOne", definition_id),
+            readOne: (definition_id: number, lazy: boolean): Promise<I_Definition> => ipcRenderer.invoke("txnmAPI:repositories:definition:readOne", definition_id, lazy),
             create: (definition: I_Definition): Promise<[boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:definition:create", definition),
             update: (definition: I_Definition): Promise<[boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:definition:update", definition),
             delete: (definition_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:definition:delete", definition_id),
@@ -42,7 +53,7 @@ contextBridge.exposeInMainWorld("txnmAPI", {
             readAll: (dictionary_id: number): Promise<I_Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAll", dictionary_id),
             readAllByGlobalTranslation: (entry_id: number): Promise<I_Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAllByGlobalTranslation", entry_id),
             readAllByLocalTranslation: (definition_id: number): Promise<I_Entry[]> => ipcRenderer.invoke("txnmAPI:repositories:entry:readAllByLocalTranslation", definition_id),
-            readOne: (entry_id: number) => ipcRenderer.invoke("txnmAPI:repositories:entry:readOne", entry_id),
+            readOne: (entry_id: number, lazy: boolean) => ipcRenderer.invoke("txnmAPI:repositories:entry:readOne", entry_id, lazy),
             create: (entry: I_Entry): Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:entry:create", entry),
             update: (entry: I_Entry): Promise<[boolean, I_Entry | undefined, TaxonominaError<ErrorDomain>[]]> => ipcRenderer.invoke("txnmAPI:repositories:entry:update", entry),
             delete: (entry_id: number): Promise<boolean> => ipcRenderer.invoke("txnmAPI:repositories:entry:delete", entry_id),

@@ -6,9 +6,11 @@ import {registerGrammaticalGenreIPCHandlers} from "./grammaticalGenreIPCHandlers
 import {registerLanguageIPCHandlers} from "./languageIPCHandlers";
 import {registerSettingsIPCHandlers} from "./settingsIPCHandlers";
 import {registerDatabaseIPCHandlers} from "./databaseIPCHandlers";
+import { registerCategoryIPCHandlers } from "./categoryIPCHandlers";
 
 export function registerAllIPCHandlers() {
     registerDatabaseIPCHandlers();
+    registerCategoryIPCHandlers();
     registerDefinitionIPCHandlers();
     registerDictionaryIPCHandlers();
     registerEntryIPCHandlers();

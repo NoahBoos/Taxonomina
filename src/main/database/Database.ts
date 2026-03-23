@@ -137,6 +137,24 @@ export class Database {
                 FOREIGN KEY (grammatical_genre_id) REFERENCES grammatical_genres(id)
                     ON UPDATE CASCADE ON DELETE CASCADE
             );
+
+            CREATE TABLE IF NOT EXISTS categories (
+                id INTEGER PRIMARY KEY,
+                dictionary_id INTEGER NOT NULL,
+                name VARCHAR NOT NULL,
+                FOREIGN KEY (dictionary_id) REFERENCES dictionaries(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
+            );
+
+            CREATE TABLE IF NOT EXISTS category_definition (
+                category_id INTEGER NOT NULL,
+                definition_id INTEGER NOT NULL,
+                PRIMARY KEY(category_id, definition_id),
+                FOREIGN KEY (category_id) REFERENCES categories(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (definition_id) REFERENCES definitions(id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
+            );
         `);
     }
 

@@ -10,8 +10,8 @@ export class DefinitionService {
         return await window.txnmAPI.repositories.definition.readAllByEntry(entry_id);
     }
 
-    public static async readOne(definition_id: number): Promise<I_Definition> {
-        return await window.txnmAPI.repositories.definition.readOne(definition_id);
+    public static async readOne(definition_id: number, lazy: boolean = false): Promise<I_Definition> {
+        return await window.txnmAPI.repositories.definition.readOne(definition_id, lazy);
     }
 
     public static async save(definition: I_Definition): Promise<[boolean, I_Definition | undefined, TaxonominaError<ErrorDomain>[]]> {

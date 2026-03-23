@@ -15,8 +15,8 @@ export function registerEntryIPCHandlers() {
         return EntryRepository.readAllByLocalTranslation(definition_id);
     })
 
-    ipcMain.handle("txnmAPI:repositories:entry:readOne", (_, entry_id: number) => {
-        return EntryRepository.readOne(entry_id);
+    ipcMain.handle("txnmAPI:repositories:entry:readOne", (_, entry_id: number, lazy: boolean) => {
+        return EntryRepository.readOne(entry_id, lazy);
     });
 
     ipcMain.handle("txnmAPI:repositories:entry:create", (_, entry: I_Entry) => {
