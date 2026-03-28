@@ -75,17 +75,24 @@
                     {#each entry.definitions as definition, index}
                         {#key definition.id}
                             <div class="space-y-1">
-                                <div class="flex flex-row items-center gap-2">
-                                    <p>{ index + 1 }.</p>
-                                    <div class="flex flex-row flex-wrap gap-2">
-                                        {#each definition.categories as category}
-                                            {#key category.id}
-                                                <p class="w-fit h-fit text-sm px-2 bg-base-50 rounded-lg">{ category.name }</p>
-                                            {/key}
-                                        {/each}
+                                {#if definition.categories === undefined || definition.categories.length > 0}
+                                    <div class="flex flex-row items-center gap-2">
+                                        <p>{ index + 1 }.</p>
+                                        <div class="flex flex-row flex-wrap gap-2">
+                                            {#each definition.categories as category}
+                                                {#key category.id}
+                                                    <p class="w-fit h-fit text-sm px-2 bg-base-50 rounded-lg">{ category.name }</p>
+                                                {/key}
+                                            {/each}
+                                        </div>
                                     </div>
-                                </div>
-                                <p>{ definition.definition }</p>
+                                    <p>{ definition.definition }</p>
+                                {:else}
+                                    <div class="flex flex-row items-center gap-2">
+                                        <p>{ index + 1 }.</p>
+                                        <p>{ definition.definition }</p>
+                                    </div>
+                                {/if}
                             </div>
                         {/key}
                     {/each}
