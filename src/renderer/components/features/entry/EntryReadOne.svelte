@@ -36,8 +36,9 @@
         <p>L'entrée demandée n'a pas été trouvé.</p>
     {:else}
         <div class="space-y-2">
-            <div class="flex flex-row items-center relative">
-                <h2 class="mx-auto">{ entry.lemma }</h2>
+            <div class="flex flex-row justify-center items-center gap-2 relative">
+                <h2>{ entry.lemma }</h2>
+                <p class="w-fit px-2 bg-base-50 rounded-lg">{ entry.language?.name_localized }</p>
                 <div class="space-x-1 absolute top-0 right-0">
                     <IconButton icon={ Pencil } onClick={ () => setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.UPDATE(entry.id)) } />
                     <IconButton icon={ X } onClick={ () => resetCurrentInspectorState() } />
