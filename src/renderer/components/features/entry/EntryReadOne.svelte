@@ -36,8 +36,9 @@
         <p>L'entrée demandée n'a pas été trouvé.</p>
     {:else}
         <div class="space-y-2">
-            <div class="flex flex-row items-center relative">
-                <h2 class="mx-auto">{ entry.lemma }</h2>
+            <div class="flex flex-row justify-center items-center gap-2 relative">
+                <h2>{ entry.lemma }</h2>
+                <p class="w-fit px-2 bg-base-50 rounded-lg">{ entry.language?.name_localized }</p>
                 <div class="space-x-1 absolute top-0 right-0">
                     <IconButton icon={ Pencil } onClick={ () => setCurrentInspectorState(INSPECTOR_STATE_PRESETS.CONTENT.ENTRY.UPDATE(entry.id)) } />
                     <IconButton icon={ X } onClick={ () => resetCurrentInspectorState() } />
@@ -75,17 +76,24 @@
                     {#each entry.definitions as definition, index}
                         {#key definition.id}
                             <div class="space-y-1">
-                                <div class="flex flex-row items-center gap-2">
-                                    <p>{ index + 1 }.</p>
-                                    <div class="flex flex-row flex-wrap gap-2">
-                                        {#each definition.categories as category}
-                                            {#key category.id}
-                                                <p class="w-fit h-fit text-sm px-2 bg-base-50 rounded-lg">{ category.name }</p>
-                                            {/key}
-                                        {/each}
+                                {#if definition.categories === undefined || definition.categories.length > 0}
+                                    <div class="flex flex-row items-center gap-2">
+                                        <p>{ index + 1 }.</p>
+                                        <div class="flex flex-row flex-wrap gap-2">
+                                            {#each definition.categories as category}
+                                                {#key category.id}
+                                                    <p class="w-fit h-fit text-sm px-2 bg-base-50 rounded-lg">{ category.name }</p>
+                                                {/key}
+                                            {/each}
+                                        </div>
                                     </div>
-                                </div>
-                                <p>{ definition.definition }</p>
+                                    <p>{ definition.definition }</p>
+                                {:else}
+                                    <div class="flex flex-row items-center gap-2">
+                                        <p>{ index + 1 }.</p>
+                                        <p>{ definition.definition }</p>
+                                    </div>
+                                {/if}
                             </div>
                         {/key}
                     {/each}
